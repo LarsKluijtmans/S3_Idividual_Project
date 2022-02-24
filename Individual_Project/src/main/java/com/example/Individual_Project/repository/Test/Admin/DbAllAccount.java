@@ -56,9 +56,7 @@ public class DbAllAccount implements DbAllUsers {
 
     @Override
     public boolean UpdateAccount(User user) {
-        if(!dataBase.users.contains(user)) {
-            return false;
-        }
+
         for(User u: dataBase.users) {
             if(u.getUserID() == u.getUserID()) {
                 u.setFirstname(user.getFirstname());

@@ -2,6 +2,7 @@ package com.example.Individual_Project;
 
 import com.example.Individual_Project.business.Admin.AllAccount;
 import com.example.Individual_Project.business.Login;
+import com.example.Individual_Project.business.NormalUser.MyAccount;
 import com.example.Individual_Project.business.NotLogedIn.NotLogedIn;
 import com.example.Individual_Project.model.NormalUser;
 import com.example.Individual_Project.model.Products.Genre;
@@ -12,6 +13,7 @@ import com.example.Individual_Project.model.User;
 import com.example.Individual_Project.model.Users.Account;
 import com.example.Individual_Project.repository.Test.Admin.DbAllAccount;
 import com.example.Individual_Project.repository.Test.Admin.DbAllProduct;
+import com.example.Individual_Project.repository.Test.NormalUser.DbMyAccount;
 import com.example.Individual_Project.repository.Test.NormalUser.DbMyPorduct;
 import com.example.Individual_Project.repository.Test.NotLogedIn.DbNotLogedIn;
 import com.example.Individual_Project.repository.Test.NotLogedIn.DbViewProducts;
@@ -27,7 +29,7 @@ public class tests {
     /*User*/
         /*Login*/
         @Test
-        public void Test_Login_With_Correct_Info() {
+        void Test_Login_With_Correct_Info() {
             // Arrange
             final Login login = new NotLogedIn(new DbNotLogedIn());
 
@@ -38,48 +40,49 @@ public class tests {
             assertNotEquals(null, user);
         }
         @Test
-        public void Test_Login_With_InCorrect_Info() {
+        void Test_Login_With_InCorrect_Info() {
             // Arrange
             final Login login = new NotLogedIn(new DbNotLogedIn());
-            // Act
-            User user =  login.GetAccount("","");
-
-            // Assert
-            assertNotNull(user);
-        }
-
-
-        /* to do */
-        @Test
-        public void Test_AddUser() {
-            // Arrange
-            final Login login = new NotLogedIn(new DbNotLogedIn());
-
-            // Act
-            User user =  login.GetAccount("","");
-
-            // Assert
-            assertNotNull( user);
-        }
-
-        /*My Account*/
-        @Test
-        public void Test_UpdateAccount() {
-            // Arrange
-            final Login login = new NotLogedIn(new DbNotLogedIn());
-
             // Act
             User user =  login.GetAccount("","");
 
             // Assert
             assertNull(user);
         }
+        @Test
+        void Test_Add_User() {
+            // Arrange
+            final Login login = new NotLogedIn(new DbNotLogedIn());
 
-        /*to do end*/
+            Account lars1account = new Account("Lars3", "Lars3");
+            User lars3 = new NormalUser(3,"Lars3", "Kluijtmans3", "lars.kluijtmans@gmail.com3",12345673, lars1account);
+
+            // Act
+            boolean result = login.AddAccount(lars3);
+
+            // Assert
+            assertTrue(result);
+        }
+
+        /*My Account*/
+        @Test
+        void Test_Update_Account() {
+            // Arrange
+            final MyAccount myAccount = new MyAccount(new DbMyAccount());
+
+            Account lars1account = new Account("Lars3", "Lars3");
+            User lars3 = new NormalUser(1,"Lars3", "Kluijtmans3", "lars.kluijtmans@gmail.com3",12345673, lars1account);
+
+            // Act
+            boolean result = myAccount.UpdateAccount(lars3);
+
+            // Assert
+            assertTrue(result);
+        }
 
         /*All users*/
         @Test
-        public void Test_GetAllAcount() {
+        void Test_Get_All_Accounts() {
             // Arrange
             final AllAccount AllAcounts = new AllAccount(new DbAllAccount());
 
@@ -89,12 +92,90 @@ public class tests {
             // Assert
             assertEquals( 2,users.size());
         }
+        @Test
+        void Test_Get_All_Accounts_by_name() {
+            // Arrange
+            final AllAccount AllAcounts = new AllAccount(new DbAllAccount());
 
+            // Act
+            List<User> users = AllAcounts.GetAllAccounts("Lars");
+
+            // Assert
+            assertEquals( 1,users.size());
+        }
+        @Test
+        void Test_Get_All_Accounts_wrong_name() {
+            // Arrange
+            final AllAccount AllAcounts = new AllAccount(new DbAllAccount());
+
+            // Act
+            List<User> users = AllAcounts.GetAllAccounts("jon");
+
+            // Assert
+            assertEquals( 0,users.size());
+        }
+        @Test
+        void Test_Get_Account_by_id() {
+            // Arrange
+            final AllAccount AllAcounts = new AllAccount(new DbAllAccount());
+
+            // Act
+            User user = AllAcounts.GetAccount(1);
+
+            // Assert
+            assertNotNull(user);
+        }
+        @Test
+        void Test_Add_Account() {
+            // Arrange
+            final AllAccount AllAcounts = new AllAccount(new DbAllAccount());
+
+            Account lars1account = new Account("Lars3", "Lars3");
+            User lars3 = new NormalUser(1,"Lars3", "Kluijtmans3", "lars.kluijtmans@gmail.com3",12345673, lars1account);
+
+            // Act
+            long count = AllAcounts.GetAllAccounts().size();
+            boolean result = AllAcounts.AddAccount(lars3);
+
+            // Assert
+            assertTrue(result);
+            assertNotEquals(count, AllAcounts.GetAllAccounts().size());
+        }
+        @Test
+        void Test_all_users_Update_Account() {
+            // Arrange
+            final AllAccount AllAcounts = new AllAccount(new DbAllAccount());
+
+            Account lars1account = new Account("Lars3", "Lars3");
+            User lars3 = new NormalUser(1,"Lars3", "Kluijtmans3", "lars.kluijtmans@gmail.com3",12345673, lars1account);
+
+            // Act
+            boolean result = AllAcounts.UpdateAccount(lars3);
+            User user = AllAcounts.GetAccount(1);
+
+            // Assert
+            assertTrue(result);
+            assertEquals( "Lars3",user.getAccount().getUsername());
+            assertEquals( "Lars3",user.getAccount().getPassword());
+            assertEquals( "Lars3",user.getFirstname());
+            assertEquals( "Kluijtmans3",user.getLastname());
+            assertEquals( "lars.kluijtmans@gmail.com3",user.getEmail());
+            assertEquals( 12345673,user.getPhoneNumber());
+        }
+        @Test
+        void Test_Delete_Account() {
+            // Arrange
+            final AllAccount AllAcounts = new AllAccount(new DbAllAccount());
+            // Act
+            boolean result = AllAcounts.DeleteAccount(1);
+            // Assert
+            assertTrue(result);
+        }
 
     /*product*/
         /*View products*/
         @Test
-        public void Test_ViewProduct_Get_All_Products() {
+        void Test_ViewProduct_Get_All_Products() {
             // Arrange
             DbViewProducts Viewproduct = new DbViewProducts();
             // Act
@@ -103,7 +184,7 @@ public class tests {
             assertEquals(1, products.size());
         }
         @Test
-        public void Test_ViewProduct_Get_Product_by_id() {
+        void Test_ViewProduct_Get_Product_by_id() {
             // Arrange
             DbViewProducts Viewproduct = new DbViewProducts();
             // Act
@@ -112,7 +193,7 @@ public class tests {
             assertEquals(1, product.getProductID());
         }
         @Test
-        public void Test_ViewProduct_Get_Products_by_name() {
+        void Test_ViewProduct_Get_Products_by_name() {
             // Arrange
             DbViewProducts Viewproduct = new DbViewProducts();
             // Act
@@ -121,7 +202,7 @@ public class tests {
             assertEquals(0, products.size());
         }
         @Test
-        public void Test_ViewProduct_Get_Products_by_name_No_name_entered() {
+        void Test_ViewProduct_Get_Products_by_name_No_name_entered() {
             // Arrange
             DbViewProducts Viewproduct = new DbViewProducts();
             // Act
@@ -130,7 +211,7 @@ public class tests {
             assertEquals(1, products.size());
         }
         @Test
-        public void Test_ViewProduct_Get_Products_by_name_Wrong_name_entered() {
+        void Test_ViewProduct_Get_Products_by_name_Wrong_name_entered() {
             // Arrange
             DbViewProducts Viewproduct = new DbViewProducts();
             // Act
@@ -141,7 +222,7 @@ public class tests {
 
         /*My products*/
         @Test
-        public void Test_MyProducts_Get_All_Product() {
+        void Test_MyProducts_Get_All_Product() {
             // Arrange
             DbMyPorduct MyProduct = new DbMyPorduct();
             // Act
@@ -150,7 +231,7 @@ public class tests {
             assertEquals(1, products.size());
         }
         @Test
-        public void Test_MyProducts_Get_Product_by_id() {
+        void Test_MyProducts_Get_Product_by_id() {
             // Arrange
             DbMyPorduct MyProduct = new DbMyPorduct();
             // Act
@@ -159,7 +240,7 @@ public class tests {
             assertEquals(1, product.getProductID());
         }
         @Test
-        public void Test_MyProducts_Add_Product() {
+        void Test_MyProducts_Add_Product() {
             // Arrange
             DbMyPorduct MyProduct = new DbMyPorduct();
 
@@ -187,7 +268,7 @@ public class tests {
             assertEquals(NewProduct, product);
         }
         @Test
-        public void Test_MyProducts_Delete_Product() {
+        void Test_MyProducts_Delete_Product() {
             // Arrange
             DbMyPorduct MyProduct = new DbMyPorduct();
 
@@ -200,7 +281,7 @@ public class tests {
             assertNull(product);
         }
         @Test
-        public void Test_MyProducts_Update_Product() {
+        void Test_MyProducts_Update_Product() {
             // Arrange
             DbMyPorduct MyProduct = new DbMyPorduct();
 
@@ -231,7 +312,7 @@ public class tests {
 
         /*All products*/
         @Test
-        public void Test_AllProducts_Get_Products() {
+        void Test_AllProducts_Get_Products() {
             // Arrange
             DbAllProduct AllProduct = new DbAllProduct();
             // Act
@@ -240,7 +321,7 @@ public class tests {
             assertEquals(1, products.size());
         }
         @Test
-        public void Test_AllProducts_Get_Product_by_name() {
+        void Test_AllProducts_Get_Product_by_name() {
             // Arrange
             DbAllProduct AllProduct = new DbAllProduct();
             // Act
@@ -249,7 +330,7 @@ public class tests {
             assertEquals(1, products.size());
         }
         @Test
-        public void Test_AllProducts_Get_Product_by_id() {
+        void Test_AllProducts_Get_Product_by_id() {
             // Arrange
             DbAllProduct AllProduct = new DbAllProduct();
 
@@ -259,7 +340,7 @@ public class tests {
             assertEquals(1, product.getProductID());
         }
         @Test
-        public void Test_AllProducts_Update_Product() {
+        void Test_AllProducts_Update_Product() {
             // Arrange
             DbAllProduct AllProduct = new DbAllProduct();
 
@@ -288,7 +369,7 @@ public class tests {
             assertEquals(1, product.getTags().size());
         }
         @Test
-        public void Test_AllProducts_Delete_Product() {
+        void Test_AllProducts_Delete_Product() {
             // Arrange
             DbAllProduct AllProduct = new DbAllProduct();
 
