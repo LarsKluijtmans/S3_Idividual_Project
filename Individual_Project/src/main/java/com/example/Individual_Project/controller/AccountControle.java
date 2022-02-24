@@ -52,7 +52,10 @@ public class AccountControle {
         return ResponseEntity.ok().build();
     }
 
-   /*  @GetMapping( "{name}")
+
+
+
+     @GetMapping( "search/{name}")
     public ResponseEntity<List<User>> getUsers(@PathVariable("name") String name) {
         List<User> users = allUsers.GetAllAccounts(name);
 
@@ -61,8 +64,7 @@ public class AccountControle {
         } else {
             return ResponseEntity.notFound().build();
         }
-    }*/
-
+    }
 
     @PostMapping()
     public ResponseEntity<User> createUser(@RequestBody NormalUser user) {
