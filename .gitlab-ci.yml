@@ -12,6 +12,5 @@ build:
 test:
     stage: test
     script:
-        - cd Individual_Project
         - ./gradlew test
         - ./gradlew.bat --stop
