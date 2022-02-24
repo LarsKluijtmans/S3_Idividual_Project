@@ -5,7 +5,8 @@ import com.example.Individual_Project.model.User;
 
 import java.util.List;
 
-public interface DbMyProducts {    public List<Product> GetAllMyProducts(User user);
+public interface DbMyProducts {
+     List<Product> GetAllMyProducts(int userID);
      Product GetProduct(int productID);
      boolean AddProduct(Product product);
      boolean UpdateProduct(Product product);

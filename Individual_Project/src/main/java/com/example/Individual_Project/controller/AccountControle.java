@@ -1,6 +1,7 @@
 package com.example.Individual_Project.controller;
 
 import com.example.Individual_Project.business.AllUsers;
+import com.example.Individual_Project.business.Login;
 import com.example.Individual_Project.business.MyAccount;
 import com.example.Individual_Project.model.NormalUser;
 import com.example.Individual_Project.model.User;
@@ -17,11 +18,13 @@ public class AccountControle {
 
     private final MyAccount myAccount;
     private final AllUsers allUsers;
+    private final Login login;
 
-    public AccountControle(MyAccount myAccount, AllUsers allUsers)
+    public AccountControle(MyAccount myAccount, AllUsers allUsers, Login login)
     {
         this.myAccount = myAccount;
         this.allUsers = allUsers;
+        this.login = login;
     }
 
     @GetMapping()
@@ -54,8 +57,7 @@ public class AccountControle {
 
 
 
-
-     @GetMapping( "search/{name}")
+    @GetMapping( "search/{name}")
     public ResponseEntity<List<User>> getUsers(@PathVariable("name") String name) {
         List<User> users = allUsers.GetAllAccounts(name);
 

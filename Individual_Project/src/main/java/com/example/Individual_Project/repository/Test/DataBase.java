@@ -39,7 +39,6 @@ public class DataBase {
         users.add(lars1);
         users.add(lars2);
 
-
         //Tags
         List<Tag> tags = new ArrayList<Tag>();
         Tag tag1 = new Tag(1,"NormalGame");
@@ -51,7 +50,7 @@ public class DataBase {
         tags.add(tag3);
 
         //Products
-        Product product1 = new Product(1,"pokemon diamond", "Pokemon 2001", "Pokemon", 2001, "Great", Genre.JRPG,"Pokemon diamond a clasic game ..", tags, ProductType.Game);
+        Product product1 = new Product(1,"pokemon diamond", "Pokemon 2001", "Pokemon", 2001, "Great", Genre.JRPG,"Pokemon diamond a clasic game ..", tags, ProductType.Game, lars1);
         products.add(product1);
     }
 

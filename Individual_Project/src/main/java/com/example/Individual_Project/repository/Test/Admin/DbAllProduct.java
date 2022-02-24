@@ -50,10 +50,6 @@ public class DbAllProduct implements DbAllProducts {
     @Override
     public boolean UpdateProduct(Product product) {
 
-        if(!dataBase.products.contains(product))
-        {
-            return false;
-        }
         for(Product p: dataBase.products)
         {
             if(p.getProductID() == product.getProductID())

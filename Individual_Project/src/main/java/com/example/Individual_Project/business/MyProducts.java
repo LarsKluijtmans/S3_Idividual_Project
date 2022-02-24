@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MyProducts {
 
-     List<Product> GetAllMyProducts(User user);
+      List<Product> GetAllMyProducts(int userID);
      Product GetProduct(int productID);
      boolean AddProduct(Product product);
      boolean UpdateProduct(Product product);

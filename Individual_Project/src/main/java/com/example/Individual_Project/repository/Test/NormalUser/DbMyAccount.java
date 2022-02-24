@@ -15,10 +15,6 @@ public class DbMyAccount implements com.example.Individual_Project.repository.Db
 
     @Override
     public boolean UpdateAccount(User user) {
-        if(!dataBase.users.contains(user))
-        {
-            return false;
-        }
         for(User u: dataBase.users)
         {
             if(u.getUserID() == u.getUserID())

@@ -21,8 +21,8 @@ public class MyPorduct implements MyProducts {
     }
 
     @Override
-    public List<Product> GetAllMyProducts(User user) {
-        return dbMyProducts.GetAllMyProducts(user);
+    public List<Product> GetAllMyProducts(int userID) {
+        return dbMyProducts.GetAllMyProducts(userID);
     }
 
     @Override

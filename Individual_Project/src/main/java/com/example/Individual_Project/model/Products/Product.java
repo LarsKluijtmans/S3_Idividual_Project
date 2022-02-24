@@ -24,7 +24,7 @@ public class Product{
 
     public Product() {}
 
-    public Product(int productID,String name1, String name2, String serie, int year, String condition, Genre genre, String description, List<Tag> tags,ProductType productType)
+    public Product(int productID,String name1, String name2, String serie, int year, String condition, Genre genre, String description, List<Tag> tags,ProductType productType, User user)
     {
         this.productID = productID;
         this.name1 = name1;
@@ -36,5 +36,6 @@ public class Product{
         this.description = description;
         this.tags = tags;
         this.productType = productType;
+        this.user = user;
     }
 }

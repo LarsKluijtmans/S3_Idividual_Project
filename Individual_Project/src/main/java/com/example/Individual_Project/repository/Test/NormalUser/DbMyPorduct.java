@@ -17,12 +17,12 @@ public class DbMyPorduct implements DbMyProducts {
     private DataBase dataBase = new DataBase();
 
     @Override
-    public List<Product> GetAllMyProducts(User user) {
+    public List<Product> GetAllMyProducts(int userID) {
         List<Product> myPorducts = new ArrayList<Product>();
 
         for(Product p: dataBase.products)
         {
-            if(p.getUser() == user)
+            if(p.getUser().getUserID() == userID)
             {
                 myPorducts.add(p);
             }
@@ -68,11 +68,6 @@ public class DbMyPorduct implements DbMyProducts {
 
     @Override
     public boolean UpdateProduct(Product product) {
-
-        if(!dataBase.products.contains(product))
-        {
-            return false;
-        }
         for(Product p: dataBase.products)
         {
             if(p.getProductID() == product.getProductID())
