@@ -84,10 +84,10 @@ public class tests {
         @Test
         void Test_Get_All_Accounts() {
             // Arrange
-            final AllAccount AllAcounts = new AllAccount(new DbAllAccount());
+            final AllAccount AllAccounts = new AllAccount(new DbAllAccount());
 
             // Act
-            List<User> users = AllAcounts.GetAllAccounts();
+            List<User> users = AllAccounts.GetAllAccounts();
 
             // Assert
             assertEquals( 2,users.size());
@@ -95,10 +95,10 @@ public class tests {
         @Test
         void Test_Get_All_Accounts_by_name() {
             // Arrange
-            final AllAccount AllAcounts = new AllAccount(new DbAllAccount());
+            final AllAccount AllAccounts = new AllAccount(new DbAllAccount());
 
             // Act
-            List<User> users = AllAcounts.GetAllAccounts("Lars");
+            List<User> users = AllAccounts.GetAllAccounts("Lars");
 
             // Assert
             assertEquals( 1,users.size());
@@ -106,10 +106,10 @@ public class tests {
         @Test
         void Test_Get_All_Accounts_wrong_name() {
             // Arrange
-            final AllAccount AllAcounts = new AllAccount(new DbAllAccount());
+            final AllAccount AllAccounts = new AllAccount(new DbAllAccount());
 
             // Act
-            List<User> users = AllAcounts.GetAllAccounts("jon");
+            List<User> users = AllAccounts.GetAllAccounts("jon");
 
             // Assert
             assertEquals( 0,users.size());
@@ -117,10 +117,10 @@ public class tests {
         @Test
         void Test_Get_Account_by_id() {
             // Arrange
-            final AllAccount AllAcounts = new AllAccount(new DbAllAccount());
+            final AllAccount AllAccounts = new AllAccount(new DbAllAccount());
 
             // Act
-            User user = AllAcounts.GetAccount(1);
+            User user = AllAccounts.GetAccount(1);
 
             // Assert
             assertNotNull(user);
@@ -128,30 +128,30 @@ public class tests {
         @Test
         void Test_Add_Account() {
             // Arrange
-            final AllAccount AllAcounts = new AllAccount(new DbAllAccount());
+            final AllAccount AllAccounts = new AllAccount(new DbAllAccount());
 
             Account lars1account = new Account("Lars3", "Lars3");
             User lars3 = new NormalUser(1,"Lars3", "Kluijtmans3", "lars.kluijtmans@gmail.com3",12345673, lars1account);
 
             // Act
-            long count = AllAcounts.GetAllAccounts().size();
-            boolean result = AllAcounts.AddAccount(lars3);
+            long count = AllAccounts.GetAllAccounts().size();
+            boolean result = AllAccounts.AddAccount(lars3);
 
             // Assert
             assertTrue(result);
-            assertNotEquals(count, AllAcounts.GetAllAccounts().size());
+            assertNotEquals(count, AllAccounts.GetAllAccounts().size());
         }
         @Test
         void Test_all_users_Update_Account() {
             // Arrange
-            final AllAccount AllAcounts = new AllAccount(new DbAllAccount());
+            final AllAccount AllAccounts = new AllAccount(new DbAllAccount());
 
             Account lars1account = new Account("Lars3", "Lars3");
             User lars3 = new NormalUser(1,"Lars3", "Kluijtmans3", "lars.kluijtmans@gmail.com3",12345673, lars1account);
 
             // Act
-            boolean result = AllAcounts.UpdateAccount(lars3);
-            User user = AllAcounts.GetAccount(1);
+            boolean result = AllAccounts.UpdateAccount(lars3);
+            User user = AllAccounts.GetAccount(1);
 
             // Assert
             assertTrue(result);
@@ -165,9 +165,9 @@ public class tests {
         @Test
         void Test_Delete_Account() {
             // Arrange
-            final AllAccount AllAcounts = new AllAccount(new DbAllAccount());
+            final AllAccount AllAccounts = new AllAccount(new DbAllAccount());
             // Act
-            boolean result = AllAcounts.DeleteAccount(1);
+            boolean result = AllAccounts.DeleteAccount(1);
             // Assert
             assertTrue(result);
         }
@@ -256,7 +256,7 @@ public class tests {
             tags.add(tag2);
             tags.add(tag3);
 
-            Product NewProduct = new Product(3,"pokemon Pearl", "Pokemon 2004", "Pokemon", 2004, "Great", Genre.JRPG,"Pokemon pearl a clasic game ..", tags, ProductType.Game, lars2);
+            Product NewProduct = new Product(3,"pokemon Pearl", "Pokemon 2004", "Pokemon", 2004, "Great", Genre.JRPG,"Pokemon pearl a classic game ..", tags, ProductType.Game, lars2);
 
             // Act
 
@@ -293,7 +293,7 @@ public class tests {
             List<Tag> tags = new ArrayList<>();
             tags.add(tag1);
 
-            Product NewProduct = new Product(1,"pokemon Pearl", "Pokemon 2004", "Pokemon Pearl", 2004, "Good", Genre.JRPG,"Pokemon pearl a clasic game ..", tags, ProductType.Game, lars1);
+            Product NewProduct = new Product(1,"pokemon Pearl", "Pokemon 2004", "Pokemon Pearl", 2004, "Good", Genre.JRPG,"Pokemon pearl a classic game ..", tags, ProductType.Game, lars1);
 
             // Act
             boolean result = MyProduct.UpdateProduct(NewProduct);
@@ -306,7 +306,7 @@ public class tests {
             assertEquals("Pokemon Pearl", product.getSerie());
             assertEquals(2004, product.getYear());
             assertEquals("Good", product.getCondition());
-            assertEquals("Pokemon pearl a clasic game ..", product.getDescription());
+            assertEquals("Pokemon pearl a classic game ..", product.getDescription());
             assertEquals(1, product.getTags().size());
         }
 
@@ -352,7 +352,7 @@ public class tests {
             List<Tag> tags = new ArrayList<>();
             tags.add(tag1);
 
-            Product NewProduct = new Product(1,"pokemon Pearl", "Pokemon 2004", "Pokemon Pearl", 2004, "Good", Genre.JRPG,"Pokemon pearl a clasic game ..", tags, ProductType.Game, lars1);
+            Product NewProduct = new Product(1,"pokemon Pearl", "Pokemon 2004", "Pokemon Pearl", 2004, "Good", Genre.JRPG,"Pokemon pearl a classic game ..", tags, ProductType.Game, lars1);
 
             // Act
             boolean result = AllProduct.UpdateProduct(NewProduct);
@@ -365,7 +365,7 @@ public class tests {
             assertEquals("Pokemon Pearl", product.getSerie());
             assertEquals(2004, product.getYear());
             assertEquals("Good", product.getCondition());
-            assertEquals("Pokemon pearl a clasic game ..", product.getDescription());
+            assertEquals("Pokemon pearl a classic game ..", product.getDescription());
             assertEquals(1, product.getTags().size());
         }
         @Test
