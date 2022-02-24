@@ -1,5 +1,6 @@
 package com.example.Individual_Project;
 
+import com.example.Individual_Project.business.Admin.AllAccount;
 import com.example.Individual_Project.business.Login;
 import com.example.Individual_Project.business.NotLogedIn.NotLogedIn;
 import com.example.Individual_Project.model.NormalUser;
@@ -9,6 +10,7 @@ import com.example.Individual_Project.model.Products.ProductType;
 import com.example.Individual_Project.model.Products.Tag;
 import com.example.Individual_Project.model.User;
 import com.example.Individual_Project.model.Users.Account;
+import com.example.Individual_Project.repository.Test.Admin.DbAllAccount;
 import com.example.Individual_Project.repository.Test.Admin.DbAllProduct;
 import com.example.Individual_Project.repository.Test.NormalUser.DbMyPorduct;
 import com.example.Individual_Project.repository.Test.NotLogedIn.DbNotLogedIn;
@@ -18,10 +20,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class Tests {
+public class tests {
 
     /*User*/
         /*Login*/
@@ -43,12 +44,12 @@ public class Tests {
             // Act
             User user =  login.GetAccount("","");
 
-            Account lars1account = new Account("Lars", "Lars");
-            User lars1 = new NormalUser(1,"Lars", "Kluijtmans", "lars.kluijtmans@gmail.com",1234567, lars1account);
-
             // Assert
-            assertEquals(null, user);
+            assertNotNull(user);
         }
+
+
+        /* to do */
         @Test
         public void Test_AddUser() {
             // Arrange
@@ -57,11 +58,8 @@ public class Tests {
             // Act
             User user =  login.GetAccount("","");
 
-            Account lars1account = new Account("Lars", "Lars");
-            User lars1 = new NormalUser(1,"Lars", "Kluijtmans", "lars.kluijtmans@gmail.com",1234567, lars1account);
-
             // Assert
-            assertEquals(null, user);
+            assertNotNull( user);
         }
 
         /*My Account*/
@@ -73,27 +71,23 @@ public class Tests {
             // Act
             User user =  login.GetAccount("","");
 
-            Account lars1account1 = new Account("Lars11", "Lars11");
-            User lars1 = new NormalUser(1,"Lars", "Kluijtmans", "lars.kluijtmans@gmail.com",433, lars1account1);
-
             // Assert
-            assertEquals(null, user);
+            assertNull(user);
         }
+
+        /*to do end*/
 
         /*All users*/
         @Test
         public void Test_GetAllAcount() {
             // Arrange
-            final Login login = new NotLogedIn(new DbNotLogedIn());
+            final AllAccount AllAcounts = new AllAccount(new DbAllAccount());
 
             // Act
-            User user = login.GetAccount("", "");
-
-            Account lars1account1 = new Account("Lars11", "Lars11");
-            User lars1 = new NormalUser(1, "Lars", "Kluijtmans", "lars.kluijtmans@gmail.com", 433, lars1account1);
+            List<User> users = AllAcounts.GetAllAccounts();
 
             // Assert
-            assertEquals(null, user);
+            assertEquals( 2,users.size());
         }
 
 
@@ -106,7 +100,7 @@ public class Tests {
             // Act
             List<Product> products = Viewproduct.GetAllProducts();
             // Assert
-            assertEquals(1, products.stream().count());
+            assertEquals(1, products.size());
         }
         @Test
         public void Test_ViewProduct_Get_Product_by_id() {
@@ -124,7 +118,7 @@ public class Tests {
             // Act
             List<Product> products = Viewproduct.GetProduct("");
             // Assert
-            assertEquals(0, products.stream().count());
+            assertEquals(0, products.size());
         }
         @Test
         public void Test_ViewProduct_Get_Products_by_name_No_name_entered() {
@@ -133,7 +127,7 @@ public class Tests {
             // Act
             List<Product> products = Viewproduct.GetProduct("pokemon diamond");
             // Assert
-            assertEquals(1, products.stream().count());
+            assertEquals(1, products.size());
         }
         @Test
         public void Test_ViewProduct_Get_Products_by_name_Wrong_name_entered() {
@@ -142,7 +136,7 @@ public class Tests {
             // Act
             List<Product> products = Viewproduct.GetProduct("pokemon diamond2");
             // Assert
-            assertEquals(0, products.stream().count());
+            assertEquals(0, products.size());
         }
 
         /*My products*/
@@ -153,7 +147,7 @@ public class Tests {
             // Act
             List<Product> products = MyProduct.GetAllMyProducts(1);
             // Assert
-            assertEquals(1, products.stream().count());
+            assertEquals(1, products.size());
         }
         @Test
         public void Test_MyProducts_Get_Product_by_id() {
@@ -176,7 +170,7 @@ public class Tests {
             Tag tag2 = new Tag(2,"VeryOldGame");
             Tag tag3 = new Tag(3,"Most popular");
 
-            List<Tag> tags = new ArrayList<Tag>();
+            List<Tag> tags = new ArrayList<>();
             tags.add(tag1);
             tags.add(tag2);
             tags.add(tag3);
@@ -189,7 +183,7 @@ public class Tests {
             Product product = MyProduct.GetProduct(3);
 
             // Assert
-            assertEquals(true, result);
+            assertTrue(result);
             assertEquals(NewProduct, product);
         }
         @Test
@@ -202,8 +196,8 @@ public class Tests {
             Product product = MyProduct.GetProduct(1);
 
             // Assert
-            assertEquals(true, result);
-            assertEquals(null, product);
+            assertTrue(result);
+            assertNull(product);
         }
         @Test
         public void Test_MyProducts_Update_Product() {
@@ -215,7 +209,7 @@ public class Tests {
 
             Tag tag1 = new Tag(1,"NormalGame");
 
-            List<Tag> tags = new ArrayList<Tag>();
+            List<Tag> tags = new ArrayList<>();
             tags.add(tag1);
 
             Product NewProduct = new Product(1,"pokemon Pearl", "Pokemon 2004", "Pokemon Pearl", 2004, "Good", Genre.JRPG,"Pokemon pearl a clasic game ..", tags, ProductType.Game, lars1);
@@ -225,14 +219,14 @@ public class Tests {
             Product product = MyProduct.GetProduct(1);
 
             // Assert
-            assertEquals(true, result);
+            assertTrue(result);
             assertEquals("pokemon Pearl", product.getName1());
             assertEquals("Pokemon 2004", product.getName2());
             assertEquals("Pokemon Pearl", product.getSerie());
             assertEquals(2004, product.getYear());
             assertEquals("Good", product.getCondition());
             assertEquals("Pokemon pearl a clasic game ..", product.getDescription());
-            assertEquals(1, product.getTags().stream().count());
+            assertEquals(1, product.getTags().size());
         }
 
         /*All products*/
@@ -243,7 +237,7 @@ public class Tests {
             // Act
             List<Product> products = AllProduct.GetAllProducts();
             // Assert
-            assertEquals(1, products.stream().count());
+            assertEquals(1, products.size());
         }
         @Test
         public void Test_AllProducts_Get_Product_by_name() {
@@ -252,7 +246,7 @@ public class Tests {
             // Act
             List<Product> products = AllProduct.GetProducts("pokemon diamond");
             // Assert
-            assertEquals(1, products.stream().count());
+            assertEquals(1, products.size());
         }
         @Test
         public void Test_AllProducts_Get_Product_by_id() {
@@ -274,7 +268,7 @@ public class Tests {
 
             Tag tag1 = new Tag(1,"NormalGame");
 
-            List<Tag> tags = new ArrayList<Tag>();
+            List<Tag> tags = new ArrayList<>();
             tags.add(tag1);
 
             Product NewProduct = new Product(1,"pokemon Pearl", "Pokemon 2004", "Pokemon Pearl", 2004, "Good", Genre.JRPG,"Pokemon pearl a clasic game ..", tags, ProductType.Game, lars1);
@@ -284,14 +278,14 @@ public class Tests {
             Product product = AllProduct.GetProduct(1);
 
             // Assert
-            assertEquals(true, result);
+            assertTrue(result);
             assertEquals("pokemon Pearl", product.getName1());
             assertEquals("Pokemon 2004", product.getName2());
             assertEquals("Pokemon Pearl", product.getSerie());
             assertEquals(2004, product.getYear());
             assertEquals("Good", product.getCondition());
             assertEquals("Pokemon pearl a clasic game ..", product.getDescription());
-            assertEquals(1, product.getTags().stream().count());
+            assertEquals(1, product.getTags().size());
         }
         @Test
         public void Test_AllProducts_Delete_Product() {
@@ -303,7 +297,7 @@ public class Tests {
             Product product = AllProduct.GetProduct(1);
 
             // Assert
-            assertEquals(true, result);
-            assertEquals(null, product);
+            assertTrue(result);
+            assertNull(product);
         }
 }
