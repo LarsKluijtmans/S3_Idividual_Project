@@ -1,9 +1,12 @@
 package com.example.Individual_Project;
 
 import com.example.Individual_Project.business.Admin.AllAccount;
+import com.example.Individual_Project.business.Admin.AllProduct;
 import com.example.Individual_Project.business.Login;
 import com.example.Individual_Project.business.NormalUser.MyAccount;
+import com.example.Individual_Project.business.NormalUser.MyPorduct;
 import com.example.Individual_Project.business.NotLogedIn.NotLogedIn;
+import com.example.Individual_Project.business.NotLogedIn.ViewProducts;
 import com.example.Individual_Project.model.NormalUser;
 import com.example.Individual_Project.model.Products.Genre;
 import com.example.Individual_Project.model.Products.Product;
@@ -31,35 +34,30 @@ public class tests {
         @Test
         void Test_Login_With_Correct_Info() {
             // Arrange
-            final Login login = new NotLogedIn(new DbNotLogedIn());
-
+            Login login = new NotLogedIn(new DbNotLogedIn());
             // Act
             User user =  login.GetAccount("Lars","Lars");
-
             // Assert
             assertNotEquals(null, user);
         }
         @Test
         void Test_Login_With_InCorrect_Info() {
             // Arrange
-            final Login login = new NotLogedIn(new DbNotLogedIn());
+            Login login = new NotLogedIn(new DbNotLogedIn());
             // Act
             User user =  login.GetAccount("","");
-
             // Assert
             assertNull(user);
         }
         @Test
         void Test_Add_User() {
             // Arrange
-            final Login login = new NotLogedIn(new DbNotLogedIn());
+            Login login = new NotLogedIn(new DbNotLogedIn());
 
             Account lars1account = new Account("Lars3", "Lars3");
             User lars3 = new NormalUser(3,"Lars3", "Kluijtmans3", "lars.kluijtmans@gmail.com3",12345673, lars1account);
-
             // Act
             boolean result = login.AddAccount(lars3);
-
             // Assert
             assertTrue(result);
         }
@@ -68,14 +66,12 @@ public class tests {
         @Test
         void Test_Update_Account() {
             // Arrange
-            final MyAccount myAccount = new MyAccount(new DbMyAccount());
+            MyAccount myAccount = new MyAccount(new DbMyAccount());
 
             Account lars1account = new Account("Lars3", "Lars3");
             User lars3 = new NormalUser(1,"Lars3", "Kluijtmans3", "lars.kluijtmans@gmail.com3",12345673, lars1account);
-
             // Act
             boolean result = myAccount.UpdateAccount(lars3);
-
             // Assert
             assertTrue(result);
         }
@@ -84,59 +80,49 @@ public class tests {
         @Test
         void Test_Get_All_Accounts() {
             // Arrange
-            final AllAccount AllAccounts = new AllAccount(new DbAllAccount());
-
+            AllAccount AllAccounts = new AllAccount(new DbAllAccount());
             // Act
             List<User> users = AllAccounts.GetAllAccounts();
-
             // Assert
             assertEquals( 2,users.size());
         }
         @Test
         void Test_Get_All_Accounts_by_name() {
             // Arrange
-            final AllAccount AllAccounts = new AllAccount(new DbAllAccount());
-
+            AllAccount AllAccounts = new AllAccount(new DbAllAccount());
             // Act
             List<User> users = AllAccounts.GetAllAccounts("Lars");
-
             // Assert
             assertEquals( 1,users.size());
         }
         @Test
         void Test_Get_All_Accounts_wrong_name() {
             // Arrange
-            final AllAccount AllAccounts = new AllAccount(new DbAllAccount());
-
+            AllAccount AllAccounts = new AllAccount(new DbAllAccount());
             // Act
             List<User> users = AllAccounts.GetAllAccounts("jon");
-
             // Assert
             assertEquals( 0,users.size());
         }
         @Test
         void Test_Get_Account_by_id() {
             // Arrange
-            final AllAccount AllAccounts = new AllAccount(new DbAllAccount());
-
+            AllAccount AllAccounts = new AllAccount(new DbAllAccount());
             // Act
             User user = AllAccounts.GetAccount(1);
-
             // Assert
             assertNotNull(user);
         }
         @Test
         void Test_Add_Account() {
             // Arrange
-            final AllAccount AllAccounts = new AllAccount(new DbAllAccount());
+            AllAccount AllAccounts = new AllAccount(new DbAllAccount());
 
             Account lars1account = new Account("Lars3", "Lars3");
             User lars3 = new NormalUser(1,"Lars3", "Kluijtmans3", "lars.kluijtmans@gmail.com3",12345673, lars1account);
-
             // Act
             long count = AllAccounts.GetAllAccounts().size();
             boolean result = AllAccounts.AddAccount(lars3);
-
             // Assert
             assertTrue(result);
             assertNotEquals(count, AllAccounts.GetAllAccounts().size());
@@ -144,15 +130,13 @@ public class tests {
         @Test
         void Test_all_users_Update_Account() {
             // Arrange
-            final AllAccount AllAccounts = new AllAccount(new DbAllAccount());
+             AllAccount AllAccounts = new AllAccount(new DbAllAccount());
 
             Account lars1account = new Account("Lars3", "Lars3");
             User lars3 = new NormalUser(1,"Lars3", "Kluijtmans3", "lars.kluijtmans@gmail.com3",12345673, lars1account);
-
             // Act
             boolean result = AllAccounts.UpdateAccount(lars3);
             User user = AllAccounts.GetAccount(1);
-
             // Assert
             assertTrue(result);
             assertEquals( "Lars3",user.getAccount().getUsername());
@@ -165,7 +149,7 @@ public class tests {
         @Test
         void Test_Delete_Account() {
             // Arrange
-            final AllAccount AllAccounts = new AllAccount(new DbAllAccount());
+             AllAccount AllAccounts = new AllAccount(new DbAllAccount());
             // Act
             boolean result = AllAccounts.DeleteAccount(1);
             // Assert
@@ -177,7 +161,7 @@ public class tests {
         @Test
         void Test_ViewProduct_Get_All_Products() {
             // Arrange
-            DbViewProducts Viewproduct = new DbViewProducts();
+            ViewProducts Viewproduct = new ViewProducts(new DbViewProducts());
             // Act
             List<Product> products = Viewproduct.GetAllProducts();
             // Assert
@@ -186,7 +170,7 @@ public class tests {
         @Test
         void Test_ViewProduct_Get_Product_by_id() {
             // Arrange
-            DbViewProducts Viewproduct = new DbViewProducts();
+            ViewProducts Viewproduct = new ViewProducts(new DbViewProducts());
             // Act
             Product product = Viewproduct.GetProduct(1);
             // Assert
@@ -195,7 +179,7 @@ public class tests {
         @Test
         void Test_ViewProduct_Get_Products_by_name() {
             // Arrange
-            DbViewProducts Viewproduct = new DbViewProducts();
+            ViewProducts Viewproduct = new ViewProducts(new DbViewProducts());
             // Act
             List<Product> products = Viewproduct.GetProduct("");
             // Assert
@@ -204,7 +188,7 @@ public class tests {
         @Test
         void Test_ViewProduct_Get_Products_by_name_No_name_entered() {
             // Arrange
-            DbViewProducts Viewproduct = new DbViewProducts();
+            ViewProducts Viewproduct = new ViewProducts(new DbViewProducts());
             // Act
             List<Product> products = Viewproduct.GetProduct("pokemon diamond");
             // Assert
@@ -213,7 +197,7 @@ public class tests {
         @Test
         void Test_ViewProduct_Get_Products_by_name_Wrong_name_entered() {
             // Arrange
-            DbViewProducts Viewproduct = new DbViewProducts();
+            ViewProducts Viewproduct = new ViewProducts(new DbViewProducts());
             // Act
             List<Product> products = Viewproduct.GetProduct("pokemon diamond2");
             // Assert
@@ -224,7 +208,7 @@ public class tests {
         @Test
         void Test_MyProducts_Get_All_Product() {
             // Arrange
-            DbMyPorduct MyProduct = new DbMyPorduct();
+            MyPorduct MyProduct = new MyPorduct(new DbMyPorduct());
             // Act
             List<Product> products = MyProduct.GetAllMyProducts(1);
             // Assert
@@ -233,7 +217,7 @@ public class tests {
         @Test
         void Test_MyProducts_Get_Product_by_id() {
             // Arrange
-            DbMyPorduct MyProduct = new DbMyPorduct();
+            MyPorduct MyProduct = new MyPorduct(new DbMyPorduct());
             // Act
             Product product = MyProduct.GetProduct(1);
             // Assert
@@ -242,7 +226,7 @@ public class tests {
         @Test
         void Test_MyProducts_Add_Product() {
             // Arrange
-            DbMyPorduct MyProduct = new DbMyPorduct();
+            MyPorduct MyProduct = new MyPorduct(new DbMyPorduct());
 
             Account lars2account = new Account("Lars2", "Lars2");
             User lars2 = new NormalUser(2,"Lars2", "Kluijtmans2", "lars.kluijtmans@gmail.com2",2345679, lars2account);
@@ -257,12 +241,9 @@ public class tests {
             tags.add(tag3);
 
             Product NewProduct = new Product(3,"pokemon Pearl", "Pokemon 2004", "Pokemon", 2004, "Great", Genre.JRPG,"Pokemon pearl a classic game ..", tags, ProductType.Game, lars2);
-
             // Act
-
             boolean result = MyProduct.AddProduct(NewProduct);
             Product product = MyProduct.GetProduct(3);
-
             // Assert
             assertTrue(result);
             assertEquals(NewProduct, product);
@@ -270,12 +251,10 @@ public class tests {
         @Test
         void Test_MyProducts_Delete_Product() {
             // Arrange
-            DbMyPorduct MyProduct = new DbMyPorduct();
-
+            MyPorduct MyProduct = new MyPorduct(new DbMyPorduct());
             // Act
             boolean result = MyProduct.DeleteProduct(1);
             Product product = MyProduct.GetProduct(1);
-
             // Assert
             assertTrue(result);
             assertNull(product);
@@ -283,7 +262,7 @@ public class tests {
         @Test
         void Test_MyProducts_Update_Product() {
             // Arrange
-            DbMyPorduct MyProduct = new DbMyPorduct();
+            MyPorduct MyProduct = new MyPorduct(new DbMyPorduct());
 
             Account lars1account = new Account("Lars", "Lars");
             User lars1 = new NormalUser(1,"Lars", "Kluijtmans", "lars.kluijtmans@gmail.com",1234567, lars1account);
@@ -298,7 +277,6 @@ public class tests {
             // Act
             boolean result = MyProduct.UpdateProduct(NewProduct);
             Product product = MyProduct.GetProduct(1);
-
             // Assert
             assertTrue(result);
             assertEquals("pokemon Pearl", product.getName1());
@@ -314,7 +292,7 @@ public class tests {
         @Test
         void Test_AllProducts_Get_Products() {
             // Arrange
-            DbAllProduct AllProduct = new DbAllProduct();
+            AllProduct AllProduct = new AllProduct(new DbAllProduct());
             // Act
             List<Product> products = AllProduct.GetAllProducts();
             // Assert
@@ -323,7 +301,7 @@ public class tests {
         @Test
         void Test_AllProducts_Get_Product_by_name() {
             // Arrange
-            DbAllProduct AllProduct = new DbAllProduct();
+            AllProduct AllProduct = new AllProduct(new DbAllProduct());
             // Act
             List<Product> products = AllProduct.GetProducts("pokemon diamond");
             // Assert
@@ -332,8 +310,7 @@ public class tests {
         @Test
         void Test_AllProducts_Get_Product_by_id() {
             // Arrange
-            DbAllProduct AllProduct = new DbAllProduct();
-
+            AllProduct AllProduct = new AllProduct(new DbAllProduct());
             // Act
             Product product = AllProduct.GetProduct(1);
             // Assert
@@ -342,7 +319,7 @@ public class tests {
         @Test
         void Test_AllProducts_Update_Product() {
             // Arrange
-            DbAllProduct AllProduct = new DbAllProduct();
+            AllProduct AllProduct = new AllProduct(new DbAllProduct());
 
             Account lars1account = new Account("Lars", "Lars");
             User lars1 = new NormalUser(1,"Lars", "Kluijtmans", "lars.kluijtmans@gmail.com",1234567, lars1account);
@@ -357,7 +334,6 @@ public class tests {
             // Act
             boolean result = AllProduct.UpdateProduct(NewProduct);
             Product product = AllProduct.GetProduct(1);
-
             // Assert
             assertTrue(result);
             assertEquals("pokemon Pearl", product.getName1());
@@ -371,12 +347,10 @@ public class tests {
         @Test
         void Test_AllProducts_Delete_Product() {
             // Arrange
-            DbAllProduct AllProduct = new DbAllProduct();
-
+            AllProduct AllProduct = new AllProduct(new DbAllProduct());
             // Act
             boolean result = AllProduct.DeleteProduct(1);
             Product product = AllProduct.GetProduct(1);
-
             // Assert
             assertTrue(result);
             assertNull(product);
