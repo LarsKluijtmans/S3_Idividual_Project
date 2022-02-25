@@ -1,8 +1,5 @@
 package com.example.Individual_Project.repository.Test;
 
-import com.example.Individual_Project.business.MyAccount;
-import com.example.Individual_Project.business.MyProducts;
-import com.example.Individual_Project.business.ViewProducts;
 import com.example.Individual_Project.model.NormalUser;
 import com.example.Individual_Project.model.Products.Genre;
 import com.example.Individual_Project.model.Products.Product;
@@ -11,8 +8,6 @@ import com.example.Individual_Project.model.Products.Tag;
 import com.example.Individual_Project.model.User;
 
 import com.example.Individual_Project.model.Users.Account;
-import com.example.Individual_Project.model.Users.Address;
-import com.example.Individual_Project.model.Users.Bank;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -31,10 +26,10 @@ public class DataBase {
 
         //Users
         Account lars1account = new Account("Lars", "Lars");
-        User lars1 = new NormalUser(1,"Lars", "Kluijtmans", "lars.kluijtmans@gmail.com",1234567, lars1account);
+        User lars1 = new User(1,"Lars", "Kluijtmans", "lars.kluijtmans@gmail.com",1234567, lars1account);
 
         Account lars2account = new Account("Lars2", "Lars2");
-        User lars2 = new NormalUser(2,"Lars2", "Kluijtmans2", "lars.kluijtmans@gmail.com2",2345679, lars2account);
+        User lars2 = new User(2,"Lars2", "Kluijtmans2", "lars.kluijtmans@gmail.com2",2345679, lars2account);
 
         users.add(lars1);
         users.add(lars2);

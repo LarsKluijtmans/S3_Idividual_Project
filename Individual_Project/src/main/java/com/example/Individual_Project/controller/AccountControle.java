@@ -1,10 +1,9 @@
 package com.example.Individual_Project.controller;
 
-import com.example.Individual_Project.business.AllUsers;
-import com.example.Individual_Project.business.Login;
-import com.example.Individual_Project.business.MyAccount;
+import com.example.Individual_Project.business.AccountService;
 import com.example.Individual_Project.model.NormalUser;
 import com.example.Individual_Project.model.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,22 +13,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/accounts")
+@RequiredArgsConstructor
 public class AccountControle {
 
-    private final MyAccount myAccount;
-    private final AllUsers allUsers;
-    private final Login login;
-
-    public AccountControle(MyAccount myAccount, AllUsers allUsers, Login login)
-    {
-        this.myAccount = myAccount;
-        this.allUsers = allUsers;
-        this.login = login;
-    }
+    private final AccountService accountService;
 
     @GetMapping()
-    public ResponseEntity<List<User>> GetAllUsers() {
-        List<User> users = allUsers.GetAllAccounts();
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = accountService.getAllAccounts();
 
         if(users != null) {
             return ResponseEntity.ok().body(users);
@@ -40,7 +31,7 @@ public class AccountControle {
 
     @GetMapping("{id}")
     public ResponseEntity<User> getUsersByID(@PathVariable("id") int id) {
-        User user = allUsers.GetAccount(id);
+        User user = accountService.getAccount(id);
 
         if(user != null) {
             return ResponseEntity.ok().body(user);
@@ -51,15 +42,13 @@ public class AccountControle {
 
     @DeleteMapping("{id}")
     public ResponseEntity deleteUser(@PathVariable("id") int id) {
-        allUsers.DeleteAccount(id);
+        accountService.deleteAccount(id);
         return ResponseEntity.ok().build();
     }
 
-
-
     @GetMapping( "search/{name}")
     public ResponseEntity<List<User>> getUsers(@PathVariable("name") String name) {
-        List<User> users = allUsers.GetAllAccounts(name);
+        List<User> users = accountService.getAllAccounts(name);
 
         if(users.stream().count() != 0) {
             return ResponseEntity.ok().body(users);
@@ -70,7 +59,7 @@ public class AccountControle {
 
     @PostMapping()
     public ResponseEntity<User> createUser(@RequestBody NormalUser user) {
-        if (!allUsers.AddAccount(user)){
+        if (!accountService.addAccount(user)){
             String entity =  "The user " + user + " already exists.";
             return new ResponseEntity(entity, HttpStatus.CONFLICT);
         } else {
@@ -81,14 +70,14 @@ public class AccountControle {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity updateStudent(@PathVariable("id") int id, @RequestBody NormalUser user) {
-        User OldUser = allUsers.GetAccount(id);
+    public ResponseEntity updateUser(@PathVariable("id") int id, @RequestBody NormalUser user) {
+        User OldUser = accountService.getAccount(id);
 
         if (OldUser == null){
             return new ResponseEntity("Please provide a valid id.",HttpStatus.BAD_REQUEST);
         }
 
-       if( myAccount.UpdateAccount(user)) {
+       if( accountService.updateAccount(user)) {
            return ResponseEntity.noContent().build();
        }else {
            return new ResponseEntity("Please provide a valid id.", HttpStatus.BAD_REQUEST);

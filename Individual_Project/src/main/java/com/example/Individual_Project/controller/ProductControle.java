@@ -2,10 +2,9 @@ package com.example.Individual_Project.controller;
 
 
 import com.example.Individual_Project.business.*;
-import com.example.Individual_Project.model.NormalUser;
 import com.example.Individual_Project.model.Products.Product;
 
-import com.example.Individual_Project.model.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,23 +14,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductControle {
 
-
-    private final MyProducts myProducts;
-    private final AllProducts allProducts;
-    private final ViewProducts viewProducts;
-
-    public ProductControle(MyProducts myProducts, AllProducts allProducts, ViewProducts viewProducts)
-    {
-        this.myProducts = myProducts;
-        this.allProducts = allProducts;
-        this.viewProducts = viewProducts;
-    }
+    private final ProductService productService;
 
     @GetMapping()
-    public ResponseEntity<List<Product>> GetAllProducts() {
-        List<Product> products = viewProducts.GetAllProducts();
+    public ResponseEntity<List<Product>> getAllProducts() {
+        List<Product> products = productService.getAllProducts();
 
         if(products != null) {
             return ResponseEntity.ok().body(products);
@@ -41,8 +31,8 @@ public class ProductControle {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Product> GetProduct(@PathVariable("id") int id) {
-        Product product = viewProducts.GetProduct(id);
+    public ResponseEntity<Product> getProduct(@PathVariable("id") int id) {
+        Product product = productService.getProduct(id);
 
         if(product != null) {
             return ResponseEntity.ok().body(product);
@@ -52,8 +42,8 @@ public class ProductControle {
     }
 
     @GetMapping("search/{name}")
-    public ResponseEntity<List<Product>> GetAllProductsByName(@PathVariable("name") String name) {
-        List<Product> products = viewProducts.GetProduct(name);
+    public ResponseEntity<List<Product>> getAllProductsByName(@PathVariable("name") String name) {
+        List<Product> products = productService.getProducts(name);
 
         if(products != null) {
             return ResponseEntity.ok().body(products);
@@ -63,14 +53,14 @@ public class ProductControle {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity UpdateProduct(@PathVariable("id") int id, @RequestBody Product product) {
-        Product OldProduct = allProducts.GetProduct(id);
+    public ResponseEntity updateProduct(@PathVariable("id") int id, @RequestBody Product product) {
+        Product OldProduct = productService.getProduct(id);
 
         if (OldProduct == null){
             return new ResponseEntity("Please provide a valid id.", HttpStatus.BAD_REQUEST);
         }
 
-        if(allProducts.UpdateProduct(product)) {
+        if(productService.updateProduct(product)) {
             return ResponseEntity.noContent().build();
         }else {
             return new ResponseEntity("Please provide a valid id.", HttpStatus.BAD_REQUEST);
@@ -78,14 +68,14 @@ public class ProductControle {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity DeleteProduct(@PathVariable("id") int id) {
-        allProducts.DeleteProduct(id);
+    public ResponseEntity deleteProduct(@PathVariable("id") int id) {
+        productService.deleteProduct(id);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping()
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-        if (!myProducts.AddProduct(product)){
+        if (!productService.addProduct(product)){
             String entity =  "The product " + product + " already exists.";
             return new ResponseEntity(entity, HttpStatus.CONFLICT);
         } else {

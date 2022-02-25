@@ -1,8 +1,8 @@
-package com.example.Individual_Project.repository.Test.Admin;
+package com.example.Individual_Project.repository.Test;
 
+import com.example.Individual_Project.model.Products.Product;
 import com.example.Individual_Project.model.User;
-import com.example.Individual_Project.repository.Test.DataBase;
-import com.example.Individual_Project.repository.DbAllUsers;
+import com.example.Individual_Project.repository.AccountRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -11,17 +11,16 @@ import java.util.List;
 
 @Primary
 @Service
-public class DbAllAccount implements DbAllUsers {
+public class AccountRepositoryImpl implements AccountRepository {
 
-    private final  DataBase dataBase = new DataBase();
+    private DataBase dataBase = new DataBase();
 
     @Override
-    public List<User> GetAllAccounts() {
+    public List<User> getAllAccounts() {
         return dataBase.users;
     }
-
     @Override
-    public List<User> GetAllAccounts(String name) {
+    public List<User> getAllAccounts(String name) {
 
         List<User> users = new ArrayList<User>();
 
@@ -32,19 +31,19 @@ public class DbAllAccount implements DbAllUsers {
         }
         return users;
     }
-
     @Override
-    public boolean AddAccount(User user)
-    {
-        if(user != null) {
-            dataBase.users.add(user);
-            return true;
+    public User getAccount(String username, String password) {
+        for(User user: dataBase.users)
+        {
+            if(user.getAccount().getUsername() == username && user.getAccount().getPassword() == password)
+            {
+                return user;
+            }
         }
-        return false;
+        return null;
     }
-
     @Override
-    public User GetAccount(int userID) {
+    public User getAccount(int userID) {
 
         for(User user: dataBase.users) {
             if(user.getUserID() == userID) {
@@ -55,7 +54,16 @@ public class DbAllAccount implements DbAllUsers {
     }
 
     @Override
-    public boolean UpdateAccount(User user) {
+    public boolean addAccount(User user) {
+        if(user != null) {
+            dataBase.users.add(user);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateAccount(User user) {
 
         for(User u: dataBase.users) {
             if(u.getUserID() == u.getUserID()) {
@@ -71,7 +79,7 @@ public class DbAllAccount implements DbAllUsers {
     }
 
     @Override
-    public boolean DeleteAccount(int userID) {
+    public boolean deleteAccount(int userID) {
         for(User user: dataBase.users) {
             if(user.getUserID() == userID) {
                 dataBase.users.remove(user);
