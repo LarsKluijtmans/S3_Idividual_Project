@@ -1,6 +1,5 @@
 package com.example.Individual_Project.repository.Test;
 
-import com.example.Individual_Project.model.Products.Product;
 import com.example.Individual_Project.model.User;
 import com.example.Individual_Project.repository.AccountRepository;
 import org.springframework.context.annotation.Primary;
