@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @Primary
@@ -27,8 +28,9 @@ public class ProductRepositoryImpl implements ProductRepository {
     public List<Product> getProducts(String name) {
         List<Product> products = new ArrayList<>();
 
-        for (Product p : dataBase.products) {
-            if (p.getName1() == name) {
+        for (Product p: dataBase.products) {
+            if(p.getName1().equals(name))
+            {
                 products.add(p);
             }
         }
@@ -54,7 +56,6 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
         return null;
     }
-
     @Override
     public boolean addProduct(Product product) {
 
@@ -74,7 +75,6 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
         return false;
     }
-
     @Override
     public boolean updateProduct(Product product) {
         for (Product p : dataBase.products) {
@@ -94,7 +94,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 
         return false;
     }
-
     @Override
     public boolean deleteProduct(int productID) {
 
