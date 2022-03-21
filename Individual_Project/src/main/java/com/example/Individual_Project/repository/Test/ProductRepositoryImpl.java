@@ -5,6 +5,7 @@ import com.example.Individual_Project.model.User;
 import com.example.Individual_Project.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
 @Service
 @Primary
 @RequiredArgsConstructor
+@Repository
 public class ProductRepositoryImpl implements ProductRepository {
 
     private DataBase dataBase = new DataBase();
@@ -23,10 +25,10 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
     @Override
     public List<Product> getProducts(String name) {
-        List<Product> products = new ArrayList<Product>();
+        List<Product> products = new ArrayList<>();
 
         for (Product p : dataBase.products) {
-            if (p.getName1() == name || p.getName2() == name) {
+            if (p.getName1() == name) {
                 products.add(p);
             }
         }

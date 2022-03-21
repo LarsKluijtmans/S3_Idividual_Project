@@ -1,12 +1,13 @@
 package com.example.Individual_Project.business;
 
 import com.example.Individual_Project.model.User;
+import com.example.Individual_Project.model.Users.Account;
 
 import java.util.List;
 
 public interface AccountService {
 
-     User getAccount(String username, String password);
+     User getAccount(Account account);
      List<User> getAllAccounts();
      List<User> getAllAccounts(String name);
      User getAccount(int userID);

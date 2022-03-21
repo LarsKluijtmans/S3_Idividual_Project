@@ -1,8 +1,11 @@
 package com.example.Individual_Project.controller;
 
 import com.example.Individual_Project.business.AccountService;
+import com.example.Individual_Project.business.Impl.AccountServiceImpl;
 import com.example.Individual_Project.model.NormalUser;
 import com.example.Individual_Project.model.User;
+import com.example.Individual_Project.model.Users.Account;
+import com.example.Individual_Project.repository.Test.AccountRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +18,7 @@ import java.util.List;
 @RequestMapping("/accounts")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class AccountControle {
+public class AccountController {
 
     private final AccountService accountService;
 
@@ -38,6 +41,17 @@ public class AccountControle {
             return ResponseEntity.ok().body(user);
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("login")
+    public ResponseEntity<User> getUsersByUsernameAndPassword(@RequestBody Account account) {
+        User user = accountService.getAccount(account);
+
+        if(user != null) {
+            return ResponseEntity.ok().body(user);
+        } else {
+            return new ResponseEntity("Not found." + account.toString(),HttpStatus.NOT_FOUND);
         }
     }
 

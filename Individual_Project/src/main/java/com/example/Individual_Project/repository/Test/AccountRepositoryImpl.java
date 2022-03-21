@@ -1,15 +1,16 @@
 package com.example.Individual_Project.repository.Test;
 
 import com.example.Individual_Project.model.User;
+import com.example.Individual_Project.model.Users.Account;
 import com.example.Individual_Project.repository.AccountRepository;
 import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Primary
-@Service
+@Repository
 public class AccountRepositoryImpl implements AccountRepository {
 
     private DataBase dataBase = new DataBase();
@@ -31,14 +32,15 @@ public class AccountRepositoryImpl implements AccountRepository {
         return users;
     }
     @Override
-    public User getAccount(String username, String password) {
+    public User getAccount(Account account) {
         for(User user: dataBase.users)
         {
-            if(user.getAccount().getUsername() == username && user.getAccount().getPassword() == password)
+            if(user.getAccount().getUsername() == account.getUsername() && user.getAccount().getPassword() == account.getPassword())
             {
                 return user;
             }
         }
+
         return null;
     }
     @Override

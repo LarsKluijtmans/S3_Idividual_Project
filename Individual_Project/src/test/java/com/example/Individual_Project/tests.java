@@ -1,9 +1,10 @@
 package com.example.Individual_Project;
 
 import com.example.Individual_Project.business.AccountService;
-import com.example.Individual_Project.business.AccountServiceImpl;
+import com.example.Individual_Project.business.Impl.AccountServiceImpl;
 import com.example.Individual_Project.business.ProductService;
-import com.example.Individual_Project.business.ProductServiceImpl;
+import com.example.Individual_Project.business.Impl.ProductServiceImpl;
+import com.example.Individual_Project.controller.AccountController;
 import com.example.Individual_Project.model.Products.Genre;
 import com.example.Individual_Project.model.Products.Product;
 import com.example.Individual_Project.model.Products.ProductType;
@@ -13,6 +14,7 @@ import com.example.Individual_Project.model.Users.Account;
 import com.example.Individual_Project.repository.Test.AccountRepositoryImpl;
 import com.example.Individual_Project.repository.Test.ProductRepositoryImpl;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,18 +27,19 @@ public class tests {
         @Test
         void test_get_account_by_username_and_password() {
             // Arrange
-            AccountService accountService = new AccountServiceImpl(new AccountRepositoryImpl());
+            AccountController accountController = new AccountController(new AccountServiceImpl(new AccountRepositoryImpl()));
             // Act
-            User user =  accountService.getAccount("Lars","Lars");
+            ResponseEntity<User> user =  accountController.getUsersByUsernameAndPassword(new Account("Lars","Lars"));
             // Assert
-            assertNotEquals(null, user);
+            assertEquals("Lars", user.getBody().getAccount().getUsername());
+            assertEquals("Lars", user.getBody().getAccount().getPassword());
         }
         @Test
         void test_get_account_by_username_and_password_incorrect_info() {
             // Arrange
             AccountService accountService = new AccountServiceImpl(new AccountRepositoryImpl());
             // Act
-            User user =  accountService.getAccount("","");
+            User user =  accountService.getAccount(new Account("",""));
             // Assert
             assertNull(user);
         }

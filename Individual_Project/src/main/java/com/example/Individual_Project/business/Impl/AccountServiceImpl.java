@@ -1,7 +1,9 @@
-package com.example.Individual_Project.business;
+package com.example.Individual_Project.business.Impl;
 
+import com.example.Individual_Project.business.AccountService;
 import com.example.Individual_Project.model.User;
 
+import com.example.Individual_Project.model.Users.Account;
 import com.example.Individual_Project.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -14,11 +16,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
-    private final AccountRepository accountRepository;
+    private final AccountRepository accountRepository ;
 
     @Override
-    public User getAccount(String username, String password) {
-        return accountRepository.getAccount(username, password);
+    public User getAccount(Account account) {
+        return accountRepository.getAccount(account);
     }
 
     @Override

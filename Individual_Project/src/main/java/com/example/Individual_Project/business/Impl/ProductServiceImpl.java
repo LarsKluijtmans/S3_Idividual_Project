@@ -1,5 +1,6 @@
-package com.example.Individual_Project.business;
+package com.example.Individual_Project.business.Impl;
 
+import com.example.Individual_Project.business.ProductService;
 import com.example.Individual_Project.model.Products.Product;
 import com.example.Individual_Project.model.User;
 import com.example.Individual_Project.repository.AccountRepository;
@@ -13,7 +14,7 @@ import java.util.List;
 @Service
 @Primary
 @RequiredArgsConstructor
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
