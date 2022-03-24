@@ -55,6 +55,7 @@ function TryToLogin({username, password})
             <div className="container">
                 <button className={"loginButton"} type="submit" onClick={handleLogin}>Login</button>
                 <p>{result.firstname}</p>
+                <p>{result.lastname}</p>
             </div>
         );
     }
