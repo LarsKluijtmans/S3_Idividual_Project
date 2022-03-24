@@ -42,7 +42,7 @@ function TryToLogin({username, password})
     const [error, setError] = useState('');
 
     const handleLogin = () => {
-        axios.get("http://localhost:8080/accounts/login", {username: username, password: password})
+        axios.get("http://localhost:8080/accounts/login/"+ username +"/"+ password)
             .then(res => {
                 setResult(res.data);
             }).catch(err => {

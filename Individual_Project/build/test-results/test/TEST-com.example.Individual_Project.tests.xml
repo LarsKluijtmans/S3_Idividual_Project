@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.Individual_Project.tests" tests="18" skipped="0" failures="0" errors="0" timestamp="2022-03-21T11:29:34" hostname="MSILARS" time="0.041">
+<testsuite name="com.example.Individual_Project.tests" tests="18" skipped="0" failures="0" errors="0" timestamp="2022-03-24T12:44:54" hostname="MSILARS" time="0.04">
   <properties/>
-  <testcase name="test_delete_product()" classname="com.example.Individual_Project.tests" time="0.014"/>
-  <testcase name="test_get_account_by_username_and_password()" classname="com.example.Individual_Project.tests" time="0.013"/>
+  <testcase name="test_delete_product()" classname="com.example.Individual_Project.tests" time="0.015"/>
+  <testcase name="test_get_account_by_username_and_password()" classname="com.example.Individual_Project.tests" time="0.012"/>
   <testcase name="test_get_products_by_name_wrong_name_entered()" classname="com.example.Individual_Project.tests" time="0.001"/>
-  <testcase name="test_get_all_accounts_wrong_name()" classname="com.example.Individual_Project.tests" time="0.001"/>
+  <testcase name="test_get_all_accounts_wrong_name()" classname="com.example.Individual_Project.tests" time="0.0"/>
   <testcase name="test_get_products_by_name_no_name_entered()" classname="com.example.Individual_Project.tests" time="0.0"/>
   <testcase name="test_get_account_by_username_and_password_incorrect_info()" classname="com.example.Individual_Project.tests" time="0.0"/>
-  <testcase name="test_get_all_accounts()" classname="com.example.Individual_Project.tests" time="0.0"/>
+  <testcase name="test_get_all_accounts()" classname="com.example.Individual_Project.tests" time="0.001"/>
   <testcase name="test_get_account_by_id()" classname="com.example.Individual_Project.tests" time="0.001"/>
-  <testcase name="test_update_account()" classname="com.example.Individual_Project.tests" time="0.0"/>
-  <testcase name="test_get_accounts_by_name()" classname="com.example.Individual_Project.tests" time="0.001"/>
+  <testcase name="test_update_account()" classname="com.example.Individual_Project.tests" time="0.001"/>
+  <testcase name="test_get_accounts_by_name()" classname="com.example.Individual_Project.tests" time="0.0"/>
   <testcase name="test_get_Products()" classname="com.example.Individual_Project.tests" time="0.0"/>
-  <testcase name="test_get_all_Products()" classname="com.example.Individual_Project.tests" time="0.0"/>
+  <testcase name="test_get_all_Products()" classname="com.example.Individual_Project.tests" time="0.001"/>
   <testcase name="test_update_product()" classname="com.example.Individual_Project.tests" time="0.0"/>
   <testcase name="test_add_product()" classname="com.example.Individual_Project.tests" time="0.001"/>
   <testcase name="test_delete_account()" classname="com.example.Individual_Project.tests" time="0.001"/>
   <testcase name="test_get_product_by_id()" classname="com.example.Individual_Project.tests" time="0.0"/>
   <testcase name="test_add_user()" classname="com.example.Individual_Project.tests" time="0.0"/>
-  <testcase name="test_get_products_by_name()" classname="com.example.Individual_Project.tests" time="0.001"/>
+  <testcase name="test_get_products_by_name()" classname="com.example.Individual_Project.tests" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
