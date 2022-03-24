@@ -19,6 +19,7 @@ public class Product{
     private String name2;
     private String serie;
     private int year;
+    private double price;
     private String condition;
     private Genre genre;
     private String description;

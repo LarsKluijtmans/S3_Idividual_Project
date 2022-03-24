@@ -1,73 +1,67 @@
-import React, {useState} from "react";
+import React, {useState, ReactDOM} from "react";
 import axios from "axios";
 
-function SearchForProducts() {
+export default SearchResult;
 
-    const [search, setSearch] = useState('');
+function SearchResult({search = ""}) {
+
     const [MostPopularArray, updateMostPopularArray] = useState([]);
     const [error, setError] = useState('');
 
-    const handleSearchChange = (e) => {
-        setSearch(e.target.value);
+    const StartSearch = () => {
         updateMostPopularArray(null);
         setError(null);
-    };
-
-    const StartSearch = () => {
-        console.log(search);
         axios.get('http://localhost:8080/products/search/' + search)
             .then(res => {
                 updateMostPopularArray(res.data);
-                console.log(res.data);
             })
             .catch(err => {
                 setError(err.message);
-                console.log(err.message);
             });
     };
 
     if(MostPopularArray != null) {
-        return (
+        return(
             <div className="container">
-                <label>Search:</label>
-                <input type="text" placeholder="Search" name={"SearchBar"} value={search} onChange={handleSearchChange} required/>
-
                 <button type="submit" onClick={StartSearch}>start search</button>
-
-
-                {MostPopularArray.map(product => (
-                    <div  className="card">
-                        <h1>{product.name1}</h1>
-                        <h3>{product.name2}</h3>
-                        <p>{product.genre}</p>
-                        <p>{product.description} </p>
-                    </div>)
-                )}
+                <div className={"wrapper"}>
+                    {MostPopularArray.map(product => (
+                        <div className="box">
+                            <section className="product">
+                                <div className="product__info">
+                                    <div className="title">
+                                        <h1>{product.name1}</h1>
+                                        <span>{product.name2}</span>
+                                    </div>
+                                    <div className="price">
+                                        <span>{product.price} </span> $
+                                    </div>
+                                    <div className="description">
+                                        <h3>Description</h3>
+                                        <h4>{product.description}</h4>
+                                    </div>
+                                    <button className="buy--btn">Details</button>
+                                </div>
+                            </section>
+                        </div>)
+                    )}
+                </div>
             </div>
         );
     }
     else if(error != null){
         return (
             <div className="container">
-                <label>Search:</label>
-                <input type="text" placeholder="Search" name={"SearchBar"} value={search} onChange={handleSearchChange} required/>
-
                 <button type="submit" onClick={StartSearch}>start search</button>
-
                 <h3> Error: {error}</h3>
             </div>
         );
     }
-    else{
+    else {
         return (
             <div className="container">
-                <label>Search:</label>
-                <input type="text" placeholder="Search" name={"SearchBar"} value={search} onChange={handleSearchChange} required/>
-
                 <button type="submit" onClick={StartSearch}>start search</button>
             </div>
         );
     }
 }
-
-export default SearchForProducts;

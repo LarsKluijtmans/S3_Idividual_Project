@@ -29,7 +29,7 @@ public class tests {
             // Arrange
             AccountController accountController = new AccountController(new AccountServiceImpl(new AccountRepositoryImpl()));
             // Act
-            ResponseEntity<User> user =  accountController.getUsersByUsernameAndPassword(new Account("Lars","Lars"));
+            ResponseEntity<User> user =  accountController.getUsersByUsernameAndPassword("Lars","Lars");
             // Assert
             assertEquals("Lars", user.getBody().getAccount().getUsername());
             assertEquals("Lars", user.getBody().getAccount().getPassword());
@@ -122,7 +122,7 @@ public class tests {
             // Act
             List<Product> products = accountService.getAllProducts();
             // Assert
-            assertEquals(1, products.size());
+            assertEquals(8, products.size());
         }
         @Test
         void test_get_all_Products() {
@@ -131,7 +131,7 @@ public class tests {
             // Act
             List<Product> products = accountService.getAllProducts();
             // Assert
-            assertEquals(1, products.size());
+            assertEquals(8, products.size());
         }
         @Test
         void test_get_product_by_id() {
@@ -156,9 +156,9 @@ public class tests {
             // Arrange
             ProductService accountService = new ProductServiceImpl(new ProductRepositoryImpl());
             // Act
-            List<Product> products = accountService.getProducts("pokemon diamond");
+            List<Product> products = accountService.getProducts("1");
             // Assert
-            assertEquals(1, products.size());
+            assertEquals(3, products.size());
         }
         @Test
         void test_get_products_by_name_wrong_name_entered() {
@@ -186,10 +186,10 @@ public class tests {
             tags.add(tag2);
             tags.add(tag3);
 
-            Product NewProduct = new Product(3,"pokemon Pearl", "Pokemon 2004", "Pokemon", 2004, "Great", Genre.JRPG,"Pokemon pearl a classic game ..", tags, ProductType.Game, lars2);
+            Product NewProduct = new Product(12,"pokemon Pearl", "Pokemon 2004", "Pokemon", 2004, 2.50,"Great", Genre.JRPG,"Pokemon pearl a classic game ..", tags, ProductType.Game, lars2);
             // Act
             boolean result = accountService.addProduct(NewProduct);
-            Product product = accountService.getProduct(3);
+            Product product = accountService.getProduct(12);
             // Assert
             assertTrue(result);
             assertEquals(NewProduct, product);
@@ -207,7 +207,7 @@ public class tests {
             List<Tag> tags = new ArrayList<>();
             tags.add(tag1);
 
-            Product NewProduct = new Product(1,"pokemon Pearl", "Pokemon 2004", "Pokemon Pearl", 2004, "Good", Genre.JRPG,"Pokemon pearl a classic game ..", tags, ProductType.Game, lars1);
+            Product NewProduct = new Product(1,"pokemon Pearl", "Pokemon 2004", "Pokemon Pearl", 2004, 2.50 ,"Good", Genre.JRPG,"Pokemon pearl a classic game ..", tags, ProductType.Game, lars1);
 
             // Act
             boolean result = accountService.updateProduct(NewProduct);

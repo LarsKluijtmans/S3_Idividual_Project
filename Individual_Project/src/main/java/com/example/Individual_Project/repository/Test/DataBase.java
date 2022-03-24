@@ -45,8 +45,23 @@ public class DataBase {
         tags.add(tag3);
 
         //Products
-        Product product1 = new Product(1,"1", "Pokemon 2001", "Pokemon", 2001, "Great", Genre.JRPG,"Pokemon diamond a clasic game ..", tags, ProductType.Game, lars1);
+        Product product1 = new Product(1,"1", "Pokemon 2001", "Pokemon", 2001, 12.12, "Great", Genre.JRPG,"Pokemon diamond a clasic game ..", tags, ProductType.Game, lars1);
         products.add(product1);
+        Product product2 = new Product(2,"Legend of zelda", "Zelda", "Pokemon", 2021,30.60, "Good", Genre.JRPG,"Pokemon diamond remastered ..", tags, ProductType.Game, lars1);
+        products.add(product2);
+        Product product3 = new Product(3,"Kirby and the Forgotten Land", "Pokemon 2011", " Kirby", 2022, 28.99,"OK", Genre.JRPG,"New game just came out ..", tags, ProductType.Game, lars1);
+        products.add(product3);
+        Product product8 = new Product(8,"Legend of zelda", "Zelda", "Pokemon", 2021,30.60, "Good", Genre.JRPG,"Pokemon diamond remastered ..", tags, ProductType.Game, lars1);
+        products.add(product8);
+        Product product4 = new Product(4,"1", "Pokemon 2001", "Pokemon", 2001, 12.12, "Great", Genre.JRPG,"Pokemon diamond a clasic game ..", tags, ProductType.Game, lars1);
+        products.add(product4);
+        Product product5 = new Product(5,"Legend of zelda", "Zelda", "Pokemon", 2021,30.60, "Good", Genre.JRPG,"Pokemon diamond remastered ..", tags, ProductType.Game, lars1);
+        products.add(product5);
+        Product product6 = new Product(6,"Kirby and the Forgotten Land", "Pokemon 2011", " Kirby", 2022, 28.99,"OK", Genre.JRPG,"New game just came out ..", tags, ProductType.Game, lars1);
+        products.add(product6);
+        Product product7 = new Product(7,"1", "Pokemon 2001", "Pokemon", 2001, 12.12, "Great", Genre.JRPG,"Pokemon diamond a clasic game ..", tags, ProductType.Game, lars1);
+        products.add(product7);
+
     }
 
     public List<User> users ;

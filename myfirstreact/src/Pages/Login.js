@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-
+import {Link} from "react-router-dom";
 import "./Css/Login.css"
 import axios from "axios";
 
@@ -8,8 +8,6 @@ function Login() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [result, setResult] = useState('');
-    const [error, setError] = useState('');
 
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
@@ -19,51 +17,43 @@ function Login() {
         setPassword(e.target.value);
     };
 
+    return (
+        <div className="container">
+            <label><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name={"username"} value={username}
+                   onChange={handleUsernameChange} required/>
 
+            <label><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name={"password"} value={password}
+                   onChange={handlePasswordChange} required/>
+
+            <TryToLogin username={username} password={password}/>
+
+            <Link to="/make_account"> make account </Link>
+
+            <Link to="/forgot_password"> forgot password </Link>
+        </div>
+    );
+}
+
+function TryToLogin({username, password})
+{
+    const [result, setResult] = useState('');
+    const [error, setError] = useState('');
 
     const handleLogin = () => {
-        const options = {
-            method: 'get',
-            url: "http://localhost:8080/accounts/login",
-            data: {
-                username: username.toString(),
-                password: password.toString()
-            }
-        };
-
-        axios(options)
+        axios.get("http://localhost:8080/accounts/login", {username: username, password: password})
             .then(res => {
                 setResult(res.data);
-                console.log("Result  username:" + username.toString() + " ,password: " +password.toString());
             }).catch(err => {
                 setError(err.message);
-                console.log("Error   username:" + username.toString() + " ,password: " +password.toString());
             });
-    };
-
-    const MakeAccount =()=>{
-        console.log("Make account")
-    };
-    const ForgotPassword =()=>{
-        console.log("Forgot password")
     };
 
     if(result != null) {
         return (
             <div className="container">
-                <label><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name={"username"} value={username}
-                       onChange={handleUsernameChange} required/>
-
-                <label><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name={"password"} value={password}
-                       onChange={handlePasswordChange} required/>
-
                 <button className={"loginButton"} type="submit" onClick={handleLogin}>Login</button>
-                <button  className={"makeAccountButton"} type="submit" onClick={MakeAccount}> make account </button>
-                <button className={"forgotPassword"} type="submit" onClick={ForgotPassword}> forgot password </button>
-
-
                 <p>{result.firstname}</p>
             </div>
         );
@@ -71,36 +61,16 @@ function Login() {
     else if(error != null){
         return (
             <div className="container">
-                <label><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name={"username"} value={username}
-                       onChange={handleUsernameChange} required/>
-
-                <label><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name={"password"} value={password}
-                       onChange={handlePasswordChange} required/>
-
-                <button  className={"loginButton"}  type="submit" onClick={handleLogin}>Login</button>
-                <button  className={"makeAccountButton"} type="submit" onClick={MakeAccount}> make account </button>
-                <button className={"forgotPassword"} type="submit" onClick={ForgotPassword}> forgot password </button>
-
-                <h3> Login failed</h3>
+                <button className={"loginButton"} type="submit" onClick={handleLogin}>Login</button>
+                <h3>{error}</h3>
             </div>
         );
     }
     else{
         return (
             <div className="container">
-                <label><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name={"username"} value={username}
-                       onChange={handleUsernameChange} required/>
-
-                <label><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name={"password"} value={password}
-                       onChange={handlePasswordChange} required/>
-
-                <button   className={"loginButton"}  type="submit" onClick={handleLogin}>Login</button>
-                <button  className={"makeAccountButton"} type="submit" onClick={MakeAccount}> make account </button>
-                <button className={"forgotPassword"} type="submit" onClick={ForgotPassword}> forgot password </button>
+                <button className={"loginButton"} type="submit" onClick={handleLogin}>Login</button>
+                <h3>Login failed</h3>
             </div>
         );
     }

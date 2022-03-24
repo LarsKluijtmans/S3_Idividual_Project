@@ -44,14 +44,16 @@ public class AccountController {
         }
     }
 
-    @GetMapping("login")
-    public ResponseEntity<User> getUsersByUsernameAndPassword(@RequestBody Account account) {
-        User user = accountService.getAccount(account);
+    @GetMapping("login/{username}/{password}")
+    public ResponseEntity<User> getUsersByUsernameAndPassword( @PathVariable String password, @PathVariable String username) {
+      Account a = new Account(username,password);
+
+       User user = accountService.getAccount(a);
 
         if(user != null) {
             return ResponseEntity.ok().body(user);
         } else {
-            return new ResponseEntity("Not found." + account.toString(),HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Not found." + a.toString(),HttpStatus.NOT_FOUND);
         }
     }
 

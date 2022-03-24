@@ -1,13 +1,12 @@
 import React from "react";
-import SearchForProducts from "./ProductPage/SearchForProducts";
 import MostPopularProducts from "./ProductPage/MostPopulerProducts";
+import SideBar_ProductSearch from "./ProductPage/SideBar_ProductSearch";
 import "./Css/Product.css";
 
 function Products() {
         return (
-            <div className="container">
-                <SearchForProducts/>
-                <MostPopularProducts/>
+            <div className={"main"}>
+                <SideBar_ProductSearch/>
             </div>
         );
 

@@ -1,58 +1,55 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 
 function MostPopularProducts() {
 
-    const [MostPopularArray, updateMostPopularArray] = useState([]);
-    const [error, setError] = useState('');
+    const [productsArray, setProductsArray] = useState([]);
 
-    const MostPopular = () => {
-        axios.get('http://localhost:8080/products')
+    useEffect(() => {
+        GetMostPopulerProducts();
+        console.log("loaded");
+    },[]);
+
+    const GetMostPopulerProducts =() => {
+        axios.get(`http://localhost:8080/products`)
             .then(res => {
-                updateMostPopularArray(res.data);
+                setProductsArray(res.data);
             })
             .catch(err => {
-                setError(err.message);
+                console.log(err.message);
             });
     }
-    if(MostPopularArray != null) {
-        return (
-            <div className="container">
 
-                <h1> Most popular </h1>
-                <button type="submit" onClick={MostPopular}>start search</button>
+    return (
+        <div className="container">
 
-                {MostPopularArray.map(product => (
-                    <div  className="card">
-                        <h1>{product.name1}</h1>
-                        <h3>{product.name2}</h3>
-                        <p>{product.genre}</p>
-                        <p>{product.description} </p>
+            <h1> Most popular </h1>
+
+            <div className={"wrapper"}>
+
+                {productsArray.map(product => (
+                    <div className="box">
+                        <section className="product">
+                            <div className="product__info">
+                                <div className="title">
+                                    <h1>{product.name1}</h1>
+                                    <span>{product.name2}</span>
+                                </div>
+                                <div className="price">
+                                    <span>{product.price} </span> $
+                                </div>
+                                <div className="description">
+                                    <h3>Description</h3>
+                                    <h4>{product.description}</h4>
+                                </div>
+                                <button className="buy--btn">Details</button>
+                            </div>
+                        </section>
                     </div>)
                 )}
             </div>
-        );
-    }
-    else if(error != null){
-        return (
-            <div>
-                <h3> Most popular </h3>
-                <button type="submit" onClick={MostPopular}>start search</button>
-
-                <h3> Error: {error}</h3>
-            </div>
-        );
-    }
-    else {
-        return (
-            <div>
-                <h3> Most popular </h3>
-                <button type="submit" onClick={MostPopular}>start search</button>
-
-                <h1>Something went wrong!!!</h1>
-            </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default MostPopularProducts;

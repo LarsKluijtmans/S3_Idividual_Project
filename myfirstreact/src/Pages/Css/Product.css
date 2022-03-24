@@ -1,3 +1,5 @@
+/*Product card*/
+
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     max-width: 300px;
@@ -25,4 +27,58 @@
 
 .checked {
     color: orange;
+}
+
+/*Side nav bar*/
+
+.sidenav {
+    width: 160px;
+    position: fixed;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+    left: 0px;
+    height: 100%;
+}
+.sidenav label{
+    color: white;
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 80%;
+    display: block;
+}
+.sidenav input{
+    color: black;
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 80%;
+    display: block;
+}
+
+/*side nav buttons*/
+.sidenav button {
+    font-size: 23px;
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 80%;
+    display: block;
+}
+
+.sidenav button:hover {
+    font-size: 23px;
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 90%;
+    display: block;
+}
+
+
+.main {
+    margin-left: 160px; /* Same as the width of the sidenav */
+    padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
 }

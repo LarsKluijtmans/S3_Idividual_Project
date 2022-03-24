@@ -53,7 +53,6 @@ public class AccountRepositoryImpl implements AccountRepository {
         }
         return null;
     }
-
     @Override
     public boolean addAccount(User user) {
         if(user != null) {
@@ -62,7 +61,6 @@ public class AccountRepositoryImpl implements AccountRepository {
         }
         return false;
     }
-
     @Override
     public boolean updateAccount(User user) {
 
@@ -78,7 +76,6 @@ public class AccountRepositoryImpl implements AccountRepository {
         }
         return false;
     }
-
     @Override
     public boolean deleteAccount(int userID) {
         for(User user: dataBase.users) {
