@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 
 import Navbar  from "./Navbar/Navbar";
@@ -8,21 +8,23 @@ import Products from "./Pages/Product"
 import Login from "./Pages/Login"
 import MakeAccount from "./Pages/AccountPages/MakeAccount"
 import ForgotPassword from "./Pages/AccountPages/ForgotPassword"
+import View_Product_Details from    "./Pages/ProductPage/View_Product_Details"
 
 function App() {
 
     return (
         <div>
-            <Router>
-                <Navbar/>
-                <Switch>
-                    <Route path='/' exact component={Homepage}/>
-                    <Route path='/products' exact component={Products}/>
-                    <Route path='/login' exact component={Login}/>
-                    <Route path='/make_account' exact component={MakeAccount}/>
-                    <Route path='/forgot_password' exact component={ForgotPassword}/>
-                </Switch>
-            </Router>
+            <Navbar/>
+            <Routes>
+                <Route path='/' element={<Homepage/>}/>
+
+                <Route path='/products/*' element={<Products/>}/>
+                <Route path='/products/:productId' element={<View_Product_Details />}/>
+
+                <Route path='/login' element={<Login/>}/>
+                <Route path='/make_account' element={<MakeAccount/>}/>
+                <Route path='/forgot_password' element={<ForgotPassword/>}/>
+            </Routes>
         </div>
       );
 }

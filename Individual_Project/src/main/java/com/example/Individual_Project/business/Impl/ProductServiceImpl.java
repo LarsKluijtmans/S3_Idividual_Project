@@ -34,17 +34,14 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getAllOfAUsersProducts(int userID) {
         return productRepository.getAllOfAUsersProducts(userID);
     }
-
     @Override
     public boolean addProduct(Product product) {
         return productRepository.addProduct(product);
     }
-
     @Override
     public boolean updateProduct(Product product) {
         return productRepository.updateProduct(product);
     }
-
     @Override
     public boolean deleteProduct(int productID) {
         return productRepository.deleteProduct(productID);

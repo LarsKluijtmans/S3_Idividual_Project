@@ -1,6 +1,6 @@
 import React from "react";
 import MostPopularProducts from "./ProductPage/MostPopulerProducts";
-import SideBar_ProductSearch from "./ProductPage/SideBar_ProductSearch";
+import SideBar_ProductSearch from "./ProductPage/SearchBar/SideBar_ProductSearch";
 import "./Css/Product.css";
 
 function Products() {
