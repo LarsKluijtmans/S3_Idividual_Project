@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import SearchResult from "./SearchForProducts";
-import MostPopularProducts from "./MostPopulerProducts";
+import MostPopularProducts from "../MostPopulerProducts";
 import Search from "./Search";
 
 function SideBar_ProductSearch() {

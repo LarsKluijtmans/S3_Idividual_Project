@@ -37,6 +37,15 @@ public class ProductRepositoryImpl implements ProductRepository {
         return products;
     }
     @Override
+    public Product getProduct(int productID) {
+        for (Product p : dataBase.products) {
+            if (p.getProductID() == productID) {
+                return p;
+            }
+        }
+        return null;
+    }
+    @Override
     public List<Product> getAllOfAUsersProducts(int userID) {
         List<Product> products = new ArrayList<Product>();
 
@@ -46,15 +55,6 @@ public class ProductRepositoryImpl implements ProductRepository {
             }
         }
         return products;
-    }
-    @Override
-    public Product getProduct(int productID) {
-        for (Product p : dataBase.products) {
-            if (p.getProductID() == productID) {
-                return p;
-            }
-        }
-        return null;
     }
     @Override
     public boolean addProduct(Product product) {

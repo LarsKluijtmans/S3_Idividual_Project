@@ -33,14 +33,11 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
     @Override
     public User getAccount(Account account) {
-        for(User user: dataBase.users)
-        {
-            if(user.getAccount().getUsername().equals(account.getUsername()) && user.getAccount().getPassword().equals(account.getPassword()))
-            {
+        for(User user: dataBase.users) {
+            if(user.getAccount().getUsername().equals(account.getUsername()) && user.getAccount().getPassword().equals(account.getPassword())) {
                 return user;
             }
         }
-
         return null;
     }
     @Override

@@ -4,6 +4,7 @@ import com.example.Individual_Project.model.User;
 import com.example.Individual_Project.model.Users.Account;
 import com.example.Individual_Project.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,9 +16,7 @@ public class AccountRepositoryImplMongo implements AccountRepository {
     DataBaseConnection database;
 
     @Override
-    public List<User> getAllAccounts() {
-        return null;
-    }
+    public List<User> getAllAccounts() { return null;}
 
     @Override
     public List<User> getAllAccounts(String name) {
