@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import DisplayProducts from "./DisplayProducts"
+import DisplayProducts from "../DisplayProducts"
 
 function MostPopularProducts() {
 

@@ -1,15 +1,14 @@
 import React from "react";
-import MostPopularProducts from "./ProductPage/MostPopulerProducts";
-import SideBar_ProductSearch from "./ProductPage/SearchBar/SideBar_ProductSearch";
 import "./Css/Product.css";
+import SearchBar from "./ProductPage/Search_For_Products/SearchBar";
 
 function Products() {
-        return (
-            <div className={"main"}>
-                <SideBar_ProductSearch/>
-            </div>
-        );
 
+    return (
+        <div className="container">
+            <SearchBar/>
+        </div>
+    );
 }
 
 export default Products;
