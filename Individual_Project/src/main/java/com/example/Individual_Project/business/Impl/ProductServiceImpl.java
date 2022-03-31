@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,7 +24,11 @@ public class ProductServiceImpl implements ProductService {
     }
     @Override
     public List<Product> getProducts(String name) {
-        return productRepository.getProducts(name);
+      if(name != "" && name != null) {
+          return productRepository.getProducts(name);
+      }
+
+      return new ArrayList<Product>();
     }
     @Override
     public Product getProduct(int productID) {
