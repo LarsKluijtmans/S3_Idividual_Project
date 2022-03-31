@@ -1,6 +1,8 @@
 
 @media (min-width: 2000px) {
     .wrapper {
+        margin-left: 5px;
+        margin-right: 5px;
         display: grid;
         grid-template-columns: 20% 20% 20% 20% 20%;
         grid-gap: 10px;
@@ -11,6 +13,8 @@
 
 @media (min-width: 1500px)and (max-width: 2000px) {
     .wrapper {
+        margin-left: 5px;
+        margin-right: 5px;
         display: grid;
         grid-template-columns: 25% 25% 25% 25%;
         grid-gap: 10px;
@@ -21,6 +25,8 @@
 
 @media (min-width: 1000px) and (max-width: 1500px){
     .wrapper {
+        margin-left: 5px;
+        margin-right: 5px;
         display: grid;
         grid-template-columns: 33% 33% 33%;
         grid-gap: 10px;
@@ -31,6 +37,8 @@
 
 @media (min-width: 700px) and (max-width: 1000px) {
     .wrapper {
+        margin-left: 5px;
+        margin-right: 5px;
         display: grid;
         grid-template-columns: 50% 50%;
         grid-gap: 10px;
@@ -42,7 +50,7 @@
 .box {
     background-color: #444;
     color: #fff;
-    border-radius: 5px;
+    border-radius: 20px;
     padding: 20px;
     font-size: 150%;
 }

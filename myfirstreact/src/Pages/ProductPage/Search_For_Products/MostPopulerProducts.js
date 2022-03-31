@@ -21,10 +21,9 @@ function MostPopularProducts() {
     }
 
     return (
-        <div className="container">
-
+        <div>
             <h1> Most popular </h1>
-
+            <br/>
            <DisplayProducts productsArray={productsArray} />
         </div>
     );

@@ -13,6 +13,7 @@ import com.example.Individual_Project.model.User;
 import com.example.Individual_Project.model.Users.Account;
 import com.example.Individual_Project.repository.Test.AccountRepositoryImpl;
 import com.example.Individual_Project.repository.Test.ProductRepositoryImpl;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 

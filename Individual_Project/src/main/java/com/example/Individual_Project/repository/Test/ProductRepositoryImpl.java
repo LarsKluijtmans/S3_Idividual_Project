@@ -12,9 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-@Service
 @Primary
-@RequiredArgsConstructor
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
 
@@ -29,7 +27,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         List<Product> products = new ArrayList<>();
 
         for (Product p: dataBase.products) {
-            if(p.getName1().equals(name))
+            if(p.getName1().toLowerCase(Locale.ROOT).contains(name.toLowerCase(Locale.ROOT)) || p.getName2().toLowerCase(Locale.ROOT).contains(name.toLowerCase(Locale.ROOT)))
             {
                 products.add(p);
             }

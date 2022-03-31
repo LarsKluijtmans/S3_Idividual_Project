@@ -1,10 +1,9 @@
 package com.example.Individual_Project.business;
 
 import com.example.Individual_Project.model.Products.Product;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductService {
 

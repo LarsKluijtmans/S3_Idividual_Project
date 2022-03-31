@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import SearchResult from "./SearchResult";
+import SearchResult from "./SearhResult";
 
 function SearchBar() {
 
@@ -12,10 +12,9 @@ function SearchBar() {
     return (
         <div>
             <div className="searchbar">
-                <div className="search-container">
-                    <input type="text" placeholder="Search.." name="search" value={SearchString} onChange={handleChangeSearch}/>
-                </div>
+                <input classname={"SearchInput"} type="text" placeholder="Search.." name="search" value={SearchString} onChange={handleChangeSearch}/>
             </div>
+
             <SearchResult SearchString={SearchString}/>
         </div>
     );

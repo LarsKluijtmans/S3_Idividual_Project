@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
@@ -12,18 +15,30 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Product{
 
     private int productID;
+
     private String name1;
+
     private String name2;
+
     private String serie;
+
     private int year;
+
     private double price;
+
     private String condition;
+
     private Genre genre;
+
     private String description;
+
     private List<Tag> tags;
+
     private ProductType productType;
+
     private User user;
 }

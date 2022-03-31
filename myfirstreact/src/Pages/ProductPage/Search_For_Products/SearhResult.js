@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
-import DisplayProducts from "../DisplayProducts";
 import axios from "axios";
+import DisplayProducts from "../DisplayProducts";
 
 function SearchResult({SearchString = ""}) {
 
     useEffect(() => {
         GetSearchResult();
-    },[]);
+    },[SearchString]);
 
     const [productsArray, setProductsArray] = useState([]);
 
@@ -36,9 +36,7 @@ function SearchResult({SearchString = ""}) {
     }
 
     return (
-        <div className="container">
             <DisplayProducts productsArray={productsArray} />
-        </div>
     );
 }
 

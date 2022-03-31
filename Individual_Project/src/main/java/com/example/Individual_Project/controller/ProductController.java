@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:3000/")
 public class ProductController {
 
     private final ProductService productService;
@@ -32,8 +32,8 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable("id") int id) {
-        Product product = productService.getProduct(id);
+    public ResponseEntity<Object> getProduct(@PathVariable("id") int id) {
+        Object product = productService.getProduct(id);
 
         if(product != null) {
             return ResponseEntity.ok().body(product);
@@ -55,7 +55,7 @@ public class ProductController {
 
     @PutMapping("{id}")
     public ResponseEntity updateProduct(@PathVariable("id") int id, @RequestBody Product product) {
-        Product OldProduct = productService.getProduct(id);
+        Object OldProduct = productService.getProduct(id);
 
         if (OldProduct == null){
             return new ResponseEntity("Please provide a valid id.", HttpStatus.BAD_REQUEST);

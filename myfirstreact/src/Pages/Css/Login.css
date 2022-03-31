@@ -10,7 +10,8 @@ input[type=text], input[type=password] {
 }
 label{
     margin-left: 10%;
-    margin-right: 10%;}
+    margin-right: 10%;
+}
 
 button {
     background-color: blue;
@@ -24,11 +25,6 @@ button {
 
 button:hover {
     opacity: 0.8;
-}
-
-img.avatar {
-    width: 40%;
-    border-radius: 50%;
 }
 
 .LoginContainer {

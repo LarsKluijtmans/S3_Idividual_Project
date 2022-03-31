@@ -33,25 +33,12 @@
     overflow: hidden;
     background-color: #e9e9e9;
 }
-.searchbar .search-container {
-    float: right;
-}
 
 .searchbar input[type=text] {
     padding: 6px;
     margin-top: 8px;
     font-size: 17px;
     border: none;
-}
-.searchbar .search-container button {
-    float: right;
-    padding: 6px 10px;
-    margin-top: 8px;
-    margin-right: 16px;
-    //background: #ddd;
-    font-size: 17px;
-    border: none;
-    cursor: pointer;
 }
 
 .searchbar .search-container button:hover {
@@ -76,6 +63,13 @@
     border: none;
     margin-left: 16px;
     cursor: pointer;
+}
+
+.SearchInput{
+    padding: 6px;
+    margin-top: 8px;
+    font-size: 17px;
+    border: none;
 }
 
 @media screen and (max-width: 600px) {

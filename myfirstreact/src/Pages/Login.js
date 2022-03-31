@@ -18,7 +18,7 @@ function Login() {
     };
 
     return (
-        <div className="container">
+        <div className="LoginContainer">
             <label><b>Username</b></label>
             <input type="text" placeholder="Enter Username" name={"username"} value={username}
                    onChange={handleUsernameChange} required/>
