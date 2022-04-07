@@ -5,6 +5,7 @@ import com.example.Individual_Project.model.User;
 
 import com.example.Individual_Project.model.Users.Account;
 import com.example.Individual_Project.repository.AccountRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
-    private final AccountRepository accountRepository ;
+    private final   AccountRepository accountRepository ;
 
     @Override
     public User getAccount(Account account) {

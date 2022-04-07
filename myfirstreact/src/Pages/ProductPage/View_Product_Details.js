@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
-
-
+import "./ProdutDetails.css";
 import {useParams} from "react-router-dom";
 import axios from "axios";
 
@@ -29,15 +28,30 @@ function View_Product_Details() {
 
    if(product != null) {
        return (
-           <div>
-               <h3>Name: {product.name1}</h3>
-               <h4>sub-Name: {product.name2}</h4>
-               <p>serie: {product.serie}</p>
-               <p>year: {product.year}</p>
-               <h2>price: {product.price}</h2>
+           <div className="ProductContainer">
 
-               <p>condition: {product.condition}</p>
-               <p>genre: {product.genre}</p>
+               <div className="left-column">
+                   <h2>Image of product</h2>
+               </div>
+
+               <div className="right-column">
+
+                   <div className="product-description">
+                       <span>{product.serie}</span>
+                       <h1>{product.name1}</h1>
+                       <h2>{product.name2}</h2>
+                       <h3>Condition: {product.condition}</h3>
+                       <p>{product.description}</p>
+                       <span>year:{product.year} /</span>
+                       <span>genre: {product.genre} /</span>
+                       <span>type: {product.productType}</span>
+                   </div>
+
+                   <div className="product-price">
+                       <span>{product.price}</span>
+                       <button className="cart-btn">Buy</button>
+                   </div>
+               </div>
            </div>
        );
    }

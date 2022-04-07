@@ -18,7 +18,7 @@ function Login() {
     };
 
     return (
-        <div className="container">
+        <div className="LoginContainer">
             <label><b>Username</b></label>
             <input type="text" placeholder="Enter Username" name={"username"} value={username}
                    onChange={handleUsernameChange} required/>
@@ -52,7 +52,7 @@ function TryToLogin({username, password})
 
     if(result != null) {
         return (
-            <div className="container">
+            <div className="LoginContainer">
                 <button className={"loginButton"} type="submit" onClick={handleLogin}>Login</button>
                 <p>{result.firstname}</p>
                 <p>{result.lastname}</p>
@@ -61,7 +61,7 @@ function TryToLogin({username, password})
     }
     else if(error != null){
         return (
-            <div className="container">
+            <div className="LoginContainer">
                 <button className={"loginButton"} type="submit" onClick={handleLogin}>Login</button>
                 <h3>{error}</h3>
             </div>
@@ -69,7 +69,7 @@ function TryToLogin({username, password})
     }
     else{
         return (
-            <div className="container">
+            <div className="LoginContainer">
                 <button className={"loginButton"} type="submit" onClick={handleLogin}>Login</button>
                 <h3>Login failed</h3>
             </div>

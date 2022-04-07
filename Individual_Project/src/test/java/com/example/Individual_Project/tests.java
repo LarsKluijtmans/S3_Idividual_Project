@@ -13,6 +13,7 @@ import com.example.Individual_Project.model.User;
 import com.example.Individual_Project.model.Users.Account;
 import com.example.Individual_Project.repository.Test.AccountRepositoryImpl;
 import com.example.Individual_Project.repository.Test.ProductRepositoryImpl;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
@@ -158,7 +159,7 @@ public class tests {
             // Act
             List<Product> products = accountService.getProducts("1");
             // Assert
-            assertEquals(3, products.size());
+            assertEquals(5, products.size());
         }
         @Test
         void test_get_products_by_name_wrong_name_entered() {

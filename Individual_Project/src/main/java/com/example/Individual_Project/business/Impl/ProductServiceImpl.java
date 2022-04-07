@@ -2,13 +2,13 @@ package com.example.Individual_Project.business.Impl;
 
 import com.example.Individual_Project.business.ProductService;
 import com.example.Individual_Project.model.Products.Product;
-import com.example.Individual_Project.model.User;
-import com.example.Individual_Project.repository.AccountRepository;
 import com.example.Individual_Project.repository.ProductRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,7 +24,11 @@ public class ProductServiceImpl implements ProductService {
     }
     @Override
     public List<Product> getProducts(String name) {
-        return productRepository.getProducts(name);
+      if(name != "" && name != null) {
+          return productRepository.getProducts(name);
+      }
+
+      return new ArrayList<Product>();
     }
     @Override
     public Product getProduct(int productID) {
