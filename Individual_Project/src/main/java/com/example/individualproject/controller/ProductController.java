@@ -1,9 +1,7 @@
 package com.example.individualproject.controller;
 
-
-import com.example.individualproject.DTO.*;
+import com.example.individualproject.DTO.Products.*;
 import com.example.individualproject.business.*;
-import com.example.individualproject.repository.entity.Product;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
@@ -33,16 +30,6 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
-    @GetMapping("{id}")
-    public ResponseEntity<Optional<GetProductDTO>> getProduct(@PathVariable("id") Long id) {
-        Optional<GetProductDTO> product = productService.getProduct(id);
-
-        if(product != null) {
-            return ResponseEntity.ok().body(product);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
     @PostMapping()
     public ResponseEntity<GetProductDTO> createProduct(@RequestBody CreateProductRequestDTO product) {
 
@@ -58,6 +45,32 @@ public class ProductController {
             return ResponseEntity.created(uri).build();
         }
     }
+    @DeleteMapping("{id}")
+    public ResponseEntity<Object> deleteProduct(@PathVariable("id") Long id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.ok().build();
+    }
+    @PutMapping()
+    public ResponseEntity<UpdateProductResponseDTO> updateProduct(@RequestBody UpdateProductRequestDTO product) {
+       if(productService.updateProduct(product) != null) {
+           return ResponseEntity.noContent().build();
+       }else {
+           return ResponseEntity.badRequest().build();
+       }
+    }
+
+
+
+    @GetMapping("{id}")
+    public ResponseEntity<GetProductDTO> getProduct(@PathVariable("id") Long id) {
+        GetProductDTO product = productService.getProduct(id);
+
+        if(product != null) {
+            return ResponseEntity.ok().body(product);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
     @GetMapping("search/{name}")
     public ResponseEntity<List<GetProductDTO>> getAllProductsByName(@PathVariable("name") String name) {
         List<GetProductDTO> products = productService.getProducts(name);
@@ -68,22 +81,4 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
-    @DeleteMapping("{id}")
-    public ResponseEntity<Object> deleteProduct(@PathVariable("id") Long id) {
-        productService.deleteProduct(id);
-        return ResponseEntity.ok().build();
-    }
-
-
-    //ToDo
-    @PutMapping()
-    public ResponseEntity<UpdateProductResponseDTO> updateProduct(@RequestBody UpdateProductRequestDTO product) {
-        if(productService.updateProduct(product) != null) {
-            return ResponseEntity.noContent().build();
-        }else {
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-
 }

@@ -1,6 +1,6 @@
 package com.example.individualproject.business.impl;
 
-import com.example.individualproject.DTO.*;
+import com.example.individualproject.DTO.Products.*;
 import com.example.individualproject.business.ProductService;
 import com.example.individualproject.repository.entity.Product;
 import com.example.individualproject.repository.ProductRepository;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,11 +37,12 @@ public class ProductServiceImpl implements ProductService {
             return Collections.emptyList();
         }
 
+        String Name = "%" + name + "%";
         List<GetProductDTO> result = new ArrayList<>();
 
         GetProductDTO product;
 
-        for (Product p :  productRepository.findProductsByTitleLikeOrSub_titleLike(name, name)) {
+        for (Product p :  productRepository.findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenreIsLike(Name,Name,Name,Name,Name)) {
             product = new GetProductDTO(p);
             result.add(product);
         }
@@ -50,11 +50,8 @@ public class ProductServiceImpl implements ProductService {
         return result;
     }
     @Override
-    public Optional<GetProductDTO> getProduct(Long productID) {
-
-
-        return null;
-
+    public GetProductDTO getProduct(Long productID) {
+        return new GetProductDTO(productRepository.findProductsByIdIsLike(productID));
     }
     @Override
     public List<GetProductDTO> getAllOfAUsersProducts(Long userID) {
@@ -74,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
 
         Product newProduct = Product.builder()
                 .title(product.getTitle())
-                .sub_title(product.getSub_title())
+                .subTitle(product.getSub_title())
                 .series(product.getSeries())
                 .year(product.getYear())
                 .price(product.getPrice())
@@ -102,7 +99,7 @@ public class ProductServiceImpl implements ProductService {
         Product updatedProduct = Product.builder()
                 .id(product.getProductId())
                 .title(product.getTitle())
-                .sub_title(product.getSub_title())
+                .subTitle(product.getSub_title())
                 .series(product.getSeries())
                 .year(product.getYear())
                 .price(product.getPrice())

@@ -1,6 +1,6 @@
 package com.example.individualproject.business.impl;
 
-import com.example.individualproject.DTO.ProductDTO;
+import com.example.individualproject.DTO.Products.ProductDTO;
 import com.example.individualproject.repository.entity.Product;
 
 final class ProductDTOConverter {
@@ -11,7 +11,7 @@ final class ProductDTOConverter {
         return ProductDTO.builder()
                 .id(product.getId())
                 .title(product.getTitle())
-                .sub_title(product.getSub_title())
+                .sub_title(product.getSubTitle())
                 .series(product.getSeries())
                 .year(product.getYear())
                 .price(product.getPrice())

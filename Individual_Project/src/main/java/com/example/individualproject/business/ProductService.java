@@ -1,16 +1,14 @@
 package com.example.individualproject.business;
 
-import com.example.individualproject.DTO.*;
-import com.example.individualproject.repository.entity.Product;
+import com.example.individualproject.DTO.Products.*;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ProductService {
 
      List<GetProductDTO> getAllProducts();
      List<GetProductDTO> getProducts(String name);
-     Optional<GetProductDTO> getProduct(Long productID);
+     GetProductDTO getProduct(Long productID);
      List<GetProductDTO> getAllOfAUsersProducts(Long userID);
 
      CreateProductResponseDTO addProduct(CreateProductRequestDTO product);

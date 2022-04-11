@@ -28,7 +28,7 @@ public class Product{
 
     @Length(min = 1 ,max = 50)
     @Column(name = "sub_title")
-    private String sub_title;
+    private String subTitle;
 
     @Length(min = 1 ,max = 30)
     @Column(name = "series")
@@ -58,7 +58,4 @@ public class Product{
     @Length(min = 1 ,max = 30)
     @Column(name = "product_type")
     private String product_type;
-
-    @OneToMany(mappedBy = "product")
-    private List<Image> images;
 }
