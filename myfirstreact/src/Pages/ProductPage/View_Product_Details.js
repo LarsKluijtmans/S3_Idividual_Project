@@ -26,12 +26,17 @@ function View_Product_Details() {
             });
     }
 
+
+
    if(product != null) {
        return (
            <div className="ProductContainer">
 
                <div className="left-column">
                    <h2>Image of product</h2>
+
+                   <img src="./images/download.png" />
+
                </div>
 
                <div className="right-column">
