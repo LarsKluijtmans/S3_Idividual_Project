@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProductServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Individual_Project</a> &gt; <a href="index.source.html" class="el_package">com.example.individualproject.business.impl</a> &gt; <span class="el_source">ProductServiceImpl.java</span></div><h1>ProductServiceImpl.java</h1><pre class="source lang-java linenums">package com.example.individualproject.business.impl;
+
+import com.example.individualproject.DTO.Products.*;
+import com.example.individualproject.business.ProductService;
+import com.example.individualproject.repository.entity.Product;
+import com.example.individualproject.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+@Service
+@Transactional
+@RequiredArgsConstructor
+public class ProductServiceImpl implements ProductService {
+
+    private final ProductRepository productRepository;
+
+    @Override
+    public List&lt;GetProductDTO&gt; getAllProducts() {
+
+<span class="nc" id="L25">        List&lt;GetProductDTO&gt; result = new ArrayList&lt;&gt;();</span>
+
+        GetProductDTO product;
+
+<span class="nc bnc" id="L29" title="All 2 branches missed.">        for (Product p : productRepository.findAll()) {</span>
+<span class="nc" id="L30">            product = new GetProductDTO(p);</span>
+<span class="nc" id="L31">            result.add(product);</span>
+<span class="nc" id="L32">        }</span>
+
+<span class="nc" id="L34">        return result;</span>
+    }
+    @Override
+    public List&lt;GetProductDTO&gt; getProducts(String name) {
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        if(name.equals(&quot;&quot;)) {</span>
+<span class="nc" id="L39">            return Collections.emptyList();</span>
+        }
+
+<span class="nc" id="L42">        String Name = &quot;%&quot; + name + &quot;%&quot;;</span>
+<span class="nc" id="L43">        List&lt;GetProductDTO&gt; result = new ArrayList&lt;&gt;();</span>
+
+        GetProductDTO product;
+
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        for (Product p :  productRepository.findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenreIsLike(Name,Name,Name,Name,Name)) {</span>
+<span class="nc" id="L48">            product = new GetProductDTO(p);</span>
+<span class="nc" id="L49">            result.add(product);</span>
+<span class="nc" id="L50">        }</span>
+
+<span class="nc" id="L52">        return result;</span>
+    }
+    @Override
+    public GetProductDTO getProduct(Long productID) {
+<span class="nc" id="L56">        return new GetProductDTO(productRepository.findProductsByIdIsLike(productID));</span>
+    }
+    @Override
+    public List&lt;GetProductDTO&gt; getAllOfAUsersProducts(Long userID) {
+      //ToDo make this
+<span class="nc" id="L61">        return Collections.emptyList();</span>
+    }
+
+    //Delete
+    @Override
+    public void deleteProduct(Long productID) {
+<span class="nc" id="L67">        productRepository.deleteById(productID);</span>
+<span class="nc" id="L68">    }</span>
+
+    //Add
+    @Override
+    public CreateProductResponseDTO addProduct(CreateProductRequestDTO product) {
+
+<span class="nc" id="L74">        Product newProduct = Product.builder()</span>
+<span class="nc" id="L75">                .title(product.getTitle())</span>
+<span class="nc" id="L76">                .subTitle(product.getSub_title())</span>
+<span class="nc" id="L77">                .series(product.getSeries())</span>
+<span class="nc" id="L78">                .year(product.getYear())</span>
+<span class="nc" id="L79">                .price(product.getPrice())</span>
+<span class="nc" id="L80">                .condition(product.getCondition())</span>
+<span class="nc" id="L81">                .description(product.getDescription())</span>
+<span class="nc" id="L82">                .genre(product.getGenre())</span>
+<span class="nc" id="L83">                .sold(false)</span>
+<span class="nc" id="L84">                .product_type(product.getProduct_type())</span>
+<span class="nc" id="L85">                .build();</span>
+
+<span class="nc" id="L87">        Product savedProduct= save(newProduct);</span>
+
+<span class="nc" id="L89">        return CreateProductResponseDTO.builder()</span>
+<span class="nc" id="L90">                .productId(savedProduct.getId())</span>
+<span class="nc" id="L91">                .build();</span>
+    }
+    private Product save(Product product) {
+<span class="nc" id="L94">        productRepository.save(product);</span>
+<span class="nc" id="L95">        return Product.builder().build();</span>
+    }
+
+    //Update
+    @Override
+    public UpdateProductResponseDTO updateProduct(UpdateProductRequestDTO product) {
+<span class="nc" id="L101">        Product updatedProduct = Product.builder()</span>
+<span class="nc" id="L102">                .id(product.getProductId())</span>
+<span class="nc" id="L103">                .title(product.getTitle())</span>
+<span class="nc" id="L104">                .subTitle(product.getSub_title())</span>
+<span class="nc" id="L105">                .series(product.getSeries())</span>
+<span class="nc" id="L106">                .year(product.getYear())</span>
+<span class="nc" id="L107">                .price(product.getPrice())</span>
+<span class="nc" id="L108">                .condition(product.getCondition_())</span>
+<span class="nc" id="L109">                .description(product.getDescription())</span>
+<span class="nc" id="L110">                .genre(product.getGenre())</span>
+<span class="nc" id="L111">                .sold(false)</span>
+<span class="nc" id="L112">                .product_type(product.getProduct_type())</span>
+<span class="nc" id="L113">                .build();</span>
+
+<span class="nc" id="L115">        Product savedProduct= save(updatedProduct);</span>
+
+<span class="nc" id="L117">        return UpdateProductResponseDTO.builder()</span>
+<span class="nc" id="L118">                .productId(savedProduct.getId())</span>
+<span class="nc" id="L119">                .build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
