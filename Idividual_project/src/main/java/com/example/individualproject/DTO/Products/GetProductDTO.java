@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 public class GetProductDTO {
 
+    private Long id;
     private String title;
     private String sub_title;
     private String series;
@@ -22,6 +23,7 @@ public class GetProductDTO {
 
     public GetProductDTO(Product p)
     {
+        this.id = p.getId();
         this.title = p.getTitle();
         this.sub_title = p.getSubTitle();
         this.series = p.getSeries();

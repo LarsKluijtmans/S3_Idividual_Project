@@ -43,13 +43,13 @@ function View_Product_Details() {
 
                    <div className="product-description">
                        <span>{product.serie}</span>
-                       <h1>{product.name1}</h1>
-                       <h2>{product.name2}</h2>
-                       <h3>Condition: {product.condition}</h3>
+                       <h1>{product.title}</h1>
+                       <h2>{product.sub_title}</h2>
+                       <h3>Condition: {product.condition_}</h3>
                        <p>{product.description}</p>
                        <span>year:{product.year} /</span>
                        <span>genre: {product.genre} /</span>
-                       <span>type: {product.productType}</span>
+                       <span>type: {product.product_type}</span>
                    </div>
 
                    <div className="product-price">

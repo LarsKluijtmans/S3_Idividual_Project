@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 
 function DisplayProducts({productsArray}) {
 
+    console.log(productsArray);
     return (
         <div className={"wrapper"}>
             {productsArray.map(product => (
@@ -10,8 +11,8 @@ function DisplayProducts({productsArray}) {
                     <section className="product">
                         <div className="product__info">
                             <div className="title">
-                                <h1>{product.name1}</h1>
-                                <span>{product.name2}</span>
+                                <h1>{product.title}</h1>
+                                <span>{product.sub_title}</span>
                             </div>
                             <div className="price">
                                 <span>{product.price} </span> $
@@ -21,7 +22,7 @@ function DisplayProducts({productsArray}) {
                                 <h4>{product.description}</h4>
                             </div>
 
-                            <Link className="ToProductPageButton" to={'/products/'+product.productID}>Details</Link>
+                            <Link className="ToProductPageButton" to={'/products/'+ product.id}>Details</Link>
                         </div>
                     </section>
                 </div>)
