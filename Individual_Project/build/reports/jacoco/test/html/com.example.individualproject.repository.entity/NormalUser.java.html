@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NormalUser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Individual_Project</a> &gt; <a href="index.source.html" class="el_package">com.example.individualproject.repository.entity</a> &gt; <span class="el_source">NormalUser.java</span></div><h1>NormalUser.java</h1><pre class="source lang-java linenums">package com.example.individualproject.repository.entity;
+
+import com.example.individualproject.DTO.Products.CreateProductRequestDTO;
+import com.example.individualproject.DTO.Users.CreateUserRequestDTO;
+import lombok.*;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+
+
+@Builder
+@Data
+@EqualsAndHashCode(callSuper = false)
+@AllArgsConstructor
+
+@Entity
+@DiscriminatorValue(&quot;NORMAL&quot;)
+public class NormalUser extends User {
+
+    @Length(min = 1 ,max = 50)
+    @Column(name = &quot;firstname&quot;)
+    private String firstname;
+
+    @Length(min = 1 ,max = 50)
+    @Column(name = &quot;lastname&quot;)
+    private String lastname;
+
+    @NotBlank
+    @Length(min = 1 ,max = 50)
+    @Column(name = &quot;phonenumber&quot;)
+    private String phonenumber;
+
+    @NotBlank
+    @Length(min = 1 ,max = 50)
+    @Column(name = &quot;email&quot;)
+    private String email;
+
+    public NormalUser (CreateUserRequestDTO createDTO){
+<span class="fc" id="L40">        super(createDTO.getUsername(), createDTO.getPassword());</span>
+<span class="fc" id="L41">        this.firstname = createDTO.getFirstName();</span>
+<span class="fc" id="L42">        this.lastname = createDTO.getLastName();</span>
+<span class="fc" id="L43">        this.phonenumber = createDTO.getPhoneNumber();</span>
+<span class="fc" id="L44">        this.email = createDTO.getEmail();</span>
+<span class="fc" id="L45">    }</span>
+
+    public NormalUser (Long id, String username, String password, String firstname, String lastname, String phoneNumber, String email){
+<span class="fc" id="L48">        super(id,username, password);</span>
+<span class="fc" id="L49">        this.firstname = firstname;</span>
+<span class="fc" id="L50">        this.lastname = lastname;</span>
+<span class="fc" id="L51">        this.phonenumber = phoneNumber;</span>
+<span class="fc" id="L52">        this.email = email;</span>
+
+<span class="fc" id="L54">    }</span>
+
+    public NormalUser ( String username, String password, String firstname, String lastname, String phoneNumber, String email){
+<span class="fc" id="L57">        super(username, password);</span>
+<span class="fc" id="L58">        this.firstname = firstname;</span>
+<span class="fc" id="L59">        this.lastname = lastname;</span>
+<span class="fc" id="L60">        this.phonenumber = phoneNumber;</span>
+<span class="fc" id="L61">        this.email = email;</span>
+
+<span class="fc" id="L63">    }</span>
+
+<span class="fc" id="L65">    public NormalUser() {</span>
+
+<span class="fc" id="L67">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

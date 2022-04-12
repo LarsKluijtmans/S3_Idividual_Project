@@ -1,9 +1,11 @@
 package com.example.individualproject.business;
 
 import com.example.individualproject.DTO.Products.*;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface ProductService {
 
      List<GetProductDTO> getAllProducts();

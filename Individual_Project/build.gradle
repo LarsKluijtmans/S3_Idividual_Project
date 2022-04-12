@@ -3,7 +3,9 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id "org.sonarqube" version "3.3"
+	id 'jacoco'
 }
+
 
 configurations {
 	compileOnly {
@@ -32,9 +34,10 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.projectlombok:lombok:1.18.20'
+    implementation 'junit:junit:4.13.1'
 
 
-	compileOnly 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'com.h2database:h2'
@@ -43,4 +46,3 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-/*jcoco*/

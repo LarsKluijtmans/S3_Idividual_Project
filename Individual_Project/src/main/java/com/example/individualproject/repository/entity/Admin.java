@@ -3,16 +3,21 @@ package com.example.individualproject.repository.entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
-@Entity
+
 @Builder
 @Data
+@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
-@NoArgsConstructor
+
+@Entity
 @DiscriminatorValue("ADMIN")
 public class Admin extends User{
+
+    public Admin(String username, String password) {
+        super(username, password);
+    }
 }

@@ -4,14 +4,17 @@ import com.example.individualproject.DTO.Products.*;
 import com.example.individualproject.business.ProductService;
 import com.example.individualproject.repository.entity.Product;
 import com.example.individualproject.repository.ProductRepository;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
@@ -75,7 +78,7 @@ public class ProductServiceImpl implements ProductService {
                 .series(product.getSeries())
                 .year(product.getYear())
                 .price(product.getPrice())
-                .condition(product.getCondition_())
+                .condition(product.getCondition())
                 .description(product.getDescription())
                 .genre(product.getGenre())
                 .sold(false)
@@ -110,14 +113,10 @@ public class ProductServiceImpl implements ProductService {
                 .product_type(product.getProduct_type())
                 .build();
 
-        Product savedProduct= update(updatedProduct);
+        Product savedProduct= save(updatedProduct);
 
         return UpdateProductResponseDTO.builder()
                 .productId(savedProduct.getId())
                 .build();
-    }
-    private Product update(Product product) {
-        productRepository.save(product);
-        return Product.builder().build();
     }
 }
