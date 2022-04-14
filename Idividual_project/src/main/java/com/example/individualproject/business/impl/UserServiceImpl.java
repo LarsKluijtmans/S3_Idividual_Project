@@ -165,23 +165,29 @@ public class UserServiceImpl implements UserService {
 
     //All
     @Override
-    public boolean IsUsernameUnique(String name) {
+    public boolean isUsernameUnique(String name) {
+
+        boolean result = true;
+
       if(normalUserRepository.findByUsernameIs(name) != null  || adminRepository.findByUsernameIs(name) != null) {
-          return false;
+          result = false;
       }
-          return true;
+          return result;
     }
 
     @Override
-    public boolean IsPhoneNumberUnique(String phoneNumber) {
+    public boolean isPhoneNumberUnique(String phoneNumber) {
+
+        boolean result = true;
+
         if(normalUserRepository.findByPhonenumberIs(phoneNumber) != null) {
-            return false;
+            result = false;
         }
-        return true;
+        return result;
     }
 
     @Override
-    public boolean IsEmailUnique(String email) {
+    public boolean isEmailUnique(String email) {
         if(normalUserRepository.findByEmailIs(email) != null) {
             return false;
         }

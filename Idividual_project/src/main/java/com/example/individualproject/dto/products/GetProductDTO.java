@@ -4,7 +4,6 @@ import com.example.individualproject.repository.entity.Image;
 import com.example.individualproject.repository.entity.Product;
 
 import lombok.Data;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.ArrayList;
 import java.util.List;

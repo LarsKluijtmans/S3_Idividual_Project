@@ -105,7 +105,7 @@ public class ProductServiceImpl implements ProductService {
 
         savedProduct.setId(createProductResponseDTO.getProductId());
 
-        SaveImages(savedProduct,product.getImages());
+        saveImages(savedProduct,product.getImages());
 
         return createProductResponseDTO;
     }
@@ -148,18 +148,13 @@ public class ProductServiceImpl implements ProductService {
         savedProduct.setId(updateProductResponseDTO.getProductId());
 
         imageRepository.deleteAllByProductIsLike(savedProduct);
-        SaveImages(savedProduct,product.getImages());
+        saveImages(savedProduct,product.getImages());
 
         return  updateProductResponseDTO;
     }
 
-    private Product save(Product product) {
-        productRepository.save(product);
-        return Product.builder().build();
-    }
-
     //Images
-    private void SaveImages(Product product, List<String> images){
+    private void saveImages(Product product, List<String> images){
        List<Image> imagesToSave = new ArrayList<>();
 
         for (String s : images) {

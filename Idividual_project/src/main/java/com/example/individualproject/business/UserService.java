@@ -21,7 +21,7 @@ public interface UserService {
     UpdateUserResponseDTO updateUser(UpdateUserRequestDTO updateRequestDTO);
 
     //all
-    boolean IsUsernameUnique(String name);
-    boolean IsPhoneNumberUnique(String phoneNumber);
-    boolean IsEmailUnique(String email);
+    boolean isUsernameUnique(String name);
+    boolean isPhoneNumberUnique(String phoneNumber);
+    boolean isEmailUnique(String email);
 }
