@@ -17,4 +17,8 @@ public interface NormalUserRepository extends JpaRepository<NormalUser, Long>  {
     NormalUser findByUsernameIsLike(String name);
     NormalUser findByEmailIsLike(String name);
     NormalUser findByPhonenumberIsLike(String name);
+
+    NormalUser findByUsernameIs(String name);
+    NormalUser findByEmailIs(String name);
+    NormalUser findByPhonenumberIs(String name);
 }

@@ -121,31 +121,6 @@ public class UserServiceImpl implements UserService {
            return new GetUserDTO(user);
        }
     }
-        //Add
-    @Override
-    public CreateUserResponseDTO addUser(CreateUserRequestDTO createRequestDTO){
-        NormalUser repeated1 = normalUserRepository.findByUsernameIsLike(createRequestDTO.getUsername());
-        Admin repeated2 = adminRepository.findByUsernameIsLike(createRequestDTO.getUsername());
-
-        if(repeated1 != null || repeated2 != null) {
-            return null;
-        }
-
-        NormalUser repeated3 = normalUserRepository.findByPhonenumberIsLike(createRequestDTO.getPhoneNumber());
-        NormalUser repeated4 = normalUserRepository.findByEmailIsLike(createRequestDTO.getEmail());
-
-        if(repeated3 != null || repeated4 != null) {
-            return null;
-        }
-
-        NormalUser newUser = new NormalUser(createRequestDTO);
-
-        normalUserRepository.save(newUser);
-
-        return CreateUserResponseDTO.builder()
-                .firstName(newUser.getFirstname())
-                .build(); 
-    }
          //Update
     @Override
     public UpdateUserResponseDTO updateUser(UpdateUserRequestDTO updateRequestDTO){
@@ -186,4 +161,56 @@ public class UserServiceImpl implements UserService {
                 .firstName(newUser.getFirstname())
                 .build();
     }
+
+
+    //All
+    @Override
+    public boolean IsUsernameUnique(String name) {
+      if(normalUserRepository.findByUsernameIs(name) != null  || adminRepository.findByUsernameIs(name) != null) {
+          return false;
+      }
+          return true;
+    }
+
+    @Override
+    public boolean IsPhoneNumberUnique(String phoneNumber) {
+        if(normalUserRepository.findByPhonenumberIs(phoneNumber) != null) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean IsEmailUnique(String email) {
+        if(normalUserRepository.findByEmailIs(email) != null) {
+            return false;
+        }
+        return true;
+    }
+         //Add
+    @Override
+    public CreateUserResponseDTO addUser(CreateUserRequestDTO createRequestDTO){
+        NormalUser repeated1 = normalUserRepository.findByUsernameIsLike(createRequestDTO.getUsername());
+        Admin repeated2 = adminRepository.findByUsernameIsLike(createRequestDTO.getUsername());
+
+        if(repeated1 != null || repeated2 != null) {
+            return null;
+        }
+
+        NormalUser repeated3 = normalUserRepository.findByPhonenumberIsLike(createRequestDTO.getPhoneNumber());
+        NormalUser repeated4 = normalUserRepository.findByEmailIsLike(createRequestDTO.getEmail());
+
+        if(repeated3 != null || repeated4 != null) {
+            return null;
+        }
+
+        NormalUser newUser = new NormalUser(createRequestDTO);
+
+        normalUserRepository.save(newUser);
+
+        return CreateUserResponseDTO.builder()
+                .firstName(newUser.getFirstname())
+                .build();
+    }
 }
+

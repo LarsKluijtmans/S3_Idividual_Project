@@ -12,5 +12,8 @@ public interface AdminRepository extends JpaRepository<Admin, Long>  {
     List<Admin> findAllByUsernameIsLike(String firstName);
     Admin getUserByUsernameIsLikeAndPasswordIsLike(String username, String password);
     Admin findAllByIdIsLike(Long id);
+
+    //Is username unique
     Admin findByUsernameIsLike(String name);
+    Admin findByUsernameIs(String name);
 }

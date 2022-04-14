@@ -90,18 +90,6 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
-    @PostMapping()
-    public ResponseEntity<CreateUserResponseDTO> createUser(@RequestBody CreateUserRequestDTO user) {
-
-        CreateUserResponseDTO userResponseDTO = userService.addUser(user);
-         if (userResponseDTO != null){
-            String url = "Unknown";
-            URI uri = URI.create(url);
-            return ResponseEntity.created(uri).body(userResponseDTO);
-        } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
-    }
     @PutMapping()
     public ResponseEntity<UpdateUserResponseDTO> updateUser(@RequestBody UpdateUserRequestDTO user) {
         UpdateUserResponseDTO responseDTO = userService.updateUser(user);
@@ -112,4 +100,37 @@ public class UserController {
            return ResponseEntity.badRequest().build();
        }
     }
+
+    //All
+    @GetMapping( "unique/name/{name}")
+    public ResponseEntity<Boolean> IsUsernameUnique(@PathVariable("name") String name) {
+        Boolean result = userService.IsUsernameUnique(name);
+
+        return ResponseEntity.ok().body(result);
+    }
+    @GetMapping( "unique/phoneNumber/{phoneNumber}")
+    public ResponseEntity<Boolean> IsPhoneNumberUnique(@PathVariable("phoneNumber") String phoneNumber) {
+        Boolean result = userService.IsPhoneNumberUnique(phoneNumber);
+
+        return ResponseEntity.ok().body(result);
+    }
+    @GetMapping( "unique/email/{email}")
+    public ResponseEntity<Boolean> IsEmailUnique(@PathVariable("email") String email) {
+        Boolean result = userService.IsEmailUnique(email);
+
+        return ResponseEntity.ok().body(result);
+    }
+    @PostMapping()
+    public ResponseEntity<CreateUserResponseDTO> createUser(@RequestBody CreateUserRequestDTO user) {
+
+        CreateUserResponseDTO userResponseDTO = userService.addUser(user);
+        if (userResponseDTO != null){
+            String url = "Unknown";
+            URI uri = URI.create(url);
+            return ResponseEntity.created(uri).body(userResponseDTO);
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
+
 }

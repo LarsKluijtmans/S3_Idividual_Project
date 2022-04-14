@@ -26,12 +26,12 @@ public class User {
     private Long id;
 
     @NotBlank
-    @Length(min = 1 ,max = 50)
+    @Length(min = 3 ,max = 50)
     @Column(name = "username")
     private String username;
 
     @NotBlank
-    @Length(min = 1 ,max = 50)
+    @Length(min = 3 ,max = 50)
     @Column(name = "password")
     private String password;
 

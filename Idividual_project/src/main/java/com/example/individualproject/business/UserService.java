@@ -19,4 +19,9 @@ public interface UserService {
     GetUserDTO getUser(UserAccountRequestDTO account);
     CreateUserResponseDTO addUser(CreateUserRequestDTO createRequestDTO);
     UpdateUserResponseDTO updateUser(UpdateUserRequestDTO updateRequestDTO);
+
+    //all
+    boolean IsUsernameUnique(String name);
+    boolean IsPhoneNumberUnique(String phoneNumber);
+    boolean IsEmailUnique(String email);
 }

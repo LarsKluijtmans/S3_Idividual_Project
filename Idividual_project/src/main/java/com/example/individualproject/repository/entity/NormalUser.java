@@ -16,21 +16,21 @@ import javax.validation.constraints.NotBlank;
 @DiscriminatorValue("NORMAL")
 public class NormalUser extends User {
 
-    @Length(min = 1 ,max = 50)
+    @Length(min = 5 ,max = 50)
     @Column(name = "firstname")
     private String firstname;
 
-    @Length(min = 1 ,max = 50)
+    @Length(min = 5 ,max = 50)
     @Column(name = "lastname")
     private String lastname;
 
     @NotBlank
-    @Length(min = 1 ,max = 50)
+    @Length(min = 9 ,max = 50)
     @Column(name = "phonenumber")
     private String phonenumber;
 
     @NotBlank
-    @Length(min = 1 ,max = 50)
+    @Length(min = 8 ,max = 50)
     @Column(name = "email")
     private String email;
 
