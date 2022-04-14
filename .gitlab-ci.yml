@@ -17,7 +17,7 @@ test:
         - ./gradlew test
         - ./gradlew.bat --stop
 
-sonarqube:
+codequality:
     stage: sonarqube
     script: 
         - cd Idividual_project
