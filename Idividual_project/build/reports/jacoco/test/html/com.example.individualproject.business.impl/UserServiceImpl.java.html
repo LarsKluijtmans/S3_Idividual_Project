@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Individual_Project</a> &gt; <a href="index.source.html" class="el_package">com.example.individualproject.business.impl</a> &gt; <span class="el_source">UserServiceImpl.java</span></div><h1>UserServiceImpl.java</h1><pre class="source lang-java linenums">package com.example.individualproject.business.impl;
 
-import com.example.individualproject.DTO.Users.*;
+import com.example.individualproject.dto.users.*;
 import com.example.individualproject.business.UserService;
 import com.example.individualproject.repository.AdminRepository;
 import com.example.individualproject.repository.NormalUserRepository;
@@ -157,35 +157,34 @@ public class UserServiceImpl implements UserService {
         }
 
 <span class="nc" id="L159">        NormalUser repeated = normalUserRepository.findByPhonenumberIsLike(updateRequestDTO.getPhoneNumber());</span>
-<span class="nc bnc" id="L160" title="All 2 branches missed.">        if(repeated.getPhonenumber() != user.getPhonenumber())</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">        if(repeated.getPhonenumber().equals(updateRequestDTO.getPhoneNumber())</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">                &amp;&amp; !(user.getPhonenumber().equals(updateRequestDTO.getPhoneNumber())))</span>
         {
-<span class="nc bnc" id="L162" title="All 2 branches missed.">            if(repeated != null) {</span>
-<span class="nc" id="L163">                return null;</span>
-            }
+<span class="nc" id="L163">            return null;</span>
         }
 
-<span class="nc" id="L167">        NormalUser repeated1 = normalUserRepository.findByEmailIsLike(updateRequestDTO.getEmail());</span>
-<span class="nc bnc" id="L168" title="All 2 branches missed.">        if(repeated1.getEmail() != user.getEmail())</span>
+<span class="nc" id="L166">        NormalUser repeated1 = normalUserRepository.findByEmailIsLike(updateRequestDTO.getEmail());</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">        if(repeated1.getEmail().equals(updateRequestDTO.getEmail())</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">                &amp;&amp; !(user.getEmail().equals(updateRequestDTO.getEmail())))</span>
         {
-<span class="nc bnc" id="L170" title="All 2 branches missed.">            if(repeated1 != null) {</span>
-<span class="nc" id="L171">                return null;</span>
-            }
+<span class="nc" id="L170">                return null;</span>
+
         }
 
-<span class="nc" id="L175">        NormalUser newUser = new NormalUser(</span>
-<span class="nc" id="L176">                updateRequestDTO.getId(),</span>
-<span class="nc" id="L177">                user.getUsername(),</span>
-<span class="nc" id="L178">                user.getPassword(),</span>
-<span class="nc" id="L179">                updateRequestDTO.getFirstName(),</span>
-<span class="nc" id="L180">                updateRequestDTO.getLastName(),</span>
-<span class="nc" id="L181">                updateRequestDTO.getPhoneNumber(),</span>
-<span class="nc" id="L182">                updateRequestDTO.getEmail());</span>
+<span class="nc" id="L174">        NormalUser newUser = new NormalUser(</span>
+<span class="nc" id="L175">                updateRequestDTO.getId(),</span>
+<span class="nc" id="L176">                user.getUsername(),</span>
+<span class="nc" id="L177">                user.getPassword(),</span>
+<span class="nc" id="L178">                updateRequestDTO.getFirstName(),</span>
+<span class="nc" id="L179">                updateRequestDTO.getLastName(),</span>
+<span class="nc" id="L180">                updateRequestDTO.getPhoneNumber(),</span>
+<span class="nc" id="L181">                updateRequestDTO.getEmail());</span>
 
-<span class="nc" id="L184">        normalUserRepository.save(newUser);</span>
+<span class="nc" id="L183">        normalUserRepository.save(newUser);</span>
 
-<span class="nc" id="L186">        return UpdateUserResponseDTO.builder()</span>
-<span class="nc" id="L187">                .firstName(newUser.getFirstname())</span>
-<span class="nc" id="L188">                .build();</span>
+<span class="nc" id="L185">        return UpdateUserResponseDTO.builder()</span>
+<span class="nc" id="L186">                .firstName(newUser.getFirstname())</span>
+<span class="nc" id="L187">                .build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

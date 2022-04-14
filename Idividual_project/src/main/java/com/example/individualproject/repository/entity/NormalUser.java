@@ -1,7 +1,6 @@
 package com.example.individualproject.repository.entity;
 
-import com.example.individualproject.DTO.Products.CreateProductRequestDTO;
-import com.example.individualproject.DTO.Users.CreateUserRequestDTO;
+import com.example.individualproject.dto.users.CreateUserRequestDTO;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -9,7 +8,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 
-@Builder
 @Data
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor

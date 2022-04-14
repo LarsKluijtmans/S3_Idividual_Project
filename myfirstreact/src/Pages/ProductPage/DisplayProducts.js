@@ -3,12 +3,14 @@ import {Link} from 'react-router-dom';
 
 function DisplayProducts({productsArray}) {
 
-    console.log(productsArray);
     return (
         <div className={"wrapper"}>
             {productsArray.map(product => (
                 <div className="box">
                     <section className="product">
+
+                        <img className="product_image" src={product.images[0]} alt={"Product main Image"} />
+
                         <div className="product__info">
                             <div className="title">
                                 <h1>{product.title}</h1>
@@ -18,7 +20,6 @@ function DisplayProducts({productsArray}) {
                                 <span>{product.price} </span> $
                             </div>
                             <div className="description">
-                                <h3>Description</h3>
                                 <h4>{product.description}</h4>
                             </div>
 

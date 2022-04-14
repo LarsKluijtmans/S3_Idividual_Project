@@ -1,10 +1,11 @@
 package com.example.individualproject.business.impl;
 
-import com.example.individualproject.DTO.Products.*;
+import com.example.individualproject.dto.products.*;
 import com.example.individualproject.business.ProductService;
+import com.example.individualproject.repository.ImageRepository;
+import com.example.individualproject.repository.entity.Image;
 import com.example.individualproject.repository.entity.Product;
 import com.example.individualproject.repository.ProductRepository;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-
+    private final ImageRepository imageRepository;
     @Override
     public List<GetProductDTO> getAllProducts() {
 
@@ -40,12 +41,12 @@ public class ProductServiceImpl implements ProductService {
             return Collections.emptyList();
         }
 
-        String Name = "%" + name + "%";
+        String searchName = "%" + name + "%";
         List<GetProductDTO> result = new ArrayList<>();
 
         GetProductDTO product;
 
-        for (Product p :  productRepository.findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenreIsLike(Name,Name,Name,Name,Name)) {
+        for (Product p :  productRepository.findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenreIsLike(searchName,searchName,searchName,searchName,searchName)) {
             product = new GetProductDTO(p);
             result.add(product);
         }
@@ -58,13 +59,13 @@ public class ProductServiceImpl implements ProductService {
     }
     @Override
     public List<GetProductDTO> getAllOfAUsersProducts(Long userID) {
-      //ToDo make this
         return Collections.emptyList();
     }
 
     //Delete
     @Override
     public void deleteProduct(Long productID) {
+        imageRepository.deleteAllByProductIsLike(productRepository.getById(productID));
         productRepository.deleteById(productID);
     }
 
@@ -72,9 +73,18 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public CreateProductResponseDTO addProduct(CreateProductRequestDTO product) {
 
+        List<Image> images = new ArrayList<>();
+        for (String s : product.getImages()) {
+            Image newimage = Image.builder()
+                    .imageUrl(s)
+                    .build();
+
+            images.add(newimage);
+        }
+
         Product newProduct = Product.builder()
                 .title(product.getTitle())
-                .subTitle(product.getSub_title())
+                .subTitle(product.getSubTitle())
                 .series(product.getSeries())
                 .year(product.getYear())
                 .price(product.getPrice())
@@ -82,41 +92,86 @@ public class ProductServiceImpl implements ProductService {
                 .description(product.getDescription())
                 .genre(product.getGenre())
                 .sold(false)
-                .product_type(product.getProduct_type())
+                .images(images)
+                .productType(product.getProductType())
                 .build();
 
-        Product savedProduct= save(newProduct);
+        Product savedProduct = productRepository.save(newProduct);
 
-        return CreateProductResponseDTO.builder()
+
+        CreateProductResponseDTO createProductResponseDTO = CreateProductResponseDTO.builder()
                 .productId(savedProduct.getId())
                 .build();
-    }
-    private Product save(Product product) {
-        productRepository.save(product);
-        return Product.builder().build();
+
+        savedProduct.setId(createProductResponseDTO.getProductId());
+
+        SaveImages(savedProduct,product.getImages());
+
+        return createProductResponseDTO;
     }
 
     //Update
     @Override
     public UpdateProductResponseDTO updateProduct(UpdateProductRequestDTO product) {
+
+        List<Image> images = new ArrayList<>();
+        for (String s : product.getImages()) {
+            Image newimage = Image.builder()
+                    .imageUrl(s)
+                    .build();
+
+            images.add(newimage);
+        }
+
         Product updatedProduct = Product.builder()
                 .id(product.getProductId())
                 .title(product.getTitle())
-                .subTitle(product.getSub_title())
+                .subTitle(product.getSubTitle())
                 .series(product.getSeries())
                 .year(product.getYear())
                 .price(product.getPrice())
-                .condition(product.getCondition_())
+                .condition(product.getCondition())
                 .description(product.getDescription())
                 .genre(product.getGenre())
                 .sold(false)
-                .product_type(product.getProduct_type())
+                .productType(product.getProductType())
+                .images(images)
                 .build();
 
-        Product savedProduct= save(updatedProduct);
+        Product savedProduct = productRepository.save(updatedProduct);
 
-        return UpdateProductResponseDTO.builder()
+        UpdateProductResponseDTO updateProductResponseDTO = UpdateProductResponseDTO.builder()
                 .productId(savedProduct.getId())
                 .build();
+
+
+        savedProduct.setId(updateProductResponseDTO.getProductId());
+
+        imageRepository.deleteAllByProductIsLike(savedProduct);
+        SaveImages(savedProduct,product.getImages());
+
+        return  updateProductResponseDTO;
     }
+
+    private Product save(Product product) {
+        productRepository.save(product);
+        return Product.builder().build();
+    }
+
+    //Images
+    private void SaveImages(Product product, List<String> images){
+       List<Image> imagesToSave = new ArrayList<>();
+
+        for (String s : images) {
+            Image newimage = Image.builder()
+                    .product(product)
+                    .imageUrl(s)
+                    .build();
+
+            imagesToSave.add(newimage);
+        }
+
+        imageRepository.saveAll(imagesToSave);
+    }
+
 }

@@ -6,7 +6,6 @@ plugins {
 	id 'jacoco'
 }
 
-
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -45,4 +44,15 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+jacocoTestReport {
+	reports {
+		xml.enabled true
+	}
+}
+test.finalizedBy jacocoTestReport
+
+
+tasks.named('sonarqube').configure {
+	dependsOn test
 }

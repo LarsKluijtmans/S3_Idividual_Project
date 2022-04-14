@@ -21,3 +21,10 @@ CREATE TABLE product(
     PRIMARY KEY (id)
 );
 
+CREATE TABLE images(
+    id   int     NOT NULL AUTO_INCREMENT,
+    image_url char(200) NOT NULL,
+    product_Id int NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (product_Id) references product(id)
+);

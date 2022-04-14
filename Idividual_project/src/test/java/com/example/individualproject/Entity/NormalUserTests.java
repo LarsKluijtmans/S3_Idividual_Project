@@ -1,12 +1,12 @@
 package com.example.individualproject.Entity;
 
-import com.example.individualproject.DTO.Users.CreateUserRequestDTO;
+import com.example.individualproject.dto.users.CreateUserRequestDTO;
 import com.example.individualproject.repository.entity.NormalUser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class NormalUserTests {
+ class NormalUserTests {
 
     @Test
     void test_NormalUserConstructorS() {

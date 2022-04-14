@@ -1,6 +1,6 @@
 package com.example.individualproject.controller;
 
-import com.example.individualproject.DTO.Products.*;
+import com.example.individualproject.dto.products.*;
 import com.example.individualproject.business.*;
 
 import lombok.RequiredArgsConstructor;

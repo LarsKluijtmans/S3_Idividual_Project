@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GetUserDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Individual_Project</a> &gt; <a href="index.source.html" class="el_package">com.example.individualproject.DTO.Users</a> &gt; <span class="el_source">GetUserDTO.java</span></div><h1>GetUserDTO.java</h1><pre class="source lang-java linenums">package com.example.individualproject.DTO.Users;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GetUserDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Individual_Project</a> &gt; <a href="index.source.html" class="el_package">com.example.individualproject.dto.users</a> &gt; <span class="el_source">GetUserDTO.java</span></div><h1>GetUserDTO.java</h1><pre class="source lang-java linenums">package com.example.individualproject.dto.users;
 
 import com.example.individualproject.repository.entity.Admin;
 import com.example.individualproject.repository.entity.NormalUser;
-import com.example.individualproject.repository.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,22 +21,23 @@ public class GetUserDTO {
     private String position;
 
     public GetUserDTO(NormalUser user)
-<span class="fc" id="L25">    {</span>
-<span class="fc" id="L26">        this.username = user.getUsername();</span>
-<span class="fc" id="L27">        this.firstName = user.getFirstname();</span>
-<span class="fc" id="L28">        this.lastName = user.getLastname();</span>
-<span class="fc" id="L29">        this.phoneNumber = user.getPhonenumber();</span>
-<span class="fc" id="L30">        this.email = user.getEmail();</span>
-<span class="fc" id="L31">        this.position = &quot;NORMAL&quot;;</span>
-<span class="fc" id="L32">    }</span>
+<span class="fc" id="L24">    {</span>
+<span class="fc" id="L25">        this.username = user.getUsername();</span>
+<span class="fc" id="L26">        this.firstName = user.getFirstname();</span>
+<span class="fc" id="L27">        this.lastName = user.getLastname();</span>
+<span class="fc" id="L28">        this.phoneNumber = user.getPhonenumber();</span>
+<span class="fc" id="L29">        this.email = user.getEmail();</span>
+<span class="fc" id="L30">        this.position = &quot;NORMAL&quot;;</span>
+<span class="fc" id="L31">    }</span>
 
     public GetUserDTO(Admin user)
-<span class="fc" id="L35">    {</span>
+<span class="fc" id="L34">    {</span>
+<span class="fc" id="L35">        String none = &quot;-None-&quot;;</span>
 <span class="fc" id="L36">        this.username = user.getUsername();</span>
-<span class="fc" id="L37">        this.firstName = &quot;He's got no name&quot;;</span>
-<span class="fc" id="L38">        this.lastName = &quot;He's got no last name either&quot;;</span>
-<span class="fc" id="L39">        this.phoneNumber = &quot;He's got no phone&quot;;</span>
-<span class="fc" id="L40">        this.email = &quot;He's got no email&quot;;</span>
+<span class="fc" id="L37">        this.firstName = none;</span>
+<span class="fc" id="L38">        this.lastName = none;</span>
+<span class="fc" id="L39">        this.phoneNumber = none;</span>
+<span class="fc" id="L40">        this.email = none;</span>
 <span class="fc" id="L41">        this.position = &quot;ADMIN&quot;;</span>
 <span class="fc" id="L42">    }</span>
 }

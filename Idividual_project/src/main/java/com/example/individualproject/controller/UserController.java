@@ -1,8 +1,7 @@
 package com.example.individualproject.controller;
 
-import com.example.individualproject.DTO.Users.*;
+import com.example.individualproject.dto.users.*;
 import com.example.individualproject.business.UserService;
-import com.example.individualproject.repository.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

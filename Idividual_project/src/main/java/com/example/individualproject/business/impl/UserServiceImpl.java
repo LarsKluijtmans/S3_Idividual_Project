@@ -1,6 +1,6 @@
 package com.example.individualproject.business.impl;
 
-import com.example.individualproject.DTO.Users.*;
+import com.example.individualproject.dto.users.*;
 import com.example.individualproject.business.UserService;
 import com.example.individualproject.repository.AdminRepository;
 import com.example.individualproject.repository.NormalUserRepository;
@@ -157,19 +157,18 @@ public class UserServiceImpl implements UserService {
         }
 
         NormalUser repeated = normalUserRepository.findByPhonenumberIsLike(updateRequestDTO.getPhoneNumber());
-        if(repeated.getPhonenumber() != user.getPhonenumber())
+        if(repeated.getPhonenumber().equals(updateRequestDTO.getPhoneNumber())
+                && !(user.getPhonenumber().equals(updateRequestDTO.getPhoneNumber())))
         {
-            if(repeated != null) {
-                return null;
-            }
+            return null;
         }
 
         NormalUser repeated1 = normalUserRepository.findByEmailIsLike(updateRequestDTO.getEmail());
-        if(repeated1.getEmail() != user.getEmail())
+        if(repeated1.getEmail().equals(updateRequestDTO.getEmail())
+                && !(user.getEmail().equals(updateRequestDTO.getEmail())))
         {
-            if(repeated1 != null) {
                 return null;
-            }
+
         }
 
         NormalUser newUser = new NormalUser(

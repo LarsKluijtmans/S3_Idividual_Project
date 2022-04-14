@@ -7,6 +7,8 @@ function View_Product_Details() {
 
     const [product, setProduct] = useState({});
     const [error, setError] = useState("");
+    const [productImages, setProductImages] = useState([]);
+    const [mainImage, setmainImage] = useState("");
 
     useEffect(() => {
         GetProductByID();
@@ -20,13 +22,17 @@ function View_Product_Details() {
         axios.get(`http://localhost:8080/products/` + productId)
             .then(res => {
                 setProduct(res.data);
+                setProductImages(res.data.images);
+                setmainImage(res.data.images[0]);
             })
             .catch(err => {
                 setError(err.message);
             });
     }
 
-
+    const setMainImage = (url) => {
+      setmainImage(url);
+    }
 
    if(product != null) {
        return (
@@ -35,8 +41,12 @@ function View_Product_Details() {
                <div className="left-column">
                    <h2>Image of product</h2>
 
-                   <img src="./images/download.png" />
-
+                   <img className={"mainImage"} src={mainImage} height={"500"} alt={"picture"}/>
+                   <div className="list_Of_Sub_Images">
+                       {productImages.map(ProductImage => (
+                           <img className={"subImage"} src={ProductImage} height={"500"} alt={"picture"} onClick={() => setMainImage(ProductImage)}/>
+                       ))}
+                   </div>
                </div>
 
                <div className="right-column">

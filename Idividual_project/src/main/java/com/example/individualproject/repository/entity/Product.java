@@ -1,5 +1,6 @@
 package com.example.individualproject.repository.entity;
 
+import com.example.individualproject.dto.products.UpdateProductRequestDTO;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -57,5 +58,22 @@ public class Product{
 
     @Length(min = 1 ,max = 30)
     @Column(name = "product_type")
-    private String product_type;
+    private String productType;
+
+    @OneToMany(mappedBy="product")
+    private List<Image> images;
+
+    public Product(UpdateProductRequestDTO productRequestDTO) {
+        this.setId(productRequestDTO.getProductId());
+        this.setTitle(productRequestDTO.getTitle());
+        this.setSubTitle(productRequestDTO.getSubTitle());
+        this.setSeries(productRequestDTO.getSeries());
+        this.setYear(productRequestDTO.getYear());
+        this.setPrice(productRequestDTO.getPrice());
+        this.setCondition(productRequestDTO.getCondition());
+        this.setDescription(productRequestDTO.getDescription());
+        this.setGenre(productRequestDTO.getGenre());
+        this.setSold(false);
+        this.setProductType(productRequestDTO.getProductType());
+    }
 }

@@ -34,24 +34,24 @@ function MakeAccount(){
         <div>
             <br/>
             <label><b>Firstname</b></label>
-            <input type="text" placeholder="Enter FirstName" name={"FirstName"} value={firstname}
-                   onChange={handleFirstnameChange}/>
+            <input type="text" placeholder="Enter FirstName" name={"FirstName"} value={firstname} onChange={handleFirstnameChange}/>
+
             <label><b>LastName</b></label>
-            <input type="text" placeholder="Enter LastName" name={"LastName"} value={lastname}
-                   onChange={handleLastNameChange}/>
+            <input type="text" placeholder="Enter LastName" name={"LastName"} value={lastname} onChange={handleLastNameChange}/>
+
             <label><b>Email</b></label>
-            <input type="text" placeholder="Enter Email" name={"Email"} value={email}
-                   onChange={handleEmailChange}/>
+            <input type="text" placeholder="Enter Email" name={"Email"} value={email} onChange={handleEmailChange}/>
+
             <label><b>PhoneNumber</b></label>
-            <input type="text" placeholder="Enter PhoneNumber" name={"PhoneNumber"} value={phoneNumber}
-                   onChange={handlePhoneNumberChange}/>
+            <input type="text" placeholder="Enter PhoneNumber" name={"PhoneNumber"} value={phoneNumber} onChange={handlePhoneNumberChange}/>
+
+            <br/>
 
             <label><b>Username</b></label>
-            <input type="text" placeholder="Enter Username" name={"username"} value={username}
-                   onChange={handleUsernameChange}/>
+            <input type="text" placeholder="Enter Username" name={"username"} value={username} onChange={handleUsernameChange}/>
+
             <label><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name={"password"} value={password}
-                   onChange={handlePasswordChange}/>
+            <input type="password" placeholder="Enter Password" name={"password"} value={password} onChange={handlePasswordChange}/>
 
             <CreateAccount firstname={firstname} lastname={lastname} email={email} phoneNumber={phoneNumber} username={username} password={password}/>
 

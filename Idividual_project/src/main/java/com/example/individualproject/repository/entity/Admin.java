@@ -1,14 +1,12 @@
 package com.example.individualproject.repository.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
 
-@Builder
 @Data
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor

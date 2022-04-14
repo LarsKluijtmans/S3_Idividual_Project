@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 
