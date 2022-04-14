@@ -188,10 +188,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isEmailUnique(String email) {
+        boolean result = true;
+
         if(normalUserRepository.findByEmailIs(email) != null) {
-            return false;
+            result = false;
         }
-        return true;
+        return result;
     }
          //Add
     @Override

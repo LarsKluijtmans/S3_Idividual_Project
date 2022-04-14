@@ -55,7 +55,13 @@ public class ProductServiceImpl implements ProductService {
     }
     @Override
     public GetProductDTO getProduct(Long productID) {
-        return new GetProductDTO(productRepository.findProductsByIdIsLike(productID));
+        Product p = productRepository.findProductsByIdIsLike(productID);
+
+        if(p == null) {
+            return null;
+        }
+
+        return new GetProductDTO(p);
     }
     @Override
     public List<GetProductDTO> getAllOfAUsersProducts(Long userID) {
@@ -74,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
     public CreateProductResponseDTO addProduct(CreateProductRequestDTO product) {
 
         List<Image> images = new ArrayList<>();
-        for (String s : product.getImages()) {
+        for (String s : product.getProductInfo().getImages()) {
             Image newimage = Image.builder()
                     .imageUrl(s)
                     .build();
@@ -83,17 +89,17 @@ public class ProductServiceImpl implements ProductService {
         }
 
         Product newProduct = Product.builder()
-                .title(product.getTitle())
-                .subTitle(product.getSubTitle())
-                .series(product.getSeries())
-                .year(product.getYear())
-                .price(product.getPrice())
-                .condition(product.getCondition())
-                .description(product.getDescription())
-                .genre(product.getGenre())
+                .title(product.getProductInfo().getTitle())
+                .subTitle(product.getProductInfo().getSubTitle())
+                .series(product.getProductInfo().getSeries())
+                .year(product.getProductInfo().getYear())
+                .price(product.getProductInfo().getPrice())
+                .condition(product.getProductInfo().getCondition())
+                .description(product.getProductInfo().getDescription())
+                .genre(product.getProductInfo().getGenre())
                 .sold(false)
                 .images(images)
-                .productType(product.getProductType())
+                .productType(product.getProductInfo().getProductType())
                 .build();
 
         Product savedProduct = productRepository.save(newProduct);
@@ -105,7 +111,7 @@ public class ProductServiceImpl implements ProductService {
 
         savedProduct.setId(createProductResponseDTO.getProductId());
 
-        saveImages(savedProduct,product.getImages());
+        saveImages(savedProduct,product.getProductInfo().getImages());
 
         return createProductResponseDTO;
     }
@@ -115,7 +121,7 @@ public class ProductServiceImpl implements ProductService {
     public UpdateProductResponseDTO updateProduct(UpdateProductRequestDTO product) {
 
         List<Image> images = new ArrayList<>();
-        for (String s : product.getImages()) {
+        for (String s : product.getProductInfo().getImages()) {
             Image newimage = Image.builder()
                     .imageUrl(s)
                     .build();
@@ -125,16 +131,16 @@ public class ProductServiceImpl implements ProductService {
 
         Product updatedProduct = Product.builder()
                 .id(product.getProductId())
-                .title(product.getTitle())
-                .subTitle(product.getSubTitle())
-                .series(product.getSeries())
-                .year(product.getYear())
-                .price(product.getPrice())
-                .condition(product.getCondition())
-                .description(product.getDescription())
-                .genre(product.getGenre())
+                .title(product.getProductInfo().getTitle())
+                .subTitle(product.getProductInfo().getSubTitle())
+                .series(product.getProductInfo().getSeries())
+                .year(product.getProductInfo().getYear())
+                .price(product.getProductInfo().getPrice())
+                .condition(product.getProductInfo().getCondition())
+                .description(product.getProductInfo().getDescription())
+                .genre(product.getProductInfo().getGenre())
                 .sold(false)
-                .productType(product.getProductType())
+                .productType(product.getProductInfo().getProductType())
                 .images(images)
                 .build();
 
@@ -148,7 +154,7 @@ public class ProductServiceImpl implements ProductService {
         savedProduct.setId(updateProductResponseDTO.getProductId());
 
         imageRepository.deleteAllByProductIsLike(savedProduct);
-        saveImages(savedProduct,product.getImages());
+        saveImages(savedProduct,product.getProductInfo().getImages());
 
         return  updateProductResponseDTO;
     }

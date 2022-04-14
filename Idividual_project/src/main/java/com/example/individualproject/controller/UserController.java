@@ -69,14 +69,12 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
-
         //Delete
     @DeleteMapping("{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok().build();
     }
-
 
     //NormalUser
     @GetMapping("login/{username}/{password}")
@@ -104,19 +102,19 @@ public class UserController {
 
     //All
     @GetMapping( "unique/name/{name}")
-    public ResponseEntity<Boolean> IsUsernameUnique(@PathVariable("name") String name) {
+    public ResponseEntity<Boolean> isUsernameUnique(@PathVariable("name") String name) {
         Boolean result = userService.isUsernameUnique(name);
 
         return ResponseEntity.ok().body(result);
     }
     @GetMapping( "unique/phoneNumber/{phoneNumber}")
-    public ResponseEntity<Boolean> IsPhoneNumberUnique(@PathVariable("phoneNumber") String phoneNumber) {
+    public ResponseEntity<Boolean> isPhoneNumberUnique(@PathVariable("phoneNumber") String phoneNumber) {
         Boolean result = userService.isPhoneNumberUnique(phoneNumber);
 
         return ResponseEntity.ok().body(result);
     }
     @GetMapping( "unique/email/{email}")
-    public ResponseEntity<Boolean> IsEmailUnique(@PathVariable("email") String email) {
+    public ResponseEntity<Boolean> isEmailUnique(@PathVariable("email") String email) {
         Boolean result = userService.isEmailUnique(email);
 
         return ResponseEntity.ok().body(result);

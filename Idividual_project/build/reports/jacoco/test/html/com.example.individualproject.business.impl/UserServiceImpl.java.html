@@ -121,70 +121,105 @@ public class UserServiceImpl implements UserService {
 <span class="nc" id="L121">           return new GetUserDTO(user);</span>
        }
     }
-        //Add
-    @Override
-    public CreateUserResponseDTO addUser(CreateUserRequestDTO createRequestDTO){
-<span class="nc" id="L127">        NormalUser repeated1 = normalUserRepository.findByUsernameIsLike(createRequestDTO.getUsername());</span>
-<span class="nc" id="L128">        Admin repeated2 = adminRepository.findByUsernameIsLike(createRequestDTO.getUsername());</span>
-
-<span class="nc bnc" id="L130" title="All 4 branches missed.">        if(repeated1 != null || repeated2 != null) {</span>
-<span class="nc" id="L131">            return null;</span>
-        }
-
-<span class="nc" id="L134">        NormalUser repeated3 = normalUserRepository.findByPhonenumberIsLike(createRequestDTO.getPhoneNumber());</span>
-<span class="nc" id="L135">        NormalUser repeated4 = normalUserRepository.findByEmailIsLike(createRequestDTO.getEmail());</span>
-
-<span class="nc bnc" id="L137" title="All 4 branches missed.">        if(repeated3 != null || repeated4 != null) {</span>
-<span class="nc" id="L138">            return null;</span>
-        }
-
-<span class="nc" id="L141">        NormalUser newUser = new NormalUser(createRequestDTO);</span>
-
-<span class="nc" id="L143">        normalUserRepository.save(newUser);</span>
-
-<span class="nc" id="L145">        return CreateUserResponseDTO.builder()</span>
-<span class="nc" id="L146">                .firstName(newUser.getFirstname())</span>
-<span class="nc" id="L147">                .build(); </span>
-    }
          //Update
     @Override
     public UpdateUserResponseDTO updateUser(UpdateUserRequestDTO updateRequestDTO){
 
-<span class="nc" id="L153">        NormalUser user = normalUserRepository.findAllByIdIsLike(updateRequestDTO.getId());</span>
-<span class="nc bnc" id="L154" title="All 2 branches missed.">        if(user == null)</span>
+<span class="nc" id="L128">        NormalUser user = normalUserRepository.findAllByIdIsLike(updateRequestDTO.getId());</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if(user == null)</span>
         {
-<span class="nc" id="L156">            return null;</span>
+<span class="nc" id="L131">            return null;</span>
         }
 
-<span class="nc" id="L159">        NormalUser repeated = normalUserRepository.findByPhonenumberIsLike(updateRequestDTO.getPhoneNumber());</span>
-<span class="nc bnc" id="L160" title="All 2 branches missed.">        if(repeated.getPhonenumber().equals(updateRequestDTO.getPhoneNumber())</span>
-<span class="nc bnc" id="L161" title="All 2 branches missed.">                &amp;&amp; !(user.getPhonenumber().equals(updateRequestDTO.getPhoneNumber())))</span>
+<span class="nc" id="L134">        NormalUser repeated = normalUserRepository.findByPhonenumberIsLike(updateRequestDTO.getPhoneNumber());</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        if(repeated.getPhonenumber().equals(updateRequestDTO.getPhoneNumber())</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">                &amp;&amp; !(user.getPhonenumber().equals(updateRequestDTO.getPhoneNumber())))</span>
         {
-<span class="nc" id="L163">            return null;</span>
+<span class="nc" id="L138">            return null;</span>
         }
 
-<span class="nc" id="L166">        NormalUser repeated1 = normalUserRepository.findByEmailIsLike(updateRequestDTO.getEmail());</span>
-<span class="nc bnc" id="L167" title="All 2 branches missed.">        if(repeated1.getEmail().equals(updateRequestDTO.getEmail())</span>
-<span class="nc bnc" id="L168" title="All 2 branches missed.">                &amp;&amp; !(user.getEmail().equals(updateRequestDTO.getEmail())))</span>
+<span class="nc" id="L141">        NormalUser repeated1 = normalUserRepository.findByEmailIsLike(updateRequestDTO.getEmail());</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        if(repeated1.getEmail().equals(updateRequestDTO.getEmail())</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">                &amp;&amp; !(user.getEmail().equals(updateRequestDTO.getEmail())))</span>
         {
-<span class="nc" id="L170">                return null;</span>
+<span class="nc" id="L145">                return null;</span>
 
         }
 
-<span class="nc" id="L174">        NormalUser newUser = new NormalUser(</span>
-<span class="nc" id="L175">                updateRequestDTO.getId(),</span>
-<span class="nc" id="L176">                user.getUsername(),</span>
-<span class="nc" id="L177">                user.getPassword(),</span>
-<span class="nc" id="L178">                updateRequestDTO.getFirstName(),</span>
-<span class="nc" id="L179">                updateRequestDTO.getLastName(),</span>
-<span class="nc" id="L180">                updateRequestDTO.getPhoneNumber(),</span>
-<span class="nc" id="L181">                updateRequestDTO.getEmail());</span>
+<span class="nc" id="L149">        NormalUser newUser = new NormalUser(</span>
+<span class="nc" id="L150">                updateRequestDTO.getId(),</span>
+<span class="nc" id="L151">                user.getUsername(),</span>
+<span class="nc" id="L152">                user.getPassword(),</span>
+<span class="nc" id="L153">                updateRequestDTO.getFirstName(),</span>
+<span class="nc" id="L154">                updateRequestDTO.getLastName(),</span>
+<span class="nc" id="L155">                updateRequestDTO.getPhoneNumber(),</span>
+<span class="nc" id="L156">                updateRequestDTO.getEmail());</span>
 
-<span class="nc" id="L183">        normalUserRepository.save(newUser);</span>
+<span class="nc" id="L158">        normalUserRepository.save(newUser);</span>
 
-<span class="nc" id="L185">        return UpdateUserResponseDTO.builder()</span>
-<span class="nc" id="L186">                .firstName(newUser.getFirstname())</span>
-<span class="nc" id="L187">                .build();</span>
+<span class="nc" id="L160">        return UpdateUserResponseDTO.builder()</span>
+<span class="nc" id="L161">                .firstName(newUser.getFirstname())</span>
+<span class="nc" id="L162">                .build();</span>
+    }
+
+
+    //All
+    @Override
+    public boolean isUsernameUnique(String name) {
+
+<span class="nc" id="L170">        boolean result = true;</span>
+
+<span class="nc bnc" id="L172" title="All 4 branches missed.">      if(normalUserRepository.findByUsernameIs(name) != null  || adminRepository.findByUsernameIs(name) != null) {</span>
+<span class="nc" id="L173">          result = false;</span>
+      }
+<span class="nc" id="L175">          return result;</span>
+    }
+
+    @Override
+    public boolean isPhoneNumberUnique(String phoneNumber) {
+
+<span class="nc" id="L181">        boolean result = true;</span>
+
+<span class="nc bnc" id="L183" title="All 2 branches missed.">        if(normalUserRepository.findByPhonenumberIs(phoneNumber) != null) {</span>
+<span class="nc" id="L184">            result = false;</span>
+        }
+<span class="nc" id="L186">        return result;</span>
+    }
+
+    @Override
+    public boolean isEmailUnique(String email) {
+<span class="nc" id="L191">        boolean result = true;</span>
+
+<span class="nc bnc" id="L193" title="All 2 branches missed.">        if(normalUserRepository.findByEmailIs(email) != null) {</span>
+<span class="nc" id="L194">            result = false;</span>
+        }
+<span class="nc" id="L196">        return result;</span>
+    }
+         //Add
+    @Override
+    public CreateUserResponseDTO addUser(CreateUserRequestDTO createRequestDTO){
+<span class="nc" id="L201">        NormalUser repeated1 = normalUserRepository.findByUsernameIsLike(createRequestDTO.getUsername());</span>
+<span class="nc" id="L202">        Admin repeated2 = adminRepository.findByUsernameIsLike(createRequestDTO.getUsername());</span>
+
+<span class="nc bnc" id="L204" title="All 4 branches missed.">        if(repeated1 != null || repeated2 != null) {</span>
+<span class="nc" id="L205">            return null;</span>
+        }
+
+<span class="nc" id="L208">        NormalUser repeated3 = normalUserRepository.findByPhonenumberIsLike(createRequestDTO.getPhoneNumber());</span>
+<span class="nc" id="L209">        NormalUser repeated4 = normalUserRepository.findByEmailIsLike(createRequestDTO.getEmail());</span>
+
+<span class="nc bnc" id="L211" title="All 4 branches missed.">        if(repeated3 != null || repeated4 != null) {</span>
+<span class="nc" id="L212">            return null;</span>
+        }
+
+<span class="nc" id="L215">        NormalUser newUser = new NormalUser(createRequestDTO);</span>
+
+<span class="nc" id="L217">        normalUserRepository.save(newUser);</span>
+
+<span class="nc" id="L219">        return CreateUserResponseDTO.builder()</span>
+<span class="nc" id="L220">                .firstName(newUser.getFirstname())</span>
+<span class="nc" id="L221">                .build();</span>
     }
 }
+
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -76,41 +76,61 @@ public class UserController {
 <span class="nc" id="L76">        return ResponseEntity.ok().build();</span>
     }
 
-
     //NormalUser
     @GetMapping(&quot;login/{username}/{password}&quot;)
     public ResponseEntity&lt;GetUserDTO&gt; getUsersByUsernameAndPassword( @PathVariable(&quot;username&quot;) String username, @PathVariable(&quot;password&quot;) String password) {
-<span class="nc" id="L83">        UserAccountRequestDTO account = new UserAccountRequestDTO(username,password);</span>
+<span class="nc" id="L82">        UserAccountRequestDTO account = new UserAccountRequestDTO(username,password);</span>
 
-<span class="nc" id="L85">        GetUserDTO user = userService.getUser(account);</span>
+<span class="nc" id="L84">        GetUserDTO user = userService.getUser(account);</span>
 
-<span class="nc bnc" id="L87" title="All 2 branches missed.">        if(user != null) {</span>
-<span class="nc" id="L88">            return ResponseEntity.ok().body(user);</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if(user != null) {</span>
+<span class="nc" id="L87">            return ResponseEntity.ok().body(user);</span>
         } else {
-<span class="nc" id="L90">            return ResponseEntity.notFound().build();</span>
-        }
-    }
-    @PostMapping()
-    public ResponseEntity&lt;CreateUserResponseDTO&gt; createUser(@RequestBody CreateUserRequestDTO user) {
-
-<span class="nc" id="L96">        CreateUserResponseDTO userResponseDTO = userService.addUser(user);</span>
-<span class="nc bnc" id="L97" title="All 2 branches missed.">         if (userResponseDTO != null){</span>
-<span class="nc" id="L98">            String url = &quot;Unknown&quot;;</span>
-<span class="nc" id="L99">            URI uri = URI.create(url);</span>
-<span class="nc" id="L100">            return ResponseEntity.created(uri).body(userResponseDTO);</span>
-        } else {
-<span class="nc" id="L102">            return ResponseEntity.status(HttpStatus.CONFLICT).build();</span>
+<span class="nc" id="L89">            return ResponseEntity.notFound().build();</span>
         }
     }
     @PutMapping()
     public ResponseEntity&lt;UpdateUserResponseDTO&gt; updateUser(@RequestBody UpdateUserRequestDTO user) {
-<span class="nc" id="L107">        UpdateUserResponseDTO responseDTO = userService.updateUser(user);</span>
+<span class="nc" id="L94">        UpdateUserResponseDTO responseDTO = userService.updateUser(user);</span>
 
-<span class="nc bnc" id="L109" title="All 2 branches missed.">       if(responseDTO != null) {</span>
-<span class="nc" id="L110">           return ResponseEntity.noContent().build();</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">       if(responseDTO != null) {</span>
+<span class="nc" id="L97">           return ResponseEntity.noContent().build();</span>
        }else {
-<span class="nc" id="L112">           return ResponseEntity.badRequest().build();</span>
+<span class="nc" id="L99">           return ResponseEntity.badRequest().build();</span>
        }
     }
+
+    //All
+    @GetMapping( &quot;unique/name/{name}&quot;)
+    public ResponseEntity&lt;Boolean&gt; isUsernameUnique(@PathVariable(&quot;name&quot;) String name) {
+<span class="nc" id="L106">        Boolean result = userService.isUsernameUnique(name);</span>
+
+<span class="nc" id="L108">        return ResponseEntity.ok().body(result);</span>
+    }
+    @GetMapping( &quot;unique/phoneNumber/{phoneNumber}&quot;)
+    public ResponseEntity&lt;Boolean&gt; isPhoneNumberUnique(@PathVariable(&quot;phoneNumber&quot;) String phoneNumber) {
+<span class="nc" id="L112">        Boolean result = userService.isPhoneNumberUnique(phoneNumber);</span>
+
+<span class="nc" id="L114">        return ResponseEntity.ok().body(result);</span>
+    }
+    @GetMapping( &quot;unique/email/{email}&quot;)
+    public ResponseEntity&lt;Boolean&gt; isEmailUnique(@PathVariable(&quot;email&quot;) String email) {
+<span class="nc" id="L118">        Boolean result = userService.isEmailUnique(email);</span>
+
+<span class="nc" id="L120">        return ResponseEntity.ok().body(result);</span>
+    }
+    @PostMapping()
+    public ResponseEntity&lt;CreateUserResponseDTO&gt; createUser(@RequestBody CreateUserRequestDTO user) {
+
+<span class="nc" id="L125">        CreateUserResponseDTO userResponseDTO = userService.addUser(user);</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        if (userResponseDTO != null){</span>
+<span class="nc" id="L127">            String url = &quot;Unknown&quot;;</span>
+<span class="nc" id="L128">            URI uri = URI.create(url);</span>
+<span class="nc" id="L129">            return ResponseEntity.created(uri).body(userResponseDTO);</span>
+        } else {
+<span class="nc" id="L131">            return ResponseEntity.status(HttpStatus.CONFLICT).build();</span>
+        }
+    }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

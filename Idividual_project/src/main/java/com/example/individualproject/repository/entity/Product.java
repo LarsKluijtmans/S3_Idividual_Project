@@ -65,15 +65,15 @@ public class Product{
 
     public Product(UpdateProductRequestDTO productRequestDTO) {
         this.setId(productRequestDTO.getProductId());
-        this.setTitle(productRequestDTO.getTitle());
-        this.setSubTitle(productRequestDTO.getSubTitle());
-        this.setSeries(productRequestDTO.getSeries());
-        this.setYear(productRequestDTO.getYear());
-        this.setPrice(productRequestDTO.getPrice());
-        this.setCondition(productRequestDTO.getCondition());
-        this.setDescription(productRequestDTO.getDescription());
-        this.setGenre(productRequestDTO.getGenre());
+        this.setTitle(productRequestDTO.getProductInfo().getTitle());
+        this.setSubTitle(productRequestDTO.getProductInfo().getSubTitle());
+        this.setSeries(productRequestDTO.getProductInfo().getSeries());
+        this.setYear(productRequestDTO.getProductInfo().getYear());
+        this.setPrice(productRequestDTO.getProductInfo().getPrice());
+        this.setCondition(productRequestDTO.getProductInfo().getCondition());
+        this.setDescription(productRequestDTO.getProductInfo().getDescription());
+        this.setGenre(productRequestDTO.getProductInfo().getGenre());
         this.setSold(false);
-        this.setProductType(productRequestDTO.getProductType());
+        this.setProductType(productRequestDTO.getProductInfo().getProductType());
     }
 }
