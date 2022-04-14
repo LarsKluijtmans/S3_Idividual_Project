@@ -104,19 +104,19 @@ public class UserController {
     //All
     @GetMapping( "unique/name/{name}")
     public ResponseEntity<Boolean> IsUsernameUnique(@PathVariable("name") String name) {
-        Boolean result = userService.IsUsernameUnique(name);
+        Boolean result = userService.isUsernameUnique(name);
 
         return ResponseEntity.ok().body(result);
     }
     @GetMapping( "unique/phoneNumber/{phoneNumber}")
     public ResponseEntity<Boolean> IsPhoneNumberUnique(@PathVariable("phoneNumber") String phoneNumber) {
-        Boolean result = userService.IsPhoneNumberUnique(phoneNumber);
+        Boolean result = userService.isPhoneNumberUnique(phoneNumber);
 
         return ResponseEntity.ok().body(result);
     }
     @GetMapping( "unique/email/{email}")
     public ResponseEntity<Boolean> IsEmailUnique(@PathVariable("email") String email) {
-        Boolean result = userService.IsEmailUnique(email);
+        Boolean result = userService.isEmailUnique(email);
 
         return ResponseEntity.ok().body(result);
     }
