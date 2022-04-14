@@ -12,6 +12,7 @@ import View_Product_Details from    "./Pages/ProductPage/View_Product_Details"
 
 function App() {
 
+
     return (
         <div>
             <Navbar/>
