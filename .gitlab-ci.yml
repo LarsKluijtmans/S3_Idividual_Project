@@ -17,9 +17,3 @@ test:
         - ./gradlew test
         - ./gradlew.bat --stop
 
-codequality:
-    stage: sonarqube
-    script: 
-        - cd Idividual_project
-        - ./gradlew sonarqube -D'sonar.qualitygate.wait=true' -D 'sonar.projectKey=S3_Individual_Project' -D 'sonar.host.url=http://localhost:9000' -D 'sonar.login=a55dd730029a3cb2d69e73c50c95d16e72de0f58'
-        - ./gradlew.bat --stop
