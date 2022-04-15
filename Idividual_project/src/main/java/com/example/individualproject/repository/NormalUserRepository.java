@@ -11,10 +11,9 @@ public interface NormalUserRepository extends JpaRepository<NormalUser, Long>  {
 
     List<NormalUser> findAllByFirstnameIsLikeOrLastnameIsLikeOrUsernameIsLike(String firstName,String lastName,String userName);
     NormalUser getUserByUsernameIsLikeAndPasswordIsLike(String username, String password);
-    NormalUser findAllByIdIsLike(Long id);
+    NormalUser findAllByIdIs(Long id);
 
     //Username, email, phone-number unique?
-    NormalUser findByUsernameIsLike(String name);
     NormalUser findByEmailIsLike(String name);
     NormalUser findByPhonenumberIsLike(String name);
 

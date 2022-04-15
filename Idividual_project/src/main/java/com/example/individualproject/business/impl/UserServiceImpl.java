@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public GetUserDTO getUserByID(Long id){
 
-        NormalUser normalUserResult = normalUserRepository.findAllByIdIsLike(id);
+        NormalUser normalUserResult = normalUserRepository.findAllByIdIs(id);
 
         if(normalUserResult != null) {
             return new GetUserDTO(normalUserResult);
@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
           //Delete
     @Override
     public  boolean deleteUser(Long id){
-        NormalUser normalUserResult = normalUserRepository.findAllByIdIsLike(id);
+        NormalUser normalUserResult = normalUserRepository.findAllByIdIs(id);
 
         if(normalUserResult != null) {
            normalUserRepository.deleteById(id);
@@ -125,25 +125,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public UpdateUserResponseDTO updateUser(UpdateUserRequestDTO updateRequestDTO){
 
-        NormalUser user = normalUserRepository.findAllByIdIsLike(updateRequestDTO.getId());
-        if(user == null)
-        {
+        NormalUser user = normalUserRepository.findAllByIdIs(updateRequestDTO.getId());
+        if(user == null) {
             return null;
         }
 
-        NormalUser repeated = normalUserRepository.findByPhonenumberIsLike(updateRequestDTO.getPhoneNumber());
-        if(repeated.getPhonenumber().equals(updateRequestDTO.getPhoneNumber())
-                && !(user.getPhonenumber().equals(updateRequestDTO.getPhoneNumber())))
-        {
+        NormalUser repeated = normalUserRepository.findByPhonenumberIs(updateRequestDTO.getPhoneNumber());
+
+        //If repeated == null then the phoneNumber is not used by anyone else yet
+        //If the phoneNumber is still the same one this user had before continue
+        if(repeated != null && !(user.getPhonenumber().equals(updateRequestDTO.getPhoneNumber()))) {
             return null;
         }
 
-        NormalUser repeated1 = normalUserRepository.findByEmailIsLike(updateRequestDTO.getEmail());
-        if(repeated1.getEmail().equals(updateRequestDTO.getEmail())
-                && !(user.getEmail().equals(updateRequestDTO.getEmail())))
-        {
-                return null;
+        NormalUser repeated1 = normalUserRepository.findByEmailIs(updateRequestDTO.getEmail());
 
+        //If repeated1 == null then the email is not used by anyone else yet
+        //If the email is still the same one this user had before continue
+        if(repeated1 != null && !(user.getEmail().equals(updateRequestDTO.getEmail()))) {
+            return null;
         }
 
         NormalUser newUser = new NormalUser(
@@ -198,15 +198,15 @@ public class UserServiceImpl implements UserService {
          //Add
     @Override
     public CreateUserResponseDTO addUser(CreateUserRequestDTO createRequestDTO){
-        NormalUser repeated1 = normalUserRepository.findByUsernameIsLike(createRequestDTO.getUsername());
-        Admin repeated2 = adminRepository.findByUsernameIsLike(createRequestDTO.getUsername());
+        NormalUser repeated1 = normalUserRepository.findByUsernameIs(createRequestDTO.getUsername());
+        Admin repeated2 = adminRepository.findByUsernameIs(createRequestDTO.getUsername());
 
         if(repeated1 != null || repeated2 != null) {
             return null;
         }
 
-        NormalUser repeated3 = normalUserRepository.findByPhonenumberIsLike(createRequestDTO.getPhoneNumber());
-        NormalUser repeated4 = normalUserRepository.findByEmailIsLike(createRequestDTO.getEmail());
+        NormalUser repeated3 = normalUserRepository.findByPhonenumberIs(createRequestDTO.getPhoneNumber());
+        NormalUser repeated4 = normalUserRepository.findByEmailIs(createRequestDTO.getEmail());
 
         if(repeated3 != null || repeated4 != null) {
             return null;

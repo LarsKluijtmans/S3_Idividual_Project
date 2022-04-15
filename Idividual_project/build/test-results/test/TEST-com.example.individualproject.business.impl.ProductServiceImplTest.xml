@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.individualproject.business.impl.ProductServiceImplTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2022-04-15T11:51:21" hostname="MSILARS" time="0.321">
+<testsuite name="com.example.individualproject.business.impl.ProductServiceImplTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2022-04-15T14:45:30" hostname="MSILARS" time="0.379">
   <properties/>
-  <testcase name="getAllOfAUsersProducts()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.286"/>
-  <testcase name="updateProduct()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.025"/>
-  <testcase name="getAllProducts()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.002"/>
+  <testcase name="getAllOfAUsersProducts()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.331"/>
+  <testcase name="updateProduct()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.038"/>
+  <testcase name="getAllProducts()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.003"/>
   <testcase name="deleteProduct()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.001"/>
   <testcase name="getProduct()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.001"/>
   <testcase name="getProducts()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.002"/>
