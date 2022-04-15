@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.individualproject.Entity.AdminTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-04-15T14:45:30" hostname="MSILARS" time="0.005">
+<testsuite name="com.example.individualproject.Entity.AdminTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-04-15T21:09:05" hostname="MSILARS" time="0.026">
   <properties/>
-  <testcase name="test_NormalUserConstructors()" classname="com.example.individualproject.Entity.AdminTests" time="0.005"/>
+  <testcase name="test_NormalUserConstructors()" classname="com.example.individualproject.Entity.AdminTests" time="0.026"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

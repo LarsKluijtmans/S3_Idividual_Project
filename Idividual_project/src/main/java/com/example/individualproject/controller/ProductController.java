@@ -19,7 +19,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-    //Works
+
     @GetMapping()
     public ResponseEntity<List<GetProductDTO>> getAllProducts() {
         List<GetProductDTO> products = productService.getAllProducts();
@@ -30,37 +30,6 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
-    @PostMapping()
-    public ResponseEntity<GetProductDTO> createProduct(@RequestBody CreateProductRequestDTO product) {
-
-        CreateProductResponseDTO productResponseDTO = productService.addProduct(product);
-
-        if(productResponseDTO == null){
-
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-
-        } else {
-            String url = "products/" + productResponseDTO.getProductId();
-            URI uri = URI.create(url);
-            return ResponseEntity.created(uri).build();
-        }
-    }
-    @DeleteMapping("{id}")
-    public ResponseEntity<Object> deleteProduct(@PathVariable("id") Long id) {
-        productService.deleteProduct(id);
-        return ResponseEntity.ok().build();
-    }
-    @PutMapping()
-    public ResponseEntity<UpdateProductResponseDTO> updateProduct(@RequestBody UpdateProductRequestDTO product) {
-       if(productService.updateProduct(product) != null) {
-           return ResponseEntity.noContent().build();
-       }else {
-           return ResponseEntity.badRequest().build();
-       }
-    }
-
-
-
     @GetMapping("{id}")
     public ResponseEntity<GetProductDTO> getProduct(@PathVariable("id") Long id) {
         GetProductDTO product = productService.getProduct(id);
@@ -80,5 +49,33 @@ public class ProductController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Object> deleteProduct(@PathVariable("id") Long id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.ok().build();
+    }
+
+
+    @PostMapping()
+    public ResponseEntity<GetProductDTO> createProduct(@RequestBody CreateProductRequestDTO product) {
+        CreateProductResponseDTO productResponseDTO = productService.addProduct(product);
+
+        if(productResponseDTO == null){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } else {
+            String url = "products/" + productResponseDTO.getProductId();
+            URI uri = URI.create(url);
+            return ResponseEntity.created(uri).build();
+        }
+    }
+    @PutMapping()
+    public ResponseEntity<UpdateProductResponseDTO> updateProduct(@RequestBody UpdateProductRequestDTO product) {
+       if(productService.updateProduct(product) != null) {
+           return ResponseEntity.noContent().build();
+       }else {
+           return ResponseEntity.badRequest().build();
+       }
     }
 }

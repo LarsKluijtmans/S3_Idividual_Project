@@ -1,7 +1,6 @@
 package com.example.individualproject.business.impl;
 
 import com.example.individualproject.business.UserService;
-import com.example.individualproject.dto.products.BasicProductInfo;
 import com.example.individualproject.dto.users.*;
 import com.example.individualproject.repository.AdminRepository;
 import com.example.individualproject.repository.NormalUserRepository;
@@ -688,17 +687,41 @@ class UserServiceImplTest {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
 
+        NormalUser worker = new NormalUser(2l,"Worker","Worker","Worker","Worker","Worker1","Worker1");
+
+        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(2l,"Worker","Worker","Worker","Worker" );
+
+        when(normalUserRepository.findAllByIdIs(2l))
+                .thenReturn(worker);
+        when(normalUserRepository.findByPhonenumberIs("Worker"))
+                .thenReturn(null);
+        when(normalUserRepository.findByEmailIs("Worker"))
+                .thenReturn(worker);
+
+        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UpdateUserResponseDTO actualResult = userServiceeMock.updateUser(updateRequestDTO);
+
+        assertEquals(null, actualResult);
+
+        verify(normalUserRepository).findAllByIdIs(2l);
+        verify(normalUserRepository).findByPhonenumberIs("Worker");
+    }
+    @Test
+    void updateUser_EmailNotUnique_IsUsedByUserThatIsBeingUpdated() {
+        NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
+        AdminRepository adminRepository = mock(AdminRepository.class);
+
         NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
 
-        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(2l,"Worker","Worker","Worker1","Worker2" );
+        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(2l,"Worker","Worker","Worker2","Worker" );
         NormalUser newUser = new NormalUser(updateRequestDTO.getId(), "Worker", "Worker", updateRequestDTO.getFirstName(), updateRequestDTO.getLastName(), updateRequestDTO.getPhoneNumber(), updateRequestDTO.getEmail());
 
         when(normalUserRepository.findAllByIdIs(2l))
                 .thenReturn(worker);
-        when(normalUserRepository.findByPhonenumberIs("Worker1"))
+        when(normalUserRepository.findByPhonenumberIs("Worker2"))
                 .thenReturn(null);
-        when(normalUserRepository.findByEmailIs("Worker2"))
-                .thenReturn(null);
+        when(normalUserRepository.findByEmailIs("Worker"))
+                .thenReturn(worker);
         when(normalUserRepository.save(newUser))
                 .thenReturn(null);
 
@@ -712,8 +735,8 @@ class UserServiceImplTest {
         assertEquals(excpectedResult, actualResult);
 
         verify(normalUserRepository).findAllByIdIs(2l);
-        verify(normalUserRepository).findByPhonenumberIs("Worker1");
-        verify(normalUserRepository).findByEmailIs("Worker2");
+        verify(normalUserRepository).findByPhonenumberIs("Worker2");
+        verify(normalUserRepository).findByEmailIs("Worker");
         verify(normalUserRepository).save(newUser);
     }
 }

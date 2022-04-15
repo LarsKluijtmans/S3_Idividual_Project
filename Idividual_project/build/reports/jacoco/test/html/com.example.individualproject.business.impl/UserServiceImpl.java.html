@@ -142,8 +142,8 @@ public class UserServiceImpl implements UserService {
 
         //If repeated1 == null then the email is not used by anyone else yet
         //If the email is still the same one this user had before continue
-<span class="pc bpc" id="L145" title="3 of 4 branches missed.">        if(repeated1 != null &amp;&amp; !(user.getEmail().equals(updateRequestDTO.getEmail()))) {</span>
-<span class="nc" id="L146">            return null;</span>
+<span class="fc bfc" id="L145" title="All 4 branches covered.">        if(repeated1 != null &amp;&amp; !(user.getEmail().equals(updateRequestDTO.getEmail()))) {</span>
+<span class="fc" id="L146">            return null;</span>
         }
 
 <span class="fc" id="L149">        NormalUser newUser = new NormalUser(</span>
