@@ -21,6 +21,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ImageRepository imageRepository;
+
     @Override
     public List<GetProductDTO> getAllProducts() {
 
@@ -55,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
     }
     @Override
     public GetProductDTO getProduct(Long productID) {
-        Product p = productRepository.findProductsByIdIsLike(productID);
+        Product p = productRepository.findProductsByIdIs(productID);
 
         if(p == null) {
             return null;

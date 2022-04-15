@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
     @Test
     void test_NormalUserConstructors() {
-        Admin user = new Admin("Lars", "Lars");
+        Admin user = new Admin(1l, "Lars", "Lars");
 
         assertEquals("Lars", user.getUsername());
         assertEquals("Lars", user.getPassword());

@@ -3,11 +3,13 @@ package com.example.individualproject.dto.products;
 import com.example.individualproject.repository.entity.Image;
 import com.example.individualproject.repository.entity.Product;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.ArrayList;
 
 @Data
+@AllArgsConstructor
 public class GetProductDTO {
 
     private Long id;

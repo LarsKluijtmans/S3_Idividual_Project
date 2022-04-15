@@ -15,8 +15,8 @@ import javax.persistence.*;
 @DiscriminatorValue(&quot;ADMIN&quot;)
 public class Admin extends User{
 
-    public Admin(String username, String password) {
-<span class="fc" id="L19">        super(username, password);</span>
+    public Admin(long id, String username, String password) {
+<span class="fc" id="L19">        super(id,username, password);</span>
 <span class="fc" id="L20">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

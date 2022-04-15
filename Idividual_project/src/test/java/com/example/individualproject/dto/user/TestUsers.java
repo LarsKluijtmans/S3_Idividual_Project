@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     @Test
     void test_GetUserDTOConstructorAdmin() {
 
-        Admin user = new Admin("lars","lars");
+        Admin user = new Admin(1l, "lars","lars");
         GetUserDTO getUserDTO = new GetUserDTO(user);
 
         assertEquals("lars", getUserDTO.getUsername());
