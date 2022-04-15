@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.individualproject.business.impl.UserServiceImplTest" tests="18" skipped="0" failures="0" errors="0" timestamp="2022-04-15T11:51:22" hostname="MSILARS" time="0.087">
+  <properties/>
+  <testcase name="getUser_ResultNormalUser()" classname="com.example.individualproject.business.impl.UserServiceImplTest" time="0.066"/>
+  <testcase name="deleteUser_userExists()" classname="com.example.individualproject.business.impl.UserServiceImplTest" time="0.002"/>
+  <testcase name="getUser_ResultAdmin()" classname="com.example.individualproject.business.impl.UserServiceImplTest" time="0.002"/>
+  <testcase name="getAllUserByName_ResultNormalUser()" classname="com.example.individualproject.business.impl.UserServiceImplTest" time="0.002"/>
+  <testcase name="getAllNormalUsers()" classname="com.example.individualproject.business.impl.UserServiceImplTest" time="0.001"/>
+  <testcase name="addUser()" classname="com.example.individualproject.business.impl.UserServiceImplTest" time="0.0"/>
+  <testcase name="getAllAdmins()" classname="com.example.individualproject.business.impl.UserServiceImplTest" time="0.001"/>
+  <testcase name="getAllUserByName_ResultAdmin()" classname="com.example.individualproject.business.impl.UserServiceImplTest" time="0.002"/>
+  <testcase name="deleteUser_userDosntExist()" classname="com.example.individualproject.business.impl.UserServiceImplTest" time="0.001"/>
+  <testcase name="getAllUsers()" classname="com.example.individualproject.business.impl.UserServiceImplTest" time="0.001"/>
+  <testcase name="getUserByID_ResultAdmin()" classname="com.example.individualproject.business.impl.UserServiceImplTest" time="0.002"/>
+  <testcase name="isPhoneNumberUnique()" classname="com.example.individualproject.business.impl.UserServiceImplTest" time="0.0"/>
+  <testcase name="updateUser()" classname="com.example.individualproject.business.impl.UserServiceImplTest" time="0.0"/>
+  <testcase name="isEmailUnique()" classname="com.example.individualproject.business.impl.UserServiceImplTest" time="0.001"/>
+  <testcase name="getAllUserByName_ResultNull()" classname="com.example.individualproject.business.impl.UserServiceImplTest" time="0.001"/>
+  <testcase name="getUserByID_ResultNormalUser()" classname="com.example.individualproject.business.impl.UserServiceImplTest" time="0.001"/>
+  <testcase name="isUsernameUnique()" classname="com.example.individualproject.business.impl.UserServiceImplTest" time="0.0"/>
+  <testcase name="getUserByID_ResultNull()" classname="com.example.individualproject.business.impl.UserServiceImplTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

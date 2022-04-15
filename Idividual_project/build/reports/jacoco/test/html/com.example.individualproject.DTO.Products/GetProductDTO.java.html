@@ -3,34 +3,36 @@
 import com.example.individualproject.repository.entity.Image;
 import com.example.individualproject.repository.entity.Product;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.ArrayList;
 
 @Data
+@AllArgsConstructor
 public class GetProductDTO {
 
     private Long id;
     private BasicProductInfo productInfo;
 
     public GetProductDTO(Product p)
-<span class="fc" id="L17">    {</span>
-<span class="fc" id="L18">        this.productInfo = new BasicProductInfo();</span>
-<span class="fc" id="L19">        this.id = p.getId();</span>
-<span class="fc" id="L20">        this.productInfo.setTitle(p.getTitle());</span>
-<span class="fc" id="L21">        this.productInfo.setSubTitle(p.getSubTitle());</span>
-<span class="fc" id="L22">        this.productInfo.setSeries(p.getSeries());</span>
-<span class="fc" id="L23">        this.productInfo.setYear(p.getYear());</span>
-<span class="fc" id="L24">        this.productInfo.setPrice(p.getPrice());</span>
-<span class="fc" id="L25">        this.productInfo.setCondition(p.getCondition());</span>
-<span class="fc" id="L26">        this.productInfo.setDescription(p.getDescription());</span>
-<span class="fc" id="L27">        this.productInfo.setGenre( p.getGenre());</span>
-<span class="fc" id="L28">        this.productInfo.setProductType(p.getProductType());</span>
+<span class="fc" id="L19">    {</span>
+<span class="fc" id="L20">        this.productInfo = new BasicProductInfo();</span>
+<span class="fc" id="L21">        this.id = p.getId();</span>
+<span class="fc" id="L22">        this.productInfo.setTitle(p.getTitle());</span>
+<span class="fc" id="L23">        this.productInfo.setSubTitle(p.getSubTitle());</span>
+<span class="fc" id="L24">        this.productInfo.setSeries(p.getSeries());</span>
+<span class="fc" id="L25">        this.productInfo.setYear(p.getYear());</span>
+<span class="fc" id="L26">        this.productInfo.setPrice(p.getPrice());</span>
+<span class="fc" id="L27">        this.productInfo.setCondition(p.getCondition());</span>
+<span class="fc" id="L28">        this.productInfo.setDescription(p.getDescription());</span>
+<span class="fc" id="L29">        this.productInfo.setGenre( p.getGenre());</span>
+<span class="fc" id="L30">        this.productInfo.setProductType(p.getProductType());</span>
 
-<span class="fc" id="L30">        this.productInfo.setImages(new ArrayList&lt;&gt;());</span>
-<span class="fc bfc" id="L31" title="All 2 branches covered.">        for (Image image: p.getImages()) {</span>
-<span class="fc" id="L32">            productInfo.getImages().add(image.getImageUrl());</span>
-<span class="fc" id="L33">        }</span>
-<span class="fc" id="L34">    }</span>
+<span class="fc" id="L32">        this.productInfo.setImages(new ArrayList&lt;&gt;());</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        for (Image image: p.getImages()) {</span>
+<span class="fc" id="L34">            productInfo.getImages().add(image.getImageUrl());</span>
+<span class="fc" id="L35">        }</span>
+<span class="fc" id="L36">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
