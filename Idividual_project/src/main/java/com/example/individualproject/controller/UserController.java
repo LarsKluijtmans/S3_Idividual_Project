@@ -20,7 +20,7 @@ public class UserController {
 
      //Admin
     @GetMapping()
-    public ResponseEntity<List<GetUserDTO>> getAllUsersById() {
+    public ResponseEntity<List<GetUserDTO>> getAllUsers() {
         List<GetUserDTO> users = userService.getAllUsers();
 
         if(users != null) {
@@ -43,7 +43,7 @@ public class UserController {
     public ResponseEntity<List<GetUserDTO>> getAllUserByName(@PathVariable("name") String name) {
         List<GetUserDTO> users = userService.getAllUserByName(name);
 
-        if(users.stream().count() != 0) {
+        if(users != null) {
             return ResponseEntity.ok().body(users);
         } else {
             return ResponseEntity.notFound().build();
@@ -79,9 +79,7 @@ public class UserController {
     //NormalUser
     @GetMapping("login/{username}/{password}")
     public ResponseEntity<GetUserDTO> getUsersByUsernameAndPassword( @PathVariable("username") String username, @PathVariable("password") String password) {
-        UserAccountRequestDTO account = new UserAccountRequestDTO(username,password);
-
-        GetUserDTO user = userService.getUser(account);
+        GetUserDTO user = userService.getUser(new UserAccountRequestDTO(username,password));
 
         if(user != null) {
             return ResponseEntity.ok().body(user);
