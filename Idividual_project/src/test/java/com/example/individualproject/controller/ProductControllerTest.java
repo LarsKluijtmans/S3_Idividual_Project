@@ -2,6 +2,8 @@ package com.example.individualproject.controller;
 
 import com.example.individualproject.business.impl.ProductServiceImpl;
 import com.example.individualproject.dto.products.BasicProductInfo;
+import com.example.individualproject.dto.products.CreateProductRequestDTO;
+import com.example.individualproject.dto.products.CreateProductResponseDTO;
 import com.example.individualproject.dto.products.GetProductDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,13 +12,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
@@ -148,10 +150,27 @@ class ProductControllerTest {
         verify(productService).deleteProduct(1l);
     }
 
-    @Test
-    void createProduct() {
+  /*  @Test
+    void createProduct() throws Exception {
+        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genre("JRPG").productType("GAME").images(Collections.emptyList()).build();
+        CreateProductRequestDTO createProductRequestDTO = CreateProductRequestDTO.builder().productInfo(product1).build();
+        CreateProductResponseDTO createProductResponseDTO = CreateProductResponseDTO.builder().productId(1l).build();
+
+        when(productService.addProduct(createProductRequestDTO))
+                .thenReturn(createProductResponseDTO);
+
+        mockMvc.perform(post("/products"))
+                //Add body
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
+                .andExpect(content().json("""
+                {"id":1}
+                """ ));
+
+        verify(productService).addProduct(createProductRequestDTO);
     }
     @Test
     void updateProduct() {
-    }
+    }*/
 }

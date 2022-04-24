@@ -21,9 +21,9 @@ function View_Product_Details() {
         setError(null);
         axios.get(`http://localhost:8080/products/` + productId)
             .then(res => {
-                setProduct(res.data);
-                setProductImages(res.data.images);
-                setmainImage(res.data.images[0]);
+                setProduct(res.data.productInfo);
+                setProductImages(res.data.productInfo.images);
+                setmainImage(res.data.productInfo.images[0]);
             })
             .catch(err => {
                 setError(err.message);
@@ -43,9 +43,11 @@ function View_Product_Details() {
 
                    <img className={"mainImage"} src={mainImage} height={"500"} alt={"picture"}/>
                    <div className="list_Of_Sub_Images">
-                       {productImages.map(ProductImage => (
+                       {productImages != null &&
+                           productImages.map(ProductImage => (
                            <img className={"subImage"} src={ProductImage} height={"500"} alt={"picture"} onClick={() => setMainImage(ProductImage)}/>
-                       ))}
+                       ))
+                       }
                    </div>
                </div>
 

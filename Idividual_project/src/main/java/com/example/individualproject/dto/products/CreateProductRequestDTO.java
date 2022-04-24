@@ -12,7 +12,4 @@ import lombok.NoArgsConstructor;
 public class CreateProductRequestDTO {
 
     private BasicProductInfo productInfo;
-
-
-
 }
