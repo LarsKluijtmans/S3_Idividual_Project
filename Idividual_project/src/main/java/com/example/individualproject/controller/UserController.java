@@ -1,7 +1,10 @@
 package com.example.individualproject.controller;
 
+import com.example.individualproject.business.ProductService;
+import com.example.individualproject.dto.products.GetProductDTO;
 import com.example.individualproject.dto.users.*;
 import com.example.individualproject.business.UserService;
+import com.example.individualproject.repository.entity.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,7 @@ import java.net.URI;
 public class UserController {
 
      private final UserService userService;
+    private final ProductService productService;
 
      //Admin
     @GetMapping()
@@ -83,6 +87,16 @@ public class UserController {
 
         if(user != null) {
             return ResponseEntity.ok().body(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @GetMapping("products/{id}")
+    public ResponseEntity<List<GetProductDTO>> getUsersByUsernameAndPassword( @PathVariable("id") Long id) {
+        List<GetProductDTO> usersProducts = productService.getAllOfAUsersProducts(id);
+
+        if(usersProducts != null) {
+            return ResponseEntity.ok().body(usersProducts);
         } else {
             return ResponseEntity.notFound().build();
         }

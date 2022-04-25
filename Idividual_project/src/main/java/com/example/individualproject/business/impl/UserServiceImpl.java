@@ -147,13 +147,9 @@ public class UserServiceImpl implements UserService {
         }
 
         NormalUser newUser = new NormalUser(
-                updateRequestDTO.getId(),
+                updateRequestDTO,
                 user.getUsername(),
-                user.getPassword(),
-                updateRequestDTO.getFirstName(),
-                updateRequestDTO.getLastName(),
-                updateRequestDTO.getPhoneNumber(),
-                updateRequestDTO.getEmail());
+                user.getPassword());
 
         normalUserRepository.save(newUser);
 

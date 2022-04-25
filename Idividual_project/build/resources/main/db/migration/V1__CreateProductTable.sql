@@ -1,5 +1,5 @@
 CREATE TABLE product(
-    id   int     NOT NULL AUTO_INCREMENT,
+    id   int NOT NULL AUTO_INCREMENT,
     title char(50) NOT NULL,
     sub_title varchar(50),
     series varchar(30),

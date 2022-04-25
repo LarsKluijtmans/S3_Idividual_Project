@@ -150,7 +150,7 @@ class ProductControllerTest {
         verify(productService).deleteProduct(1l);
     }
 
-  /*  @Test
+   /*@Test
     void createProduct() throws Exception {
         BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genre("JRPG").productType("GAME").images(Collections.emptyList()).build();
         CreateProductRequestDTO createProductRequestDTO = CreateProductRequestDTO.builder().productInfo(product1).build();
@@ -159,7 +159,7 @@ class ProductControllerTest {
         when(productService.addProduct(createProductRequestDTO))
                 .thenReturn(createProductResponseDTO);
 
-        mockMvc.perform(post("/products"))
+        mockMvc.perform(post("/products").content(Jso))
                 //Add body
                 .andDo(print())
                 .andExpect(status().isOk())

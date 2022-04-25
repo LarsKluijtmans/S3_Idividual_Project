@@ -63,6 +63,10 @@ public class Product{
     @OneToMany(mappedBy="product")
     private List<Image> images;
 
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="seller", nullable=false)
+    private NormalUser seller;
+
     public Product(UpdateProductRequestDTO productRequestDTO) {
         this.setId(productRequestDTO.getProductId());
         this.setTitle(productRequestDTO.getProductInfo().getTitle());

@@ -66,7 +66,17 @@ public class ProductServiceImpl implements ProductService {
     }
     @Override
     public List<GetProductDTO> getAllOfAUsersProducts(Long userID) {
-        return Collections.emptyList();
+
+        List<GetProductDTO> result = new ArrayList<>();
+
+        GetProductDTO product;
+
+        for (Product p : productRepository.findAllBySeller_Id(userID)) {
+            product = new GetProductDTO(p);
+            result.add(product);
+        }
+
+        return result;
     }
 
     //Delete
