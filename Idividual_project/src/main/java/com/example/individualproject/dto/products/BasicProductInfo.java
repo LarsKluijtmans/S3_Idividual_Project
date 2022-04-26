@@ -20,7 +20,7 @@ public class BasicProductInfo {
     private double price;
     private String condition;
     private String description;
-    private String genre;
+    private Long genreId;
     private String productType;
     private List<String> images;
 }

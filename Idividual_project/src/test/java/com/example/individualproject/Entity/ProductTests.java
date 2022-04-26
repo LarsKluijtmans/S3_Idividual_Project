@@ -2,8 +2,7 @@ package com.example.individualproject.Entity;
 
 import com.example.individualproject.dto.products.BasicProductInfo;
 import com.example.individualproject.dto.products.UpdateProductRequestDTO;
-import com.example.individualproject.dto.users.CreateUserRequestDTO;
-import com.example.individualproject.repository.entity.NormalUser;
+import com.example.individualproject.repository.entity.Genre;
 import com.example.individualproject.repository.entity.Product;
 import org.junit.jupiter.api.Test;
 
@@ -17,9 +16,9 @@ class ProductTests {
     void test_ProductConstructor_UpdateProductRequestDTO() {
 
         UpdateProductRequestDTO requestDTO = new UpdateProductRequestDTO(1l, new BasicProductInfo( "Lars","Lars", "Lars",2022, 10.11,
-                "Lars", "Lars","Lars", "Lars", Collections.emptyList()));
+                "Lars", "Lars",1l, "Lars", Collections.emptyList()));
 
-        Product p = new Product(requestDTO);
+        Product p = new Product(requestDTO, new Genre());
 
         assertEquals(1l, p.getId());
         assertEquals("Lars", p.getTitle());
@@ -29,7 +28,7 @@ class ProductTests {
         assertEquals(10.11, p.getPrice());
         assertEquals("Lars", p.getCondition());
         assertEquals("Lars", p.getDescription());
-        assertEquals("Lars", p.getGenre());
+        assertEquals(new Genre(null,null,null), p.getGenre());
         assertEquals("Lars", p.getProductType());
         assertEquals(null, p.getImages());
     }

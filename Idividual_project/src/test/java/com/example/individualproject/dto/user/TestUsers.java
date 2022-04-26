@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     @Test
     void test_GetUserDTOConstructorNoramlUser() {
 
-        NormalUser user = new NormalUser("lars","lars","lars","lars","lars","lars"  );
+        NormalUser user = new NormalUser("lars","lars","lars","lars","lars","lars",null);
         GetUserDTO getUserDTO = new GetUserDTO(user);
 
         assertEquals("lars", getUserDTO.getUsername());

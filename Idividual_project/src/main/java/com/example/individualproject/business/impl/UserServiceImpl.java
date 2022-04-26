@@ -17,12 +17,10 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService { 
-    
-    
+
     private final NormalUserRepository normalUserRepository;
     private final AdminRepository adminRepository;
 
-    //Admin
     @Override
     public List<GetUserDTO> getAllUsers(){
         List<GetUserDTO> result = new ArrayList<>();
@@ -96,20 +94,6 @@ public class UserServiceImpl implements UserService {
 
         return result;
     }
-          //Delete
-    @Override
-    public  boolean deleteUser(Long id){
-        NormalUser normalUserResult = normalUserRepository.findAllByIdIs(id);
-
-        if(normalUserResult != null) {
-           normalUserRepository.deleteById(id);
-           return true;
-       }
-
-       return false;
-    }
-
-    //Normaluser
     @Override
     public GetUserDTO getUser(UserAccountRequestDTO account){
        NormalUser user = normalUserRepository.getUserByUsernameIsLikeAndPasswordIsLike(account.getUsername(), account.getPassword());
@@ -121,7 +105,49 @@ public class UserServiceImpl implements UserService {
            return new GetUserDTO(user);
        }
     }
-         //Update
+    @Override
+    public boolean isUsernameUnique(String name) {
+
+        boolean result = true;
+
+      if(normalUserRepository.findByUsernameIs(name) != null  || adminRepository.findByUsernameIs(name) != null) {
+          result = false;
+      }
+          return result;
+    }
+    @Override
+    public boolean isEmailUnique(String email) {
+        boolean result = true;
+
+        if(normalUserRepository.findByEmailIs(email) != null) {
+            result = false;
+        }
+        return result;
+    }
+    @Override
+    public boolean isPhoneNumberUnique(String phoneNumber) {
+
+        boolean result = true;
+
+        if(normalUserRepository.findByPhonenumberIs(phoneNumber) != null) {
+            result = false;
+        }
+        return result;
+    }
+
+    //Delete
+    @Override
+    public  boolean deleteUser(Long id){
+        NormalUser normalUserResult = normalUserRepository.findAllByIdIs(id);
+
+        if(normalUserResult != null) {
+            normalUserRepository.deleteById(id);
+            return true;
+        }
+
+        return false;
+    }
+    //Update
     @Override
     public UpdateUserResponseDTO updateUser(UpdateUserRequestDTO updateRequestDTO){
 
@@ -149,49 +175,17 @@ public class UserServiceImpl implements UserService {
         NormalUser newUser = new NormalUser(
                 updateRequestDTO,
                 user.getUsername(),
-                user.getPassword());
+                user.getPassword(),
+                user.getProductsSelling());
 
         normalUserRepository.save(newUser);
 
         return UpdateUserResponseDTO.builder()
                 .firstName(newUser.getFirstname())
                 .build();
+
     }
-
-
-    //All
-    @Override
-    public boolean isUsernameUnique(String name) {
-
-        boolean result = true;
-
-      if(normalUserRepository.findByUsernameIs(name) != null  || adminRepository.findByUsernameIs(name) != null) {
-          result = false;
-      }
-          return result;
-    }
-
-    @Override
-    public boolean isPhoneNumberUnique(String phoneNumber) {
-
-        boolean result = true;
-
-        if(normalUserRepository.findByPhonenumberIs(phoneNumber) != null) {
-            result = false;
-        }
-        return result;
-    }
-
-    @Override
-    public boolean isEmailUnique(String email) {
-        boolean result = true;
-
-        if(normalUserRepository.findByEmailIs(email) != null) {
-            result = false;
-        }
-        return result;
-    }
-         //Add
+    //Add
     @Override
     public CreateUserResponseDTO addUser(CreateUserRequestDTO createRequestDTO){
         NormalUser repeated1 = normalUserRepository.findByUsernameIs(createRequestDTO.getUsername());

@@ -1,13 +1,13 @@
 package com.example.individualproject.dto.product;
 
 import com.example.individualproject.dto.products.GetProductDTO;
+import com.example.individualproject.repository.entity.Genre;
 import com.example.individualproject.repository.entity.Image;
+import com.example.individualproject.repository.entity.NormalUser;
 import com.example.individualproject.repository.entity.Product;
-import org.hibernate.tuple.InMemoryValueGenerationStrategy;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         List<Image> images = new ArrayList<>();
         images.add(new Image(1,"gfdggdfgdfgdfgfdgfd",null));
 
-        Product product = new Product(1l,"lars","lars","lars",2000,10.10,"GOOD","lars","JRPG",false,"GAME", images);
+        Product product = new Product(1l,"lars","lars","lars",2000,10.10,"GOOD","lars",new Genre(59l,"JRPG", null),false,"GAME", images, new NormalUser());
         GetProductDTO getProductDTO = new GetProductDTO(product);
 
         assertEquals("lars", getProductDTO.getProductInfo().getTitle());
@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         assertEquals(2000, getProductDTO.getProductInfo().getYear());
         assertEquals(10.10, getProductDTO.getProductInfo().getPrice());
         assertEquals("GOOD", getProductDTO.getProductInfo().getCondition());
-        assertEquals("JRPG", getProductDTO.getProductInfo().getGenre());
+        assertEquals(59l, getProductDTO.getProductInfo().getGenreId());
         assertEquals("GAME", getProductDTO.getProductInfo().getProductType());
     }
 }

@@ -4,7 +4,6 @@ import com.example.individualproject.business.ProductService;
 import com.example.individualproject.dto.products.GetProductDTO;
 import com.example.individualproject.dto.users.*;
 import com.example.individualproject.business.UserService;
-import com.example.individualproject.repository.entity.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,7 +72,6 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
-        //Delete
     @DeleteMapping("{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
@@ -81,18 +79,8 @@ public class UserController {
     }
 
     //NormalUser
-    @GetMapping("login/{username}/{password}")
-    public ResponseEntity<GetUserDTO> getUsersByUsernameAndPassword( @PathVariable("username") String username, @PathVariable("password") String password) {
-        GetUserDTO user = userService.getUser(new UserAccountRequestDTO(username,password));
-
-        if(user != null) {
-            return ResponseEntity.ok().body(user);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
     @GetMapping("products/{id}")
-    public ResponseEntity<List<GetProductDTO>> getUsersByUsernameAndPassword( @PathVariable("id") Long id) {
+    public ResponseEntity<List<GetProductDTO>> getUsersProducts( @PathVariable("id") Long id) {
         List<GetProductDTO> usersProducts = productService.getAllOfAUsersProducts(id);
 
         if(usersProducts != null) {
@@ -106,13 +94,23 @@ public class UserController {
         UpdateUserResponseDTO responseDTO = userService.updateUser(user);
 
        if(responseDTO != null) {
-           return ResponseEntity.noContent().build();
+           return ResponseEntity.ok().body(responseDTO);
        }else {
            return ResponseEntity.badRequest().build();
        }
     }
 
     //All
+    @GetMapping("login/{username}/{password}")
+    public ResponseEntity<GetUserDTO> login( @PathVariable("username") String username, @PathVariable("password") String password) {
+        GetUserDTO user = userService.getUser(new UserAccountRequestDTO(username,password));
+
+        if(user != null) {
+            return ResponseEntity.ok().body(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
     @GetMapping( "unique/name/{name}")
     public ResponseEntity<Boolean> isUsernameUnique(@PathVariable("name") String name) {
         Boolean result = userService.isUsernameUnique(name);

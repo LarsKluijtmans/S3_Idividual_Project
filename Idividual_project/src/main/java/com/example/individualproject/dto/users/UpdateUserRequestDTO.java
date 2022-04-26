@@ -18,5 +18,5 @@ public class UpdateUserRequestDTO {
     private String lastName;
     private String phoneNumber;
     private String email;
-    private List<Product> products_Selling;
+    private List<Product> productsSelling;
 }

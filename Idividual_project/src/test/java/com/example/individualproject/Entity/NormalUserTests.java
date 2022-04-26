@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         assertEquals(user.getEmail(), createUser.getEmail());
 
         //Create normal user using 6 strings
-        user = new NormalUser( "lars1","lars1","lars1","lars1","lars1","lars1" );
+        user = new NormalUser( "lars1","lars1","lars1","lars1","lars1","lars1", null );
 
         assertEquals("lars1", user.getUsername());
         assertEquals("lars1", user.getPassword());

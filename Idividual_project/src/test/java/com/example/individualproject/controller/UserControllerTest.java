@@ -1,12 +1,12 @@
 package com.example.individualproject.controller;
 
+import com.example.individualproject.business.impl.ProductServiceImpl;
 import com.example.individualproject.business.impl.UserServiceImpl;
 import com.example.individualproject.dto.users.GetUserDTO;
 import com.example.individualproject.dto.users.UserAccountRequestDTO;
 import com.example.individualproject.repository.entity.Admin;
 import com.example.individualproject.repository.entity.NormalUser;
 
-import com.example.individualproject.repository.entity.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +33,8 @@ class UserControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private UserServiceImpl userService;
+    @MockBean
+    private ProductServiceImpl productService;
 
     @Test
     void getAllUsers_UsersFound() throws Exception {

@@ -19,45 +19,29 @@ public class ProductController {
 
     private final ProductService productService;
 
-
+    //All
     @GetMapping()
     public ResponseEntity<List<GetProductDTO>> getAllProducts() {
         List<GetProductDTO> products = productService.getAllProducts();
 
-        if(products != null) {
+        if(products.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
             return ResponseEntity.ok().body(products);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-    @GetMapping("{id}")
-    public ResponseEntity<GetProductDTO> getProduct(@PathVariable("id") Long id) {
-        GetProductDTO product = productService.getProduct(id);
-
-        if(product != null) {
-            return ResponseEntity.ok().body(product);
-        } else {
-            return ResponseEntity.notFound().build();
         }
     }
     @GetMapping("search/{name}")
     public ResponseEntity<List<GetProductDTO>> getAllProductsByName(@PathVariable("name") String name) {
         List<GetProductDTO> products = productService.getProducts(name);
 
-        if(products != null) {
-            return ResponseEntity.ok().body(products);
-        } else {
+        if(products.isEmpty()) {
             return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(products);
         }
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Object> deleteProduct(@PathVariable("id") Long id) {
-        productService.deleteProduct(id);
-        return ResponseEntity.ok().build();
-    }
-
-
+    //Normal user
     @PostMapping()
     public ResponseEntity<GetProductDTO> createProduct(@RequestBody CreateProductRequestDTO product) {
         CreateProductResponseDTO productResponseDTO = productService.addProduct(product);
@@ -77,5 +61,22 @@ public class ProductController {
        }else {
            return ResponseEntity.badRequest().build();
        }
+    }
+
+    //Admin and normal user
+    @GetMapping("{id}")
+    public ResponseEntity<GetProductDTO> getProduct(@PathVariable("id") Long id) {
+        GetProductDTO product = productService.getProduct(id);
+
+        if(product != null) {
+            return ResponseEntity.ok().body(product);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @DeleteMapping("{id}")
+    public ResponseEntity<Object> deleteProduct(@PathVariable("id") Long id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.ok().build();
     }
 }

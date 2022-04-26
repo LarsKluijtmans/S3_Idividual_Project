@@ -7,6 +7,7 @@ import com.example.individualproject.repository.NormalUserRepository;
 import com.example.individualproject.repository.entity.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -586,7 +587,7 @@ class UserServiceImplTest {
 
         UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
 
-        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(1l,"Worker","Worker","Worker","Worker" );
+        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(1l,"Worker","Worker","Worker","Worker", null );
         UpdateUserResponseDTO actualResult = userServiceeMock.updateUser(updateRequestDTO);
 
         assertEquals(null, actualResult);
@@ -600,8 +601,8 @@ class UserServiceImplTest {
 
         NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
 
-        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(2l,"Worker","Worker","Worker1","Worker2" );
-        NormalUser newUser = new NormalUser(updateRequestDTO.getId(), "Worker", "Worker", updateRequestDTO.getFirstName(), updateRequestDTO.getLastName(), updateRequestDTO.getPhoneNumber(), updateRequestDTO.getEmail());
+        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(2l,"Worker","Worker","Worker1","Worker2", Collections.emptyList() );
+        NormalUser newUser = new NormalUser(updateRequestDTO.getId(), "Worker", "Worker", updateRequestDTO.getFirstName(), updateRequestDTO.getLastName(), updateRequestDTO.getPhoneNumber(), updateRequestDTO.getEmail(), updateRequestDTO.getProductsSelling());
 
         when(normalUserRepository.findAllByIdIs(2l))
                 .thenReturn(worker);
@@ -633,7 +634,7 @@ class UserServiceImplTest {
 
         NormalUser worker = new NormalUser(2l,"Worker","Worker","Worker","Worker","Worker1","Worker1");
 
-        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(2l,"Worker","Worker","Worker","Worker" );
+        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(2l,"Worker","Worker","Worker","Worker", null );
 
         when(normalUserRepository.findAllByIdIs(2l))
                 .thenReturn(worker);
@@ -656,8 +657,8 @@ class UserServiceImplTest {
 
         NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
 
-        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(2l,"Worker","Worker","Worker","Worker2" );
-        NormalUser newUser = new NormalUser(updateRequestDTO.getId(), "Worker", "Worker", updateRequestDTO.getFirstName(), updateRequestDTO.getLastName(), updateRequestDTO.getPhoneNumber(), updateRequestDTO.getEmail());
+        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(2l,"Worker","Worker","Worker","Worker2" , Collections.emptyList());
+        NormalUser newUser = new NormalUser(updateRequestDTO.getId(), "Worker", "Worker", updateRequestDTO.getFirstName(), updateRequestDTO.getLastName(), updateRequestDTO.getPhoneNumber(), updateRequestDTO.getEmail(), updateRequestDTO.getProductsSelling());
 
         when(normalUserRepository.findAllByIdIs(2l))
                 .thenReturn(worker);
@@ -689,7 +690,7 @@ class UserServiceImplTest {
 
         NormalUser worker = new NormalUser(2l,"Worker","Worker","Worker","Worker","Worker1","Worker1");
 
-        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(2l,"Worker","Worker","Worker","Worker" );
+        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(2l,"Worker","Worker","Worker","Worker", null );
 
         when(normalUserRepository.findAllByIdIs(2l))
                 .thenReturn(worker);
@@ -713,8 +714,8 @@ class UserServiceImplTest {
 
         NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
 
-        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(2l,"Worker","Worker","Worker2","Worker" );
-        NormalUser newUser = new NormalUser(updateRequestDTO.getId(), "Worker", "Worker", updateRequestDTO.getFirstName(), updateRequestDTO.getLastName(), updateRequestDTO.getPhoneNumber(), updateRequestDTO.getEmail());
+        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(2l,"Worker","Worker","Worker2","Worker", Collections.emptyList() );
+        NormalUser newUser = new NormalUser(updateRequestDTO.getId(), "Worker", "Worker", updateRequestDTO.getFirstName(), updateRequestDTO.getLastName(), updateRequestDTO.getPhoneNumber(), updateRequestDTO.getEmail(), updateRequestDTO.getProductsSelling());
 
         when(normalUserRepository.findAllByIdIs(2l))
                 .thenReturn(worker);

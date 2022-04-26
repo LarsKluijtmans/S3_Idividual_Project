@@ -49,9 +49,9 @@ public class Product{
     @Column(name = "description")
     private String description;
 
-    @Length(min = 1 ,max = 30)
-    @Column(name = "genre")
-    private String genre;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="genre", nullable=false)
+    private Genre genre;
 
     @Column(name = "sold")
     private boolean sold;
@@ -67,7 +67,7 @@ public class Product{
     @JoinColumn(name="seller", nullable=false)
     private NormalUser seller;
 
-    public Product(UpdateProductRequestDTO productRequestDTO) {
+    public Product(UpdateProductRequestDTO productRequestDTO, Genre genre) {
         this.setId(productRequestDTO.getProductId());
         this.setTitle(productRequestDTO.getProductInfo().getTitle());
         this.setSubTitle(productRequestDTO.getProductInfo().getSubTitle());
@@ -76,7 +76,7 @@ public class Product{
         this.setPrice(productRequestDTO.getProductInfo().getPrice());
         this.setCondition(productRequestDTO.getProductInfo().getCondition());
         this.setDescription(productRequestDTO.getProductInfo().getDescription());
-        this.setGenre(productRequestDTO.getProductInfo().getGenre());
+        this.setGenre(genre);
         this.setSold(false);
         this.setProductType(productRequestDTO.getProductInfo().getProductType());
     }

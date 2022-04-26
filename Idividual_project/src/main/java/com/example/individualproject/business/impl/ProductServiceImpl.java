@@ -2,8 +2,11 @@ package com.example.individualproject.business.impl;
 
 import com.example.individualproject.dto.products.*;
 import com.example.individualproject.business.ProductService;
+import com.example.individualproject.repository.GenreRepository;
 import com.example.individualproject.repository.ImageRepository;
+import com.example.individualproject.repository.NormalUserRepository;
 import com.example.individualproject.repository.entity.Image;
+import com.example.individualproject.repository.entity.NormalUser;
 import com.example.individualproject.repository.entity.Product;
 import com.example.individualproject.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,8 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final GenreRepository genreRepository;
+    private final NormalUserRepository normalUserRepository;
     private final ImageRepository imageRepository;
 
     @Override
@@ -47,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
 
         GetProductDTO product;
 
-        for (Product p :  productRepository.findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenreIsLike(searchName,searchName,searchName,searchName,searchName)) {
+        for (Product p :  productRepository.findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenre_GenreIsLike(searchName,searchName,searchName,searchName,searchName)) {
             product = new GetProductDTO(p);
             result.add(product);
         }
@@ -107,10 +112,11 @@ public class ProductServiceImpl implements ProductService {
                 .price(product.getProductInfo().getPrice())
                 .condition(product.getProductInfo().getCondition())
                 .description(product.getProductInfo().getDescription())
-                .genre(product.getProductInfo().getGenre())
+                .genre(genreRepository.getById(product.getProductInfo().getGenreId()))
                 .sold(false)
                 .images(images)
                 .productType(product.getProductInfo().getProductType())
+                .seller(normalUserRepository.getById(product.getSeller()))
                 .build();
 
         Product savedProduct = productRepository.save(newProduct);
@@ -149,7 +155,7 @@ public class ProductServiceImpl implements ProductService {
                 .price(product.getProductInfo().getPrice())
                 .condition(product.getProductInfo().getCondition())
                 .description(product.getProductInfo().getDescription())
-                .genre(product.getProductInfo().getGenre())
+                .genre(genreRepository.getById(product.getProductInfo().getGenreId()))
                 .sold(false)
                 .productType(product.getProductInfo().getProductType())
                 .images(images)

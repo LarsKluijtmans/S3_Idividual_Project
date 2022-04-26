@@ -2,8 +2,6 @@ package com.example.individualproject.controller;
 
 import com.example.individualproject.business.impl.ProductServiceImpl;
 import com.example.individualproject.dto.products.BasicProductInfo;
-import com.example.individualproject.dto.products.CreateProductRequestDTO;
-import com.example.individualproject.dto.products.CreateProductResponseDTO;
 import com.example.individualproject.dto.products.GetProductDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,11 +31,11 @@ class ProductControllerTest {
 
     @Test
     void getAllProducts() throws Exception {
-        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genre("JRPG").productType("GAME").images(Collections.emptyList()).build();
-        BasicProductInfo product2 = BasicProductInfo.builder().title("Pokemon").subTitle("Pearl").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genre("JRPG").productType("GAME").images(Collections.emptyList()).build();
+        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
+        BasicProductInfo product2 = BasicProductInfo.builder().title("Pokemon").subTitle("Pearl").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(2l).productType("GAME").images(Collections.emptyList()).build();
 
-        GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1);
-        GetProductDTO PokemonPearlDTO = new GetProductDTO(2l, product2);
+        GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1, null);
+        GetProductDTO PokemonPearlDTO = new GetProductDTO(2l, product2, null);
 
         List<GetProductDTO> Result = List.of(PokemonDiamondDTO, PokemonPearlDTO);
 
@@ -51,8 +48,8 @@ class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
                 .andExpect(content().json("""
-                [{"id":1,"productInfo":{"title":"Pokemon","subTitle":"diamond","series":"Pokemon","year":2022,"price":10.01,"condition":"TRASH","description":"Pokemon game","genre":"JRPG","productType":"GAME","images":[]}},
-                            {"id":2,"productInfo":{"title":"Pokemon","subTitle":"Pearl","series":"Pokemon","year":2022,"price":10.01,"condition":"TRASH","description":"Pokemon game","genre":"JRPG","productType":"GAME","images":[]}}]
+                [{"id":1,"productInfo":{"title":"Pokemon","subTitle":"diamond","series":"Pokemon","year":2022,"price":10.01,"condition":"TRASH","description":"Pokemon game","genreId":1,"productType":"GAME","images":[]}},
+                            {"id":2,"productInfo":{"title":"Pokemon","subTitle":"Pearl","series":"Pokemon","year":2022,"price":10.01,"condition":"TRASH","description":"Pokemon game","genreId":2,"productType":"GAME","images":[]}}]
                 """ ));
 
         verify(productService).getAllProducts();
@@ -60,7 +57,7 @@ class ProductControllerTest {
     @Test
     void getAllProducts_NoneFound() throws Exception {
         when(productService.getAllProducts())
-                .thenReturn(null);
+                .thenReturn(Collections.emptyList());
 
         mockMvc.perform(get("/products"))
                 .andDo(print())
@@ -72,9 +69,9 @@ class ProductControllerTest {
     @Test
     void getProduct() throws Exception {
 
-        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genre("JRPG").productType("GAME").images(Collections.emptyList()).build();
+        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
 
-        GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1);
+        GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1, null);
 
 
         when(productService.getProduct(1l))
@@ -85,7 +82,7 @@ class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
                 .andExpect(content().json("""
-                {"id":1,"productInfo":{"title":"Pokemon","subTitle":"diamond","series":"Pokemon","year":2022,"price":10.01,"condition":"TRASH","description":"Pokemon game","genre":"JRPG","productType":"GAME","images":[]}}
+                {"id":1,"productInfo":{"title":"Pokemon","subTitle":"diamond","series":"Pokemon","year":2022,"price":10.01,"condition":"TRASH","description":"Pokemon game","genreId":1,"productType":"GAME","images":[]}}
                  """ ));
 
         verify(productService).getProduct(1l);
@@ -105,11 +102,11 @@ class ProductControllerTest {
 
     @Test
     void getAllProductsByName()throws Exception {
-        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genre("JRPG").productType("GAME").images(Collections.emptyList()).build();
-        BasicProductInfo product2 = BasicProductInfo.builder().title("Pokemon").subTitle("Pearl").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genre("JRPG").productType("GAME").images(Collections.emptyList()).build();
+        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
+        BasicProductInfo product2 = BasicProductInfo.builder().title("Pokemon").subTitle("Pearl").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(2l).productType("GAME").images(Collections.emptyList()).build();
 
-        GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1);
-        GetProductDTO PokemonPearlDTO = new GetProductDTO(2l, product2);
+        GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1, null);
+        GetProductDTO PokemonPearlDTO = new GetProductDTO(2l, product2, null);
 
         List<GetProductDTO> Result = List.of(PokemonDiamondDTO, PokemonPearlDTO);
 
@@ -121,8 +118,8 @@ class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
                 .andExpect(content().json("""
-                [{"id":1,"productInfo":{"title":"Pokemon","subTitle":"diamond","series":"Pokemon","year":2022,"price":10.01,"condition":"TRASH","description":"Pokemon game","genre":"JRPG","productType":"GAME","images":[]}},
-                            {"id":2,"productInfo":{"title":"Pokemon","subTitle":"Pearl","series":"Pokemon","year":2022,"price":10.01,"condition":"TRASH","description":"Pokemon game","genre":"JRPG","productType":"GAME","images":[]}}]
+                [{"id":1,"productInfo":{"title":"Pokemon","subTitle":"diamond","series":"Pokemon","year":2022,"price":10.01,"condition":"TRASH","description":"Pokemon game","genreId":1,"productType":"GAME","images":[]}},
+                            {"id":2,"productInfo":{"title":"Pokemon","subTitle":"Pearl","series":"Pokemon","year":2022,"price":10.01,"condition":"TRASH","description":"Pokemon game","genreId":2,"productType":"GAME","images":[]}}]
                 """ ));
 
         verify(productService).getProducts("Pokemon");
@@ -131,7 +128,7 @@ class ProductControllerTest {
     void getAllProductsByName_NotFound() throws Exception {
 
         when(productService.getProducts("Ppppp"))
-                .thenReturn(null);
+                .thenReturn(Collections.emptyList());
 
         mockMvc.perform(get("/products/search/Ppppp"))
                 .andDo(print())
@@ -159,8 +156,9 @@ class ProductControllerTest {
         when(productService.addProduct(createProductRequestDTO))
                 .thenReturn(createProductResponseDTO);
 
-        mockMvc.perform(post("/products").content(Jso))
-                //Add body
+        mockMvc.perform(post("/products")
+                        .contentType(APPLICATION_JSON_VALUE)
+                        .content(createProductRequestDTO.toString()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))

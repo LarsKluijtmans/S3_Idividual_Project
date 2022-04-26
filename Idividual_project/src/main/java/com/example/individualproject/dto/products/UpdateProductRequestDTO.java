@@ -14,5 +14,4 @@ public class UpdateProductRequestDTO {
 
     private Long productId;
     private BasicProductInfo productInfo;
-    private NormalUser seller;
 }
