@@ -1,8 +1,9 @@
 package com.example.individualproject.controller;
 
 import com.example.individualproject.business.impl.ProductServiceImpl;
-import com.example.individualproject.dto.products.BasicProductInfo;
-import com.example.individualproject.dto.products.GetProductDTO;
+import com.example.individualproject.dto.products.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,28 +148,44 @@ class ProductControllerTest {
         verify(productService).deleteProduct(1l);
     }
 
-   /*@Test
+   @Test
     void createProduct() throws Exception {
-        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genre("JRPG").productType("GAME").images(Collections.emptyList()).build();
+        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
         CreateProductRequestDTO createProductRequestDTO = CreateProductRequestDTO.builder().productInfo(product1).build();
         CreateProductResponseDTO createProductResponseDTO = CreateProductResponseDTO.builder().productId(1l).build();
+
+       ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+       String json = ow.writeValueAsString(createProductRequestDTO);
 
         when(productService.addProduct(createProductRequestDTO))
                 .thenReturn(createProductResponseDTO);
 
         mockMvc.perform(post("/products")
                         .contentType(APPLICATION_JSON_VALUE)
-                        .content(createProductRequestDTO.toString()))
+                        .content(json))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
-                .andExpect(content().json("""
-                {"id":1}
-                """ ));
+                .andExpect(status().isCreated());
 
         verify(productService).addProduct(createProductRequestDTO);
     }
     @Test
-    void updateProduct() {
-    }*/
+    void updateProduct() throws Exception {
+        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
+        UpdateProductRequestDTO updateProductRequestDTO = UpdateProductRequestDTO.builder().productInfo(product1).build();
+        UpdateProductResponseDTO updateProductResponseDTO = UpdateProductResponseDTO.builder().productId(1l).build();
+
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(updateProductRequestDTO);
+
+        when(productService.updateProduct(updateProductRequestDTO))
+                .thenReturn(updateProductResponseDTO);
+
+        mockMvc.perform(put("/products")
+                        .contentType(APPLICATION_JSON_VALUE)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+
+        verify(productService).updateProduct(updateProductRequestDTO);
+    }
 }

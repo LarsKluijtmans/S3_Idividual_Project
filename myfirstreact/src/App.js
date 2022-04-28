@@ -24,7 +24,7 @@ import AdminNav from "./Admin/AdminNav";
 
 function App() {
 
-    if(localStorage.getItem('authorization') === "NORMAL") {
+    if(localStorage.getItem("authorization") === "NORMAL") {
         return (
             <div>
                 <NormalUserNav/>
@@ -41,7 +41,7 @@ function App() {
                 </Routes>
             </div>
         );
-    } else if(localStorage.getItem('authorization') === "ADMIN") {
+    } else if(localStorage.getItem("authorization")  === "ADMIN") {
         return (
             <div>
                 <AdminNav/>
