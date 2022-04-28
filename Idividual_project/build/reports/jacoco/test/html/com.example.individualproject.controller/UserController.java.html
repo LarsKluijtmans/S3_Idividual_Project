@@ -102,8 +102,8 @@ public class UserController {
 
     //All
     @GetMapping(&quot;login/{username}/{password}&quot;)
-    public ResponseEntity&lt;GetUserDTO&gt; login( @PathVariable(&quot;username&quot;) String username, @PathVariable(&quot;password&quot;) String password) {
-<span class="fc" id="L106">        GetUserDTO user = userService.getUser(new UserAccountRequestDTO(username,password));</span>
+    public ResponseEntity&lt;GetLoginDTO&gt; login( @PathVariable(&quot;username&quot;) String username, @PathVariable(&quot;password&quot;) String password) {
+<span class="fc" id="L106">        GetLoginDTO user = userService.VerifyLoginCredentails(username,password);</span>
 
 <span class="fc bfc" id="L108" title="All 2 branches covered.">        if(user != null) {</span>
 <span class="fc" id="L109">            return ResponseEntity.ok().body(user);</span>

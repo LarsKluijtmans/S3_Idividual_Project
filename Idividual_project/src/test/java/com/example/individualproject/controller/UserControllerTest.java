@@ -2,6 +2,7 @@ package com.example.individualproject.controller;
 
 import com.example.individualproject.business.impl.ProductServiceImpl;
 import com.example.individualproject.business.impl.UserServiceImpl;
+import com.example.individualproject.dto.users.GetLoginDTO;
 import com.example.individualproject.dto.users.GetUserDTO;
 import com.example.individualproject.dto.users.UserAccountRequestDTO;
 import com.example.individualproject.repository.entity.Admin;
@@ -214,29 +215,29 @@ class UserControllerTest {
         Admin boss = new Admin(2l, "boss","boss");
         GetUserDTO bossDTO = new GetUserDTO(boss);
 
-        when(userService.getUser(new UserAccountRequestDTO("boss","boss")))
-                .thenReturn(bossDTO);
+        when(userService.VerifyLoginCredentails("boss","boss"))
+                .thenReturn(new GetLoginDTO(boss, ""));
 
         mockMvc.perform(get("/users/login/boss/boss"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
                 .andExpect(content().json("""
-                {"username":"boss","firstName":"-None-","lastName":"-None-","phoneNumber":"-None-","email":"-None-","position":"ADMIN"}
+                {}
                 """ ));
 
-        verify(userService).getUser((new UserAccountRequestDTO("boss","boss")));
+        verify(userService).VerifyLoginCredentails("boss","boss");
     }
     @Test
     void getUsersByUsernameAndPassword_NotFound() throws Exception {
-        when(userService.getUser(new UserAccountRequestDTO("null","null")))
+        when(userService.VerifyLoginCredentails( "null","null"))
                 .thenReturn(null);
 
         mockMvc.perform(get("/users/login/null/null"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
 
-        verify(userService).getUser(new UserAccountRequestDTO("null","null"));
+        verify(userService).VerifyLoginCredentails("null","null");
     }
 
     @Test

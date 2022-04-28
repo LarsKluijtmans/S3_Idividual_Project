@@ -1,5 +1,5 @@
 import React from "react";
-import SearchBar from "./ProductPage/Search_For_Products/SearchBar";
+import SearchBar from "./Search_For_Products/SearchBar";
 
 function Products() {
 

@@ -95,14 +95,14 @@ public class UserServiceImpl implements UserService {
 <span class="fc" id="L95">        return result;</span>
     }
     @Override
-    public GetUserDTO getUser(UserAccountRequestDTO account){
-<span class="fc" id="L99">       NormalUser user = normalUserRepository.getUserByUsernameIsLikeAndPasswordIsLike(account.getUsername(), account.getPassword());</span>
+    public GetLoginDTO VerifyLoginCredentails(String username, String password){
+<span class="fc" id="L99">       NormalUser user = normalUserRepository.getUserByUsernameIsAndPasswordIs(username, password);</span>
 
 <span class="fc bfc" id="L101" title="All 2 branches covered.">       if(user == null) {</span>
-<span class="fc" id="L102">           Admin admin = adminRepository.getUserByUsernameIsLikeAndPasswordIsLike(account.getUsername(), account.getPassword());</span>
-<span class="fc" id="L103">           return new GetUserDTO(admin);</span>
+<span class="fc" id="L102">           Admin admin = adminRepository.getUserByUsernameIsAndPasswordIs(username, password);</span>
+<span class="fc" id="L103">           return new GetLoginDTO(admin,&quot;admin token&quot;);</span>
        }else{
-<span class="fc" id="L105">           return new GetUserDTO(user);</span>
+<span class="fc" id="L105">           return new GetLoginDTO(user,&quot;normal token&quot;);</span>
        }
     }
     @Override

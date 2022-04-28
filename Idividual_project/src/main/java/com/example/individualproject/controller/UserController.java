@@ -102,8 +102,8 @@ public class UserController {
 
     //All
     @GetMapping("login/{username}/{password}")
-    public ResponseEntity<GetUserDTO> login( @PathVariable("username") String username, @PathVariable("password") String password) {
-        GetUserDTO user = userService.getUser(new UserAccountRequestDTO(username,password));
+    public ResponseEntity<GetLoginDTO> login( @PathVariable("username") String username, @PathVariable("password") String password) {
+        GetLoginDTO user = userService.VerifyLoginCredentails(username,password);
 
         if(user != null) {
             return ResponseEntity.ok().body(user);

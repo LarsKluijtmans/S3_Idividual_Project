@@ -14,7 +14,7 @@ public interface UserService {
     GetUserDTO getUserByID(Long id);
     List<GetUserDTO> getAllUserByName(String name);
     boolean deleteUser(Long id);
-    GetUserDTO getUser(UserAccountRequestDTO account);
+    GetLoginDTO VerifyLoginCredentails(String username, String password);
     CreateUserResponseDTO addUser(CreateUserRequestDTO createRequestDTO);
     UpdateUserResponseDTO updateUser(UpdateUserRequestDTO updateRequestDTO);
     boolean isUsernameUnique(String name);

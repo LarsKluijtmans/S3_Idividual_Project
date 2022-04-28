@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 
 function Login() {
 
@@ -37,43 +37,27 @@ function Login() {
 
 function TryToLogin({username, password})
 {
-    const [result, setResult] = useState('');
-    const [error, setError] = useState('');
+    const [auth, setauth] = useState(localStorage.getItem("authorization") || null)
 
     const handleLogin = () => {
-        axios.get("http://localhost:8080/accounts/login/"+ username +"/"+ password)
+        axios.get("http://localhost:8080/users/login/"+ username +"/"+ password)
             .then(res => {
-                setResult(res.data);
+                if(res.data.authorization === "NORMAL") {
+                    localStorage.setItem("authorization", "NORMAL");
+                } else if(res.data.authorization === "ADMIN"){
+                    localStorage.setItem("authorization", "ADMIN");
+                }
+                setauth(localStorage.getItem("authorization"));
             }).catch(err => {
-                setError(err.message);
             });
     };
 
-    if(result != null) {
-        return (
-            <div className="LoginContainer">
-                <button className={"loginButton"} type="submit" onClick={handleLogin}>Login</button>
-                <p>{result.firstname}</p>
-                <p>{result.lastname}</p>
-            </div>
-        );
-    }
-    else if(error != null){
-        return (
-            <div className="LoginContainer">
-                <button className={"loginButton"} type="submit" onClick={handleLogin}>Login</button>
-                <h3>{error}</h3>
-            </div>
-        );
-    }
-    else{
-        return (
-            <div className="LoginContainer">
-                <button className={"loginButton"} type="submit" onClick={handleLogin}>Login</button>
-                <h3>Login failed</h3>
-            </div>
-        );
-    }
+    return (
+        <div className="LoginContainer">
+            <button className={"loginButton"} type="submit" onClick={handleLogin}>Login</button>
+            <h3>authorization {auth} </h3>
+        </div>
+    );
 }
 
 export default Login;

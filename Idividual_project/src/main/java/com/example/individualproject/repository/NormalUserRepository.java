@@ -10,7 +10,7 @@ import java.util.List;
 public interface NormalUserRepository extends JpaRepository<NormalUser, Long>  {
 
     List<NormalUser> findAllByFirstnameIsLikeOrLastnameIsLikeOrUsernameIsLike(String firstName,String lastName,String userName);
-    NormalUser getUserByUsernameIsLikeAndPasswordIsLike(String username, String password);
+    NormalUser getUserByUsernameIsAndPasswordIs(String username, String password);
     NormalUser findAllByIdIs(Long id);
 
     //Username, email, phone-number unique?

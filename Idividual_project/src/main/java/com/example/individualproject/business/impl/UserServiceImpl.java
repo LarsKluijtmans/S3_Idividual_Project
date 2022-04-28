@@ -95,14 +95,14 @@ public class UserServiceImpl implements UserService {
         return result;
     }
     @Override
-    public GetUserDTO getUser(UserAccountRequestDTO account){
-       NormalUser user = normalUserRepository.getUserByUsernameIsLikeAndPasswordIsLike(account.getUsername(), account.getPassword());
+    public GetLoginDTO VerifyLoginCredentails(String username, String password){
+       NormalUser user = normalUserRepository.getUserByUsernameIsAndPasswordIs(username, password);
 
        if(user == null) {
-           Admin admin = adminRepository.getUserByUsernameIsLikeAndPasswordIsLike(account.getUsername(), account.getPassword());
-           return new GetUserDTO(admin);
+           Admin admin = adminRepository.getUserByUsernameIsAndPasswordIs(username, password);
+           return new GetLoginDTO(admin,"admin token");
        }else{
-           return new GetUserDTO(user);
+           return new GetLoginDTO(user,"normal token");
        }
     }
     @Override

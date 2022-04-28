@@ -279,20 +279,20 @@ class UserServiceImplTest {
 
         NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
 
-        when(normalUserRepository.getUserByUsernameIsLikeAndPasswordIsLike("Worker","Worker"))
+        when(normalUserRepository.getUserByUsernameIsAndPasswordIs("Worker","Worker"))
                 .thenReturn(worker);
 
         UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
 
-        GetUserDTO actualResult = userServiceeMock.getUser(new UserAccountRequestDTO("Worker","Worker"));
+        GetLoginDTO actualResult = userServiceeMock.VerifyLoginCredentails("Worker","Worker");
 
-        GetUserDTO WorkerDTO = new GetUserDTO(worker);
+        GetLoginDTO WorkerDTO = new GetLoginDTO(worker,"normal token");
 
-        GetUserDTO expectedResult = WorkerDTO;
+        GetLoginDTO expectedResult = WorkerDTO;
 
         assertEquals(expectedResult, actualResult);
 
-        verify(normalUserRepository).getUserByUsernameIsLikeAndPasswordIsLike("Worker","Worker");
+        verify(normalUserRepository).getUserByUsernameIsAndPasswordIs("Worker","Worker");
     }
     @Test
     void getUser_ResultAdmin() {
@@ -301,23 +301,23 @@ class UserServiceImplTest {
 
         Admin boss = new Admin(1l,"Admin","Admin");
 
-        when(normalUserRepository.getUserByUsernameIsLikeAndPasswordIsLike("Admin","Admin"))
+        when(normalUserRepository.getUserByUsernameIsAndPasswordIs("Admin","Admin"))
                 .thenReturn(null);
-        when(adminRepository.getUserByUsernameIsLikeAndPasswordIsLike("Admin","Admin"))
+        when(adminRepository.getUserByUsernameIsAndPasswordIs("Admin","Admin"))
                 .thenReturn(boss);
 
         UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
 
-        GetUserDTO actualResult = userServiceeMock.getUser(new UserAccountRequestDTO("Admin","Admin"));
+        GetLoginDTO actualResult = userServiceeMock.VerifyLoginCredentails("Admin","Admin");
 
-        GetUserDTO AdminDTO = new GetUserDTO(boss);
+        GetLoginDTO AdminDTO = new GetLoginDTO(boss, "admin token");
 
-        GetUserDTO expectedResult = AdminDTO;
+        GetLoginDTO expectedResult = AdminDTO;
 
         assertEquals(expectedResult, actualResult);
 
-        verify(normalUserRepository).getUserByUsernameIsLikeAndPasswordIsLike("Admin","Admin");
-        verify(adminRepository).getUserByUsernameIsLikeAndPasswordIsLike("Admin","Admin");
+        verify(normalUserRepository).getUserByUsernameIsAndPasswordIs("Admin","Admin");
+        verify(adminRepository).getUserByUsernameIsAndPasswordIs("Admin","Admin");
     }
 
     @Test

@@ -10,7 +10,7 @@ import java.util.List;
 public interface AdminRepository extends JpaRepository<Admin, Long>  {
 
     List<Admin> findAllByUsernameIsLike(String firstName);
-    Admin getUserByUsernameIsLikeAndPasswordIsLike(String username, String password);
+    Admin getUserByUsernameIsAndPasswordIs(String username, String password);
     Admin findAllByIdIsLike(Long id);
 
     //Is username unique
