@@ -46,8 +46,8 @@ public class ProductController {
     public ResponseEntity&lt;GetProductDTO&gt; createProduct(@RequestBody CreateProductRequestDTO product) {
 <span class="fc" id="L47">        CreateProductResponseDTO productResponseDTO = productService.addProduct(product);</span>
 
-<span class="pc bpc" id="L49" title="1 of 2 branches missed.">        if(productResponseDTO == null){</span>
-<span class="nc" id="L50">            return ResponseEntity.status(HttpStatus.CONFLICT).build();</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if(productResponseDTO == null){</span>
+<span class="fc" id="L50">            return ResponseEntity.status(HttpStatus.CONFLICT).build();</span>
         } else {
 <span class="fc" id="L52">            String url = &quot;products/&quot; + productResponseDTO.getProductId();</span>
 <span class="fc" id="L53">            URI uri = URI.create(url);</span>
@@ -56,10 +56,10 @@ public class ProductController {
     }
     @PutMapping()
     public ResponseEntity&lt;UpdateProductResponseDTO&gt; updateProduct(@RequestBody UpdateProductRequestDTO product) {
-<span class="pc bpc" id="L59" title="1 of 2 branches missed.">       if(productService.updateProduct(product) != null) {</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">       if(productService.updateProduct(product) != null) {</span>
 <span class="fc" id="L60">           return ResponseEntity.noContent().build();</span>
        }else {
-<span class="nc" id="L62">           return ResponseEntity.badRequest().build();</span>
+<span class="fc" id="L62">           return ResponseEntity.badRequest().build();</span>
        }
     }
 

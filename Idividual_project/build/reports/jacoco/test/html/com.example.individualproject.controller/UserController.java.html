@@ -81,22 +81,22 @@ public class UserController {
     //NormalUser
     @GetMapping(&quot;products/{id}&quot;)
     public ResponseEntity&lt;List&lt;GetProductDTO&gt;&gt; getUsersProducts( @PathVariable(&quot;id&quot;) Long id) {
-<span class="nc" id="L84">        List&lt;GetProductDTO&gt; usersProducts = productService.getAllOfAUsersProducts(id);</span>
+<span class="fc" id="L84">        List&lt;GetProductDTO&gt; usersProducts = productService.getAllOfAUsersProducts(id);</span>
 
-<span class="nc bnc" id="L86" title="All 2 branches missed.">        if(usersProducts != null) {</span>
-<span class="nc" id="L87">            return ResponseEntity.ok().body(usersProducts);</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        if(usersProducts != null) {</span>
+<span class="fc" id="L87">            return ResponseEntity.ok().body(usersProducts);</span>
         } else {
-<span class="nc" id="L89">            return ResponseEntity.notFound().build();</span>
+<span class="fc" id="L89">            return ResponseEntity.notFound().build();</span>
         }
     }
     @PutMapping()
     public ResponseEntity&lt;UpdateUserResponseDTO&gt; updateUser(@RequestBody UpdateUserRequestDTO user) {
-<span class="nc" id="L94">        UpdateUserResponseDTO responseDTO = userService.updateUser(user);</span>
+<span class="fc" id="L94">        UpdateUserResponseDTO responseDTO = userService.updateUser(user);</span>
 
-<span class="nc bnc" id="L96" title="All 2 branches missed.">       if(responseDTO != null) {</span>
-<span class="nc" id="L97">           return ResponseEntity.ok().body(responseDTO);</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">       if(responseDTO != null) {</span>
+<span class="fc" id="L97">           return ResponseEntity.ok().body(responseDTO);</span>
        }else {
-<span class="nc" id="L99">           return ResponseEntity.badRequest().build();</span>
+<span class="fc" id="L99">           return ResponseEntity.badRequest().build();</span>
        }
     }
 
@@ -132,13 +132,13 @@ public class UserController {
     @PostMapping()
     public ResponseEntity&lt;CreateUserResponseDTO&gt; createUser(@RequestBody CreateUserRequestDTO user) {
 
-<span class="nc" id="L135">        CreateUserResponseDTO userResponseDTO = userService.addUser(user);</span>
-<span class="nc bnc" id="L136" title="All 2 branches missed.">        if (userResponseDTO != null){</span>
-<span class="nc" id="L137">            String url = &quot;Unknown&quot;;</span>
-<span class="nc" id="L138">            URI uri = URI.create(url);</span>
-<span class="nc" id="L139">            return ResponseEntity.created(uri).body(userResponseDTO);</span>
+<span class="fc" id="L135">        CreateUserResponseDTO userResponseDTO = userService.addUser(user);</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        if (userResponseDTO != null){</span>
+<span class="fc" id="L137">            String url = &quot;Unknown&quot;;</span>
+<span class="fc" id="L138">            URI uri = URI.create(url);</span>
+<span class="fc" id="L139">            return ResponseEntity.created(uri).body(userResponseDTO);</span>
         } else {
-<span class="nc" id="L141">            return ResponseEntity.status(HttpStatus.CONFLICT).build();</span>
+<span class="fc" id="L141">            return ResponseEntity.status(HttpStatus.CONFLICT).build();</span>
         }
     }
 

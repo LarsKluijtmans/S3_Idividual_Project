@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">9</div>
+<div class="counter">11</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.152s</div>
+<div class="counter">0.239s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,47 +79,57 @@
 </thead>
 <tr>
 <td class="success">createProduct()</td>
-<td class="success">0.015s</td>
+<td class="success">0.014s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">createProduct_NotFound()</td>
+<td class="success">0.017s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">deleteProduct()</td>
-<td class="success">0.007s</td>
+<td class="success">0.010s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getAllProducts()</td>
-<td class="success">0.009s</td>
+<td class="success">0.012s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getAllProductsByName()</td>
-<td class="success">0.033s</td>
+<td class="success">0.045s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getAllProductsByName_NotFound()</td>
-<td class="success">0.007s</td>
+<td class="success">0.010s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getAllProducts_NoneFound()</td>
-<td class="success">0.008s</td>
+<td class="success">0.010s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getProduct()</td>
-<td class="success">0.007s</td>
+<td class="success">0.011s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getProduct_NotFound()</td>
-<td class="success">0.009s</td>
+<td class="success">0.012s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">updateProduct()</td>
-<td class="success">0.057s</td>
+<td class="success">0.081s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">updateProduct_NotFound()</td>
+<td class="success">0.017s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -127,12 +137,12 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2022-04-28 21:55:24.314  INFO 20156 --- [    Test worker] .b.t.a.w.s.WebMvcTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.example.individualproject.controller.ProductControllerTest], using SpringBootContextLoader
-2022-04-28 21:55:24.315  INFO 20156 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.example.individualproject.controller.ProductControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}.
-2022-04-28 21:55:24.315  INFO 20156 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.individualproject.controller.ProductControllerTest]: ProductControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2022-04-28 21:55:24.318  INFO 20156 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.individualproject.IndividualProjectApplication for test class com.example.individualproject.controller.ProductControllerTest
-2022-04-28 21:55:24.319  INFO 20156 --- [    Test worker] .b.t.a.w.s.WebMvcTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
-2022-04-28 21:55:24.319  INFO 20156 --- [    Test worker] .b.t.a.w.s.WebMvcTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@4310007c, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@3c247c8d, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@6233bca8, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@6895b608, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@2b454886, org.springframework.test.context.support.DirtiesContextTestExecutionListener@349a8977, org.springframework.test.context.transaction.TransactionalTestExecutionListener@4b33b5b0, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@ed37f28, org.springframework.test.context.event.EventPublishingTestExecutionListener@f53070c, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@6fe2f6a0, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@392a40d9, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@2c9542eb, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@3be94b12, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@4346ed39, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@28815100]
+<pre>2022-04-29 10:25:10.655  INFO 3052 --- [    Test worker] .b.t.a.w.s.WebMvcTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.example.individualproject.controller.ProductControllerTest], using SpringBootContextLoader
+2022-04-29 10:25:10.656  INFO 3052 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.example.individualproject.controller.ProductControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2022-04-29 10:25:10.656  INFO 3052 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.individualproject.controller.ProductControllerTest]: ProductControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2022-04-29 10:25:10.661  INFO 3052 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.individualproject.IndividualProjectApplication for test class com.example.individualproject.controller.ProductControllerTest
+2022-04-29 10:25:10.662  INFO 3052 --- [    Test worker] .b.t.a.w.s.WebMvcTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+2022-04-29 10:25:10.662  INFO 3052 --- [    Test worker] .b.t.a.w.s.WebMvcTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@44bd11a2, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@56595dcb, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@1b717d03, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@59e7a6d8, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@757b8c47, org.springframework.test.context.support.DirtiesContextTestExecutionListener@69503026, org.springframework.test.context.transaction.TransactionalTestExecutionListener@7959d16a, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@1d6c69ff, org.springframework.test.context.event.EventPublishingTestExecutionListener@34dcd7a1, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@5c65001c, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@6b00587b, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@15ddf775, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@476e4bb0, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@337fd6a1, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@5a558335]
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -142,12 +152,12 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v2.6.3)
 
-2022-04-28 21:55:24.343  INFO 20156 --- [    Test worker] c.e.i.controller.ProductControllerTest   : Starting ProductControllerTest using Java 17.0.2 on MSILars with PID 20156 (started by lars in C:\Users\lars\Desktop\ict\sem3\IndividualTask\s3_idividual_project\Idividual_project)
-2022-04-28 21:55:24.343  INFO 20156 --- [    Test worker] c.e.i.controller.ProductControllerTest   : No active profile set, falling back to default profiles: default
-2022-04-28 21:55:24.889  INFO 20156 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-04-28 21:55:24.889  INFO 20156 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-04-28 21:55:24.889  INFO 20156 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
-2022-04-28 21:55:24.899  INFO 20156 --- [    Test worker] c.e.i.controller.ProductControllerTest   : Started ProductControllerTest in 0.577 seconds (JVM running for 5.56)
+2022-04-29 10:25:10.691  INFO 3052 --- [    Test worker] c.e.i.controller.ProductControllerTest   : Starting ProductControllerTest using Java 17.0.2 on MSILars with PID 3052 (started by lars in C:\Users\lars\Desktop\ict\sem3\IndividualTask\s3_idividual_project\Idividual_project)
+2022-04-29 10:25:10.692  INFO 3052 --- [    Test worker] c.e.i.controller.ProductControllerTest   : No active profile set, falling back to default profiles: default
+2022-04-29 10:25:11.591  INFO 3052 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-04-29 10:25:11.592  INFO 3052 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-04-29 10:25:11.592  INFO 3052 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2022-04-29 10:25:11.607  INFO 3052 --- [    Test worker] c.e.i.controller.ProductControllerTest   : Started ProductControllerTest in 0.941 seconds (JVM running for 7.258)
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -229,6 +239,57 @@ FlashMap:
 
 MockHttpServletResponse:
            Status = 204
+    Error message = null
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;]
+     Content type = null
+             Body = 
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /products
+       Parameters = {}
+          Headers = [Content-Type:&quot;application/json;charset=UTF-8&quot;, Content-Length:&quot;308&quot;]
+             Body = {
+  &quot;productInfo&quot; : {
+    &quot;title&quot; : &quot;Pokemon&quot;,
+    &quot;subTitle&quot; : &quot;diamond&quot;,
+    &quot;series&quot; : &quot;Pokemon&quot;,
+    &quot;year&quot; : 2022,
+    &quot;price&quot; : 10.01,
+    &quot;condition&quot; : &quot;TRASH&quot;,
+    &quot;description&quot; : &quot;Pokemon game&quot;,
+    &quot;genreId&quot; : 1,
+    &quot;productType&quot; : &quot;GAME&quot;,
+    &quot;images&quot; : [ ]
+  },
+  &quot;seller&quot; : null
+}
+    Session Attrs = {}
+
+Handler:
+             Type = com.example.individualproject.controller.ProductController
+           Method = com.example.individualproject.controller.ProductController#createProduct(CreateProductRequestDTO)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 409
     Error message = null
           Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;]
      Content type = null
@@ -423,6 +484,57 @@ MockHttpServletResponse:
           Cookies = []
 
 MockHttpServletRequest:
+      HTTP Method = PUT
+      Request URI = /products
+       Parameters = {}
+          Headers = [Content-Type:&quot;application/json;charset=UTF-8&quot;, Content-Length:&quot;311&quot;]
+             Body = {
+  &quot;productId&quot; : null,
+  &quot;productInfo&quot; : {
+    &quot;title&quot; : &quot;Pokemon&quot;,
+    &quot;subTitle&quot; : &quot;diamond&quot;,
+    &quot;series&quot; : &quot;Pokemon&quot;,
+    &quot;year&quot; : 2022,
+    &quot;price&quot; : 10.01,
+    &quot;condition&quot; : &quot;TRASH&quot;,
+    &quot;description&quot; : &quot;Pokemon game&quot;,
+    &quot;genreId&quot; : 1,
+    &quot;productType&quot; : &quot;GAME&quot;,
+    &quot;images&quot; : [ ]
+  }
+}
+    Session Attrs = {}
+
+Handler:
+             Type = com.example.individualproject.controller.ProductController
+           Method = com.example.individualproject.controller.ProductController#updateProduct(UpdateProductRequestDTO)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;]
+     Content type = null
+             Body = 
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
       HTTP Method = GET
       Request URI = /products/1
        Parameters = {}
@@ -520,7 +632,7 @@ MockHttpServletResponse:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 7.4</a> at Apr 28, 2022, 9:55:25 PM</p>
+<a href="http://www.gradle.org">Gradle 7.4</a> at Apr 29, 2022, 10:25:13 AM</p>
 </div>
 </div>
 </body>

@@ -30,6 +30,7 @@ class ProductControllerTest {
     @MockBean
     private ProductServiceImpl productService;
 
+    //getAllProducts
     @Test
     void getAllProducts() throws Exception {
         BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
@@ -67,6 +68,7 @@ class ProductControllerTest {
         verify(productService).getAllProducts();
     }
 
+    //getProduct
     @Test
     void getProduct() throws Exception {
 
@@ -101,6 +103,7 @@ class ProductControllerTest {
         verify(productService).getProduct(1l);
     }
 
+    //getAllProductsByName
     @Test
     void getAllProductsByName()throws Exception {
         BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
@@ -138,6 +141,7 @@ class ProductControllerTest {
         verify(productService).getProducts("Ppppp");
     }
 
+    //deleteProduct
     @Test
     void deleteProduct() throws Exception {
 
@@ -148,7 +152,8 @@ class ProductControllerTest {
         verify(productService).deleteProduct(1l);
     }
 
-   @Test
+    //createProduct
+    @Test
     void createProduct() throws Exception {
         BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
         CreateProductRequestDTO createProductRequestDTO = CreateProductRequestDTO.builder().productInfo(product1).build();
@@ -169,6 +174,28 @@ class ProductControllerTest {
         verify(productService).addProduct(createProductRequestDTO);
     }
     @Test
+    void createProduct_NotFound() throws Exception {
+        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
+        CreateProductRequestDTO createProductRequestDTO = CreateProductRequestDTO.builder().productInfo(product1).build();
+        CreateProductResponseDTO createProductResponseDTO = CreateProductResponseDTO.builder().productId(1l).build();
+
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(createProductRequestDTO);
+
+        when(productService.addProduct(createProductRequestDTO))
+                .thenReturn(null);
+
+        mockMvc.perform(post("/products")
+                        .contentType(APPLICATION_JSON_VALUE)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isConflict());
+
+        verify(productService).addProduct(createProductRequestDTO);
+    }
+
+    //updateProduct
+    @Test
     void updateProduct() throws Exception {
         BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
         UpdateProductRequestDTO updateProductRequestDTO = UpdateProductRequestDTO.builder().productInfo(product1).build();
@@ -185,6 +212,26 @@ class ProductControllerTest {
                         .content(json))
                 .andDo(print())
                 .andExpect(status().isNoContent());
+
+        verify(productService).updateProduct(updateProductRequestDTO);
+    }
+    @Test
+    void updateProduct_NotFound() throws Exception {
+        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
+        UpdateProductRequestDTO updateProductRequestDTO = UpdateProductRequestDTO.builder().productInfo(product1).build();
+        UpdateProductResponseDTO updateProductResponseDTO = UpdateProductResponseDTO.builder().productId(1l).build();
+
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(updateProductRequestDTO);
+
+        when(productService.updateProduct(updateProductRequestDTO))
+                .thenReturn(null);
+
+        mockMvc.perform(put("/products")
+                        .contentType(APPLICATION_JSON_VALUE)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
 
         verify(productService).updateProduct(updateProductRequestDTO);
     }

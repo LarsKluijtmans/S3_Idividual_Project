@@ -2,12 +2,16 @@ package com.example.individualproject.controller;
 
 import com.example.individualproject.business.impl.ProductServiceImpl;
 import com.example.individualproject.business.impl.UserServiceImpl;
-import com.example.individualproject.dto.users.GetLoginDTO;
-import com.example.individualproject.dto.users.GetUserDTO;
-import com.example.individualproject.dto.users.UserAccountRequestDTO;
+import com.example.individualproject.dto.products.BasicProductInfo;
+import com.example.individualproject.dto.products.GetProductDTO;
+import com.example.individualproject.dto.users.*;
 import com.example.individualproject.repository.entity.Admin;
+import com.example.individualproject.repository.entity.Genre;
 import com.example.individualproject.repository.entity.NormalUser;
 
+import com.example.individualproject.repository.entity.Product;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +20,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
@@ -37,6 +42,7 @@ class UserControllerTest {
     @MockBean
     private ProductServiceImpl productService;
 
+    //getAllUsers
     @Test
     void getAllUsers_UsersFound() throws Exception {
         NormalUser worker = new NormalUser(1l, "worker","worker","worker","worker","worker","worker");
@@ -72,6 +78,7 @@ class UserControllerTest {
         verify(userService).getAllUsers();
     }
 
+    //getUserByID
     @Test
     void getUserByID_UserFound() throws Exception {
         NormalUser worker = new NormalUser(1l, "worker","worker","worker","worker","worker","worker");
@@ -102,6 +109,7 @@ class UserControllerTest {
         verify(userService).getUserByID(1l);
     }
 
+    //getAllUserByName
     @Test
     void getAllUserByName_UserFound() throws Exception {
         NormalUser worker = new NormalUser(1l, "worker","worker","worker","worker","worker","worker");
@@ -139,7 +147,7 @@ class UserControllerTest {
     }
 
 
-
+    //getAllNormalUser
     @Test
     void getAllNormalUser_UsersFound() throws Exception {
         NormalUser worker = new NormalUser(1l, "worker","worker","worker","worker","worker","worker");
@@ -176,6 +184,7 @@ class UserControllerTest {
         verify(userService).getAllNormalUsers();
     }
 
+    //getAllAdmin
     @Test
     void getAllAdmin_UsersFound() throws Exception {
         Admin boss = new Admin(2l, "boss","boss");
@@ -210,6 +219,7 @@ class UserControllerTest {
         verify(userService).getAllAdmins();
     }
 
+    //getUsersByUsernameAndPassword
     @Test
     void getUsersByUsernameAndPassword_UserFound()throws Exception {
         Admin boss = new Admin(2l, "boss","boss");
@@ -240,6 +250,7 @@ class UserControllerTest {
         verify(userService).VerifyLoginCredentails("null","null");
     }
 
+    //isUsernameUnique
     @Test
     void isUsernameUnique_true() throws Exception {
         when(userService.isUsernameUnique("boss"))
@@ -264,6 +275,7 @@ class UserControllerTest {
         verify(userService).isUsernameUnique("boss");
     }
 
+    //isPhoneNumberUnique
     @Test
     void isPhoneNumberUnique_true() throws Exception {
 
@@ -289,6 +301,7 @@ class UserControllerTest {
         verify(userService).isPhoneNumberUnique("boss");
     }
 
+    //isEmailUnique
     @Test
     void isEmailUnique_true() throws Exception {
 
@@ -314,7 +327,7 @@ class UserControllerTest {
         verify(userService).isEmailUnique("boss");
     }
 
-
+    //deleteUser
     @Test
     void deleteUser() throws Exception {
 
@@ -325,11 +338,151 @@ class UserControllerTest {
         verify(userService).deleteUser(1l);
     }
 
- /*   @Test
-    void createUser() {
+    //createUser
+    @Test
+    void createUser()  throws Exception {
+        CreateUserRequestDTO createUserRequestDTO = CreateUserRequestDTO .builder()
+                .firstName("firstName")
+                .lastName("lastName")
+                .username("username")
+                .password("password")
+                .email("email")
+                .phoneNumber("phoneNumber")
+                .build();
+
+        CreateUserResponseDTO createUserResponseDTO = new CreateUserResponseDTO("firstname");
+
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(createUserRequestDTO);
+
+        when(userService.addUser(createUserRequestDTO))
+                .thenReturn(createUserResponseDTO);
+
+        mockMvc.perform(post("/users")
+                        .contentType(APPLICATION_JSON_VALUE)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        verify(userService).addUser(createUserRequestDTO);
+    }
+    @Test
+    void createUser_Confilict()  throws Exception {
+        CreateUserRequestDTO createUserRequestDTO = CreateUserRequestDTO .builder()
+                .firstName("firstName")
+                .lastName("lastName")
+                .username("username")
+                .password("password")
+                .email("email")
+                .phoneNumber("phoneNumber")
+                .build();
+
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(createUserRequestDTO);
+
+        when(userService.addUser(createUserRequestDTO))
+                .thenReturn(null);
+
+        mockMvc.perform(post("/users")
+                        .contentType(APPLICATION_JSON_VALUE)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isConflict());
+
+        verify(userService).addUser(createUserRequestDTO);
     }
 
+    //updateUser
     @Test
-    void updateUser() {
-    }*/
+    void updateUser() throws Exception {
+        UpdateUserRequestDTO updateUserRequestDTO = UpdateUserRequestDTO .builder()
+                .id(1l)
+                .firstName("firstName")
+                .lastName("lastName")
+                .email("email")
+                .phoneNumber("phoneNumber")
+                .build();
+
+        UpdateUserResponseDTO updateUserResponseDTO = new UpdateUserResponseDTO("firstname");
+
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(updateUserRequestDTO);
+
+        when(userService.updateUser(updateUserRequestDTO))
+                .thenReturn(updateUserResponseDTO);
+
+        mockMvc.perform(put("/users")
+                        .contentType(APPLICATION_JSON_VALUE)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        verify(userService).updateUser(updateUserRequestDTO);
+    }
+    @Test
+    void updateUser_BadRequest() throws Exception {
+        UpdateUserRequestDTO updateUserRequestDTO = UpdateUserRequestDTO .builder()
+                .id(1l)
+                .firstName("firstName")
+                .lastName("lastName")
+                .email("email")
+                .phoneNumber("phoneNumber")
+                .build();
+
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(updateUserRequestDTO);
+
+        when(userService.updateUser(updateUserRequestDTO))
+                .thenReturn(null);
+
+        mockMvc.perform(put("/users")
+                        .contentType(APPLICATION_JSON_VALUE)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+
+        verify(userService).updateUser(updateUserRequestDTO);
+    }
+
+    //getUsersProducts
+    @Test
+    void getUsersProducts() throws Exception {
+
+        GetProductDTO product1 = new GetProductDTO(1l, new BasicProductInfo(),null);
+
+        GetProductDTO product2 = new GetProductDTO(2l,new BasicProductInfo(),null);
+
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(List.of(product1,product2));
+
+        when(productService.getAllOfAUsersProducts(1l))
+                .thenReturn(List.of(product1,product2));
+
+        mockMvc.perform(get("/users/products/1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
+                .andExpect(content().json(json));
+
+        verify(productService).getAllOfAUsersProducts(1l);
+    }
+    @Test
+    void getUsersProducts_NotFound() throws Exception {
+
+        GetProductDTO product1 = new GetProductDTO(1l, new BasicProductInfo(),null);
+
+        GetProductDTO product2 = new GetProductDTO(2l,new BasicProductInfo(),null);
+
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(List.of(product1,product2));
+
+        when(productService.getAllOfAUsersProducts(1l))
+                .thenReturn(null);
+
+        mockMvc.perform(get("/users/products/1"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+
+        verify(productService).getAllOfAUsersProducts(1l);
+    }
 }
