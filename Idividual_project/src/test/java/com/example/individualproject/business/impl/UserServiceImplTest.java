@@ -1,11 +1,17 @@
 package com.example.individualproject.business.impl;
 
 import com.example.individualproject.business.UserService;
+import com.example.individualproject.business.exception.EmailAlreadyExistsExeption;
+import com.example.individualproject.business.exception.PhoneNumberAlreadyExistsExeption;
+import com.example.individualproject.business.exception.UsernameAlreadyExistsExeption;
 import com.example.individualproject.dto.users.*;
 import com.example.individualproject.repository.AdminRepository;
 import com.example.individualproject.repository.NormalUserRepository;
 import com.example.individualproject.repository.entity.*;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +25,7 @@ class UserServiceImplTest {
     void getAllUsers() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         Admin boss = new Admin(1l,"Admin","Admin");
         NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
@@ -28,7 +35,7 @@ class UserServiceImplTest {
         when(adminRepository.findAll())
                 .thenReturn(List.of(boss));
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
 
         List<GetUserDTO> actualResult = userServiceeMock.getAllUsers();
 
@@ -47,13 +54,14 @@ class UserServiceImplTest {
     void getAllNormalUsers() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
 
         when(normalUserRepository.findAll())
                 .thenReturn(List.of(worker));
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
 
         List<GetUserDTO> actualResult = userServiceeMock.getAllNormalUsers();
 
@@ -70,6 +78,7 @@ class UserServiceImplTest {
     void getAllAdmins() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         Admin boss = new Admin(1l,"Admin","Admin");
 
@@ -77,7 +86,7 @@ class UserServiceImplTest {
         when(adminRepository.findAll())
                 .thenReturn(List.of(boss));
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
 
         List<GetUserDTO> actualResult = userServiceeMock.getAllAdmins();
 
@@ -94,6 +103,7 @@ class UserServiceImplTest {
     void getUserByID_ResultAdmin()  {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         Admin boss = new Admin(2L,"Admin","Admin");
 
@@ -102,7 +112,7 @@ class UserServiceImplTest {
         when(adminRepository.findAllByIdIsLike(1L))
                 .thenReturn(boss);
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
 
         GetUserDTO actualResult = userServiceeMock.getUserByID(1L);
 
@@ -121,6 +131,7 @@ class UserServiceImplTest {
     void getUserByID_ResultNormalUser()  {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
 
@@ -129,7 +140,7 @@ class UserServiceImplTest {
         when(adminRepository.findAllByIdIsLike(1L))
                 .thenReturn(null);
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
 
         GetUserDTO actualResult = userServiceeMock.getUserByID(1L);
 
@@ -145,13 +156,14 @@ class UserServiceImplTest {
     void getUserByID_ResultNull()  {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         when(normalUserRepository.findAllByIdIs(1L))
                 .thenReturn(null);
         when(adminRepository.findAllByIdIsLike(1L))
                 .thenReturn(null);
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
 
         GetUserDTO actualResult = userServiceeMock.getUserByID(1L);
 
@@ -165,6 +177,7 @@ class UserServiceImplTest {
     void getAllUserByName_ResultNormalUser() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         Admin boss = new Admin(1l, "Admin", "Admin");
         NormalUser worker = new NormalUser(1l, "Worker", "Worker", "Worker", "Worker", "Worker", "Worker");
@@ -174,7 +187,7 @@ class UserServiceImplTest {
         when(adminRepository.findAllByUsernameIsLike("%Worker%"))
                 .thenReturn(List.of());
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository, adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository, adminRepository);
 
         List<GetUserDTO> actualResult = userServiceeMock.getAllUserByName("Worker");
 
@@ -191,6 +204,7 @@ class UserServiceImplTest {
     void getAllUserByName_ResultAdmin() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         Admin boss = new Admin(1l, "Admin", "Admin");
         NormalUser worker = new NormalUser(1l, "Worker", "Worker", "Worker", "Worker", "Worker", "Worker");
@@ -200,7 +214,7 @@ class UserServiceImplTest {
         when(adminRepository.findAllByUsernameIsLike("%Admin%"))
                 .thenReturn(List.of(boss));
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository, adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository, adminRepository);
 
         List<GetUserDTO> actualResult = userServiceeMock.getAllUserByName("Admin");
 
@@ -217,13 +231,14 @@ class UserServiceImplTest {
     void getAllUserByName_ResultNull() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         when(normalUserRepository.findAllByFirstnameIsLikeOrLastnameIsLikeOrUsernameIsLike("%Admin%","%Admin%","%Admin%"))
                 .thenReturn(List.of());
         when(adminRepository.findAllByUsernameIsLike("%Admin%"))
                 .thenReturn(List.of());
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository, adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository, adminRepository);
 
         List<GetUserDTO> actualResult = userServiceeMock.getAllUserByName("Admin");
 
@@ -239,11 +254,12 @@ class UserServiceImplTest {
     void deleteUser_userDosntExist() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         when(normalUserRepository.findAllByIdIs(1l))
                 .thenReturn(null);
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository, adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository, adminRepository);
 
         boolean actualResult = userServiceeMock.deleteUser(1l);
 
@@ -255,13 +271,14 @@ class UserServiceImplTest {
     void deleteUser_userExists() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
 
         when(normalUserRepository.findAllByIdIs(1l))
                 .thenReturn(worker);
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository, adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository, adminRepository);
 
         boolean actualResult = userServiceeMock.deleteUser(1l);
 
@@ -273,292 +290,232 @@ class UserServiceImplTest {
     }
 
     @Test
-    void getUser_ResultNormalUser() {
-        NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
-        AdminRepository adminRepository = mock(AdminRepository.class);
-
-        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
-
-        when(normalUserRepository.getUserByUsernameIsAndPasswordIs("Worker","Worker"))
-                .thenReturn(worker);
-
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
-
-        GetLoginDTO actualResult = userServiceeMock.VerifyLoginCredentails("Worker","Worker");
-
-        GetLoginDTO WorkerDTO = new GetLoginDTO(worker,"normal token");
-
-        GetLoginDTO expectedResult = WorkerDTO;
-
-        assertEquals(expectedResult, actualResult);
-
-        verify(normalUserRepository).getUserByUsernameIsAndPasswordIs("Worker","Worker");
-    }
-    @Test
-    void getUser_ResultAdmin() {
-        NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
-        AdminRepository adminRepository = mock(AdminRepository.class);
-
-        Admin boss = new Admin(1l,"Admin","Admin");
-
-        when(normalUserRepository.getUserByUsernameIsAndPasswordIs("Admin","Admin"))
-                .thenReturn(null);
-        when(adminRepository.getUserByUsernameIsAndPasswordIs("Admin","Admin"))
-                .thenReturn(boss);
-
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
-
-        GetLoginDTO actualResult = userServiceeMock.VerifyLoginCredentails("Admin","Admin");
-
-        GetLoginDTO AdminDTO = new GetLoginDTO(boss, "admin token");
-
-        GetLoginDTO expectedResult = AdminDTO;
-
-        assertEquals(expectedResult, actualResult);
-
-        verify(normalUserRepository).getUserByUsernameIsAndPasswordIs("Admin","Admin");
-        verify(adminRepository).getUserByUsernameIsAndPasswordIs("Admin","Admin");
-    }
-
-    @Test
     void isUsernameUnique_ResultAdmin() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
-        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
-        Admin boss = new Admin(1l,"Admin","Admin");
+        when(normalUserRepository.existsByUsername("Admin"))
+                .thenReturn(false);
+        when(adminRepository.existsByUsername("Admin"))
+                .thenReturn(true);
 
-        when(normalUserRepository.findByUsernameIs("Admin"))
-                .thenReturn(null);
-        when(adminRepository.findByUsernameIs("Admin"))
-                .thenReturn(boss);
-
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
 
         Boolean actualResult = userServiceeMock.isUsernameUnique("Admin");
 
         assertEquals(false, actualResult);
 
-        verify(normalUserRepository).findByUsernameIs("Admin");
-        verify(adminRepository).findByUsernameIs("Admin");
+        verify(normalUserRepository).existsByUsername("Admin");
+        verify(adminRepository).existsByUsername("Admin");
     }
     @Test
     void isUsernameUnique_ResultNormalUser() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
-        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
+        when(normalUserRepository.existsByUsername("Admin"))
+                .thenReturn(true);
+        when(adminRepository.existsByUsername("Admin"))
+                .thenReturn(false);
 
-        when(normalUserRepository.findByUsernameIs("Worker"))
-                .thenReturn(worker);
-        when(adminRepository.findByUsernameIs("Worker"))
-                .thenReturn(null);
-
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder, normalUserRepository,adminRepository);
 
         Boolean actualResult = userServiceeMock.isUsernameUnique("Worker");
 
-        assertEquals(false, actualResult);
+        assertEquals(true, actualResult);
 
-        verify(normalUserRepository).findByUsernameIs("Worker");
+        verify(normalUserRepository).existsByUsername("Worker");
     }
     @Test
     void isUsernameUnique_ResultNothingFound() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
-        when(normalUserRepository.findByUsernameIs("Admin2"))
-                .thenReturn(null);
-        when(adminRepository.findByUsernameIs("Admin2"))
-                .thenReturn(null);
+        when(normalUserRepository.existsByUsername("Admin2"))
+                .thenReturn(false);
+        when(adminRepository.existsByUsername("Admin2"))
+                .thenReturn(false);
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder, normalUserRepository,adminRepository);
 
         Boolean actualResult = userServiceeMock.isUsernameUnique("Admin2");
 
         assertEquals(true, actualResult);
 
-        verify(normalUserRepository).findByUsernameIs("Admin2");
-        verify(adminRepository).findByUsernameIs("Admin2");
+        verify(normalUserRepository).existsByUsername("Admin2");
+        verify(adminRepository).existsByUsername("Admin2");
     }
 
     @Test
     void isPhoneNumberUnique_ResultNormalUser() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
-        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
+        when(normalUserRepository.existsByPhonenumber("Worker"))
+                .thenReturn(true);
 
-        when(normalUserRepository.findByPhonenumberIs("Worker"))
-                .thenReturn(worker);
-
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
 
         Boolean actualResult = userServiceeMock.isPhoneNumberUnique("Worker");
 
-        assertEquals(false, actualResult);
+        assertEquals(true, actualResult);
 
-        verify(normalUserRepository).findByPhonenumberIs("Worker");
+        verify(normalUserRepository).existsByPhonenumber("Worker");
     }
     @Test
     void isPhoneNumberUnique_ResultNothingFound() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
-        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
+        when(normalUserRepository.existsByPhonenumber("Worker2"))
+                .thenReturn(false);
 
-        when(normalUserRepository.findByPhonenumberIs("Worker2"))
-                .thenReturn(null);
-
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
 
         Boolean actualResult = userServiceeMock.isPhoneNumberUnique("Worker2");
 
-        assertEquals(true, actualResult);
+        assertEquals(false, actualResult);
 
-        verify(normalUserRepository).findByPhonenumberIs("Worker2");
+        verify(normalUserRepository).existsByPhonenumber("Worker2");
     }
 
     @Test
     void isEmailUnique_ResultNormalUser() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
-        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
+        when(normalUserRepository.existsByEmail("Worker"))
+                .thenReturn(false);
 
-        when(normalUserRepository.findByEmailIs("Worker"))
-                .thenReturn(worker);
-
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
 
         Boolean actualResult = userServiceeMock.isEmailUnique("Worker");
 
         assertEquals(false, actualResult);
 
-        verify(normalUserRepository).findByEmailIs("Worker");
+        verify(normalUserRepository).existsByEmail("Worker");
     }
     @Test
     void isEmailUnique_ResultNothingFound() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
-        when(normalUserRepository.findByEmailIs("Worker2"))
-                .thenReturn(null);
+        when(normalUserRepository.existsByEmail("Worker2"))
+                .thenReturn(false);
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
 
         Boolean actualResult = userServiceeMock.isEmailUnique("Worker2");
 
-        assertEquals(true, actualResult);
+        assertEquals(false, actualResult);
 
-        verify(normalUserRepository).findByEmailIs("Worker2");
+        verify(normalUserRepository).existsByEmail("Worker2");
     }
 
     @Test
     void addUser_UsernameNotUnique_NormalUser()  {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
-        Admin boss = new Admin(1l,"Admin","Admin");
-        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
+        when(normalUserRepository.existsByUsername("Worker"))
+                .thenReturn(true);
+        when(adminRepository.existsByUsername("Worker"))
+                .thenReturn(false);
 
-        when(normalUserRepository.findByUsernameIs("Worker"))
-                .thenReturn(worker);
-        when(adminRepository.findByUsernameIs("Worker"))
-                .thenReturn(null);
-
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
 
         CreateUserRequestDTO createUserRequestDTO = new CreateUserRequestDTO("Worker","Worker","Worker","Worker","Worker","Worker");
-        CreateUserResponseDTO actualResult = userServiceeMock.addUser(createUserRequestDTO);
+        assertThrows(UsernameAlreadyExistsExeption.class, () ->  userServiceeMock.addUser(createUserRequestDTO));
 
-        assertEquals(null, actualResult);
-
-        verify(normalUserRepository).findByUsernameIs("Worker");
-        verify(adminRepository).findByUsernameIs("Worker");
+        verify(normalUserRepository).existsByUsername("Worker");
     }
     @Test
     void addUser_UsernameNotUnique_Admin()  {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         Admin boss = new Admin(1l,"Admin","Admin");
 
-        when(normalUserRepository.findByUsernameIs("Admin"))
-                .thenReturn(null);
-        when(adminRepository.findByUsernameIs("Admin"))
-                .thenReturn(boss);
+        when(normalUserRepository.existsByUsername("Admin"))
+                .thenReturn(false);
+        when(adminRepository.existsByUsername("Admin"))
+                .thenReturn(true);
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
 
         CreateUserRequestDTO createUserRequestDTO = new CreateUserRequestDTO("Admin","Admin","Admin","Admin","Admin","Admin");
-        CreateUserResponseDTO actualResult = userServiceeMock.addUser(createUserRequestDTO);
 
-        assertEquals(null, actualResult);
+        assertThrows(UsernameAlreadyExistsExeption.class, () -> userServiceeMock.addUser(createUserRequestDTO));
 
-        verify(normalUserRepository).findByUsernameIs("Admin");
-        verify(adminRepository).findByUsernameIs("Admin");
+        verify(normalUserRepository).existsByUsername("Admin");
+        verify(adminRepository).existsByUsername("Admin");
     }
     @Test
-    void addUser_EmailNotUnique()  {
+    void addUser_EmailNotUnique() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
-        Admin boss = new Admin(1l,"Admin","Admin");
-        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
+        when(normalUserRepository.existsByEmail("Worker"))
+                .thenReturn(true);
 
-        when(normalUserRepository.findByEmailIs("Worker"))
-                .thenReturn(worker);
-
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
 
         CreateUserRequestDTO createUserRequestDTO = new CreateUserRequestDTO("Worker","Worker","Worker","Worker","Worker","Worker");
-        CreateUserResponseDTO actualResult = userServiceeMock.addUser(createUserRequestDTO);
+        assertThrows(EmailAlreadyExistsExeption.class, () -> userServiceeMock.addUser(createUserRequestDTO));
 
-        assertEquals(null, actualResult);
 
-        verify(normalUserRepository).findByEmailIs("Worker");
+
+        verify(normalUserRepository).existsByEmail("Worker");
     }
     @Test
-    void addUser_PhoneNumberNotUnique()  {
+    void addUser_PhoneNumberNotUnique() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
-        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
+        when(normalUserRepository.existsByPhonenumber("Worker"))
+                .thenReturn(true);
 
-        when(normalUserRepository.findByPhonenumberIs("Worker"))
-                .thenReturn(worker);
-
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
 
         CreateUserRequestDTO createUserRequestDTO = new CreateUserRequestDTO("Worker","Worker","Worker","Worker","Worker","Worker");
-        CreateUserResponseDTO actualResult = userServiceeMock.addUser(createUserRequestDTO);
 
-        assertEquals(null, actualResult);
+        assertThrows(PhoneNumberAlreadyExistsExeption.class, () -> userServiceeMock.addUser(createUserRequestDTO));
 
-        verify(normalUserRepository).findByPhonenumberIs("Worker");
+        verify(normalUserRepository).existsByPhonenumber("Worker");
     }
     @Test
     void addUser_AllInfoUnique()  {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         CreateUserRequestDTO createUserRequestDTO = new CreateUserRequestDTO("Worker1","Worker","Worker","Worker","Worker2","Worker3");
 
         NormalUser newUser = new NormalUser(createUserRequestDTO);
         NormalUser SavedUser = new NormalUser(1l,"Worker1","Worker","Worker","Worker","Worker2","Worker3");
 
-        when(normalUserRepository.findByUsernameIs("Worker1"))
-                .thenReturn(null);
-        when(normalUserRepository.findByPhonenumberIs("Worker2"))
-                .thenReturn(null);
-        when(normalUserRepository.findByEmailIs("Worker3"))
-                .thenReturn(null);
+        when(normalUserRepository.existsByPhonenumber("Worker1"))
+                .thenReturn(false);
+        when(normalUserRepository.existsByPhonenumber("Worker2"))
+                .thenReturn(false);
+        when(normalUserRepository.existsByEmail("Worker3"))
+                .thenReturn(false);
         when(normalUserRepository.save(newUser))
                 .thenReturn(SavedUser);
 
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
 
         CreateUserResponseDTO actualResult = userServiceeMock.addUser(createUserRequestDTO);
 
@@ -568,10 +525,10 @@ class UserServiceImplTest {
                 .build();
         assertEquals(expectedResult, actualResult);
 
-        verify(normalUserRepository).findByUsernameIs("Worker1");
-        verify(adminRepository).findByUsernameIs("Worker1");
-        verify(normalUserRepository).findByPhonenumberIs("Worker2");
-        verify(normalUserRepository).findByEmailIs("Worker3");
+        verify(normalUserRepository).existsByUsername("Worker1");
+        verify(adminRepository).existsByUsername("Worker1");
+        verify(normalUserRepository).existsByPhonenumber("Worker2");
+        verify(normalUserRepository).existsByEmail("Worker3");
         verify(normalUserRepository).save(newUser);
     }
 
@@ -579,15 +536,14 @@ class UserServiceImplTest {
     void updateUser_UserDosntExists() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
-
-        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         when(normalUserRepository.findAllByIdIs(1l))
                 .thenReturn(null);
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
 
-        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(1l,"Worker","Worker","Worker","Worker", null );
+        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(1l,"Worker","Worker","Worker","Worker", null);
         UpdateUserResponseDTO actualResult = userServiceeMock.updateUser(updateRequestDTO);
 
         assertEquals(null, actualResult);
@@ -598,6 +554,7 @@ class UserServiceImplTest {
     void updateUser_ResultSuccess() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
 
@@ -606,14 +563,14 @@ class UserServiceImplTest {
 
         when(normalUserRepository.findAllByIdIs(2l))
                 .thenReturn(worker);
-        when(normalUserRepository.findByPhonenumberIs("Worker1"))
-                .thenReturn(null);
-        when(normalUserRepository.findByEmailIs("Worker2"))
-                .thenReturn(null);
+        when(normalUserRepository.existsByPhonenumber("Worker1"))
+                .thenReturn(false);
+        when(normalUserRepository.existsByEmail("Worker2"))
+                .thenReturn(false);
         when(normalUserRepository.save(newUser))
                 .thenReturn(null);
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
         UpdateUserResponseDTO actualResult = userServiceeMock.updateUser(updateRequestDTO);
 
         UpdateUserResponseDTO excpectedResult = UpdateUserResponseDTO.builder()
@@ -623,14 +580,15 @@ class UserServiceImplTest {
         assertEquals(excpectedResult, actualResult);
 
         verify(normalUserRepository).findAllByIdIs(2l);
-        verify(normalUserRepository).findByPhonenumberIs("Worker1");
-        verify(normalUserRepository).findByEmailIs("Worker2");
+        verify(normalUserRepository).existsByPhonenumber("Worker1");
+        verify(normalUserRepository).existsByEmail("Worker2");
         verify(normalUserRepository).save(newUser);
     }
     @Test
     void updateUser_PhoneNumberNotUnique() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         NormalUser worker = new NormalUser(2l,"Worker","Worker","Worker","Worker","Worker1","Worker1");
 
@@ -638,22 +596,23 @@ class UserServiceImplTest {
 
         when(normalUserRepository.findAllByIdIs(2l))
                 .thenReturn(worker);
-        when(normalUserRepository.findByPhonenumberIs("Worker"))
-                .thenReturn(worker);
+        when(normalUserRepository.existsByPhonenumber("Worker"))
+                .thenReturn(true);
 
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
         UpdateUserResponseDTO actualResult = userServiceeMock.updateUser(updateRequestDTO);
 
         assertEquals(null, actualResult);
 
         verify(normalUserRepository).findAllByIdIs(2l);
-        verify(normalUserRepository).findByPhonenumberIs("Worker");
+        verify(normalUserRepository).existsByPhonenumber("Worker");
     }
     @Test
     void updateUser_PhoneNumberNotUnique_IsUsedByUserThatIsBeingUpdated() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
 
@@ -662,14 +621,14 @@ class UserServiceImplTest {
 
         when(normalUserRepository.findAllByIdIs(2l))
                 .thenReturn(worker);
-        when(normalUserRepository.findByPhonenumberIs("Worker"))
-                .thenReturn(worker);
-        when(normalUserRepository.findByEmailIs("Worker2"))
-                .thenReturn(null);
+        when(normalUserRepository.existsByPhonenumber("Worker"))
+                .thenReturn(true);
+        when(normalUserRepository.existsByEmail("Worker2"))
+                .thenReturn(false);
         when(normalUserRepository.save(newUser))
                 .thenReturn(null);
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
         UpdateUserResponseDTO actualResult = userServiceeMock.updateUser(updateRequestDTO);
 
         UpdateUserResponseDTO excpectedResult = UpdateUserResponseDTO.builder()
@@ -679,14 +638,16 @@ class UserServiceImplTest {
         assertEquals(excpectedResult, actualResult);
 
         verify(normalUserRepository).findAllByIdIs(2l);
-        verify(normalUserRepository).findByPhonenumberIs("Worker");
-        verify(normalUserRepository).findByEmailIs("Worker2");
+        verify(normalUserRepository).existsByPhonenumber("Worker");
+        verify(normalUserRepository).existsByEmail("Worker2");
         verify(normalUserRepository).save(newUser);
     }
     @Test
+
     void updateUser_EmailNotUnique() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         NormalUser worker = new NormalUser(2l,"Worker","Worker","Worker","Worker","Worker1","Worker1");
 
@@ -694,23 +655,24 @@ class UserServiceImplTest {
 
         when(normalUserRepository.findAllByIdIs(2l))
                 .thenReturn(worker);
-        when(normalUserRepository.findByPhonenumberIs("Worker"))
-                .thenReturn(null);
-        when(normalUserRepository.findByEmailIs("Worker"))
-                .thenReturn(worker);
+        when(normalUserRepository.existsByPhonenumber("Worker"))
+                .thenReturn(false);
+        when(normalUserRepository.existsByEmail("Worker"))
+                .thenReturn(true);
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
         UpdateUserResponseDTO actualResult = userServiceeMock.updateUser(updateRequestDTO);
 
         assertEquals(null, actualResult);
 
         verify(normalUserRepository).findAllByIdIs(2l);
-        verify(normalUserRepository).findByPhonenumberIs("Worker");
+        verify(normalUserRepository).existsByPhonenumber("Worker");
     }
     @Test
     void updateUser_EmailNotUnique_IsUsedByUserThatIsBeingUpdated() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
+        PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
         NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
 
@@ -719,14 +681,14 @@ class UserServiceImplTest {
 
         when(normalUserRepository.findAllByIdIs(2l))
                 .thenReturn(worker);
-        when(normalUserRepository.findByPhonenumberIs("Worker2"))
-                .thenReturn(null);
-        when(normalUserRepository.findByEmailIs("Worker"))
-                .thenReturn(worker);
+        when(normalUserRepository.existsByPhonenumber("Worker2"))
+                .thenReturn(false);
+        when(normalUserRepository.existsByEmail("Worker"))
+                .thenReturn(true);
         when(normalUserRepository.save(newUser))
                 .thenReturn(null);
 
-        UserService userServiceeMock = new UserServiceImpl(normalUserRepository,adminRepository);
+        UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
         UpdateUserResponseDTO actualResult = userServiceeMock.updateUser(updateRequestDTO);
 
         UpdateUserResponseDTO excpectedResult = UpdateUserResponseDTO.builder()
@@ -736,8 +698,8 @@ class UserServiceImplTest {
         assertEquals(excpectedResult, actualResult);
 
         verify(normalUserRepository).findAllByIdIs(2l);
-        verify(normalUserRepository).findByPhonenumberIs("Worker2");
-        verify(normalUserRepository).findByEmailIs("Worker");
+        verify(normalUserRepository).existsByPhonenumber("Worker2");
+        verify(normalUserRepository).existsByEmail("Worker");
         verify(normalUserRepository).save(newUser);
     }
 }

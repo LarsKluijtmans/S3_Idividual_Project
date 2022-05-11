@@ -9,11 +9,11 @@ import java.util.List;
 @Repository
 public interface AdminRepository extends JpaRepository<Admin, Long>  {
 
-    List<Admin> findAllByUsernameIsLike(String firstName);
+    List<Admin> findAllByUsernameIsLike(String username);
     Admin getUserByUsernameIsAndPasswordIs(String username, String password);
     Admin findAllByIdIsLike(Long id);
+    Admin findByUsername(String usernmae);
 
     //Is username unique
-    Admin findByUsernameIsLike(String name);
-    Admin findByUsernameIs(String name);
+    boolean existsByUsername(String name);
 }

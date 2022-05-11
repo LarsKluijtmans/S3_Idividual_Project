@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 @Data
@@ -39,7 +40,6 @@ public class NormalUser extends User {
 
     @OneToMany(mappedBy="seller")
     private List<Product> productsSelling;
-
 
     public NormalUser (CreateUserRequestDTO createDTO){
         super(createDTO.getUsername(), createDTO.getPassword());
@@ -74,7 +74,7 @@ public class NormalUser extends User {
         this.productsSelling = productsSelling;
     }
 
-    public NormalUser ( String username, String password, String firstname, String lastname, String phoneNumber, String email, List<Product> productsSelling){
+    public NormalUser (String username, String password, String firstname, String lastname, String phoneNumber, String email, List<Product> productsSelling){
         super(username, password);
         this.firstname = firstname;
         this.lastname = lastname;

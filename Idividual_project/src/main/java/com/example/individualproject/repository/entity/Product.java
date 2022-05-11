@@ -67,7 +67,7 @@ public class Product{
     @JoinColumn(name="seller", nullable=false)
     private NormalUser seller;
 
-    public Product(UpdateProductRequestDTO productRequestDTO, Genre genre) {
+   public Product(UpdateProductRequestDTO productRequestDTO, Genre genre) {
         this.setId(productRequestDTO.getProductId());
         this.setTitle(productRequestDTO.getProductInfo().getTitle());
         this.setSubTitle(productRequestDTO.getProductInfo().getSubTitle());

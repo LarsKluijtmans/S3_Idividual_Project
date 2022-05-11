@@ -219,37 +219,6 @@ class UserControllerTest {
         verify(userService).getAllAdmins();
     }
 
-    //getUsersByUsernameAndPassword
-    @Test
-    void getUsersByUsernameAndPassword_UserFound()throws Exception {
-        Admin boss = new Admin(2l, "boss","boss");
-        GetUserDTO bossDTO = new GetUserDTO(boss);
-
-        when(userService.VerifyLoginCredentails("boss","boss"))
-                .thenReturn(new GetLoginDTO(boss, ""));
-
-        mockMvc.perform(get("/users/login/boss/boss"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
-                .andExpect(content().json("""
-                {}
-                """ ));
-
-        verify(userService).VerifyLoginCredentails("boss","boss");
-    }
-    @Test
-    void getUsersByUsernameAndPassword_NotFound() throws Exception {
-        when(userService.VerifyLoginCredentails( "null","null"))
-                .thenReturn(null);
-
-        mockMvc.perform(get("/users/login/null/null"))
-                .andDo(print())
-                .andExpect(status().isNotFound());
-
-        verify(userService).VerifyLoginCredentails("null","null");
-    }
-
     //isUsernameUnique
     @Test
     void isUsernameUnique_true() throws Exception {

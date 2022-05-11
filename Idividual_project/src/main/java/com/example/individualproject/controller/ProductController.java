@@ -1,5 +1,6 @@
 package com.example.individualproject.controller;
 
+import com.example.individualproject.configuration.security.isauthenticated.IsAuthenticated;
 import com.example.individualproject.dto.products.*;
 import com.example.individualproject.business.*;
 
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.net.URI;
 import java.util.List;
 
@@ -42,6 +44,8 @@ public class ProductController {
     }
 
     //Normal user
+    @IsAuthenticated
+    @RolesAllowed({"ROLE_NORMALUSER"})
     @PostMapping()
     public ResponseEntity<GetProductDTO> createProduct(@RequestBody CreateProductRequestDTO product) {
         CreateProductResponseDTO productResponseDTO = productService.addProduct(product);
@@ -54,6 +58,8 @@ public class ProductController {
             return ResponseEntity.created(uri).build();
         }
     }
+    @IsAuthenticated
+    @RolesAllowed({"ROLE_NORMALUSER"})
     @PutMapping()
     public ResponseEntity<UpdateProductResponseDTO> updateProduct(@RequestBody UpdateProductRequestDTO product) {
        if(productService.updateProduct(product) != null) {
@@ -64,6 +70,8 @@ public class ProductController {
     }
 
     //Admin and normal user
+    @IsAuthenticated
+    @RolesAllowed({"ROLE_NORMALUSER", "ROLE_ADMIN"})
     @GetMapping("{id}")
     public ResponseEntity<GetProductDTO> getProduct(@PathVariable("id") Long id) {
         GetProductDTO product = productService.getProduct(id);
@@ -74,6 +82,8 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
+    @IsAuthenticated
+    @RolesAllowed({"ROLE_NORMALUSER", "ROLE_ADMIN"})
     @DeleteMapping("{id}")
     public ResponseEntity<Object> deleteProduct(@PathVariable("id") Long id) {
         productService.deleteProduct(id);

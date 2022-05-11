@@ -1,72 +1,54 @@
-import React, {useEffect, useState} from 'react';
-import { Route, Routes } from "react-router-dom";
+import React, {useState} from 'react';
+import axios from "axios";
 
-//All
-import View_Product_Details from "./NotLogedin/ProductPage/View_Product_Details"
-import Homepage from "./NotLogedin/HomePage"
-import Products from "./NotLogedin/ProductPage/Product"
+import Navbar  from "./Nav/Navbar";
+import NormalUserNav from "./Nav/NormalUserNav";
+import AdminNav from "./Nav/AdminNav";
 
-//NotLogenIn
-import Navbar  from "./NotLogedin/Navbar/Navbar";
-import Login from "./NotLogedin/AccountPages/Login"
-import MakeAccount from "./NotLogedin/AccountPages/MakeAccount"
-import ForgotPassword from "./NotLogedin/AccountPages/ForgotPassword"
-
-//NormalUser
-import MyAccount from "./NormalUser/MyAccount";
-import MyProducts from "./NormalUser/MyProducts";
-import MyProductDetails from "./NormalUser/MyProductDetails";
-import NormalUserNav from "./NormalUser/NormalUserNav";
-
-//Admin
-import AdminNav from "./Admin/AdminNav";
-
+import AdminRoutes from "./Nav/AdminRoutes";
+import NormalUserRoutes from "./Nav/NormalUserRoutes";
+import NotLogedinRoutes from "./Nav/NotLogedinRoutes";
 
 function App() {
 
-    if(localStorage.getItem("authorization") === "NORMAL") {
-        return (
-            <div>
-                <NormalUserNav/>
-                <Routes>
-                    <Route path='/' element={<Homepage/>}/>
+    const [authorization, setAuthorization] = useState("");
 
-                    <Route path='/products' element={<Products/>}/>
-                    <Route path='/products/:productId' element={<View_Product_Details/>}/>
-
-                    <Route path='/myAccount/' element={<MyAccount/>}/>
-                    <Route path='/myAccount/:id' element={<MyAccount/>}/>
-                    <Route path='/MyProducts/:id' element={<MyProducts/>}/>
-                    <Route path='/MyProduct/:productId' element={<MyProductDetails/>}/>
-                </Routes>
-            </div>
-        );
-    } else if(localStorage.getItem("authorization")  === "ADMIN") {
-        return (
-            <div>
-                <AdminNav/>
-                <Routes>
-
-                </Routes>
-            </div>
-        );
-    } else {
-        return (
-            <div>
-                <Navbar/>
-                <Routes>
-                    <Route path='/' element={<Homepage/>}/>
-
-                    <Route path='/products' element={<Products/>}/>
-                    <Route path='/products/:productId' element={<View_Product_Details/>}/>
-
-                    <Route path='/login' element={<Login/>}/>
-                    <Route path='/make_account' element={<MakeAccount/>}/>
-                    <Route path='/forgot_password' element={<ForgotPassword/>}/>
-                </Routes>
-            </div>
-        );
+    function login(username, password){
+        axios.post(`http://localhost:8080/login`,
+            {
+                "username":username,
+                "password":password
+            })
+            .then(res => {
+                localStorage.setItem("token", res.data.accessToken);
+                setAuthorization(res.data.authorizationLevel);
+            })
+            .catch(err => {});
     }
+    function logout(){
+        setAuthorization("");
+    }
+
+    return (
+        <div>
+            {(authorization === "NORMAL")?(
+                <div>
+                    <NormalUserNav  logout={logout}/>
+                    <NormalUserRoutes/>
+                </div>
+            ):(authorization === "ADMIN")?(
+                <div>
+                    <AdminNav logout={logout}/>
+                    <AdminRoutes/>
+                </div>
+            ):(
+                <div>
+                    <Navbar/>
+                    <NotLogedinRoutes login={login}/>
+                </div>
+            )}
+        </div>
+    );
 }
 
 export default App;

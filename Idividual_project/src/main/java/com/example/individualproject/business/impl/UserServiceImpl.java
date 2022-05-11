@@ -1,5 +1,9 @@
 package com.example.individualproject.business.impl;
 
+import com.example.individualproject.business.exception.EmailAlreadyExistsExeption;
+import com.example.individualproject.business.exception.PhoneNumberAlreadyExistsExeption;
+import com.example.individualproject.business.exception.UsernameAlreadyExistsExeption;
+import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.users.*;
 import com.example.individualproject.business.UserService;
 import com.example.individualproject.repository.AdminRepository;
@@ -7,6 +11,7 @@ import com.example.individualproject.repository.NormalUserRepository;
 import com.example.individualproject.repository.entity.Admin;
 import com.example.individualproject.repository.entity.NormalUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,10 +21,12 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService { 
+public class UserServiceImpl implements UserService {
 
+    private final PasswordEncoder passwordEncoder;
     private final NormalUserRepository normalUserRepository;
     private final AdminRepository adminRepository;
+    private AccessTokenDTO accessTokenDTO;
 
     @Override
     public List<GetUserDTO> getAllUsers(){
@@ -94,46 +101,6 @@ public class UserServiceImpl implements UserService {
 
         return result;
     }
-    @Override
-    public GetLoginDTO VerifyLoginCredentails(String username, String password){
-       NormalUser user = normalUserRepository.getUserByUsernameIsAndPasswordIs(username, password);
-
-       if(user == null) {
-           Admin admin = adminRepository.getUserByUsernameIsAndPasswordIs(username, password);
-           return new GetLoginDTO(admin,"admin token");
-       }else{
-           return new GetLoginDTO(user,"normal token");
-       }
-    }
-    @Override
-    public boolean isUsernameUnique(String name) {
-
-        boolean result = true;
-
-      if(normalUserRepository.findByUsernameIs(name) != null  || adminRepository.findByUsernameIs(name) != null) {
-          result = false;
-      }
-          return result;
-    }
-    @Override
-    public boolean isEmailUnique(String email) {
-        boolean result = true;
-
-        if(normalUserRepository.findByEmailIs(email) != null) {
-            result = false;
-        }
-        return result;
-    }
-    @Override
-    public boolean isPhoneNumberUnique(String phoneNumber) {
-
-        boolean result = true;
-
-        if(normalUserRepository.findByPhonenumberIs(phoneNumber) != null) {
-            result = false;
-        }
-        return result;
-    }
 
     //Delete
     @Override
@@ -151,25 +118,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public UpdateUserResponseDTO updateUser(UpdateUserRequestDTO updateRequestDTO){
 
+        if (accessTokenDTO.getUserId() != updateRequestDTO.getId()) {
+            return null;
+        }
+
         NormalUser user = normalUserRepository.findAllByIdIs(updateRequestDTO.getId());
         if(user == null) {
             return null;
         }
 
-        NormalUser repeated = normalUserRepository.findByPhonenumberIs(updateRequestDTO.getPhoneNumber());
-
-        //If repeated == null then the phoneNumber is not used by anyone else yet
-        //If the phoneNumber is still the same one this user had before continue
-        if(repeated != null && !(user.getPhonenumber().equals(updateRequestDTO.getPhoneNumber()))) {
-            return null;
+        if(normalUserRepository.existsByEmail(updateRequestDTO.getEmail())) {
+            throw new EmailAlreadyExistsExeption();
         }
-
-        NormalUser repeated1 = normalUserRepository.findByEmailIs(updateRequestDTO.getEmail());
-
-        //If repeated1 == null then the email is not used by anyone else yet
-        //If the email is still the same one this user had before continue
-        if(repeated1 != null && !(user.getEmail().equals(updateRequestDTO.getEmail()))) {
-            return null;
+        if( normalUserRepository.existsByPhonenumber(updateRequestDTO.getPhoneNumber())) {
+            throw new PhoneNumberAlreadyExistsExeption();
         }
 
         NormalUser newUser = new NormalUser(
@@ -185,24 +147,41 @@ public class UserServiceImpl implements UserService {
                 .build();
 
     }
+
+    @Override
+    public boolean isUsernameUnique(String name) {
+        if(normalUserRepository.existsByUsername(name) || adminRepository.existsByUsername(name))  {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isPhoneNumberUnique(String name) {
+        return normalUserRepository.existsByPhonenumber(name);
+    }
+
+    @Override
+    public boolean isEmailUnique(String name) {
+        return normalUserRepository.existsByEmail(name);
+    }
+
     //Add
     @Override
     public CreateUserResponseDTO addUser(CreateUserRequestDTO createRequestDTO){
-        NormalUser repeated1 = normalUserRepository.findByUsernameIs(createRequestDTO.getUsername());
-        Admin repeated2 = adminRepository.findByUsernameIs(createRequestDTO.getUsername());
-
-        if(repeated1 != null || repeated2 != null) {
-            return null;
+        if(normalUserRepository.existsByUsername(createRequestDTO.getUsername()) || adminRepository.existsByUsername(createRequestDTO.getUsername()) ) {
+            throw new UsernameAlreadyExistsExeption();
+        };
+        if(normalUserRepository.existsByEmail(createRequestDTO.getEmail())) {
+            throw new EmailAlreadyExistsExeption();
         }
-
-        NormalUser repeated3 = normalUserRepository.findByPhonenumberIs(createRequestDTO.getPhoneNumber());
-        NormalUser repeated4 = normalUserRepository.findByEmailIs(createRequestDTO.getEmail());
-
-        if(repeated3 != null || repeated4 != null) {
-            return null;
+        if( normalUserRepository.existsByPhonenumber(createRequestDTO.getPhoneNumber())) {
+            throw new PhoneNumberAlreadyExistsExeption();
         }
 
         NormalUser newUser = new NormalUser(createRequestDTO);
+
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
         normalUserRepository.save(newUser);
 
@@ -210,5 +189,6 @@ public class UserServiceImpl implements UserService {
                 .firstName(newUser.getFirstname())
                 .build();
     }
+
 }
 
