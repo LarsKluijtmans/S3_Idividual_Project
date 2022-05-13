@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.individualproject.business.impl.ProductServiceImplTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2022-05-13T20:41:07" hostname="MSILARS" time="0.141">
+<testsuite name="com.example.individualproject.business.impl.ProductServiceImplTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2022-05-13T20:46:45" hostname="MSILARS" time="0.175">
   <properties/>
-  <testcase name="getAllOfAUsersProducts()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.106"/>
-  <testcase name="updateProduct()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.006"/>
-  <testcase name="getAllProducts()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.003"/>
+  <testcase name="getAllOfAUsersProducts()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.142"/>
+  <testcase name="updateProduct()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.009"/>
+  <testcase name="getAllProducts()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.004"/>
   <testcase name="deleteProduct()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.002"/>
   <testcase name="getProduct()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.002"/>
-  <testcase name="getProducts()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.008"/>
-  <testcase name="addProduct()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.008"/>
+  <testcase name="getProducts()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.006"/>
+  <testcase name="addProduct()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.004"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

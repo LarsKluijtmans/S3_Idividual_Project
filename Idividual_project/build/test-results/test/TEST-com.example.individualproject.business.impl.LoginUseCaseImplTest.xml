@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.individualproject.business.impl.LoginUseCaseImplTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-05-13T20:41:06" hostname="MSILARS" time="0.997">
+<testsuite name="com.example.individualproject.business.impl.LoginUseCaseImplTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-05-13T20:46:44" hostname="MSILARS" time="0.184">
   <properties/>
-  <testcase name="login_NothingFound()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.986"/>
-  <testcase name="login_AdminFound_PassNotMatched()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.005"/>
-  <testcase name="login_NormalUserFound_PassNotMatched()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.004"/>
+  <testcase name="login_NothingFound()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.176"/>
+  <testcase name="login_AdminFound_PassNotMatched()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.003"/>
+  <testcase name="login_NormalUserFound_PassNotMatched()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

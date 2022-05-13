@@ -60,7 +60,12 @@ jacocoTestReport {
 }
 test.finalizedBy jacocoTestReport
 
-
 tasks.named('sonarqube').configure {
 	dependsOn test
+}
+sonarqube {
+	properties {
+		property "sonar.projectKey", "S3IndividualProject"
+		property "sonar.qualitygate.wait", true
+	}
 }
