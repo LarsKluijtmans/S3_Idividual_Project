@@ -1,7 +1,6 @@
 package com.example.individualproject.business.impl;
 
 import com.example.individualproject.business.exception.EmailAlreadyExistsExeption;
-import com.example.individualproject.business.exception.InvalidCredentialsException;
 import com.example.individualproject.business.exception.PhoneNumberAlreadyExistsExeption;
 import com.example.individualproject.business.exception.UsernameAlreadyExistsExeption;
 import com.example.individualproject.dto.login.AccessTokenDTO;

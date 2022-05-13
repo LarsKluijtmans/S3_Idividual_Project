@@ -1,6 +1,5 @@
 package com.example.individualproject.business.impl;
 
-import com.example.individualproject.business.exception.InvalidCredentialsException;
 import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.products.*;
 import com.example.individualproject.business.ProductService;
@@ -11,16 +10,13 @@ import com.example.individualproject.repository.entity.Image;
 import com.example.individualproject.repository.entity.Product;
 import com.example.individualproject.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 
-import javax.naming.AuthenticationException;
-import javax.persistence.Access;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 @Transactional

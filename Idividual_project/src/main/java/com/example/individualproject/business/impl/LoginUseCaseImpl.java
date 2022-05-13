@@ -32,14 +32,6 @@ public class LoginUseCaseImpl implements LoginUseCase {
         Admin admin = adminRepository.findByUsername(loginRequest.getUsername());
         NormalUser user = userRepository.findByUsername(loginRequest.getUsername());
 
-        if (user != null) {
-            if (!matchesPassword(loginRequest.getPassword(), user.getPassword())) {
-                throw new InvalidCredentialsException();
-            }
-
-            String accessToken = generateAccessToken(user);
-            return LoginResponseDTO.builder().accessToken(accessToken).authorizationLevel("NORMAL").build();
-        }
         if(admin != null) {
             if (!matchesPassword(loginRequest.getPassword(), admin.getPassword())) {
                 throw new InvalidCredentialsException();
@@ -48,6 +40,16 @@ public class LoginUseCaseImpl implements LoginUseCase {
             String accessToken = generateAccessToken(admin);
             return LoginResponseDTO.builder().accessToken(accessToken).authorizationLevel("ADMIN").build();
         }
+
+        if (user != null) {
+            if (!matchesPassword(loginRequest.getPassword(), user.getPassword())) {
+                throw new InvalidCredentialsException();
+            }
+
+            String accessToken = generateAccessToken(user);
+            return LoginResponseDTO.builder().accessToken(accessToken).authorizationLevel("NORMAL").build();
+        }
+
         throw new InvalidCredentialsException();
     }
 

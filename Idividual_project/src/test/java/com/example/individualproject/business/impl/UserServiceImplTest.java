@@ -1,13 +1,10 @@
 package com.example.individualproject.business.impl;
 
-import com.example.individualproject.business.UserService;
 import com.example.individualproject.business.exception.EmailAlreadyExistsExeption;
 import com.example.individualproject.business.exception.PhoneNumberAlreadyExistsExeption;
 import com.example.individualproject.business.exception.UsernameAlreadyExistsExeption;
-import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.users.*;
 import com.example.individualproject.repository.AdminRepository;
-import com.example.individualproject.repository.ImageRepository;
 import com.example.individualproject.repository.NormalUserRepository;
 import com.example.individualproject.repository.entity.*;
 import org.junit.jupiter.api.Test;
@@ -15,9 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.Collections;
 import java.util.List;
@@ -269,6 +264,31 @@ class UserServiceImplTest {
         Boolean actualResult = userServiceeMock.isUsernameUnique("Admin2");
 
         assertEquals(true, actualResult);
+
+        verify(normalUserRepository).existsByUsername("Admin2");
+        verify(adminRepository).existsByUsername("Admin2");
+    }
+    @Test
+    void isUsernameUnique_UserNameBelongsToUser_NormalUser() {
+        when(normalUserRepository.existsByUsername("Admin"))
+                .thenReturn(true);
+
+        Boolean actualResult = userServiceeMock.isUsernameUnique("Admin");
+
+        assertEquals(false, actualResult);
+
+        verify(normalUserRepository).existsByUsername("Admin");
+    }
+    @Test
+    void isUsernameUnique_UserNameBelongsToUser_Admin() {
+        when(normalUserRepository.existsByUsername("Admin2"))
+                .thenReturn(false);
+        when(adminRepository.existsByUsername("Admin2"))
+                .thenReturn(true);
+
+        Boolean actualResult = userServiceeMock.isUsernameUnique("Admin2");
+
+        assertEquals(false, actualResult);
 
         verify(normalUserRepository).existsByUsername("Admin2");
         verify(adminRepository).existsByUsername("Admin2");

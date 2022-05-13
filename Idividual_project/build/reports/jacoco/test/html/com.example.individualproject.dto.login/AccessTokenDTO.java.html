@@ -19,10 +19,10 @@ public class AccessTokenDTO {
 
     @JsonIgnore
     public boolean hasRole(String roleName) {
-<span class="nc bnc" id="L22" title="All 2 branches missed.">        if (roles == null) {</span>
-<span class="nc" id="L23">            return false;</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        if (roles == null) {</span>
+<span class="fc" id="L23">            return false;</span>
         }
-<span class="nc" id="L25">        return roles.contains(roleName);</span>
+<span class="fc" id="L25">        return roles.contains(roleName);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

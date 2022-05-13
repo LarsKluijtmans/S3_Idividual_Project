@@ -29,49 +29,51 @@ public class LoginUseCaseImpl implements LoginUseCase {
 
     @Override
     public LoginResponseDTO login(LoginRequestDTO loginRequest) {
-<span class="nc" id="L32">        Admin admin = adminRepository.findByUsername(loginRequest.getUsername());</span>
-<span class="nc" id="L33">        NormalUser user = userRepository.findByUsername(loginRequest.getUsername());</span>
+<span class="fc" id="L32">        Admin admin = adminRepository.findByUsername(loginRequest.getUsername());</span>
+<span class="fc" id="L33">        NormalUser user = userRepository.findByUsername(loginRequest.getUsername());</span>
 
-<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (user != null) {</span>
-<span class="nc bnc" id="L36" title="All 2 branches missed.">            if (!matchesPassword(loginRequest.getPassword(), user.getPassword())) {</span>
-<span class="nc" id="L37">                throw new InvalidCredentialsException();</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if(admin != null) {</span>
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">            if (!matchesPassword(loginRequest.getPassword(), admin.getPassword())) {</span>
+<span class="fc" id="L37">                throw new InvalidCredentialsException();</span>
             }
 
-<span class="nc" id="L40">            String accessToken = generateAccessToken(user);</span>
-<span class="nc" id="L41">            return LoginResponseDTO.builder().accessToken(accessToken).authorizationLevel(&quot;NORMAL&quot;).build();</span>
+<span class="nc" id="L40">            String accessToken = generateAccessToken(admin);</span>
+<span class="nc" id="L41">            return LoginResponseDTO.builder().accessToken(accessToken).authorizationLevel(&quot;ADMIN&quot;).build();</span>
         }
-<span class="nc bnc" id="L43" title="All 2 branches missed.">        if(admin != null) {</span>
-<span class="nc bnc" id="L44" title="All 2 branches missed.">            if (!matchesPassword(loginRequest.getPassword(), admin.getPassword())) {</span>
-<span class="nc" id="L45">                throw new InvalidCredentialsException();</span>
+
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (user != null) {</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">            if (!matchesPassword(loginRequest.getPassword(), user.getPassword())) {</span>
+<span class="fc" id="L46">                throw new InvalidCredentialsException();</span>
             }
 
-<span class="nc" id="L48">            String accessToken = generateAccessToken(admin);</span>
-<span class="nc" id="L49">            return LoginResponseDTO.builder().accessToken(accessToken).authorizationLevel(&quot;ADMIN&quot;).build();</span>
+<span class="nc" id="L49">            String accessToken = generateAccessToken(user);</span>
+<span class="nc" id="L50">            return LoginResponseDTO.builder().accessToken(accessToken).authorizationLevel(&quot;NORMAL&quot;).build();</span>
         }
-<span class="nc" id="L51">        throw new InvalidCredentialsException();</span>
+
+<span class="fc" id="L53">        throw new InvalidCredentialsException();</span>
     }
 
     private boolean matchesPassword(String rawPassword, String encodedPassword) {
-<span class="nc" id="L55">        return passwordEncoder.matches(rawPassword, encodedPassword);</span>
+<span class="fc" id="L57">        return passwordEncoder.matches(rawPassword, encodedPassword);</span>
     }
 
     private String generateAccessToken(User user) {
-<span class="nc" id="L59">        Long studentId = user.getId();</span>
+<span class="nc" id="L61">        Long studentId = user.getId();</span>
 
-<span class="nc" id="L61">        List&lt;String&gt; roles = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L63">        List&lt;String&gt; roles = new ArrayList&lt;&gt;();</span>
 
-<span class="nc bnc" id="L63" title="All 2 branches missed.">        if(user.getClass() == Admin.class){</span>
-<span class="nc" id="L64">            roles = List.of(&quot;ADMIN&quot;);</span>
-<span class="nc bnc" id="L65" title="All 2 branches missed.">        }else if(user.getClass() == NormalUser.class){</span>
-<span class="nc" id="L66">            roles = List.of(&quot;NORMALUSER&quot;);</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if(user.getClass() == Admin.class){</span>
+<span class="nc" id="L66">            roles = List.of(&quot;ADMIN&quot;);</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        }else if(user.getClass() == NormalUser.class){</span>
+<span class="nc" id="L68">            roles = List.of(&quot;NORMALUSER&quot;);</span>
         }
 
-<span class="nc" id="L69">        return accessTokenEncoder.encode(</span>
-<span class="nc" id="L70">                AccessTokenDTO.builder()</span>
-<span class="nc" id="L71">                        .subject(user.getUsername())</span>
-<span class="nc" id="L72">                        .roles(roles)</span>
-<span class="nc" id="L73">                        .userId(studentId)</span>
-<span class="nc" id="L74">                        .build());</span>
+<span class="nc" id="L71">        return accessTokenEncoder.encode(</span>
+<span class="nc" id="L72">                AccessTokenDTO.builder()</span>
+<span class="nc" id="L73">                        .subject(user.getUsername())</span>
+<span class="nc" id="L74">                        .roles(roles)</span>
+<span class="nc" id="L75">                        .userId(studentId)</span>
+<span class="nc" id="L76">                        .build());</span>
     }
 
 }
