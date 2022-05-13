@@ -78,11 +78,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<GetProductDTO> getAllOfAUsersProducts(Long userID) {
 
-        if (!requestAccessToken.hasRole("NORMALUSER")){
+     /*   if (!requestAccessToken.hasRole("NORMALUSER")){
             if (requestAccessToken.getUserId() != userID){
                 throw new InvalidCredentialsException();
             }
-        }
+        }*/
+        //TODO
 
         List<GetProductDTO> result = new ArrayList<>();
 
@@ -100,13 +101,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(Long productID) {
 
-        Product p = productRepository.findProductsByIdIs(productID);
+      /*  Product p = productRepository.findProductsByIdIs(productID);
 
         if (!requestAccessToken.hasRole("NORMALUSER")){
             if (requestAccessToken.getUserId() != p.getSeller().getId()){
                 throw new InvalidCredentialsException();
             }
-        }
+        }*/
+        //TODO
 
         imageRepository.deleteAllByProductIsLike(productRepository.getById(productID));
         productRepository.deleteById(productID);
@@ -158,13 +160,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public UpdateProductResponseDTO updateProduct(UpdateProductRequestDTO product) {
 
-        Product p = productRepository.findProductsByIdIs(product.getProductId());
+       /* Product p = productRepository.findProductsByIdIs(product.getProductId());
 
         if (!requestAccessToken.hasRole("NORMALUSER")){
             if (requestAccessToken.getUserId() != p.getSeller().getId()){
                  throw new InvalidCredentialsException();
             }
-        }
+        }*/
+        //TODO
 
         List<Image> images = new ArrayList<>();
         for (String s : product.getProductInfo().getImages()) {

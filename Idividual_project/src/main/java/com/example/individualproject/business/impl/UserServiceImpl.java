@@ -72,11 +72,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public GetUserDTO getUserByID(Long id){
 
-        if (!requestAccessToken.hasRole("NORMALUSER")){
+      /*  if (!requestAccessToken.hasRole("NORMALUSER")){
             if (requestAccessToken.getUserId() != id){
                 throw new InvalidCredentialsException();
             }
-        }
+        }*/
+        //TODO
 
         NormalUser normalUserResult = normalUserRepository.findAllByIdIs(id);
 
@@ -112,9 +113,10 @@ public class UserServiceImpl implements UserService {
     //Delete
     @Override
     public  boolean deleteUser(Long id){
-        if (!requestAccessToken.hasRole("ADMIN")){
+       /* if (!requestAccessToken.hasRole("ADMIN")){
             throw new InvalidCredentialsException();
-        }
+        }*/
+        //TODO
 
         NormalUser normalUserResult = normalUserRepository.findAllByIdIs(id);
 
@@ -129,11 +131,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UpdateUserResponseDTO updateUser(UpdateUserRequestDTO updateRequestDTO){
 
-        if (!requestAccessToken.hasRole("NORMALUSER")){
+     /*   if (!requestAccessToken.hasRole("NORMALUSER")){
             if (requestAccessToken.getUserId() != updateRequestDTO.getId()){
                 throw new InvalidCredentialsException();
             }
-        }
+        }*/
+        //TODO
 
         NormalUser user = normalUserRepository.findAllByIdIs(updateRequestDTO.getId());
         if(user == null) {

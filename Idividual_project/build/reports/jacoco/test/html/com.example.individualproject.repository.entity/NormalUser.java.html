@@ -47,13 +47,13 @@ public class NormalUser extends User {
 <span class="fc" id="L47">        this.email = createDTO.getEmail();</span>
 <span class="fc" id="L48">    }</span>
     public NormalUser (UpdateUserRequestDTO userRequestDTO, String username, String password, List&lt;Product&gt; productsSelling){
-<span class="nc" id="L50">        super(userRequestDTO.getId(), username, password);</span>
-<span class="nc" id="L51">        this.firstname = userRequestDTO.getFirstName();</span>
-<span class="nc" id="L52">        this.lastname = userRequestDTO.getLastName();</span>
-<span class="nc" id="L53">        this.phonenumber = userRequestDTO.getPhoneNumber();</span>
-<span class="nc" id="L54">        this.email = userRequestDTO.getEmail();</span>
-<span class="nc" id="L55">        this.productsSelling = productsSelling;</span>
-<span class="nc" id="L56">    }</span>
+<span class="fc" id="L50">        super(userRequestDTO.getId(), username, password);</span>
+<span class="fc" id="L51">        this.firstname = userRequestDTO.getFirstName();</span>
+<span class="fc" id="L52">        this.lastname = userRequestDTO.getLastName();</span>
+<span class="fc" id="L53">        this.phonenumber = userRequestDTO.getPhoneNumber();</span>
+<span class="fc" id="L54">        this.email = userRequestDTO.getEmail();</span>
+<span class="fc" id="L55">        this.productsSelling = productsSelling;</span>
+<span class="fc" id="L56">    }</span>
     public NormalUser (Long id, String username, String password, String firstname, String lastname, String phoneNumber, String email){
 <span class="fc" id="L58">        super(id,username, password);</span>
 <span class="fc" id="L59">        this.firstname = firstname;</span>

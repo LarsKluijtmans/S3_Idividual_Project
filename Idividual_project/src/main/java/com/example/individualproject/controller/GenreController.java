@@ -31,5 +31,4 @@ public class GenreController {
         }
     }
 
-    //todo add create, update and delete methods
 }
