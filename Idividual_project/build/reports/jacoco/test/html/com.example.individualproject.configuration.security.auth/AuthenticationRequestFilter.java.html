@@ -30,10 +30,10 @@ import java.io.IOException;
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
-<span class="nc" id="L33">        final String requestTokenHeader = request.getHeader(&quot;Authorization&quot;);</span>
-<span class="nc bnc" id="L34" title="All 4 branches missed.">        if (requestTokenHeader == null || !requestTokenHeader.startsWith(&quot;Bearer &quot;)) {</span>
-<span class="nc" id="L35">            chain.doFilter(request, response);</span>
-<span class="nc" id="L36">            return;</span>
+<span class="fc" id="L33">        final String requestTokenHeader = request.getHeader(&quot;Authorization&quot;);</span>
+<span class="pc bpc" id="L34" title="3 of 4 branches missed.">        if (requestTokenHeader == null || !requestTokenHeader.startsWith(&quot;Bearer &quot;)) {</span>
+<span class="fc" id="L35">            chain.doFilter(request, response);</span>
+<span class="fc" id="L36">            return;</span>
         }
 
 <span class="nc" id="L39">        String accessToken = requestTokenHeader.substring(7);</span>

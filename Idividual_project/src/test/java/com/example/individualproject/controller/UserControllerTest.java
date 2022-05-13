@@ -6,22 +6,20 @@ import com.example.individualproject.dto.products.BasicProductInfo;
 import com.example.individualproject.dto.products.GetProductDTO;
 import com.example.individualproject.dto.users.*;
 import com.example.individualproject.repository.entity.Admin;
-import com.example.individualproject.repository.entity.Genre;
 import com.example.individualproject.repository.entity.NormalUser;
 
-import com.example.individualproject.repository.entity.Product;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.verify;
@@ -32,7 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(UserController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class UserControllerTest {
 
     @Autowired
@@ -44,6 +43,7 @@ class UserControllerTest {
 
     //getAllUsers
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getAllUsers_UsersFound() throws Exception {
         NormalUser worker = new NormalUser(1l, "worker","worker","worker","worker","worker","worker");
         Admin boss = new Admin(2l, "boss","boss");
@@ -67,6 +67,7 @@ class UserControllerTest {
         verify(userService).getAllUsers();
     }
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getAllUsers_NotFound() throws Exception {
         when(userService.getAllUsers())
                 .thenReturn(null);
@@ -80,6 +81,7 @@ class UserControllerTest {
 
     //getUserByID
     @Test
+    @WithMockUser(username = "me", roles = {"ADMIN"})
     void getUserByID_UserFound() throws Exception {
         NormalUser worker = new NormalUser(1l, "worker","worker","worker","worker","worker","worker");
         GetUserDTO workerDTO = new GetUserDTO(worker);
@@ -98,6 +100,7 @@ class UserControllerTest {
         verify(userService).getUserByID(1l);
     }
     @Test
+    @WithMockUser(username = "me", roles = {"ADMIN"})
     void getUserByID_NotFound() throws Exception {
         when(userService.getUserByID(1l))
                 .thenReturn(null);
@@ -111,6 +114,7 @@ class UserControllerTest {
 
     //getAllUserByName
     @Test
+    @WithMockUser(username = "me", roles = {"ADMIN"})
     void getAllUserByName_UserFound() throws Exception {
         NormalUser worker = new NormalUser(1l, "worker","worker","worker","worker","worker","worker");
         Admin boss = new Admin(2l, "boss","boss");
@@ -134,6 +138,7 @@ class UserControllerTest {
         verify(userService).getAllUserByName("worker");
     }
     @Test
+    @WithMockUser(username = "me", roles = {"ADMIN"})
     void getAllUserByName_NotFound() throws Exception {
 
         when(userService.getAllUserByName("worker"))
@@ -149,6 +154,7 @@ class UserControllerTest {
 
     //getAllNormalUser
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getAllNormalUser_UsersFound() throws Exception {
         NormalUser worker = new NormalUser(1l, "worker","worker","worker","worker","worker","worker");
         Admin boss = new Admin(2l, "boss","boss");
@@ -172,6 +178,7 @@ class UserControllerTest {
         verify(userService).getAllNormalUsers();
     }
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getAllNormalUser_NotFound() throws Exception {
 
         when(userService.getAllNormalUsers())
@@ -186,6 +193,7 @@ class UserControllerTest {
 
     //getAllAdmin
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getAllAdmin_UsersFound() throws Exception {
         Admin boss = new Admin(2l, "boss","boss");
 
@@ -207,6 +215,7 @@ class UserControllerTest {
         verify(userService).getAllAdmins();
     }
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getAllAdmin_NotFound() throws Exception {
 
         when(userService.getAllAdmins())
@@ -298,6 +307,7 @@ class UserControllerTest {
 
     //deleteUser
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void deleteUser() throws Exception {
 
         mockMvc.perform(delete("/users/1"))
@@ -336,7 +346,7 @@ class UserControllerTest {
         verify(userService).addUser(createUserRequestDTO);
     }
     @Test
-    void createUser_Confilict()  throws Exception {
+    void createUser_Conflict()  throws Exception {
         CreateUserRequestDTO createUserRequestDTO = CreateUserRequestDTO .builder()
                 .firstName("firstName")
                 .lastName("lastName")
@@ -363,6 +373,7 @@ class UserControllerTest {
 
     //updateUser
     @Test
+    @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void updateUser() throws Exception {
         UpdateUserRequestDTO updateUserRequestDTO = UpdateUserRequestDTO .builder()
                 .id(1l)
@@ -389,6 +400,7 @@ class UserControllerTest {
         verify(userService).updateUser(updateUserRequestDTO);
     }
     @Test
+    @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void updateUser_BadRequest() throws Exception {
         UpdateUserRequestDTO updateUserRequestDTO = UpdateUserRequestDTO .builder()
                 .id(1l)
@@ -415,6 +427,7 @@ class UserControllerTest {
 
     //getUsersProducts
     @Test
+    @WithMockUser(username = "admin", roles = {"NORMALUSER"})
     void getUsersProducts() throws Exception {
 
         GetProductDTO product1 = new GetProductDTO(1l, new BasicProductInfo(),null);
@@ -436,6 +449,7 @@ class UserControllerTest {
         verify(productService).getAllOfAUsersProducts(1l);
     }
     @Test
+    @WithMockUser(username = "admin", roles = {"NORMALUSER"})
     void getUsersProducts_NotFound() throws Exception {
 
         GetProductDTO product1 = new GetProductDTO(1l, new BasicProductInfo(),null);

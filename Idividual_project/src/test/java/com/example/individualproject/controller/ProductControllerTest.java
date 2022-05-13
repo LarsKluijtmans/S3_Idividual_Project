@@ -7,8 +7,11 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -22,7 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(ProductController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class ProductControllerTest {
 
     @Autowired
@@ -32,6 +36,7 @@ class ProductControllerTest {
 
     //getAllProducts
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getAllProducts() throws Exception {
         BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
         BasicProductInfo product2 = BasicProductInfo.builder().title("Pokemon").subTitle("Pearl").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(2l).productType("GAME").images(Collections.emptyList()).build();
@@ -57,6 +62,7 @@ class ProductControllerTest {
         verify(productService).getAllProducts();
     }
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getAllProducts_NoneFound() throws Exception {
         when(productService.getAllProducts())
                 .thenReturn(Collections.emptyList());
@@ -70,6 +76,7 @@ class ProductControllerTest {
 
     //getProduct
     @Test
+    @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void getProduct() throws Exception {
 
         BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
@@ -91,6 +98,7 @@ class ProductControllerTest {
         verify(productService).getProduct(1l);
     }
     @Test
+    @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void getProduct_NotFound() throws Exception {
 
         when(productService.getProduct(1l))
@@ -143,6 +151,7 @@ class ProductControllerTest {
 
     //deleteProduct
     @Test
+    @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void deleteProduct() throws Exception {
 
         mockMvc.perform(delete("/products/1"))
@@ -154,6 +163,7 @@ class ProductControllerTest {
 
     //createProduct
     @Test
+    @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void createProduct() throws Exception {
         BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
         CreateProductRequestDTO createProductRequestDTO = CreateProductRequestDTO.builder().productInfo(product1).build();
@@ -174,6 +184,7 @@ class ProductControllerTest {
         verify(productService).addProduct(createProductRequestDTO);
     }
     @Test
+    @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void createProduct_NotFound() throws Exception {
         BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
         CreateProductRequestDTO createProductRequestDTO = CreateProductRequestDTO.builder().productInfo(product1).build();
@@ -196,6 +207,7 @@ class ProductControllerTest {
 
     //updateProduct
     @Test
+    @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void updateProduct() throws Exception {
         BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
         UpdateProductRequestDTO updateProductRequestDTO = UpdateProductRequestDTO.builder().productInfo(product1).build();
@@ -216,6 +228,7 @@ class ProductControllerTest {
         verify(productService).updateProduct(updateProductRequestDTO);
     }
     @Test
+    @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void updateProduct_NotFound() throws Exception {
         BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
         UpdateProductRequestDTO updateProductRequestDTO = UpdateProductRequestDTO.builder().productInfo(product1).build();

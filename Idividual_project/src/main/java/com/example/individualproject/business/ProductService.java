@@ -1,7 +1,6 @@
 package com.example.individualproject.business;
 
 import com.example.individualproject.dto.products.*;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

@@ -6,7 +6,6 @@ import com.example.individualproject.repository.GenreRepository;
 import com.example.individualproject.repository.ImageRepository;
 import com.example.individualproject.repository.NormalUserRepository;
 import com.example.individualproject.repository.entity.Image;
-import com.example.individualproject.repository.entity.NormalUser;
 import com.example.individualproject.repository.entity.Product;
 import com.example.individualproject.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;

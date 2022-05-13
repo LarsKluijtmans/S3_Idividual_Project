@@ -24,22 +24,22 @@ public class ProductController {
     //All
     @GetMapping()
     public ResponseEntity&lt;List&lt;GetProductDTO&gt;&gt; getAllProducts() {
-<span class="nc" id="L27">        List&lt;GetProductDTO&gt; products = productService.getAllProducts();</span>
+<span class="fc" id="L27">        List&lt;GetProductDTO&gt; products = productService.getAllProducts();</span>
 
-<span class="nc bnc" id="L29" title="All 2 branches missed.">        if(products.isEmpty()) {</span>
-<span class="nc" id="L30">            return ResponseEntity.notFound().build();</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if(products.isEmpty()) {</span>
+<span class="fc" id="L30">            return ResponseEntity.notFound().build();</span>
         } else {
-<span class="nc" id="L32">            return ResponseEntity.ok().body(products);</span>
+<span class="fc" id="L32">            return ResponseEntity.ok().body(products);</span>
         }
     }
     @GetMapping(&quot;search/{name}&quot;)
     public ResponseEntity&lt;List&lt;GetProductDTO&gt;&gt; getAllProductsByName(@PathVariable(&quot;name&quot;) String name) {
-<span class="nc" id="L37">        List&lt;GetProductDTO&gt; products = productService.getProducts(name);</span>
+<span class="fc" id="L37">        List&lt;GetProductDTO&gt; products = productService.getProducts(name);</span>
 
-<span class="nc bnc" id="L39" title="All 2 branches missed.">        if(products.isEmpty()) {</span>
-<span class="nc" id="L40">            return ResponseEntity.notFound().build();</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if(products.isEmpty()) {</span>
+<span class="fc" id="L40">            return ResponseEntity.notFound().build();</span>
         } else {
-<span class="nc" id="L42">            return ResponseEntity.ok().body(products);</span>
+<span class="fc" id="L42">            return ResponseEntity.ok().body(products);</span>
         }
     }
 
@@ -48,24 +48,24 @@ public class ProductController {
     @RolesAllowed({&quot;ROLE_NORMALUSER&quot;})
     @PostMapping()
     public ResponseEntity&lt;GetProductDTO&gt; createProduct(@RequestBody CreateProductRequestDTO product) {
-<span class="nc" id="L51">        CreateProductResponseDTO productResponseDTO = productService.addProduct(product);</span>
+<span class="fc" id="L51">        CreateProductResponseDTO productResponseDTO = productService.addProduct(product);</span>
 
-<span class="nc bnc" id="L53" title="All 2 branches missed.">        if(productResponseDTO == null){</span>
-<span class="nc" id="L54">            return ResponseEntity.status(HttpStatus.CONFLICT).build();</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if(productResponseDTO == null){</span>
+<span class="fc" id="L54">            return ResponseEntity.status(HttpStatus.CONFLICT).build();</span>
         } else {
-<span class="nc" id="L56">            String url = &quot;products/&quot; + productResponseDTO.getProductId();</span>
-<span class="nc" id="L57">            URI uri = URI.create(url);</span>
-<span class="nc" id="L58">            return ResponseEntity.created(uri).build();</span>
+<span class="fc" id="L56">            String url = &quot;products/&quot; + productResponseDTO.getProductId();</span>
+<span class="fc" id="L57">            URI uri = URI.create(url);</span>
+<span class="fc" id="L58">            return ResponseEntity.created(uri).build();</span>
         }
     }
     @IsAuthenticated
     @RolesAllowed({&quot;ROLE_NORMALUSER&quot;})
     @PutMapping()
     public ResponseEntity&lt;UpdateProductResponseDTO&gt; updateProduct(@RequestBody UpdateProductRequestDTO product) {
-<span class="nc bnc" id="L65" title="All 2 branches missed.">       if(productService.updateProduct(product) != null) {</span>
-<span class="nc" id="L66">           return ResponseEntity.noContent().build();</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">       if(productService.updateProduct(product) != null) {</span>
+<span class="fc" id="L66">           return ResponseEntity.noContent().build();</span>
        }else {
-<span class="nc" id="L68">           return ResponseEntity.badRequest().build();</span>
+<span class="fc" id="L68">           return ResponseEntity.badRequest().build();</span>
        }
     }
 
@@ -74,20 +74,20 @@ public class ProductController {
     @RolesAllowed({&quot;ROLE_NORMALUSER&quot;, &quot;ROLE_ADMIN&quot;})
     @GetMapping(&quot;{id}&quot;)
     public ResponseEntity&lt;GetProductDTO&gt; getProduct(@PathVariable(&quot;id&quot;) Long id) {
-<span class="nc" id="L77">        GetProductDTO product = productService.getProduct(id);</span>
+<span class="fc" id="L77">        GetProductDTO product = productService.getProduct(id);</span>
 
-<span class="nc bnc" id="L79" title="All 2 branches missed.">        if(product != null) {</span>
-<span class="nc" id="L80">            return ResponseEntity.ok().body(product);</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        if(product != null) {</span>
+<span class="fc" id="L80">            return ResponseEntity.ok().body(product);</span>
         } else {
-<span class="nc" id="L82">            return ResponseEntity.notFound().build();</span>
+<span class="fc" id="L82">            return ResponseEntity.notFound().build();</span>
         }
     }
     @IsAuthenticated
     @RolesAllowed({&quot;ROLE_NORMALUSER&quot;, &quot;ROLE_ADMIN&quot;})
     @DeleteMapping(&quot;{id}&quot;)
     public ResponseEntity&lt;Object&gt; deleteProduct(@PathVariable(&quot;id&quot;) Long id) {
-<span class="nc" id="L89">        productService.deleteProduct(id);</span>
-<span class="nc" id="L90">        return ResponseEntity.ok().build();</span>
+<span class="fc" id="L89">        productService.deleteProduct(id);</span>
+<span class="fc" id="L90">        return ResponseEntity.ok().build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

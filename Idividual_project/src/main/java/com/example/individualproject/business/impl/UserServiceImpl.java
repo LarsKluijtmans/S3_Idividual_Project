@@ -3,7 +3,6 @@ package com.example.individualproject.business.impl;
 import com.example.individualproject.business.exception.EmailAlreadyExistsExeption;
 import com.example.individualproject.business.exception.PhoneNumberAlreadyExistsExeption;
 import com.example.individualproject.business.exception.UsernameAlreadyExistsExeption;
-import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.users.*;
 import com.example.individualproject.business.UserService;
 import com.example.individualproject.repository.AdminRepository;
@@ -149,10 +148,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isUsernameUnique(String name) {
+        boolean result = true;
+
         if(normalUserRepository.existsByUsername(name) || adminRepository.existsByUsername(name))  {
-            return false;
+            result = false;
         }
-        return true;
+
+        return result;
     }
 
     @Override
@@ -170,7 +172,7 @@ public class UserServiceImpl implements UserService {
     public CreateUserResponseDTO addUser(CreateUserRequestDTO createRequestDTO){
         if(normalUserRepository.existsByUsername(createRequestDTO.getUsername()) || adminRepository.existsByUsername(createRequestDTO.getUsername()) ) {
             throw new UsernameAlreadyExistsExeption();
-        };
+        }
         if(normalUserRepository.existsByEmail(createRequestDTO.getEmail())) {
             throw new EmailAlreadyExistsExeption();
         }
@@ -188,6 +190,5 @@ public class UserServiceImpl implements UserService {
                 .firstName(newUser.getFirstname())
                 .build();
     }
-
 }
 

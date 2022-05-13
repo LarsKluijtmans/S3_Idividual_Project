@@ -9,8 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -42,47 +40,47 @@ public class NormalUser extends User {
     private List&lt;Product&gt; productsSelling;
 
     public NormalUser (CreateUserRequestDTO createDTO){
-<span class="fc" id="L45">        super(createDTO.getUsername(), createDTO.getPassword());</span>
-<span class="fc" id="L46">        this.firstname = createDTO.getFirstName();</span>
-<span class="fc" id="L47">        this.lastname = createDTO.getLastName();</span>
-<span class="fc" id="L48">        this.phonenumber = createDTO.getPhoneNumber();</span>
-<span class="fc" id="L49">        this.email = createDTO.getEmail();</span>
-<span class="fc" id="L50">    }</span>
+<span class="fc" id="L43">        super(createDTO.getUsername(), createDTO.getPassword());</span>
+<span class="fc" id="L44">        this.firstname = createDTO.getFirstName();</span>
+<span class="fc" id="L45">        this.lastname = createDTO.getLastName();</span>
+<span class="fc" id="L46">        this.phonenumber = createDTO.getPhoneNumber();</span>
+<span class="fc" id="L47">        this.email = createDTO.getEmail();</span>
+<span class="fc" id="L48">    }</span>
     public NormalUser (UpdateUserRequestDTO userRequestDTO, String username, String password, List&lt;Product&gt; productsSelling){
-<span class="fc" id="L52">        super(userRequestDTO.getId(), username, password);</span>
-<span class="fc" id="L53">        this.firstname = userRequestDTO.getFirstName();</span>
-<span class="fc" id="L54">        this.lastname = userRequestDTO.getLastName();</span>
-<span class="fc" id="L55">        this.phonenumber = userRequestDTO.getPhoneNumber();</span>
-<span class="fc" id="L56">        this.email = userRequestDTO.getEmail();</span>
-<span class="fc" id="L57">        this.productsSelling = productsSelling;</span>
-<span class="fc" id="L58">    }</span>
+<span class="fc" id="L50">        super(userRequestDTO.getId(), username, password);</span>
+<span class="fc" id="L51">        this.firstname = userRequestDTO.getFirstName();</span>
+<span class="fc" id="L52">        this.lastname = userRequestDTO.getLastName();</span>
+<span class="fc" id="L53">        this.phonenumber = userRequestDTO.getPhoneNumber();</span>
+<span class="fc" id="L54">        this.email = userRequestDTO.getEmail();</span>
+<span class="fc" id="L55">        this.productsSelling = productsSelling;</span>
+<span class="fc" id="L56">    }</span>
     public NormalUser (Long id, String username, String password, String firstname, String lastname, String phoneNumber, String email){
-<span class="fc" id="L60">        super(id,username, password);</span>
-<span class="fc" id="L61">        this.firstname = firstname;</span>
-<span class="fc" id="L62">        this.lastname = lastname;</span>
-<span class="fc" id="L63">        this.phonenumber = phoneNumber;</span>
-<span class="fc" id="L64">        this.email = email;</span>
-<span class="fc" id="L65">        this.productsSelling = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L66">    }</span>
+<span class="fc" id="L58">        super(id,username, password);</span>
+<span class="fc" id="L59">        this.firstname = firstname;</span>
+<span class="fc" id="L60">        this.lastname = lastname;</span>
+<span class="fc" id="L61">        this.phonenumber = phoneNumber;</span>
+<span class="fc" id="L62">        this.email = email;</span>
+<span class="fc" id="L63">        this.productsSelling = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L64">    }</span>
 
     public NormalUser (Long id, String username, String password, String firstname, String lastname, String phoneNumber, String email, List&lt;Product&gt; productsSelling){
-<span class="fc" id="L69">        super(id,username, password);</span>
-<span class="fc" id="L70">        this.firstname = firstname;</span>
-<span class="fc" id="L71">        this.lastname = lastname;</span>
-<span class="fc" id="L72">        this.phonenumber = phoneNumber;</span>
-<span class="fc" id="L73">        this.email = email;</span>
-<span class="fc" id="L74">        this.productsSelling = productsSelling;</span>
-<span class="fc" id="L75">    }</span>
+<span class="fc" id="L67">        super(id,username, password);</span>
+<span class="fc" id="L68">        this.firstname = firstname;</span>
+<span class="fc" id="L69">        this.lastname = lastname;</span>
+<span class="fc" id="L70">        this.phonenumber = phoneNumber;</span>
+<span class="fc" id="L71">        this.email = email;</span>
+<span class="fc" id="L72">        this.productsSelling = productsSelling;</span>
+<span class="fc" id="L73">    }</span>
 
     public NormalUser (String username, String password, String firstname, String lastname, String phoneNumber, String email, List&lt;Product&gt; productsSelling){
-<span class="fc" id="L78">        super(username, password);</span>
-<span class="fc" id="L79">        this.firstname = firstname;</span>
-<span class="fc" id="L80">        this.lastname = lastname;</span>
-<span class="fc" id="L81">        this.phonenumber = phoneNumber;</span>
-<span class="fc" id="L82">        this.email = email;</span>
-<span class="fc" id="L83">        this.productsSelling = productsSelling;</span>
-<span class="fc" id="L84">    }</span>
+<span class="fc" id="L76">        super(username, password);</span>
+<span class="fc" id="L77">        this.firstname = firstname;</span>
+<span class="fc" id="L78">        this.lastname = lastname;</span>
+<span class="fc" id="L79">        this.phonenumber = phoneNumber;</span>
+<span class="fc" id="L80">        this.email = email;</span>
+<span class="fc" id="L81">        this.productsSelling = productsSelling;</span>
+<span class="fc" id="L82">    }</span>
 
-<span class="fc" id="L86">    public NormalUser() {}</span>
+<span class="fc" id="L84">    public NormalUser() {}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
