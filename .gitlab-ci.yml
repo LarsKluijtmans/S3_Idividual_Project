@@ -28,7 +28,7 @@ sonarqube:
     paths:
       - .sonar/cache
   script:
-    - cd ListenUp 
+    - cd Idividual_project 
     - gradle sonarqube
     - ./gradlew.bat --stop
   allow_failure: true
