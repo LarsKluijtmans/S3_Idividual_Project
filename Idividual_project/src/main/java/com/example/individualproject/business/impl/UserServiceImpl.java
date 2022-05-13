@@ -26,7 +26,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final NormalUserRepository normalUserRepository;
     private final AdminRepository adminRepository;
-    private AccessTokenDTO accessTokenDTO;
 
     @Override
     public List<GetUserDTO> getAllUsers(){
@@ -118,20 +117,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public UpdateUserResponseDTO updateUser(UpdateUserRequestDTO updateRequestDTO){
 
-        if (accessTokenDTO.getUserId() != updateRequestDTO.getId()) {
-            return null;
-        }
-
         NormalUser user = normalUserRepository.findAllByIdIs(updateRequestDTO.getId());
         if(user == null) {
             return null;
         }
 
-        if(normalUserRepository.existsByEmail(updateRequestDTO.getEmail())) {
-            throw new EmailAlreadyExistsExeption();
+        if(!(user.getEmail().equals(updateRequestDTO.getEmail()))){
+            if(normalUserRepository.existsByEmail(updateRequestDTO.getEmail())) {
+                throw new EmailAlreadyExistsExeption();
+            }
         }
-        if( normalUserRepository.existsByPhonenumber(updateRequestDTO.getPhoneNumber())) {
+        if(!(user.getPhonenumber().equals(updateRequestDTO.getPhoneNumber()))){
+            if( normalUserRepository.existsByPhonenumber(updateRequestDTO.getPhoneNumber())) {
             throw new PhoneNumberAlreadyExistsExeption();
+            }
         }
 
         NormalUser newUser = new NormalUser(

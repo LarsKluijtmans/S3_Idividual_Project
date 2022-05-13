@@ -22,6 +22,7 @@ function App() {
             .then(res => {
                 localStorage.setItem("token", res.data.accessToken);
                 setAuthorization(res.data.authorizationLevel);
+                console.log(localStorage.getItem("token"));
             })
             .catch(err => {});
     }

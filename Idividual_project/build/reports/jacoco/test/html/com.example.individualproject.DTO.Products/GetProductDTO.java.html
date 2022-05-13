@@ -18,25 +18,25 @@ public class GetProductDTO {
     private GetUserDTO seller;
 
     public GetProductDTO(Product p)
-<span class="nc" id="L21">    {</span>
-<span class="nc" id="L22">        this.productInfo = new BasicProductInfo();</span>
+<span class="fc" id="L21">    {</span>
+<span class="fc" id="L22">        this.productInfo = new BasicProductInfo();</span>
 
-<span class="nc" id="L24">        this.id = p.getId();</span>
-<span class="nc" id="L25">        this.productInfo.setTitle(p.getTitle());</span>
-<span class="nc" id="L26">        this.productInfo.setSubTitle(p.getSubTitle());</span>
-<span class="nc" id="L27">        this.productInfo.setSeries(p.getSeries());</span>
-<span class="nc" id="L28">        this.productInfo.setYear(p.getYear());</span>
-<span class="nc" id="L29">        this.productInfo.setPrice(p.getPrice());</span>
-<span class="nc" id="L30">        this.productInfo.setCondition(p.getCondition());</span>
-<span class="nc" id="L31">        this.productInfo.setDescription(p.getDescription());</span>
-<span class="nc" id="L32">        this.productInfo.setGenreId(p.getGenre().getId());</span>
-<span class="nc" id="L33">        this.productInfo.setProductType(p.getProductType());</span>
+<span class="fc" id="L24">        this.id = p.getId();</span>
+<span class="fc" id="L25">        this.productInfo.setTitle(p.getTitle());</span>
+<span class="fc" id="L26">        this.productInfo.setSubTitle(p.getSubTitle());</span>
+<span class="fc" id="L27">        this.productInfo.setSeries(p.getSeries());</span>
+<span class="fc" id="L28">        this.productInfo.setYear(p.getYear());</span>
+<span class="fc" id="L29">        this.productInfo.setPrice(p.getPrice());</span>
+<span class="fc" id="L30">        this.productInfo.setCondition(p.getCondition());</span>
+<span class="fc" id="L31">        this.productInfo.setDescription(p.getDescription());</span>
+<span class="fc" id="L32">        this.productInfo.setGenreId(p.getGenre().getId());</span>
+<span class="fc" id="L33">        this.productInfo.setProductType(p.getProductType());</span>
 
-<span class="nc" id="L35">        this.seller = new GetUserDTO( p.getSeller());</span>
-<span class="nc" id="L36">        this.productInfo.setImages(new ArrayList&lt;&gt;());</span>
-<span class="nc bnc" id="L37" title="All 2 branches missed.">        for (Image image: p.getImages()) {</span>
-<span class="nc" id="L38">            productInfo.getImages().add(image.getImageUrl());</span>
-<span class="nc" id="L39">        }</span>
-<span class="nc" id="L40">    }</span>
+<span class="fc" id="L35">        this.seller = new GetUserDTO( p.getSeller());</span>
+<span class="fc" id="L36">        this.productInfo.setImages(new ArrayList&lt;&gt;());</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        for (Image image: p.getImages()) {</span>
+<span class="fc" id="L38">            productInfo.getImages().add(image.getImageUrl());</span>
+<span class="fc" id="L39">        }</span>
+<span class="fc" id="L40">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

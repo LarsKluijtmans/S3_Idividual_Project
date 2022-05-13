@@ -4,6 +4,7 @@ import com.example.individualproject.business.UserService;
 import com.example.individualproject.business.exception.EmailAlreadyExistsExeption;
 import com.example.individualproject.business.exception.PhoneNumberAlreadyExistsExeption;
 import com.example.individualproject.business.exception.UsernameAlreadyExistsExeption;
+import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.users.*;
 import com.example.individualproject.repository.AdminRepository;
 import com.example.individualproject.repository.NormalUserRepository;
@@ -533,7 +534,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void updateUser_UserDosntExists() {
+    void updateUser_UserDoesntExists() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
         PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
@@ -599,11 +600,9 @@ class UserServiceImplTest {
         when(normalUserRepository.existsByPhonenumber("Worker"))
                 .thenReturn(true);
 
-
         UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
-        UpdateUserResponseDTO actualResult = userServiceeMock.updateUser(updateRequestDTO);
 
-        assertEquals(null, actualResult);
+        assertThrows(PhoneNumberAlreadyExistsExeption.class, () ->  userServiceeMock.updateUser(updateRequestDTO));
 
         verify(normalUserRepository).findAllByIdIs(2l);
         verify(normalUserRepository).existsByPhonenumber("Worker");
@@ -637,13 +636,12 @@ class UserServiceImplTest {
 
         assertEquals(excpectedResult, actualResult);
 
+
         verify(normalUserRepository).findAllByIdIs(2l);
-        verify(normalUserRepository).existsByPhonenumber("Worker");
         verify(normalUserRepository).existsByEmail("Worker2");
         verify(normalUserRepository).save(newUser);
     }
     @Test
-
     void updateUser_EmailNotUnique() {
         NormalUserRepository normalUserRepository = mock(NormalUserRepository.class);
         AdminRepository adminRepository = mock(AdminRepository.class);
@@ -661,12 +659,9 @@ class UserServiceImplTest {
                 .thenReturn(true);
 
         UserService userServiceeMock = new UserServiceImpl(passwordEncoder,normalUserRepository,adminRepository);
-        UpdateUserResponseDTO actualResult = userServiceeMock.updateUser(updateRequestDTO);
-
-        assertEquals(null, actualResult);
+        assertThrows(EmailAlreadyExistsExeption.class, () ->  userServiceeMock.updateUser(updateRequestDTO));
 
         verify(normalUserRepository).findAllByIdIs(2l);
-        verify(normalUserRepository).existsByPhonenumber("Worker");
     }
     @Test
     void updateUser_EmailNotUnique_IsUsedByUserThatIsBeingUpdated() {
@@ -699,7 +694,6 @@ class UserServiceImplTest {
 
         verify(normalUserRepository).findAllByIdIs(2l);
         verify(normalUserRepository).existsByPhonenumber("Worker2");
-        verify(normalUserRepository).existsByEmail("Worker");
         verify(normalUserRepository).save(newUser);
     }
 }

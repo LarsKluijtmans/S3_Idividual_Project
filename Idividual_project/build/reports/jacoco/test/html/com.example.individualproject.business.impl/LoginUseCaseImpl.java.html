@@ -38,7 +38,7 @@ public class LoginUseCaseImpl implements LoginUseCase {
             }
 
 <span class="nc" id="L40">            String accessToken = generateAccessToken(user);</span>
-<span class="nc" id="L41">            return LoginResponseDTO.builder().accessToken(accessToken).build();</span>
+<span class="nc" id="L41">            return LoginResponseDTO.builder().accessToken(accessToken).authorizationLevel(&quot;NORMAL&quot;).build();</span>
         }
 <span class="nc bnc" id="L43" title="All 2 branches missed.">        if(admin != null) {</span>
 <span class="nc bnc" id="L44" title="All 2 branches missed.">            if (!matchesPassword(loginRequest.getPassword(), admin.getPassword())) {</span>
@@ -46,7 +46,7 @@ public class LoginUseCaseImpl implements LoginUseCase {
             }
 
 <span class="nc" id="L48">            String accessToken = generateAccessToken(admin);</span>
-<span class="nc" id="L49">            return LoginResponseDTO.builder().accessToken(accessToken).build();</span>
+<span class="nc" id="L49">            return LoginResponseDTO.builder().accessToken(accessToken).authorizationLevel(&quot;ADMIN&quot;).build();</span>
         }
 <span class="nc" id="L51">        throw new InvalidCredentialsException();</span>
     }

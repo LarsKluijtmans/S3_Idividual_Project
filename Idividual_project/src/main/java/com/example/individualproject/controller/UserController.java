@@ -2,6 +2,7 @@ package com.example.individualproject.controller;
 
 import com.example.individualproject.business.ProductService;
 import com.example.individualproject.configuration.security.isauthenticated.IsAuthenticated;
+import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.products.GetProductDTO;
 import com.example.individualproject.dto.users.*;
 import com.example.individualproject.business.UserService;

@@ -67,18 +67,18 @@ public class Product{
     @JoinColumn(name=&quot;seller&quot;, nullable=false)
     private NormalUser seller;
 
-<span class="nc" id="L70">   public Product(UpdateProductRequestDTO productRequestDTO, Genre genre) {</span>
-<span class="nc" id="L71">        this.setId(productRequestDTO.getProductId());</span>
-<span class="nc" id="L72">        this.setTitle(productRequestDTO.getProductInfo().getTitle());</span>
-<span class="nc" id="L73">        this.setSubTitle(productRequestDTO.getProductInfo().getSubTitle());</span>
-<span class="nc" id="L74">        this.setSeries(productRequestDTO.getProductInfo().getSeries());</span>
-<span class="nc" id="L75">        this.setYear(productRequestDTO.getProductInfo().getYear());</span>
-<span class="nc" id="L76">        this.setPrice(productRequestDTO.getProductInfo().getPrice());</span>
-<span class="nc" id="L77">        this.setCondition(productRequestDTO.getProductInfo().getCondition());</span>
-<span class="nc" id="L78">        this.setDescription(productRequestDTO.getProductInfo().getDescription());</span>
-<span class="nc" id="L79">        this.setGenre(genre);</span>
-<span class="nc" id="L80">        this.setSold(false);</span>
-<span class="nc" id="L81">        this.setProductType(productRequestDTO.getProductInfo().getProductType());</span>
-<span class="nc" id="L82">    }</span>
+<span class="fc" id="L70">   public Product(UpdateProductRequestDTO productRequestDTO, Genre genre) {</span>
+<span class="fc" id="L71">        this.setId(productRequestDTO.getProductId());</span>
+<span class="fc" id="L72">        this.setTitle(productRequestDTO.getProductInfo().getTitle());</span>
+<span class="fc" id="L73">        this.setSubTitle(productRequestDTO.getProductInfo().getSubTitle());</span>
+<span class="fc" id="L74">        this.setSeries(productRequestDTO.getProductInfo().getSeries());</span>
+<span class="fc" id="L75">        this.setYear(productRequestDTO.getProductInfo().getYear());</span>
+<span class="fc" id="L76">        this.setPrice(productRequestDTO.getProductInfo().getPrice());</span>
+<span class="fc" id="L77">        this.setCondition(productRequestDTO.getProductInfo().getCondition());</span>
+<span class="fc" id="L78">        this.setDescription(productRequestDTO.getProductInfo().getDescription());</span>
+<span class="fc" id="L79">        this.setGenre(genre);</span>
+<span class="fc" id="L80">        this.setSold(false);</span>
+<span class="fc" id="L81">        this.setProductType(productRequestDTO.getProductInfo().getProductType());</span>
+<span class="fc" id="L82">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

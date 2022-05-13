@@ -5,24 +5,22 @@ import com.example.individualproject.dto.login.LoginRequestDTO;
 import com.example.individualproject.dto.login.LoginResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping(&quot;/login&quot;)
 @RequiredArgsConstructor
+@CrossOrigin(origins = &quot;http://localhost:3000/&quot;)
 public class LoginController {
 
     private final LoginUseCase loginUseCase;
 
     @PostMapping
     public ResponseEntity&lt;LoginResponseDTO&gt; login(@RequestBody @Valid LoginRequestDTO loginRequestDTO) {
-<span class="nc" id="L24">        LoginResponseDTO loginResponseDTO = loginUseCase.login(loginRequestDTO);</span>
-<span class="nc" id="L25">        return ResponseEntity.ok(loginResponseDTO);</span>
+<span class="nc" id="L22">        LoginResponseDTO loginResponseDTO = loginUseCase.login(loginRequestDTO);</span>
+<span class="nc" id="L23">        return ResponseEntity.ok(loginResponseDTO);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
