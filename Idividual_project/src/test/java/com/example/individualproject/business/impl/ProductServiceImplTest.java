@@ -1,5 +1,6 @@
 package com.example.individualproject.business.impl;
 
+import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.products.*;
 import com.example.individualproject.dto.users.GetUserDTO;
 import com.example.individualproject.repository.GenreRepository;
@@ -37,6 +38,9 @@ class ProductServiceImplTest {
 
     @Mock
     private  ImageRepository imageRepositoryMock;
+
+    @Mock
+    private AccessTokenDTO requestAccessToken;
 
     @InjectMocks
     private ProductServiceImpl productServiceMock;

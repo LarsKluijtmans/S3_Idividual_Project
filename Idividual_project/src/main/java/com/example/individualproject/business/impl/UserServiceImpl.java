@@ -1,8 +1,10 @@
 package com.example.individualproject.business.impl;
 
 import com.example.individualproject.business.exception.EmailAlreadyExistsExeption;
+import com.example.individualproject.business.exception.InvalidCredentialsException;
 import com.example.individualproject.business.exception.PhoneNumberAlreadyExistsExeption;
 import com.example.individualproject.business.exception.UsernameAlreadyExistsExeption;
+import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.users.*;
 import com.example.individualproject.business.UserService;
 import com.example.individualproject.repository.AdminRepository;
@@ -25,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final NormalUserRepository normalUserRepository;
     private final AdminRepository adminRepository;
+    private AccessTokenDTO requestAccessToken;
 
     @Override
     public List<GetUserDTO> getAllUsers(){
@@ -69,6 +72,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public GetUserDTO getUserByID(Long id){
 
+        if (!requestAccessToken.hasRole("NORMALUSER")){
+            if (requestAccessToken.getUserId() != id){
+                throw new InvalidCredentialsException();
+            }
+        }
+
         NormalUser normalUserResult = normalUserRepository.findAllByIdIs(id);
 
         if(normalUserResult != null) {
@@ -103,6 +112,10 @@ public class UserServiceImpl implements UserService {
     //Delete
     @Override
     public  boolean deleteUser(Long id){
+        if (!requestAccessToken.hasRole("ADMIN")){
+            throw new InvalidCredentialsException();
+        }
+
         NormalUser normalUserResult = normalUserRepository.findAllByIdIs(id);
 
         if(normalUserResult != null) {
@@ -115,6 +128,12 @@ public class UserServiceImpl implements UserService {
     //Update
     @Override
     public UpdateUserResponseDTO updateUser(UpdateUserRequestDTO updateRequestDTO){
+
+        if (!requestAccessToken.hasRole("NORMALUSER")){
+            if (requestAccessToken.getUserId() != updateRequestDTO.getId()){
+                throw new InvalidCredentialsException();
+            }
+        }
 
         NormalUser user = normalUserRepository.findAllByIdIs(updateRequestDTO.getId());
         if(user == null) {

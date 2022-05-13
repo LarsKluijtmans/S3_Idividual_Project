@@ -1,5 +1,7 @@
 package com.example.individualproject.business.impl;
 
+import com.example.individualproject.business.exception.InvalidCredentialsException;
+import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.products.*;
 import com.example.individualproject.business.ProductService;
 import com.example.individualproject.repository.GenreRepository;
@@ -9,12 +11,16 @@ import com.example.individualproject.repository.entity.Image;
 import com.example.individualproject.repository.entity.Product;
 import com.example.individualproject.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 
+import javax.naming.AuthenticationException;
+import javax.persistence.Access;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -25,6 +31,7 @@ public class ProductServiceImpl implements ProductService {
     private final GenreRepository genreRepository;
     private final NormalUserRepository normalUserRepository;
     private final ImageRepository imageRepository;
+    private AccessTokenDTO requestAccessToken;
 
     @Override
     public List<GetProductDTO> getAllProducts() {
@@ -71,6 +78,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<GetProductDTO> getAllOfAUsersProducts(Long userID) {
 
+        if (!requestAccessToken.hasRole("NORMALUSER")){
+            if (requestAccessToken.getUserId() != userID){
+                throw new InvalidCredentialsException();
+            }
+        }
+
         List<GetProductDTO> result = new ArrayList<>();
 
         GetProductDTO product;
@@ -86,6 +99,15 @@ public class ProductServiceImpl implements ProductService {
     //Delete
     @Override
     public void deleteProduct(Long productID) {
+
+        Product p = productRepository.findProductsByIdIs(productID);
+
+        if (!requestAccessToken.hasRole("NORMALUSER")){
+            if (requestAccessToken.getUserId() != p.getSeller().getId()){
+                throw new InvalidCredentialsException();
+            }
+        }
+
         imageRepository.deleteAllByProductIsLike(productRepository.getById(productID));
         productRepository.deleteById(productID);
     }
@@ -135,6 +157,14 @@ public class ProductServiceImpl implements ProductService {
     //Update
     @Override
     public UpdateProductResponseDTO updateProduct(UpdateProductRequestDTO product) {
+
+        Product p = productRepository.findProductsByIdIs(product.getProductId());
+
+        if (!requestAccessToken.hasRole("NORMALUSER")){
+            if (requestAccessToken.getUserId() != p.getSeller().getId()){
+                 throw new InvalidCredentialsException();
+            }
+        }
 
         List<Image> images = new ArrayList<>();
         for (String s : product.getProductInfo().getImages()) {
