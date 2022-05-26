@@ -52,7 +52,7 @@ public class UserController {
 
     @IsAuthenticated
     @RolesAllowed({"ROLE_ADMIN"})
-    @GetMapping( "search/{name}")
+    @GetMapping( "/search/{name}")
     public ResponseEntity<List<GetUserDTO>> getAllUserByName(@PathVariable("name") String name) {
         List<GetUserDTO> users = userService.getAllUserByName(name);
 
@@ -65,7 +65,7 @@ public class UserController {
 
     @IsAuthenticated
     @RolesAllowed({"ROLE_ADMIN"})
-    @GetMapping("NormalUser")
+    @GetMapping("/NormalUser")
     public ResponseEntity<List<GetUserDTO>> getAllNormalUser() {
         List<GetUserDTO> users = userService.getAllNormalUsers();
 
@@ -78,7 +78,7 @@ public class UserController {
 
     @IsAuthenticated
     @RolesAllowed({"ROLE_ADMIN"})
-    @GetMapping("Admin")
+    @GetMapping("/Admin")
     public ResponseEntity<List<GetUserDTO>> getAllAdmin() {
         List<GetUserDTO> users = userService.getAllAdmins();
 
@@ -91,9 +91,9 @@ public class UserController {
 
     @IsAuthenticated
     @RolesAllowed({"ROLE_ADMIN"})
-    @DeleteMapping("{id}")
-    public ResponseEntity<Object> deleteUser(@PathVariable("id") Long id) {
-        userService.deleteUser(id);
+    @DeleteMapping("{username}")
+    public ResponseEntity<Object> deleteUser(@PathVariable("username") String userName) {
+        userService.deleteUser(userName);
         return ResponseEntity.ok().build();
     }
 

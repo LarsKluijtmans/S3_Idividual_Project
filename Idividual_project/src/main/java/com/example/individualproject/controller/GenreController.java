@@ -20,7 +20,7 @@ public class GenreController {
     private final GenreService genreService;
 
     //All
-    @GetMapping("getAll")
+    @GetMapping("")
     public ResponseEntity<List<GetGenreDTO>> getAllProducts() {
         List<GetGenreDTO> genres = genreService.getAllGenres();
 
@@ -31,4 +31,15 @@ public class GenreController {
         }
     }
 
+
+    @GetMapping("")
+    public ResponseEntity<List<GetGenreDTO>> getById() {
+        List<GetGenreDTO> genres = genreService.getAllGenres();
+
+        if(genres.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(genres);
+        }
+    }
 }

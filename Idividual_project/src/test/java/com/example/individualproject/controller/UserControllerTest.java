@@ -310,11 +310,11 @@ class UserControllerTest {
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void deleteUser() throws Exception {
 
-        mockMvc.perform(delete("/users/1"))
+        mockMvc.perform(delete("/users/Worker"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(userService).deleteUser(1l);
+        verify(userService).deleteUser("Worker");
     }
 
     //createUser

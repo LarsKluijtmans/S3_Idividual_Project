@@ -21,7 +21,7 @@ public class Image {
     @org.springframework.data.annotation.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @NotBlank
     @Length(min = 1 ,max = 200)

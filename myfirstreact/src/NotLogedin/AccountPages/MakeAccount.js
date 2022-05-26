@@ -1,27 +1,31 @@
 import React, {useState} from "react";
-import {Link} from "react-router-dom";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 
 function MakeAccount(){
-    const [firstname, setfirstname] = useState("");
-    const [lastname, setlastname] = useState("");
-    const [email, setemail] = useState("");
-    const [phoneNumber, setphoneNumber] = useState("");
+
+    let navigate = useNavigate();
+
+    const [firstname, setFirstname] = useState("");
+    const [lastname, setLastname] = useState("");
+    const [email, setEmail] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [passwordCheck, setPasswordCheck] = useState("");
 
     const handleFirstnameChange = (e) => {
-        setfirstname(e.target.value);
+        setFirstname(e.target.value);
     };
     const handleLastNameChange = (e) => {
-        setlastname(e.target.value);
+        setLastname(e.target.value);
     };
     const handleEmailChange = (e) => {
-        setemail(e.target.value);
+        setEmail(e.target.value);
     };
     const handlePhoneNumberChange = (e) => {
-        setphoneNumber(e.target.value);
+        setPhoneNumber(e.target.value);
     };
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
@@ -29,123 +33,69 @@ function MakeAccount(){
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
     };
-
-
-
-    return (
-        <div>
-            <br/>
-            <label><b>Firstname</b></label>
-            <input type="text" placeholder="Enter FirstName" name={"FirstName"} value={firstname} onChange={handleFirstnameChange}/>
-
-            <label><b>LastName</b></label>
-            <input type="text" placeholder="Enter LastName" name={"LastName"} value={lastname} onChange={handleLastNameChange}/>
-
-            <label><b>Email</b></label>
-            <input type="text" placeholder="Enter Email" name={"Email"} value={email} onChange={handleEmailChange}/>
-
-            <label><b>PhoneNumber</b></label>
-            <input type="text" placeholder="Enter PhoneNumber" name={"PhoneNumber"} value={phoneNumber} onChange={handlePhoneNumberChange}/>
-
-            <br/>
-            <label><b>Username</b></label>
-            <input type="text" placeholder="Enter Username" name={"username"} value={username} onChange={handleUsernameChange}/>
-
-            <label><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name={"password"} value={password} onChange={handlePasswordChange}/>
-
-           <CreateUser username={username} password={password} firstname={firstname} lastname={lastname} phoneNumber={phoneNumber} email={email}/>
-
-            <Link to="/login"> back </Link>
-        </div>
-    );
-}
-export default MakeAccount;
-
-
-function CreateUser({username, password, firstname, lastname, phoneNumber, email}){
+    const handlePasswordCheckChange = (e) => {
+        setPasswordCheck(e.target.value);
+    };
 
     const [error, setError] = useState(null);
     const [uniquePhoneNumber, setUniquePhoneNumber] = useState(true);
     const [uniqueEmail, setUniqueEmail] = useState(true);
     const [uniqueUserName, setUniqueUserName] = useState(true);
 
-    let result = "";
-
-    //Check if unique
     const IsEmailUnique = ()=>{
         axios.get("http://localhost:8080/users/unique/email/" + email)
-        .then(res => {
-            setUniqueEmail(res.data);
-        })
-        .catch(err => {
-            setError(err.message);
-        });
+            .then(res => {setUniqueEmail(res.data);})
+            .catch(err => {});
     }
     const IsPhoneNumberUnique = ()=>{
         axios.get("http://localhost:8080/users/unique/phoneNumber/" + phoneNumber)
-            .then(res => {
-                setUniquePhoneNumber(res.data);
-            })
-            .catch(err => {
-                setError(err.message);
-            });
+            .then(res => {setUniquePhoneNumber(res.data);})
+            .catch(err => {});
     }
     const IsUsernameUnique = ()=>{
         axios.get("http://localhost:8080/users/unique/name/" + username)
-            .then(res => {
-                setUniqueUserName(res.data);
-            })
-            .catch(err => {
-                setError(err.message);
-            });
+            .then(res => { setUniqueUserName(res.data);})
+            .catch(err => {});
     }
 
     const CheckInput = () => {
-        setError(null);
+        let regex1 = /^([a-zA-Z0-9_-]){1,50}$/;
+        let regex8 = /^([a-zA-Z0-9_-]){8,50}$/;
 
-        result = "";
+        if(regex1.test(firstname) === false
+            ||regex1.test(lastname) === false
+            || regex8.test(email) === false
+            || regex8.test(phoneNumber) === false
+            || regex8.test(username) === false
+            || regex8.test(password) === false){
+            return;
+        }
+
+        if(passwordCheck !== password){
+            setPassword("");
+            setPasswordCheck("");
+            alert("Please make sure passwords match");
+            return;
+        }
 
         IsEmailUnique();
         IsPhoneNumberUnique();
         IsUsernameUnique();
 
-        if (username == "") {
-            result += "username has to have 3 to 50 characters.\n";
+        if(uniqueUserName === false){
+            alert("Username already taken.");
+            return;
+        } else if(uniqueEmail === false){
+            alert("There already exists a account with this Email.");
+            return;
+        } else if(uniquePhoneNumber === false){
+            alert("There already exists a account with this PhoneNumber.");
+            return;
+        } else{
+            makeAccount();
+            let path = `/login` ;
+            navigate(path);
         }
-        if (password === "") {
-            result += "username has to have 3 to 50 characters.\n";
-        }
-        if (firstname === "") {
-            result += "username has to have 5 to 50 characters.\n";
-        }
-        if (lastname === "") {
-            result += "username has to have 5 to 50 characters.\n";
-        }
-        if (phoneNumber === "") {
-            result += "username has to have 9 to 50 characters.\n";
-        }
-        if (email === "") {
-            result += "username has to have 8 to 50 characters.\n";
-        }
-        if (uniqueUserName === false) {
-            result += "Username is taken.\n";
-        }
-        if (uniqueEmail === false) {
-            result += "There already exists a account with this email.\n";
-        }
-        if (uniquePhoneNumber === false) {
-            result += "There already exists a account with this phoneNumber.\n";
-        }
-        setUniqueUserName(true);
-        setUniqueEmail(true);
-        setUniquePhoneNumber(true);
-        if(result === ""){
-            makeAccount();}
-        else{
-            alert(result);
-        }
-
     }
     const makeAccount = () =>{
         axios.post("http://localhost:8080/users",
@@ -157,29 +107,57 @@ function CreateUser({username, password, firstname, lastname, phoneNumber, email
                 phoneNumber: phoneNumber,
                 email: email,
             })
-            .then()
-            .catch(err => {
-                setError(err.message);
-            });
+            .then(res =>{})
+            .catch(err => {setError(err.message);});
     }
 
+    return (
+        <div>
+            <h1 id="heading1">Sign up Here</h1>
+            <form action="" className="myForm" name="myForm">
+                <div className="input-container">
+                    <input className="input-field" type="text" placeholder="FirstName" name={"FirstName"} value={firstname}
+                           required minLength={1} maxLength={50}  onChange={handleFirstnameChange}/>
+                </div>
+                <div className="input-container">
+                    <input className="input-field" type="text" placeholder="LastName" name={"LastName"} value={lastname}
+                           required minLength={1} maxLength={50}  onChange={handleLastNameChange}/>
+                </div>
+                <div className="input-container">
+                    <input className="input-field" type="text" placeholder="Email" name={"Email"} value={email}
+                           required minLength={8} maxLength={50}  onChange={handleEmailChange}/>
+                </div>
+                <div className="input-container">
+                    <input className="input-field" type="text" placeholder="PhoneNumber" name={"PhoneNumber"} value={phoneNumber}
+                           required minLength={8} maxLength={50} onChange={handlePhoneNumberChange}/>
+                </div>
+                <div className="input-container">
+                    <input className="input-field" type="text" placeholder="Username" name={"username"} value={username}
+                           required minLength={8} maxLength={50}  onChange={handleUsernameChange}/>
+                </div>
+                <div className="input-container">
+                    <input className="input-field" type="password" placeholder="Password" name={"password"} value={password}
+                           required minLength={8} maxLength={50} onChange={handlePasswordChange}/>
+                </div>
 
-    if(error != null) {
-        return(
-            <div>
-                <p> A error has occurred. please try again </p>
-                <h3> {error} </h3>
-                <br/>
-                <button onClick={CheckInput}> create account</button>
-            </div>
-        );
-    }
-    else {
-        return (
-            <div>
-                <button onClick={CheckInput}> create account</button>
-            </div>
-        );
-    }
+                <div className="input-container">
+                    <input className="input-field" type="password" placeholder="Password check" name={"password"} value={passwordCheck}
+                           required minLength={8} maxLength={50} onChange={handlePasswordCheckChange}/>
+                </div>
+                {(error != null)? (
+                    <div>
+                        <p> A error has occurred. please try again later.</p>
+                        <h3> {error} </h3>
+                    </div>
+                ):(
+                    <>
+                    </>
+                )}
 
+                <button className={"bttn"} onClick={CheckInput}> create account</button>
+            </form>
+        </div>
+    );
 }
+export default MakeAccount;
+

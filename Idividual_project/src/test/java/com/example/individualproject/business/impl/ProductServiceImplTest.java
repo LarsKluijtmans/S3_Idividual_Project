@@ -29,19 +29,14 @@ class ProductServiceImplTest {
 
     @Mock
     private ProductRepository productRepositoryMock;
-
     @Mock
     private GenreRepository genreRepositoryMock ;
-
     @Mock
     private NormalUserRepository normalUserRepositoryMock;
-
     @Mock
     private  ImageRepository imageRepositoryMock;
-
     @Mock
     private AccessTokenDTO requestAccessToken;
-
     @InjectMocks
     private ProductServiceImpl productServiceMock;
 
@@ -132,7 +127,14 @@ class ProductServiceImplTest {
 
     @Test
     void getAllOfAUsersProducts()  {
+
+
         Product PokemonPearl= Product.builder().id(1l).title("Pokemon").subTitle("Pearl").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genre(new Genre(1l,null, null)).sold(false).productType("GAME").images(Collections.emptyList()).seller(new NormalUser()).build();
+
+        when(requestAccessToken.hasRole("NORMALUSER"))
+                .thenReturn(true);
+        when(requestAccessToken.getUserId())
+                .thenReturn(1l);
 
         when(productRepositoryMock.findAllBySeller_Id(1l))
                 .thenReturn(List.of(PokemonPearl));
@@ -147,10 +149,18 @@ class ProductServiceImplTest {
 
     @Test
     void deleteProduct() {
+       when(requestAccessToken.hasRole("NORMALUSER"))
+                .thenReturn(true);
+        when(requestAccessToken.getUserId())
+                .thenReturn(1l);
+        when(productRepositoryMock.findProductsByIdIs(1l))
+                .thenReturn(Product.builder()
+                        .seller(new NormalUser(1l,"lars","lars","lars","lars","lars","lars"))
+                        .build());
 
         productServiceMock.deleteProduct(1l);
 
-        verify(productRepositoryMock).getById(1l);
+        verify(productRepositoryMock).findProductsByIdIs(1l);
         verify(productRepositoryMock).deleteById(1l);
     }
 
@@ -178,39 +188,6 @@ class ProductServiceImplTest {
         CreateProductResponseDTO actualResult = productServiceMock.addProduct(createProductRequestDTO);
 
         CreateProductResponseDTO expectedResult = CreateProductResponseDTO.builder()
-                .productId(2l)
-                .build();
-
-        assertEquals(expectedResult, actualResult);
-
-        verify(productRepositoryMock).save(PokemonPearl);
-    }
-
-    @Test
-    void updateProduct() {
-        List<Image> images = new ArrayList<>();
-
-        images.add(new Image(0,"aa", null));
-        images.add(new Image(0,"aaa", null));
-
-        List<String> imageUrls = new ArrayList<>();
-        imageUrls.add("aa");
-        imageUrls.add("aaa");
-
-        Product PokemonPearl= Product.builder().id(2l).title("Pokemon").subTitle("Pearl").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genre(new Genre(1l,null, null)).sold(false).productType("GAME").images(images).build();
-
-        Product PokemonPearl2= Product.builder().id(2l).title("Pokemon").subTitle("Pearl").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genre(new Genre(1l,null, null)).sold(false).productType("GAME").images(images).build();
-
-        when(genreRepositoryMock.getById(1l))
-                .thenReturn(new Genre(1l,null, null));
-        when(productRepositoryMock.save(PokemonPearl))
-                .thenReturn(PokemonPearl2);
-
-        UpdateProductRequestDTO updateProductRequestDTO = new UpdateProductRequestDTO ( 2l,new BasicProductInfo("Pokemon","Pearl","Pokemon",2022,10.01,"TRASH","Pokemon game",1l,"GAME", imageUrls));
-
-        UpdateProductResponseDTO actualResult = productServiceMock.updateProduct(updateProductRequestDTO);
-
-        UpdateProductResponseDTO expectedResult = UpdateProductResponseDTO.builder()
                 .productId(2l)
                 .build();
 

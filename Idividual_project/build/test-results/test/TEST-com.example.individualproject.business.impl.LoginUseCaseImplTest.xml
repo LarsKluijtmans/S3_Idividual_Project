@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.individualproject.business.impl.LoginUseCaseImplTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-05-13T21:06:07" hostname="MSILARS" time="0.294">
+<testsuite name="com.example.individualproject.business.impl.LoginUseCaseImplTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2022-05-25T06:08:54" hostname="MSILARS" time="0.373">
   <properties/>
-  <testcase name="login_NothingFound()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.28"/>
-  <testcase name="login_AdminFound_PassNotMatched()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.006"/>
-  <testcase name="login_NormalUserFound_PassNotMatched()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.005"/>
+  <testcase name="login_NormalUserFound_Pass()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.272"/>
+  <testcase name="login_NothingFound()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.006"/>
+  <testcase name="login_AdminFound_PassNotMatched()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.004"/>
+  <testcase name="login_NormalUserFound_PassNotMatched()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.007"/>
+  <testcase name="login_AdminFound_Pass()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.081"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

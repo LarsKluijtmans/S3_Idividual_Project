@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
-import {Link} from "react-router-dom";
-
+import "./Login.css"
+import {useNavigate} from "react-router-dom";
 
 function Login({login}) {
+
+    let navigate = useNavigate();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -15,25 +17,36 @@ function Login({login}) {
     };
 
     const tryLogin = () => {
-      login(username, password);
+        login(username, password);
+    }
+    const SignUp = () => {
+        let path = `/signUp` ;
+        navigate(path);
     }
 
     return (
-        <div className="LoginContainer">
-            <label><b>Username</b></label>
-            <input type="text" placeholder="Enter Username" name={"username"} value={username}
-                   onChange={handleUsernameChange} required/>
+        <>
+            <h1 id="heading1">Login Here</h1>
+            <img className={"img"} src="https://img.icons8.com/cute-clipart/344/login-rounded-right.png" alt="Login Logo"/>
+                <div>
+                    <form action="" className="myForm" name="myForm">
+                        <div className="input-container">
+                            <input type="text" placeholder="Username" name="username" className="input-field" value={username} required onChange={handleUsernameChange}></input>
+                        </div>
 
-            <label><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name={"password"} value={password}
-                   onChange={handlePasswordChange} required/>
+                        <div className="input-container">
+                            <input type="password" placeholder="Password" name="password" className="input-field" value={password} required onChange={handlePasswordChange}></input>
+                        </div>
 
-            <button className={"loginButton"} type="submit" onClick={tryLogin}>Login</button>
 
-            <Link to="/make_account"> make account </Link>
+                            <button className={"bttn"} type="submit" onClick={tryLogin}>Login</button>
 
-            <Link to="/forgot_password"> forgot password </Link>
-        </div>
+                    </form>
+                    <form action="" className="myForm" name="myForm">
+                        <button className={"SignUp"} onClick={SignUp}>Sign up</button>
+                    </form>
+                </div>
+        </>
     );
 }
 

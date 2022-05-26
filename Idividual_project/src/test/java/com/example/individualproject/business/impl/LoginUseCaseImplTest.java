@@ -8,7 +8,6 @@ import com.example.individualproject.repository.AdminRepository;
 import com.example.individualproject.repository.NormalUserRepository;
 import com.example.individualproject.repository.entity.Admin;
 import com.example.individualproject.repository.entity.NormalUser;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -81,7 +80,7 @@ class LoginUseCaseImplTest {
         verify(userRepository).findByUsername("thing");
     }
 
-    /*@Test
+    @Test
     void login_NormalUserFound_Pass() {
         passwordEncoder = new PasswordEncoderConfig().createBCryptPasswordEncoder();
 
@@ -92,7 +91,7 @@ class LoginUseCaseImplTest {
         when(userRepository.findByUsername("Lars"))
                 .thenReturn(user);
 
-        assertEquals("InvalidCredentialsException.class",  loginUseCaseImpl.login(new LoginRequestDTO("Lars","Lars")));
+        assertThrows(InvalidCredentialsException.class, () -> loginUseCaseImpl.login(new LoginRequestDTO("Lars","Lars")));
 
         verify(adminRepository).findByUsername("Lars");
         verify(userRepository).findByUsername("Lars");
@@ -112,7 +111,6 @@ class LoginUseCaseImplTest {
 
         verify(adminRepository).findByUsername("Lars");
         verify(userRepository).findByUsername("Lars");
-    }*/
-    //TODO
+    }
 
 }

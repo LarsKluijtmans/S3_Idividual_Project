@@ -17,7 +17,7 @@ CREATE TABLE product(
     sold boolean,
     product_type enum('GAME', 'GAMES'),
     PRIMARY KEY (id),
-    FOREIGN KEY (genre) references genre(id)
+    FOREIGN KEY (genre) references genre(id)  ON UPDATE CASCADE
 );
 
 CREATE TABLE images(
@@ -25,7 +25,7 @@ CREATE TABLE images(
     image_url char(200) NOT NULL,
     product_Id int NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (product_Id) references product(id)
+    FOREIGN KEY (product_Id) references product(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 INSERT INTO genre (`genre`) VALUES ('BOARD_GAME');

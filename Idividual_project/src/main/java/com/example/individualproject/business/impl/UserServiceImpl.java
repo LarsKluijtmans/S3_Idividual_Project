@@ -1,16 +1,18 @@
 package com.example.individualproject.business.impl;
 
-import com.example.individualproject.business.exception.EmailAlreadyExistsExeption;
-import com.example.individualproject.business.exception.PhoneNumberAlreadyExistsExeption;
-import com.example.individualproject.business.exception.UsernameAlreadyExistsExeption;
+import com.example.individualproject.business.ProductService;
+import com.example.individualproject.business.exception.*;
 import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.users.*;
 import com.example.individualproject.business.UserService;
 import com.example.individualproject.repository.AdminRepository;
 import com.example.individualproject.repository.NormalUserRepository;
+import com.example.individualproject.repository.ProductRepository;
 import com.example.individualproject.repository.entity.Admin;
 import com.example.individualproject.repository.entity.NormalUser;
+import com.example.individualproject.repository.entity.Product;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +28,8 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final NormalUserRepository normalUserRepository;
     private final AdminRepository adminRepository;
-    private AccessTokenDTO requestAccessToken;
+    private final ProductService productService;
+    private final AccessTokenDTO requestAccessToken;
 
     @Override
     public List<GetUserDTO> getAllUsers(){
@@ -71,12 +74,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public GetUserDTO getUserByID(Long id){
 
-      /*  if (!requestAccessToken.hasRole("NORMALUSER")){
-            if (requestAccessToken.getUserId() != id){
-                throw new InvalidCredentialsException();
-            }
-        }*/
-        //TODO
+        if (!requestAccessToken.hasRole("NORMALUSER")){
+            throw new InvalidCredentialsException();
+        }
+
+        if ( requestAccessToken.getUserId() != id){
+            throw new InvalidCredentialsException();
+        }
+
 
         NormalUser normalUserResult = normalUserRepository.findAllByIdIs(id);
 
@@ -111,31 +116,27 @@ public class UserServiceImpl implements UserService {
 
     //Delete
     @Override
-    public  boolean deleteUser(Long id){
-       /* if (!requestAccessToken.hasRole("ADMIN")){
-            throw new InvalidCredentialsException();
-        }*/
-        //TODO
+    public  boolean deleteUser(String username){
+        NormalUser normalUserResult = normalUserRepository.findByUsername(username);
 
-        NormalUser normalUserResult = normalUserRepository.findAllByIdIs(id);
-
-        if(normalUserResult != null) {
-            normalUserRepository.deleteById(id);
-            return true;
+        if(normalUserResult == null) {
+            throw new UserNotFoundException();
         }
 
-        return false;
+        normalUserRepository.deleteById(normalUserResult.getId());
+        return true;
     }
     //Update
     @Override
     public UpdateUserResponseDTO updateUser(UpdateUserRequestDTO updateRequestDTO){
 
-     /*   if (!requestAccessToken.hasRole("NORMALUSER")){
-            if (requestAccessToken.getUserId() != updateRequestDTO.getId()){
-                throw new InvalidCredentialsException();
-            }
-        }*/
-        //TODO
+        if (!requestAccessToken.hasRole("NORMALUSER")){
+            throw new InvalidCredentialsException();
+        }
+
+        if ( requestAccessToken.getUserId() != updateRequestDTO.getId()){
+            throw new InvalidCredentialsException();
+        }
 
         NormalUser user = normalUserRepository.findAllByIdIs(updateRequestDTO.getId());
         if(user == null) {

@@ -52,7 +52,7 @@ public class UserController {
 
     @IsAuthenticated
     @RolesAllowed({&quot;ROLE_ADMIN&quot;})
-    @GetMapping( &quot;search/{name}&quot;)
+    @GetMapping( &quot;/search/{name}&quot;)
     public ResponseEntity&lt;List&lt;GetUserDTO&gt;&gt; getAllUserByName(@PathVariable(&quot;name&quot;) String name) {
 <span class="fc" id="L57">        List&lt;GetUserDTO&gt; users = userService.getAllUserByName(name);</span>
 
@@ -65,7 +65,7 @@ public class UserController {
 
     @IsAuthenticated
     @RolesAllowed({&quot;ROLE_ADMIN&quot;})
-    @GetMapping(&quot;NormalUser&quot;)
+    @GetMapping(&quot;/NormalUser&quot;)
     public ResponseEntity&lt;List&lt;GetUserDTO&gt;&gt; getAllNormalUser() {
 <span class="fc" id="L70">        List&lt;GetUserDTO&gt; users = userService.getAllNormalUsers();</span>
 
@@ -78,7 +78,7 @@ public class UserController {
 
     @IsAuthenticated
     @RolesAllowed({&quot;ROLE_ADMIN&quot;})
-    @GetMapping(&quot;Admin&quot;)
+    @GetMapping(&quot;/Admin&quot;)
     public ResponseEntity&lt;List&lt;GetUserDTO&gt;&gt; getAllAdmin() {
 <span class="fc" id="L83">        List&lt;GetUserDTO&gt; users = userService.getAllAdmins();</span>
 
@@ -91,9 +91,9 @@ public class UserController {
 
     @IsAuthenticated
     @RolesAllowed({&quot;ROLE_ADMIN&quot;})
-    @DeleteMapping(&quot;{id}&quot;)
-    public ResponseEntity&lt;Object&gt; deleteUser(@PathVariable(&quot;id&quot;) Long id) {
-<span class="fc" id="L96">        userService.deleteUser(id);</span>
+    @DeleteMapping(&quot;{username}&quot;)
+    public ResponseEntity&lt;Object&gt; deleteUser(@PathVariable(&quot;username&quot;) String userName) {
+<span class="fc" id="L96">        userService.deleteUser(userName);</span>
 <span class="fc" id="L97">        return ResponseEntity.ok().build();</span>
     }
 

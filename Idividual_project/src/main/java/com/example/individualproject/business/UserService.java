@@ -11,7 +11,7 @@ public interface UserService {
     List<GetUserDTO> getAllAdmins();
     GetUserDTO getUserByID(Long id);
     List<GetUserDTO> getAllUserByName(String name);
-    boolean deleteUser(Long id);
+    boolean deleteUser(String username);
     CreateUserResponseDTO addUser(CreateUserRequestDTO createRequestDTO);
     UpdateUserResponseDTO updateUser(UpdateUserRequestDTO updateRequestDTO);
 
