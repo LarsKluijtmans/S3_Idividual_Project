@@ -30,16 +30,4 @@ public class GenreController {
             return ResponseEntity.ok().body(genres);
         }
     }
-
-
-    @GetMapping("")
-    public ResponseEntity<List<GetGenreDTO>> getById() {
-        List<GetGenreDTO> genres = genreService.getAllGenres();
-
-        if(genres.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok().body(genres);
-        }
-    }
 }

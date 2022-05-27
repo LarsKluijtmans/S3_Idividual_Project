@@ -38,8 +38,6 @@ class UserControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private UserServiceImpl userService;
-    @MockBean
-    private ProductServiceImpl productService;
 
     //getAllUsers
     @Test
@@ -423,49 +421,5 @@ class UserControllerTest {
                 .andExpect(status().isBadRequest());
 
         verify(userService).updateUser(updateUserRequestDTO);
-    }
-
-    //getUsersProducts
-    @Test
-    @WithMockUser(username = "admin", roles = {"NORMALUSER"})
-    void getUsersProducts() throws Exception {
-
-        GetProductDTO product1 = new GetProductDTO(1l, new BasicProductInfo(),null);
-
-        GetProductDTO product2 = new GetProductDTO(2l,new BasicProductInfo(),null);
-
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(List.of(product1,product2));
-
-        when(productService.getAllOfAUsersProducts(1l))
-                .thenReturn(List.of(product1,product2));
-
-        mockMvc.perform(get("/users/products/1"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
-                .andExpect(content().json(json));
-
-        verify(productService).getAllOfAUsersProducts(1l);
-    }
-    @Test
-    @WithMockUser(username = "admin", roles = {"NORMALUSER"})
-    void getUsersProducts_NotFound() throws Exception {
-
-        GetProductDTO product1 = new GetProductDTO(1l, new BasicProductInfo(),null);
-
-        GetProductDTO product2 = new GetProductDTO(2l,new BasicProductInfo(),null);
-
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(List.of(product1,product2));
-
-        when(productService.getAllOfAUsersProducts(1l))
-                .thenReturn(null);
-
-        mockMvc.perform(get("/users/products/1"))
-                .andDo(print())
-                .andExpect(status().isNotFound());
-
-        verify(productService).getAllOfAUsersProducts(1l);
     }
 }

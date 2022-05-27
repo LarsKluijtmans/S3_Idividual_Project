@@ -48,7 +48,7 @@ class GenreControllerTest {
         when(genreServiceMock.getAllGenres())
                 .thenReturn(List.of(genre1DTO, genre2DTO));
 
-        mockMvc.perform(get("/genre/getAll"))
+        mockMvc.perform(get("/genre/"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
@@ -62,12 +62,10 @@ class GenreControllerTest {
     @Test
     @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void getAllGenre_NothingFound() throws Exception {
-
-
         when(genreServiceMock.getAllGenres())
                 .thenReturn(Collections.emptyList());
 
-        mockMvc.perform(get("/genre/getAll"))
+        mockMvc.perform(get("/genre/"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
 

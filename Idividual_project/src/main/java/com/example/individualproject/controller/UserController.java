@@ -1,8 +1,6 @@
 package com.example.individualproject.controller;
 
-import com.example.individualproject.business.ProductService;
 import com.example.individualproject.configuration.security.isauthenticated.IsAuthenticated;
-import com.example.individualproject.dto.products.GetProductDTO;
 import com.example.individualproject.dto.users.*;
 import com.example.individualproject.business.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +19,10 @@ import java.net.URI;
 public class UserController {
 
     private final UserService userService;
-    private final ProductService productService;
 
-     //Admin
-     @IsAuthenticated
-     @RolesAllowed({"ROLE_ADMIN"})
+    //Admin
+    @IsAuthenticated
+    @RolesAllowed({"ROLE_ADMIN"})
     @GetMapping()
     public ResponseEntity<List<GetUserDTO>> getAllUsers() {
         List<GetUserDTO> users = userService.getAllUsers();
@@ -97,22 +94,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-
-
     //NormalUser
-    @IsAuthenticated
-    @RolesAllowed({"ROLE_NORMALUSER"})
-    @GetMapping("products/{id}")
-    public ResponseEntity<List<GetProductDTO>> getUsersProducts( @PathVariable("id") Long id) {
-        List<GetProductDTO> usersProducts = productService.getAllOfAUsersProducts(id);
-
-        if(usersProducts != null) {
-            return ResponseEntity.ok().body(usersProducts);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     @IsAuthenticated
     @RolesAllowed({"ROLE_NORMALUSER"})
     @PutMapping()
@@ -125,8 +107,6 @@ public class UserController {
            return ResponseEntity.badRequest().build();
        }
     }
-
-
 
     //All
     @GetMapping( "unique/name/{name}")

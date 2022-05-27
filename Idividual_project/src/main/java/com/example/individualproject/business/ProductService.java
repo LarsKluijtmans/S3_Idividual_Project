@@ -10,8 +10,12 @@ public interface ProductService {
      List<GetProductDTO> getAllProducts();
      List<GetProductDTO> getProducts(String name);
      GetProductDTO getProduct(Long productID);
-     List<GetProductDTO> getAllOfAUsersProducts(Long userID);
      CreateProductResponseDTO addProduct(CreateProductRequestDTO product);
      UpdateProductResponseDTO updateProduct(UpdateProductRequestDTO product);
-     void deleteProduct(Long productID);
+
+     void deleteProductAdmin(Long productID);
+     void deleteProductNormalUser(Long productID);
+
+     List<GetProductDTO> getAllOfAUsersProductsAdmin(Long userID);
+     List<GetProductDTO> getAllOfAUsersProductsNormalUser(Long userID);
 }

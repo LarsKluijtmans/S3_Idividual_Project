@@ -33,21 +33,21 @@ public class LoginUseCaseImpl implements LoginUseCase {
 <span class="fc" id="L33">        NormalUser user = userRepository.findByUsername(loginRequest.getUsername());</span>
 
 <span class="fc bfc" id="L35" title="All 2 branches covered.">        if(admin != null) {</span>
-<span class="pc bpc" id="L36" title="1 of 2 branches missed.">            if (!matchesPassword(loginRequest.getPassword(), admin.getPassword())) {</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">            if (!matchesPassword(loginRequest.getPassword(), admin.getPassword())) {</span>
 <span class="fc" id="L37">                throw new InvalidCredentialsException();</span>
             }
 
-<span class="nc" id="L40">            String accessToken = generateAccessToken(admin);</span>
-<span class="nc" id="L41">            return LoginResponseDTO.builder().accessToken(accessToken).authorizationLevel(&quot;ADMIN&quot;).build();</span>
+<span class="fc" id="L40">            String accessToken = generateAccessToken(admin);</span>
+<span class="fc" id="L41">            return LoginResponseDTO.builder().accessToken(accessToken).authorizationLevel(&quot;ADMIN&quot;).build();</span>
         }
 
 <span class="fc bfc" id="L44" title="All 2 branches covered.">        if (user != null) {</span>
-<span class="pc bpc" id="L45" title="1 of 2 branches missed.">            if (!matchesPassword(loginRequest.getPassword(), user.getPassword())) {</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            if (!matchesPassword(loginRequest.getPassword(), user.getPassword())) {</span>
 <span class="fc" id="L46">                throw new InvalidCredentialsException();</span>
             }
 
-<span class="nc" id="L49">            String accessToken = generateAccessToken(user);</span>
-<span class="nc" id="L50">            return LoginResponseDTO.builder().accessToken(accessToken).authorizationLevel(&quot;NORMAL&quot;).build();</span>
+<span class="fc" id="L49">            String accessToken = generateAccessToken(user);</span>
+<span class="fc" id="L50">            return LoginResponseDTO.builder().accessToken(accessToken).authorizationLevel(&quot;NORMAL&quot;).build();</span>
         }
 
 <span class="fc" id="L53">        throw new InvalidCredentialsException();</span>
@@ -58,22 +58,22 @@ public class LoginUseCaseImpl implements LoginUseCase {
     }
 
     private String generateAccessToken(User user) {
-<span class="nc" id="L61">        Long studentId = user.getId();</span>
+<span class="fc" id="L61">        Long studentId = user.getId();</span>
 
-<span class="nc" id="L63">        List&lt;String&gt; roles = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L63">        List&lt;String&gt; roles = new ArrayList&lt;&gt;();</span>
 
-<span class="nc bnc" id="L65" title="All 2 branches missed.">        if(user.getClass() == Admin.class){</span>
-<span class="nc" id="L66">            roles = List.of(&quot;ADMIN&quot;);</span>
-<span class="nc bnc" id="L67" title="All 2 branches missed.">        }else if(user.getClass() == NormalUser.class){</span>
-<span class="nc" id="L68">            roles = List.of(&quot;NORMALUSER&quot;);</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if(user.getClass() == Admin.class){</span>
+<span class="fc" id="L66">            roles = List.of(&quot;ADMIN&quot;);</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">        }else if(user.getClass() == NormalUser.class){</span>
+<span class="fc" id="L68">            roles = List.of(&quot;NORMALUSER&quot;);</span>
         }
 
-<span class="nc" id="L71">        return accessTokenEncoder.encode(</span>
-<span class="nc" id="L72">                AccessTokenDTO.builder()</span>
-<span class="nc" id="L73">                        .subject(user.getUsername())</span>
-<span class="nc" id="L74">                        .roles(roles)</span>
-<span class="nc" id="L75">                        .userId(studentId)</span>
-<span class="nc" id="L76">                        .build());</span>
+<span class="fc" id="L71">        return accessTokenEncoder.encode(</span>
+<span class="fc" id="L72">                AccessTokenDTO.builder()</span>
+<span class="fc" id="L73">                        .subject(user.getUsername())</span>
+<span class="fc" id="L74">                        .roles(roles)</span>
+<span class="fc" id="L75">                        .userId(studentId)</span>
+<span class="fc" id="L76">                        .build());</span>
     }
 
 }

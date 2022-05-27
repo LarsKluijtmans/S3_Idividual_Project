@@ -72,14 +72,31 @@ public class ProductServiceImpl implements ProductService {
 
         return new GetProductDTO(p);
     }
-    @Override
-    public List<GetProductDTO> getAllOfAUsersProducts(Long userID) {
 
-        if (!requestAccessToken.hasRole("NORMALUSER")){
+    @Override
+    public List<GetProductDTO> getAllOfAUsersProductsNormalUser(Long userID) {
+
+        isNormalUser();
+
+        if (!requestAccessToken.getUserId().equals(userID)){
             throw new InvalidCredentialsException();
         }
 
-        if ( requestAccessToken.getUserId() != userID){
+        List<GetProductDTO> result = new ArrayList<>();
+
+        GetProductDTO product;
+
+        for (Product p : productRepository.findAllBySeller_Id(userID)) {
+            product = new GetProductDTO(p);
+            result.add(product);
+        }
+
+        return result;
+    }
+    @Override
+    public List<GetProductDTO> getAllOfAUsersProductsAdmin(Long userID) {
+
+        if (!requestAccessToken.hasRole("ADMIN")){
             throw new InvalidCredentialsException();
         }
 
@@ -96,21 +113,26 @@ public class ProductServiceImpl implements ProductService {
     }
 
     //Delete
-    @Override
-    public void deleteProduct(Long productID) {
 
+    @Override
+    public void deleteProductAdmin(Long productID) {
         Product p = productRepository.findProductsByIdIs(productID);
 
-        if (requestAccessToken.hasRole("ADMIN")){
-            imageRepository.deleteByProductId(p.getId());
-            productRepository.deleteById(productID);
-        }
-
-        if(!requestAccessToken.hasRole("NORMALUSER") ) {
+        if (!requestAccessToken.hasRole("ADMIN")){
             throw new InvalidCredentialsException();
         }
 
-        if ( requestAccessToken.getUserId() != p.getSeller().getId() ){
+        imageRepository.deleteByProductId(p.getId());
+        productRepository.deleteById(productID);
+    }
+    @Override
+    public void deleteProductNormalUser(Long productID) {
+
+        Product p = productRepository.findProductsByIdIs(productID);
+
+        isNormalUser();
+
+        if (!requestAccessToken.getUserId().equals(p.getSeller().getId())){
             throw new InvalidCredentialsException();
         }
 
@@ -148,7 +170,6 @@ public class ProductServiceImpl implements ProductService {
 
         Product savedProduct = productRepository.save(newProduct);
 
-
         CreateProductResponseDTO createProductResponseDTO = CreateProductResponseDTO.builder()
                 .productId(savedProduct.getId())
                 .build();
@@ -166,11 +187,9 @@ public class ProductServiceImpl implements ProductService {
 
         Product p = productRepository.findProductsByIdIs(product.getProductId());
 
-        if (!requestAccessToken.hasRole("NORMALUSER")){
-            throw new InvalidCredentialsException();
-        }
+        isNormalUser();
 
-        if ( requestAccessToken.getUserId() != p.getSeller().getId()){
+        if ( requestAccessToken.getUserId().equals(p.getSeller().getId())){
             throw new InvalidCredentialsException();
         }
 
@@ -229,4 +248,11 @@ public class ProductServiceImpl implements ProductService {
 
         imageRepository.saveAll(imagesToSave);
     }
+
+    private void isNormalUser(){
+        if (!requestAccessToken.hasRole("NORMALUSER")){
+            throw new InvalidCredentialsException();
+        }
+    }
+
 }

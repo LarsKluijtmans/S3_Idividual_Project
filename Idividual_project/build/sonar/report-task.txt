@@ -2,5 +2,5 @@ projectKey=S3IndividualProject
 serverUrl=http://localhost:9000
 serverVersion=9.3.0.51899
 dashboardUrl=http://localhost:9000/dashboard?id=S3IndividualProject
-ceTaskId=AYD51blBSEElkAcJqngU
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYD51blBSEElkAcJqngU
+ceTaskId=AYEFIvk0SEElkAcJqnkU
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYEFIvk0SEElkAcJqnkU

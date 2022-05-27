@@ -1,8 +1,6 @@
 package com.example.individualproject.business.impl;
 
-import com.example.individualproject.business.exception.EmailAlreadyExistsExeption;
-import com.example.individualproject.business.exception.PhoneNumberAlreadyExistsExeption;
-import com.example.individualproject.business.exception.UsernameAlreadyExistsExeption;
+import com.example.individualproject.business.exception.*;
 import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.users.*;
 import com.example.individualproject.repository.AdminRepository;
@@ -37,8 +35,9 @@ class UserServiceImplTest {
     private AccessTokenDTO accessTokenDTO;
 
     @InjectMocks
-    private UserServiceImpl userServiceeMock;
+    private UserServiceImpl userServiceMock;
 
+    //getAllUsers
     @Test
     void getAllUsers() {
         Admin boss = new Admin(1l,"Admin","Admin");
@@ -49,7 +48,7 @@ class UserServiceImplTest {
         when(adminRepository.findAll())
                 .thenReturn(List.of(boss));
 
-        List<GetUserDTO> actualResult = userServiceeMock.getAllUsers();
+        List<GetUserDTO> actualResult = userServiceMock.getAllUsers();
 
         GetUserDTO WorkerDTO = new GetUserDTO(worker);
         GetUserDTO AdminDTO = new GetUserDTO(boss);
@@ -62,6 +61,7 @@ class UserServiceImplTest {
         verify(adminRepository).findAll();
     }
 
+    //getAllNormalUsers
     @Test
     void getAllNormalUsers() {
         NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
@@ -69,7 +69,7 @@ class UserServiceImplTest {
         when(normalUserRepository.findAll())
                 .thenReturn(List.of(worker));
 
-        List<GetUserDTO> actualResult = userServiceeMock.getAllNormalUsers();
+        List<GetUserDTO> actualResult = userServiceMock.getAllNormalUsers();
 
         GetUserDTO WorkerDTO = new GetUserDTO(worker);
 
@@ -80,6 +80,7 @@ class UserServiceImplTest {
         verify(normalUserRepository).findAll();
     }
 
+    //getAllAdmins
     @Test
     void getAllAdmins() {
         Admin boss = new Admin(1l,"Admin","Admin");
@@ -87,7 +88,7 @@ class UserServiceImplTest {
         when(adminRepository.findAll())
                 .thenReturn(List.of(boss));
 
-        List<GetUserDTO> actualResult = userServiceeMock.getAllAdmins();
+        List<GetUserDTO> actualResult = userServiceMock.getAllAdmins();
 
         GetUserDTO AdminDTO = new GetUserDTO(boss);
 
@@ -98,6 +99,7 @@ class UserServiceImplTest {
         verify(adminRepository).findAll();
     }
 
+    //getUserByID
     @Test
     void getUserByID_ResultAdmin()  {
         Admin boss = new Admin(2L,"Admin","Admin");
@@ -111,7 +113,7 @@ class UserServiceImplTest {
         when(accessTokenDTO.getUserId())
                 .thenReturn(1l);
 
-        GetUserDTO actualResult = userServiceeMock.getUserByID(1L);
+        GetUserDTO actualResult = userServiceMock.getUserByID(1L);
 
         GetUserDTO AdminDTO = new GetUserDTO(boss);
 
@@ -119,10 +121,10 @@ class UserServiceImplTest {
 
         assertEquals(expectedResult, actualResult);
 
+        verify(accessTokenDTO).hasRole("NORMALUSER");
+        verify(accessTokenDTO).getUserId();
         verify(normalUserRepository).findAllByIdIs(1L);
         verify(adminRepository).findAllByIdIsLike(1L);
-
-
     }
     @Test
     void getUserByID_ResultNormalUser()  {
@@ -135,7 +137,7 @@ class UserServiceImplTest {
         when(normalUserRepository.findAllByIdIs(1L))
                 .thenReturn(worker);
 
-        GetUserDTO actualResult = userServiceeMock.getUserByID(1L);
+        GetUserDTO actualResult = userServiceMock.getUserByID(1L);
 
         GetUserDTO WorkerDTO = new GetUserDTO(worker);
 
@@ -143,6 +145,8 @@ class UserServiceImplTest {
 
         assertEquals(expectedResult, actualResult);
 
+        verify(accessTokenDTO).hasRole("NORMALUSER");
+        verify(accessTokenDTO).getUserId();
         verify(normalUserRepository).findAllByIdIs(1L);
     }
     @Test
@@ -156,14 +160,38 @@ class UserServiceImplTest {
         when(accessTokenDTO.getUserId())
                 .thenReturn(1l);
 
-        GetUserDTO actualResult = userServiceeMock.getUserByID(1L);
+        GetUserDTO actualResult = userServiceMock.getUserByID(1L);
 
         assertEquals(null, actualResult);
 
+        verify(accessTokenDTO).hasRole("NORMALUSER");
+        verify(accessTokenDTO).getUserId();
         verify(normalUserRepository).findAllByIdIs(1L);
         verify(adminRepository).findAllByIdIsLike(1L);
     }
+    @Test
+    void getUserByID_isntNormalUser()  {
+        when(accessTokenDTO.hasRole("NORMALUSER"))
+                .thenReturn(false);
 
+        assertThrows(InvalidCredentialsException.class, () -> userServiceMock.getUserByID(1L));
+
+        verify(accessTokenDTO).hasRole("NORMALUSER");
+    }
+    @Test
+    void getUserByID_IDNotMatched()  {
+        when(accessTokenDTO.hasRole("NORMALUSER"))
+                .thenReturn(true);
+        when(accessTokenDTO.getUserId())
+                .thenReturn(2l);
+
+        assertThrows(InvalidCredentialsException.class, () -> userServiceMock.getUserByID(1L));
+
+        verify(accessTokenDTO).hasRole("NORMALUSER");
+        verify(accessTokenDTO).getUserId();
+    }
+
+    //getAllUserByName
     @Test
     void getAllUserByName_ResultNormalUser() {
         NormalUser worker = new NormalUser(1l, "Worker", "Worker", "Worker", "Worker", "Worker", "Worker");
@@ -173,7 +201,7 @@ class UserServiceImplTest {
         when(adminRepository.findAllByUsernameIsLike("%Worker%"))
                 .thenReturn(List.of());
 
-        List<GetUserDTO> actualResult = userServiceeMock.getAllUserByName("Worker");
+        List<GetUserDTO> actualResult = userServiceMock.getAllUserByName("Worker");
 
         GetUserDTO WorkerDTO = new GetUserDTO(worker);
 
@@ -193,7 +221,7 @@ class UserServiceImplTest {
         when(adminRepository.findAllByUsernameIsLike("%Admin%"))
                 .thenReturn(List.of(boss));
 
-        List<GetUserDTO> actualResult = userServiceeMock.getAllUserByName("Admin");
+        List<GetUserDTO> actualResult = userServiceMock.getAllUserByName("Admin");
 
         GetUserDTO AdminDTO = new GetUserDTO(boss);
 
@@ -211,7 +239,7 @@ class UserServiceImplTest {
         when(adminRepository.findAllByUsernameIsLike("%Admin%"))
                 .thenReturn(List.of());
 
-        List<GetUserDTO> actualResult = userServiceeMock.getAllUserByName("Admin");
+        List<GetUserDTO> actualResult = userServiceMock.getAllUserByName("Admin");
 
         List<GetUserDTO> expectedResult = List.of();
 
@@ -221,14 +249,13 @@ class UserServiceImplTest {
         verify(adminRepository).findAllByUsernameIsLike("%Admin%");
     }
 
+    //deleteUser
     @Test
     void deleteUser_userDosntExist() {
         when(normalUserRepository.findByUsername("Worker"))
                 .thenReturn(null);
 
-        boolean actualResult = userServiceeMock.deleteUser("Worker");
-
-        assertEquals(false, actualResult);
+        assertThrows(UserNotFoundException.class, () ->  userServiceMock.deleteUser("Worker"));
 
         verify(normalUserRepository).findByUsername("Worker");}
     @Test
@@ -238,7 +265,7 @@ class UserServiceImplTest {
         when(normalUserRepository.findByUsername("Worker"))
                 .thenReturn(worker);
 
-        boolean actualResult = userServiceeMock.deleteUser("Worker");
+        boolean actualResult = userServiceMock.deleteUser("Worker");
 
         assertEquals(true, actualResult);
 
@@ -246,6 +273,7 @@ class UserServiceImplTest {
         verify(normalUserRepository).deleteById(1l);
     }
 
+    //isUsernameUnique
     @Test
     void isUsernameUnique_ResultAdmin() {
         when(normalUserRepository.existsByUsername("Admin"))
@@ -253,7 +281,7 @@ class UserServiceImplTest {
         when(adminRepository.existsByUsername("Admin"))
                 .thenReturn(true);
 
-        Boolean actualResult = userServiceeMock.isUsernameUnique("Admin");
+        Boolean actualResult = userServiceMock.isUsernameUnique("Admin");
 
         assertEquals(false, actualResult);
 
@@ -262,8 +290,7 @@ class UserServiceImplTest {
     }
     @Test
     void isUsernameUnique_ResultNormalUser() {
-
-        Boolean actualResult = userServiceeMock.isUsernameUnique("Worker");
+        Boolean actualResult = userServiceMock.isUsernameUnique("Worker");
 
         assertEquals(true, actualResult);
 
@@ -276,7 +303,7 @@ class UserServiceImplTest {
         when(adminRepository.existsByUsername("Admin2"))
                 .thenReturn(false);
 
-        Boolean actualResult = userServiceeMock.isUsernameUnique("Admin2");
+        Boolean actualResult = userServiceMock.isUsernameUnique("Admin2");
 
         assertEquals(true, actualResult);
 
@@ -288,7 +315,7 @@ class UserServiceImplTest {
         when(normalUserRepository.existsByUsername("Admin"))
                 .thenReturn(true);
 
-        Boolean actualResult = userServiceeMock.isUsernameUnique("Admin");
+        Boolean actualResult = userServiceMock.isUsernameUnique("Admin");
 
         assertEquals(false, actualResult);
 
@@ -301,7 +328,7 @@ class UserServiceImplTest {
         when(adminRepository.existsByUsername("Admin2"))
                 .thenReturn(true);
 
-        Boolean actualResult = userServiceeMock.isUsernameUnique("Admin2");
+        Boolean actualResult = userServiceMock.isUsernameUnique("Admin2");
 
         assertEquals(false, actualResult);
 
@@ -309,12 +336,13 @@ class UserServiceImplTest {
         verify(adminRepository).existsByUsername("Admin2");
     }
 
+    //isPhoneNumberUnique
     @Test
     void isPhoneNumberUnique_ResultNormalUser() {
         when(normalUserRepository.existsByPhonenumber("Worker"))
                 .thenReturn(true);
 
-        Boolean actualResult = userServiceeMock.isPhoneNumberUnique("Worker");
+        Boolean actualResult = userServiceMock.isPhoneNumberUnique("Worker");
 
         assertEquals(true, actualResult);
 
@@ -325,19 +353,20 @@ class UserServiceImplTest {
         when(normalUserRepository.existsByPhonenumber("Worker2"))
                 .thenReturn(false);
 
-        Boolean actualResult = userServiceeMock.isPhoneNumberUnique("Worker2");
+        Boolean actualResult = userServiceMock.isPhoneNumberUnique("Worker2");
 
         assertEquals(false, actualResult);
 
         verify(normalUserRepository).existsByPhonenumber("Worker2");
     }
 
+    //isEmailUnique
     @Test
     void isEmailUnique_ResultNormalUser() {
         when(normalUserRepository.existsByEmail("Worker"))
                 .thenReturn(false);
 
-        Boolean actualResult = userServiceeMock.isEmailUnique("Worker");
+        Boolean actualResult = userServiceMock.isEmailUnique("Worker");
 
         assertEquals(false, actualResult);
 
@@ -348,21 +377,21 @@ class UserServiceImplTest {
         when(normalUserRepository.existsByEmail("Worker2"))
                 .thenReturn(false);
 
-        Boolean actualResult = userServiceeMock.isEmailUnique("Worker2");
+        Boolean actualResult = userServiceMock.isEmailUnique("Worker2");
 
         assertEquals(false, actualResult);
 
         verify(normalUserRepository).existsByEmail("Worker2");
     }
 
+    //addUser
     @Test
     void addUser_UsernameNotUnique_NormalUser()  {
         when(normalUserRepository.existsByUsername("Worker"))
                 .thenReturn(true);
 
-
         CreateUserRequestDTO createUserRequestDTO = new CreateUserRequestDTO("Worker","Worker","Worker","Worker","Worker","Worker");
-        assertThrows(UsernameAlreadyExistsExeption.class, () ->  userServiceeMock.addUser(createUserRequestDTO));
+        assertThrows(UsernameAlreadyExistsExeption.class, () ->  userServiceMock.addUser(createUserRequestDTO));
 
         verify(normalUserRepository).existsByUsername("Worker");
     }
@@ -375,7 +404,7 @@ class UserServiceImplTest {
 
         CreateUserRequestDTO createUserRequestDTO = new CreateUserRequestDTO("Admin","Admin","Admin","Admin","Admin","Admin");
 
-        assertThrows(UsernameAlreadyExistsExeption.class, () -> userServiceeMock.addUser(createUserRequestDTO));
+        assertThrows(UsernameAlreadyExistsExeption.class, () -> userServiceMock.addUser(createUserRequestDTO));
 
         verify(normalUserRepository).existsByUsername("Admin");
         verify(adminRepository).existsByUsername("Admin");
@@ -386,7 +415,7 @@ class UserServiceImplTest {
                 .thenReturn(true);
 
         CreateUserRequestDTO createUserRequestDTO = new CreateUserRequestDTO("Worker","Worker","Worker","Worker","Worker","Worker");
-        assertThrows(EmailAlreadyExistsExeption.class, () -> userServiceeMock.addUser(createUserRequestDTO));
+        assertThrows(EmailAlreadyExistsExeption.class, () -> userServiceMock.addUser(createUserRequestDTO));
 
         verify(normalUserRepository).existsByEmail("Worker");
     }
@@ -397,7 +426,7 @@ class UserServiceImplTest {
 
         CreateUserRequestDTO createUserRequestDTO = new CreateUserRequestDTO("Worker","Worker","Worker","Worker","Worker","Worker");
 
-        assertThrows(PhoneNumberAlreadyExistsExeption.class, () -> userServiceeMock.addUser(createUserRequestDTO));
+        assertThrows(PhoneNumberAlreadyExistsExeption.class, () -> userServiceMock.addUser(createUserRequestDTO));
 
         verify(normalUserRepository).existsByPhonenumber("Worker");
     }
@@ -408,7 +437,6 @@ class UserServiceImplTest {
         NormalUser newUser = new NormalUser(createUserRequestDTO);
         NormalUser SavedUser = new NormalUser(1l,"Worker1","Worker","Worker","Worker","Worker2","Worker3");
 
-
         when(normalUserRepository.existsByPhonenumber("Worker2"))
                 .thenReturn(false);
         when(normalUserRepository.existsByEmail("Worker3"))
@@ -416,7 +444,7 @@ class UserServiceImplTest {
         when(normalUserRepository.save(newUser))
                 .thenReturn(SavedUser);
 
-        CreateUserResponseDTO actualResult = userServiceeMock.addUser(createUserRequestDTO);
+        CreateUserResponseDTO actualResult = userServiceMock.addUser(createUserRequestDTO);
 
         CreateUserResponseDTO expectedResult = CreateUserResponseDTO.builder()
                 .firstName(SavedUser.getFirstname())
@@ -430,21 +458,23 @@ class UserServiceImplTest {
         verify(normalUserRepository).save(newUser);
     }
 
+    //updateUser
     @Test
     void updateUser_UserDoesntExists() {
         when(normalUserRepository.findAllByIdIs(1l))
                 .thenReturn(null);
-
         when(accessTokenDTO.hasRole("NORMALUSER"))
                 .thenReturn(true);
         when(accessTokenDTO.getUserId())
                 .thenReturn(1l);
 
         UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(1l,"Worker","Worker","Worker","Worker", null);
-        UpdateUserResponseDTO actualResult = userServiceeMock.updateUser(updateRequestDTO);
+        UpdateUserResponseDTO actualResult = userServiceMock.updateUser(updateRequestDTO);
 
         assertEquals(null, actualResult);
 
+        verify(accessTokenDTO).hasRole("NORMALUSER");
+        verify(accessTokenDTO).getUserId();
         verify(normalUserRepository).findAllByIdIs(1l);
     }
     @Test
@@ -467,7 +497,7 @@ class UserServiceImplTest {
         when(normalUserRepository.save(newUser))
                 .thenReturn(null);
 
-        UpdateUserResponseDTO actualResult = userServiceeMock.updateUser(updateRequestDTO);
+        UpdateUserResponseDTO actualResult = userServiceMock.updateUser(updateRequestDTO);
 
         UpdateUserResponseDTO excpectedResult = UpdateUserResponseDTO.builder()
                 .firstName(newUser.getFirstname())
@@ -475,6 +505,8 @@ class UserServiceImplTest {
 
         assertEquals(excpectedResult, actualResult);
 
+        verify(accessTokenDTO).hasRole("NORMALUSER");
+        verify(accessTokenDTO).getUserId();
         verify(normalUserRepository).findAllByIdIs(2l);
         verify(normalUserRepository).existsByPhonenumber("Worker1");
         verify(normalUserRepository).existsByEmail("Worker2");
@@ -495,8 +527,10 @@ class UserServiceImplTest {
         when(normalUserRepository.existsByPhonenumber("Worker"))
                 .thenReturn(true);
 
-        assertThrows(PhoneNumberAlreadyExistsExeption.class, () ->  userServiceeMock.updateUser(updateRequestDTO));
+        assertThrows(PhoneNumberAlreadyExistsExeption.class, () ->  userServiceMock.updateUser(updateRequestDTO));
 
+        verify(accessTokenDTO).hasRole("NORMALUSER");
+        verify(accessTokenDTO).getUserId();
         verify(normalUserRepository).findAllByIdIs(2l);
         verify(normalUserRepository).existsByPhonenumber("Worker");
     }
@@ -518,7 +552,7 @@ class UserServiceImplTest {
         when(normalUserRepository.save(newUser))
                 .thenReturn(null);
 
-        UpdateUserResponseDTO actualResult = userServiceeMock.updateUser(updateRequestDTO);
+        UpdateUserResponseDTO actualResult = userServiceMock.updateUser(updateRequestDTO);
 
         UpdateUserResponseDTO excpectedResult = UpdateUserResponseDTO.builder()
                 .firstName(newUser.getFirstname())
@@ -526,6 +560,8 @@ class UserServiceImplTest {
 
         assertEquals(excpectedResult, actualResult);
 
+        verify(accessTokenDTO).hasRole("NORMALUSER");
+        verify(accessTokenDTO).getUserId();
         verify(normalUserRepository).findAllByIdIs(2l);
         verify(normalUserRepository).existsByEmail("Worker2");
         verify(normalUserRepository).save(newUser);
@@ -545,15 +581,26 @@ class UserServiceImplTest {
         when(normalUserRepository.existsByEmail("Worker"))
                 .thenReturn(true);
 
-        assertThrows(EmailAlreadyExistsExeption.class, () ->  userServiceeMock.updateUser(updateRequestDTO));
+        assertThrows(EmailAlreadyExistsExeption.class, () ->  userServiceMock.updateUser(updateRequestDTO));
 
+        verify(accessTokenDTO).hasRole("NORMALUSER");
+        verify(accessTokenDTO).getUserId();
         verify(normalUserRepository).findAllByIdIs(2l);
+        verify(normalUserRepository).existsByEmail("Worker");
+
     }
     @Test
     void updateUser_EmailNotUnique_IsUsedByUserThatIsBeingUpdated() {
         NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
 
-        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(2l,"Worker","Worker","Worker2","Worker", Collections.emptyList() );
+        UpdateUserRequestDTO updateRequestDTO =  UpdateUserRequestDTO.builder()
+                .id(2l)
+                .firstName("Worker")
+                .lastName( "Worker")
+                .email( "Worker")
+                .phoneNumber("Worker2")
+                .productsSelling(Collections.emptyList())
+                .build();
         NormalUser newUser = new NormalUser(updateRequestDTO.getId(), "Worker", "Worker", updateRequestDTO.getFirstName(), updateRequestDTO.getLastName(), updateRequestDTO.getPhoneNumber(), updateRequestDTO.getEmail(), updateRequestDTO.getProductsSelling());
 
         when(accessTokenDTO.hasRole("NORMALUSER"))
@@ -565,7 +612,7 @@ class UserServiceImplTest {
         when(normalUserRepository.existsByPhonenumber("Worker2"))
                 .thenReturn(false);
 
-        UpdateUserResponseDTO actualResult = userServiceeMock.updateUser(updateRequestDTO);
+        UpdateUserResponseDTO actualResult = userServiceMock.updateUser(updateRequestDTO);
 
         UpdateUserResponseDTO excpectedResult = UpdateUserResponseDTO.builder()
                 .firstName(newUser.getFirstname())
@@ -573,8 +620,49 @@ class UserServiceImplTest {
 
         assertEquals(excpectedResult, actualResult);
 
+        verify(accessTokenDTO).hasRole("NORMALUSER");
+        verify(accessTokenDTO).getUserId();
         verify(normalUserRepository).findAllByIdIs(2l);
         verify(normalUserRepository).existsByPhonenumber("Worker2");
         verify(normalUserRepository).save(newUser);
+    }
+    @Test
+    void updateUser_isntNormalUser()  {
+        UpdateUserRequestDTO updateRequestDTO =  UpdateUserRequestDTO.builder()
+                .id(2l)
+                .firstName("Worker")
+                .lastName( "Worker")
+                .email( "Worker")
+                .phoneNumber( "Worker")
+                .productsSelling(Collections.emptyList())
+                .build();
+
+        when(accessTokenDTO.hasRole("NORMALUSER"))
+                .thenReturn(false);
+
+        assertThrows(InvalidCredentialsException.class, () -> userServiceMock.updateUser(updateRequestDTO));
+
+        verify(accessTokenDTO).hasRole("NORMALUSER");
+    }
+    @Test
+    void updateUser_IDNotMatched()  {
+        UpdateUserRequestDTO updateRequestDTO =  UpdateUserRequestDTO.builder()
+                .id(2l)
+                .firstName("Worker")
+                .lastName( "Worker")
+                .email( "Worker")
+                .phoneNumber( "Worker")
+                .productsSelling(Collections.emptyList())
+                .build();
+
+        when(accessTokenDTO.hasRole("NORMALUSER"))
+                .thenReturn(true);
+        when(accessTokenDTO.getUserId())
+                .thenReturn(1l);
+
+        assertThrows(InvalidCredentialsException.class, () -> userServiceMock.updateUser(updateRequestDTO));
+
+        verify(accessTokenDTO).hasRole("NORMALUSER");
+        verify(accessTokenDTO).getUserId();
     }
 }

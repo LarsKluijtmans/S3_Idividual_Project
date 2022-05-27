@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">31</div>
+<div class="counter">35</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.109s</div>
+<div class="counter">0.084s</div>
 <p>duration</p>
 </div>
 </td>
@@ -76,27 +76,27 @@
 </thead>
 <tr>
 <td class="success">addUser_AllInfoUnique()</td>
-<td class="success">0.006s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">addUser_EmailNotUnique()</td>
-<td class="success">0.003s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">addUser_PhoneNumberNotUnique()</td>
 <td class="success">0.005s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
+<td class="success">addUser_EmailNotUnique()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">addUser_PhoneNumberNotUnique()</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">addUser_UsernameNotUnique_Admin()</td>
-<td class="success">0.004s</td>
+<td class="success">0.002s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">addUser_UsernameNotUnique_NormalUser()</td>
-<td class="success">0.003s</td>
+<td class="success">0.002s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -106,7 +106,7 @@
 </tr>
 <tr>
 <td class="success">deleteUser_userExists()</td>
-<td class="success">0.005s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -121,17 +121,17 @@
 </tr>
 <tr>
 <td class="success">getAllUserByName_ResultAdmin()</td>
-<td class="success">0.004s</td>
+<td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getAllUserByName_ResultNormalUser()</td>
-<td class="success">0.002s</td>
+<td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getAllUserByName_ResultNull()</td>
-<td class="success">0.004s</td>
+<td class="success">0.002s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -140,13 +140,18 @@
 <td class="success">passed</td>
 </tr>
 <tr>
+<td class="success">getUserByID_IDNotMatched()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">getUserByID_ResultAdmin()</td>
-<td class="success">0.004s</td>
+<td class="success">0.002s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getUserByID_ResultNormalUser()</td>
-<td class="success">0.003s</td>
+<td class="success">0.002s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -155,28 +160,33 @@
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">isEmailUnique_ResultNormalUser()</td>
+<td class="success">getUserByID_isntNormalUser()</td>
 <td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">isEmailUnique_ResultNormalUser()</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">isEmailUnique_ResultNothingFound()</td>
-<td class="success">0.003s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">isPhoneNumberUnique_ResultNormalUser()</td>
-<td class="success">0.003s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">isPhoneNumberUnique_ResultNothingFound()</td>
-<td class="success">0.002s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">isUsernameUnique_ResultAdmin()</td>
-<td class="success">0.004s</td>
+<td class="success">0.002s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -186,12 +196,12 @@
 </tr>
 <tr>
 <td class="success">isUsernameUnique_ResultNothingFound()</td>
-<td class="success">0.003s</td>
+<td class="success">0.002s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">isUsernameUnique_UserNameBelongsToUser_Admin()</td>
-<td class="success">0.003s</td>
+<td class="success">0.002s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -201,22 +211,27 @@
 </tr>
 <tr>
 <td class="success">updateUser_EmailNotUnique()</td>
-<td class="success">0.004s</td>
+<td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">updateUser_EmailNotUnique_IsUsedByUserThatIsBeingUpdated()</td>
-<td class="success">0.007s</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">updateUser_IDNotMatched()</td>
+<td class="success">0.002s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">updateUser_PhoneNumberNotUnique()</td>
-<td class="success">0.007s</td>
+<td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">updateUser_PhoneNumberNotUnique_IsUsedByUserThatIsBeingUpdated()</td>
-<td class="success">0.004s</td>
+<td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -229,6 +244,11 @@
 <td class="success">0.002s</td>
 <td class="success">passed</td>
 </tr>
+<tr>
+<td class="success">updateUser_isntNormalUser()</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
 </table>
 </div>
 </div>
@@ -239,7 +259,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 7.4</a> at May 25, 2022, 8:09:14 AM</p>
+<a href="http://www.gradle.org">Gradle 7.4</a> at May 27, 2022, 12:49:37 PM</p>
 </div>
 </div>
 </body>

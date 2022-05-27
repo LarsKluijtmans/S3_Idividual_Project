@@ -58,6 +58,7 @@ public class ProductController {
             return ResponseEntity.created(uri).build();
         }
     }
+
     @IsAuthenticated
     @RolesAllowed({"ROLE_NORMALUSER"})
     @PutMapping()
@@ -68,6 +69,28 @@ public class ProductController {
            return ResponseEntity.badRequest().build();
        }
     }
+
+    @IsAuthenticated
+    @RolesAllowed({"ROLE_NORMALUSER"})
+    @DeleteMapping("normal/{id}")
+    public ResponseEntity<Object> deleteProductNormalUser(@PathVariable("id") Long id) {
+        productService.deleteProductNormalUser(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @IsAuthenticated
+    @RolesAllowed({"ROLE_NORMALUSER"})
+    @GetMapping("normal/{id}")
+    public ResponseEntity<List<GetProductDTO>> getUsersProductsNormal( @PathVariable("id") Long id) {
+        List<GetProductDTO> usersProducts = productService.getAllOfAUsersProductsNormalUser(id);
+
+        if(usersProducts != null) {
+            return ResponseEntity.ok().body(usersProducts);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
     //Admin and normal user
     @IsAuthenticated
@@ -82,11 +105,28 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
+    //Admin
     @IsAuthenticated
-    @RolesAllowed({"ROLE_NORMALUSER", "ROLE_ADMIN"})
-    @DeleteMapping("{id}")
-    public ResponseEntity<Object> deleteProduct(@PathVariable("id") Long id) {
-        productService.deleteProduct(id);
+    @RolesAllowed({"ROLE_ADMIN"})
+    @DeleteMapping("admin/{id}")
+    public ResponseEntity<Object> deleteProductAdmin(@PathVariable("id") Long id) {
+        productService.deleteProductAdmin(id);
         return ResponseEntity.ok().build();
     }
+
+    @IsAuthenticated
+    @RolesAllowed({"ROLE_ADMIN"})
+    @GetMapping("admin/{id}")
+    public ResponseEntity<List<GetProductDTO>> getUsersProductsAdmin( @PathVariable("id") Long id) {
+        List<GetProductDTO> usersProducts = productService.getAllOfAUsersProductsAdmin(id);
+
+        if(usersProducts != null) {
+            return ResponseEntity.ok().body(usersProducts);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

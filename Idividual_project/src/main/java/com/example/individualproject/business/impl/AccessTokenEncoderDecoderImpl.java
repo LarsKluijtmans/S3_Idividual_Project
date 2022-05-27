@@ -62,7 +62,7 @@ public class AccessTokenEncoderDecoderImpl implements AccessTokenEncoder, Access
             return AccessTokenDTO.builder()
                     .subject(claims.getSubject())
                     .roles(roles)
-                    .userId(claims.get("studentId", Long.class))
+                    .userId(claims.get("userId", Long.class))
                     .build();
         } catch (JwtException e) {
             throw new InvalidAccessTokenException(e.getMessage());

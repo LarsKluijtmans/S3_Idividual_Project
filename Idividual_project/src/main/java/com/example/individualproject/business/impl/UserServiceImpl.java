@@ -1,18 +1,14 @@
 package com.example.individualproject.business.impl;
 
-import com.example.individualproject.business.ProductService;
 import com.example.individualproject.business.exception.*;
 import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.users.*;
 import com.example.individualproject.business.UserService;
 import com.example.individualproject.repository.AdminRepository;
 import com.example.individualproject.repository.NormalUserRepository;
-import com.example.individualproject.repository.ProductRepository;
 import com.example.individualproject.repository.entity.Admin;
 import com.example.individualproject.repository.entity.NormalUser;
-import com.example.individualproject.repository.entity.Product;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +24,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final NormalUserRepository normalUserRepository;
     private final AdminRepository adminRepository;
-    private final ProductService productService;
     private final AccessTokenDTO requestAccessToken;
 
     @Override
@@ -78,7 +73,7 @@ public class UserServiceImpl implements UserService {
             throw new InvalidCredentialsException();
         }
 
-        if ( requestAccessToken.getUserId() != id){
+        if (!requestAccessToken.getUserId().equals(id)){
             throw new InvalidCredentialsException();
         }
 
@@ -134,7 +129,7 @@ public class UserServiceImpl implements UserService {
             throw new InvalidCredentialsException();
         }
 
-        if ( requestAccessToken.getUserId() != updateRequestDTO.getId()){
+        if (!requestAccessToken.getUserId().equals(updateRequestDTO.getId())){
             throw new InvalidCredentialsException();
         }
 
@@ -143,15 +138,12 @@ public class UserServiceImpl implements UserService {
             return null;
         }
 
-        if(!(user.getEmail().equals(updateRequestDTO.getEmail()))){
-            if(normalUserRepository.existsByEmail(updateRequestDTO.getEmail())) {
-                throw new EmailAlreadyExistsExeption();
-            }
+        if(!(user.getEmail().equals(updateRequestDTO.getEmail())) && normalUserRepository.existsByEmail(updateRequestDTO.getEmail())){
+            throw new EmailAlreadyExistsExeption();
         }
-        if(!(user.getPhonenumber().equals(updateRequestDTO.getPhoneNumber()))){
-            if( normalUserRepository.existsByPhonenumber(updateRequestDTO.getPhoneNumber())) {
+
+        if(!(user.getPhonenumber().equals(updateRequestDTO.getPhoneNumber())) && normalUserRepository.existsByPhonenumber(updateRequestDTO.getPhoneNumber())){
             throw new PhoneNumberAlreadyExistsExeption();
-            }
         }
 
         NormalUser newUser = new NormalUser(

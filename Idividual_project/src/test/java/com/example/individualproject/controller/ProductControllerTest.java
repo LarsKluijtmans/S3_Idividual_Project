@@ -34,6 +34,8 @@ class ProductControllerTest {
     @MockBean
     private ProductServiceImpl productService;
 
+    ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+
     //getAllProducts
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -44,20 +46,15 @@ class ProductControllerTest {
         GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1, null);
         GetProductDTO PokemonPearlDTO = new GetProductDTO(2l, product2, null);
 
-        List<GetProductDTO> Result = List.of(PokemonDiamondDTO, PokemonPearlDTO);
-
 
         when(productService.getAllProducts())
-                .thenReturn(Result);
+                .thenReturn(List.of(PokemonDiamondDTO, PokemonPearlDTO));
 
         mockMvc.perform(get("/products"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
-                .andExpect(content().json("""
-                [{"id":1,"productInfo":{"title":"Pokemon","subTitle":"diamond","series":"Pokemon","year":2022,"price":10.01,"condition":"TRASH","description":"Pokemon game","genreId":1,"productType":"GAME","images":[]}},
-                            {"id":2,"productInfo":{"title":"Pokemon","subTitle":"Pearl","series":"Pokemon","year":2022,"price":10.01,"condition":"TRASH","description":"Pokemon game","genreId":2,"productType":"GAME","images":[]}}]
-                """ ));
+                .andExpect(content().json(ow.writeValueAsString(List.of(PokemonDiamondDTO, PokemonPearlDTO))));
 
         verify(productService).getAllProducts();
     }
@@ -79,10 +76,20 @@ class ProductControllerTest {
     @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void getProduct() throws Exception {
 
-        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
+        BasicProductInfo product1 = BasicProductInfo.builder().
+                title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genreId(1l)
+                .productType("GAME").
+                images(Collections.emptyList())
+                .build();
 
         GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1, null);
-
 
         when(productService.getProduct(1l))
                 .thenReturn(PokemonDiamondDTO);
@@ -91,9 +98,7 @@ class ProductControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
-                .andExpect(content().json("""
-                {"id":1,"productInfo":{"title":"Pokemon","subTitle":"diamond","series":"Pokemon","year":2022,"price":10.01,"condition":"TRASH","description":"Pokemon game","genreId":1,"productType":"GAME","images":[]}}
-                 """ ));
+                .andExpect(content().json(ow.writeValueAsString(PokemonDiamondDTO)));
 
         verify(productService).getProduct(1l);
     }
@@ -114,25 +119,44 @@ class ProductControllerTest {
     //getAllProductsByName
     @Test
     void getAllProductsByName()throws Exception {
-        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
-        BasicProductInfo product2 = BasicProductInfo.builder().title("Pokemon").subTitle("Pearl").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(2l).productType("GAME").images(Collections.emptyList()).build();
+        BasicProductInfo product1 = BasicProductInfo.builder()
+                .title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genreId(1l)
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .build();
+
+        BasicProductInfo product2 = BasicProductInfo.builder()
+                .title("Pokemon")
+                .subTitle("Pearl")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genreId(2l)
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .build();
 
         GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1, null);
         GetProductDTO PokemonPearlDTO = new GetProductDTO(2l, product2, null);
 
-        List<GetProductDTO> Result = List.of(PokemonDiamondDTO, PokemonPearlDTO);
 
         when(productService.getProducts("Pokemon"))
-                .thenReturn(Result);
+                .thenReturn(List.of(PokemonDiamondDTO, PokemonPearlDTO));
 
         mockMvc.perform(get("/products/search/Pokemon"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
-                .andExpect(content().json("""
-                [{"id":1,"productInfo":{"title":"Pokemon","subTitle":"diamond","series":"Pokemon","year":2022,"price":10.01,"condition":"TRASH","description":"Pokemon game","genreId":1,"productType":"GAME","images":[]}},
-                            {"id":2,"productInfo":{"title":"Pokemon","subTitle":"Pearl","series":"Pokemon","year":2022,"price":10.01,"condition":"TRASH","description":"Pokemon game","genreId":2,"productType":"GAME","images":[]}}]
-                """ ));
+                .andExpect(content().json(ow.writeValueAsString(List.of(PokemonDiamondDTO, PokemonPearlDTO))));
 
         verify(productService).getProducts("Pokemon");
     }
@@ -152,32 +176,44 @@ class ProductControllerTest {
     //deleteProduct
     @Test
     @WithMockUser(username = "me", roles = {"NORMALUSER"})
-    void deleteProduct() throws Exception {
+    void deleteProductNormalUser() throws Exception {
 
-        mockMvc.perform(delete("/products/1"))
+        mockMvc.perform(delete("/products/normal/1"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(productService).deleteProduct(1l);
+        verify(productService).deleteProductNormalUser(1l);
     }
 
     //createProduct
     @Test
     @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void createProduct() throws Exception {
-        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
-        CreateProductRequestDTO createProductRequestDTO = CreateProductRequestDTO.builder().productInfo(product1).build();
-        CreateProductResponseDTO createProductResponseDTO = CreateProductResponseDTO.builder().productId(1l).build();
-
-       ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-       String json = ow.writeValueAsString(createProductRequestDTO);
+        BasicProductInfo product1 = BasicProductInfo.builder()
+                .title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genreId(1l)
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .build();
+        CreateProductRequestDTO createProductRequestDTO = CreateProductRequestDTO.builder()
+                .productInfo(product1)
+                .build();
+        CreateProductResponseDTO createProductResponseDTO = CreateProductResponseDTO.builder()
+                .productId(1l)
+                .build();
 
         when(productService.addProduct(createProductRequestDTO))
                 .thenReturn(createProductResponseDTO);
 
         mockMvc.perform(post("/products")
                         .contentType(APPLICATION_JSON_VALUE)
-                        .content(json))
+                        .content(ow.writeValueAsString(createProductRequestDTO)))
                 .andDo(print())
                 .andExpect(status().isCreated());
 
@@ -186,19 +222,28 @@ class ProductControllerTest {
     @Test
     @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void createProduct_NotFound() throws Exception {
-        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
-        CreateProductRequestDTO createProductRequestDTO = CreateProductRequestDTO.builder().productInfo(product1).build();
-        CreateProductResponseDTO createProductResponseDTO = CreateProductResponseDTO.builder().productId(1l).build();
-
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(createProductRequestDTO);
+        BasicProductInfo product1 = BasicProductInfo.builder()
+                .title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genreId(1l)
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .build();
+        CreateProductRequestDTO createProductRequestDTO = CreateProductRequestDTO.builder()
+                .productInfo(product1)
+                .build();
 
         when(productService.addProduct(createProductRequestDTO))
                 .thenReturn(null);
 
         mockMvc.perform(post("/products")
                         .contentType(APPLICATION_JSON_VALUE)
-                        .content(json))
+                        .content(ow.writeValueAsString(createProductRequestDTO)))
                 .andDo(print())
                 .andExpect(status().isConflict());
 
@@ -209,19 +254,31 @@ class ProductControllerTest {
     @Test
     @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void updateProduct() throws Exception {
-        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
-        UpdateProductRequestDTO updateProductRequestDTO = UpdateProductRequestDTO.builder().productInfo(product1).build();
-        UpdateProductResponseDTO updateProductResponseDTO = UpdateProductResponseDTO.builder().productId(1l).build();
-
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(updateProductRequestDTO);
+        BasicProductInfo product1 = BasicProductInfo.builder()
+                .title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genreId(1l)
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .build();
+        UpdateProductRequestDTO updateProductRequestDTO = UpdateProductRequestDTO.builder()
+                .productInfo(product1)
+                .build();
+        UpdateProductResponseDTO updateProductResponseDTO = UpdateProductResponseDTO.builder()
+                .productId(1l)
+                .build();
 
         when(productService.updateProduct(updateProductRequestDTO))
                 .thenReturn(updateProductResponseDTO);
 
         mockMvc.perform(put("/products")
                         .contentType(APPLICATION_JSON_VALUE)
-                        .content(json))
+                        .content(ow.writeValueAsString(updateProductRequestDTO)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
@@ -230,22 +287,160 @@ class ProductControllerTest {
     @Test
     @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void updateProduct_NotFound() throws Exception {
-        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
-        UpdateProductRequestDTO updateProductRequestDTO = UpdateProductRequestDTO.builder().productInfo(product1).build();
-        UpdateProductResponseDTO updateProductResponseDTO = UpdateProductResponseDTO.builder().productId(1l).build();
-
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(updateProductRequestDTO);
+        BasicProductInfo product1 = BasicProductInfo.builder()
+                .title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genreId(1l)
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .build();
+        UpdateProductRequestDTO updateProductRequestDTO = UpdateProductRequestDTO.builder()
+                .productInfo(product1)
+                .build();
 
         when(productService.updateProduct(updateProductRequestDTO))
                 .thenReturn(null);
 
         mockMvc.perform(put("/products")
                         .contentType(APPLICATION_JSON_VALUE)
-                        .content(json))
+                        .content(ow.writeValueAsString(updateProductRequestDTO)))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
 
         verify(productService).updateProduct(updateProductRequestDTO);
+    }
+
+    //deleteProduct
+    @Test
+    @WithMockUser(username = "me", roles = {"ADMIN"})
+    void deleteProductAdmin() throws Exception {
+
+        mockMvc.perform(delete("/products/admin/1"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        verify(productService).deleteProductAdmin(1l);
+    }
+
+    //getUsersProductsNormal
+    @Test
+    @WithMockUser(username = "me", roles = {"NORMALUSER"})
+    void getUsersProductsNormal()throws Exception {
+        BasicProductInfo product1 = BasicProductInfo.builder()
+                .title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genreId(1l)
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .build();
+
+        BasicProductInfo product2 = BasicProductInfo.builder()
+                .title("Pokemon")
+                .subTitle("Pearl")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genreId(2l)
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .build();
+
+        GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1, null);
+        GetProductDTO PokemonPearlDTO = new GetProductDTO(2l, product2, null);
+
+
+        when(productService.getAllOfAUsersProductsNormalUser(1l))
+                .thenReturn(List.of(PokemonDiamondDTO, PokemonPearlDTO));
+
+        mockMvc.perform(get("/products/normal/1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
+                .andExpect(content().json(ow.writeValueAsString(List.of(PokemonDiamondDTO, PokemonPearlDTO))));
+
+        verify(productService).getAllOfAUsersProductsNormalUser(1l);
+    }
+    @Test
+    @WithMockUser(username = "me", roles = {"NORMALUSER"})
+    void getUsersProductsNormal_NotFound() throws Exception {
+
+        when(productService.getAllOfAUsersProductsNormalUser(1l))
+                .thenReturn(null);
+
+        mockMvc.perform(get("/products/normal/1"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+
+        verify(productService).getAllOfAUsersProductsNormalUser(1l);
+    }
+
+    //getUsersProductsAdmin
+    @Test
+    @WithMockUser(username = "me", roles = {"ADMIN"})
+    void getUsersProductsAdmin()throws Exception {
+        BasicProductInfo product1 = BasicProductInfo.builder()
+                .title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genreId(1l)
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .build();
+
+        BasicProductInfo product2 = BasicProductInfo.builder()
+                .title("Pokemon")
+                .subTitle("Pearl")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genreId(2l)
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .build();
+
+        GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1, null);
+        GetProductDTO PokemonPearlDTO = new GetProductDTO(2l, product2, null);
+
+        when(productService.getAllOfAUsersProductsAdmin(1l))
+                .thenReturn(List.of(PokemonDiamondDTO, PokemonPearlDTO));
+
+        mockMvc.perform(get("/products/admin/1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
+                .andExpect(content().json(ow.writeValueAsString(List.of(PokemonDiamondDTO, PokemonPearlDTO))));
+
+        verify(productService).getAllOfAUsersProductsAdmin(1l);
+    }
+    @Test
+    @WithMockUser(username = "me", roles = {"ADMIN"})
+    void getUsersProductsAdmin_NotFound() throws Exception {
+
+        when(productService.getAllOfAUsersProductsAdmin(1l))
+                .thenReturn(null);
+
+        mockMvc.perform(get("/products/admin/1"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+
+        verify(productService).getAllOfAUsersProductsAdmin(1l);
     }
 }
