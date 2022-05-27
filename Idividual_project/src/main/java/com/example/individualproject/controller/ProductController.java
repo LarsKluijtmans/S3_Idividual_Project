@@ -32,6 +32,7 @@ public class ProductController {
             return ResponseEntity.ok().body(products);
         }
     }
+
     @GetMapping("search/{name}")
     public ResponseEntity<List<GetProductDTO>> getAllProductsByName(@PathVariable("name") String name) {
         List<GetProductDTO> products = productService.getProducts(name);
@@ -42,6 +43,18 @@ public class ProductController {
             return ResponseEntity.ok().body(products);
         }
     }
+
+    @GetMapping("{id}")
+    public ResponseEntity<GetProductDTO> getProduct(@PathVariable("id") Long id) {
+        GetProductDTO product = productService.getProduct(id);
+
+        if(product != null) {
+            return ResponseEntity.ok().body(product);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
     //Normal user
     @IsAuthenticated
@@ -80,9 +93,9 @@ public class ProductController {
 
     @IsAuthenticated
     @RolesAllowed({"ROLE_NORMALUSER"})
-    @GetMapping("normal/{id}")
-    public ResponseEntity<List<GetProductDTO>> getUsersProductsNormal( @PathVariable("id") Long id) {
-        List<GetProductDTO> usersProducts = productService.getAllOfAUsersProductsNormalUser(id);
+    @GetMapping("normal/{username}")
+    public ResponseEntity<List<GetProductDTO>> getUsersProductsNormal( @PathVariable("username") String username) {
+        List<GetProductDTO> usersProducts = productService.getAllOfAUsersProductsNormalUser(username);
 
         if(usersProducts != null) {
             return ResponseEntity.ok().body(usersProducts);
@@ -90,22 +103,6 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
-    //Admin and normal user
-    @IsAuthenticated
-    @RolesAllowed({"ROLE_NORMALUSER", "ROLE_ADMIN"})
-    @GetMapping("{id}")
-    public ResponseEntity<GetProductDTO> getProduct(@PathVariable("id") Long id) {
-        GetProductDTO product = productService.getProduct(id);
-
-        if(product != null) {
-            return ResponseEntity.ok().body(product);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
 
     //Admin
     @IsAuthenticated
@@ -118,9 +115,9 @@ public class ProductController {
 
     @IsAuthenticated
     @RolesAllowed({"ROLE_ADMIN"})
-    @GetMapping("admin/{id}")
-    public ResponseEntity<List<GetProductDTO>> getUsersProductsAdmin( @PathVariable("id") Long id) {
-        List<GetProductDTO> usersProducts = productService.getAllOfAUsersProductsAdmin(id);
+    @GetMapping("admin/{username}")
+    public ResponseEntity<List<GetProductDTO>> getUsersProductsAdmin( @PathVariable("username") String username) {
+        List<GetProductDTO> usersProducts = productService.getAllOfAUsersProductsAdmin(username);
 
         if(usersProducts != null) {
             return ResponseEntity.ok().body(usersProducts);

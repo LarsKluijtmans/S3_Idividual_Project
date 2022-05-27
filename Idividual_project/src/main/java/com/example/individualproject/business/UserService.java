@@ -9,7 +9,9 @@ public interface UserService {
     List<GetUserDTO> getAllUsers();
     List<GetUserDTO> getAllNormalUsers();
     List<GetUserDTO> getAllAdmins();
-    GetUserDTO getUserByID(Long id);
+
+    GetUserDTO getUserByName(String username);
+
     List<GetUserDTO> getAllUserByName(String name);
     boolean deleteUser(String username);
     CreateUserResponseDTO addUser(CreateUserRequestDTO createRequestDTO);

@@ -2,6 +2,7 @@ package com.example.individualproject.controller;
 
 import com.example.individualproject.business.impl.ProductServiceImpl;
 import com.example.individualproject.dto.products.*;
+import com.example.individualproject.repository.entity.NormalUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
@@ -360,30 +361,29 @@ class ProductControllerTest {
         GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1, null);
         GetProductDTO PokemonPearlDTO = new GetProductDTO(2l, product2, null);
 
-
-        when(productService.getAllOfAUsersProductsNormalUser(1l))
+        when(productService.getAllOfAUsersProductsNormalUser("Lars"))
                 .thenReturn(List.of(PokemonDiamondDTO, PokemonPearlDTO));
 
-        mockMvc.perform(get("/products/normal/1"))
+        mockMvc.perform(get("/products/normal/Lars"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
                 .andExpect(content().json(ow.writeValueAsString(List.of(PokemonDiamondDTO, PokemonPearlDTO))));
 
-        verify(productService).getAllOfAUsersProductsNormalUser(1l);
+        verify(productService).getAllOfAUsersProductsNormalUser("Lars");
     }
     @Test
     @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void getUsersProductsNormal_NotFound() throws Exception {
 
-        when(productService.getAllOfAUsersProductsNormalUser(1l))
+        when(productService.getAllOfAUsersProductsNormalUser("Lars"))
                 .thenReturn(null);
 
-        mockMvc.perform(get("/products/normal/1"))
+        mockMvc.perform(get("/products/normal/Lars"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
 
-        verify(productService).getAllOfAUsersProductsNormalUser(1l);
+        verify(productService).getAllOfAUsersProductsNormalUser("Lars");
     }
 
     //getUsersProductsAdmin
@@ -419,28 +419,28 @@ class ProductControllerTest {
         GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1, null);
         GetProductDTO PokemonPearlDTO = new GetProductDTO(2l, product2, null);
 
-        when(productService.getAllOfAUsersProductsAdmin(1l))
+        when(productService.getAllOfAUsersProductsAdmin("Lars"))
                 .thenReturn(List.of(PokemonDiamondDTO, PokemonPearlDTO));
 
-        mockMvc.perform(get("/products/admin/1"))
+        mockMvc.perform(get("/products/admin/Lars"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
                 .andExpect(content().json(ow.writeValueAsString(List.of(PokemonDiamondDTO, PokemonPearlDTO))));
 
-        verify(productService).getAllOfAUsersProductsAdmin(1l);
+        verify(productService).getAllOfAUsersProductsAdmin("Lars");
     }
     @Test
     @WithMockUser(username = "me", roles = {"ADMIN"})
     void getUsersProductsAdmin_NotFound() throws Exception {
 
-        when(productService.getAllOfAUsersProductsAdmin(1l))
+        when(productService.getAllOfAUsersProductsAdmin("Lars"))
                 .thenReturn(null);
 
-        mockMvc.perform(get("/products/admin/1"))
+        mockMvc.perform(get("/products/admin/Lars"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
 
-        verify(productService).getAllOfAUsersProductsAdmin(1l);
+        verify(productService).getAllOfAUsersProductsAdmin("Lars");
     }
 }

@@ -1,6 +1,7 @@
 package com.example.individualproject.business.impl;
 
 import com.example.individualproject.business.exception.InvalidCredentialsException;
+import com.example.individualproject.business.exception.UserNotFoundException;
 import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.products.*;
 import com.example.individualproject.business.ProductService;
@@ -8,6 +9,7 @@ import com.example.individualproject.repository.GenreRepository;
 import com.example.individualproject.repository.ImageRepository;
 import com.example.individualproject.repository.NormalUserRepository;
 import com.example.individualproject.repository.entity.Image;
+import com.example.individualproject.repository.entity.NormalUser;
 import com.example.individualproject.repository.entity.Product;
 import com.example.individualproject.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -74,11 +76,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<GetProductDTO> getAllOfAUsersProductsNormalUser(Long userID) {
+    public List<GetProductDTO> getAllOfAUsersProductsNormalUser(String username) {
 
         isNormalUser();
 
-        if (!requestAccessToken.getUserId().equals(userID)){
+        NormalUser user = normalUserRepository.findByUsername(username);
+
+        if (user == null){
+            throw new UserNotFoundException();
+        }
+
+
+        if (!requestAccessToken.getUserId().equals(user.getId())){
             throw new InvalidCredentialsException();
         }
 
@@ -86,7 +95,7 @@ public class ProductServiceImpl implements ProductService {
 
         GetProductDTO product;
 
-        for (Product p : productRepository.findAllBySeller_Id(userID)) {
+        for (Product p : productRepository.findAllBySeller_Id(user.getId())) {
             product = new GetProductDTO(p);
             result.add(product);
         }
@@ -94,17 +103,22 @@ public class ProductServiceImpl implements ProductService {
         return result;
     }
     @Override
-    public List<GetProductDTO> getAllOfAUsersProductsAdmin(Long userID) {
+    public List<GetProductDTO> getAllOfAUsersProductsAdmin(String username) {
 
         if (!requestAccessToken.hasRole("ADMIN")){
             throw new InvalidCredentialsException();
         }
 
-        List<GetProductDTO> result = new ArrayList<>();
+        NormalUser user = normalUserRepository.findByUsername(username);
 
+        if (user == null){
+            throw new UserNotFoundException();
+        }
+
+        List<GetProductDTO> result = new ArrayList<>();
         GetProductDTO product;
 
-        for (Product p : productRepository.findAllBySeller_Id(userID)) {
+        for (Product p : productRepository.findAllBySeller_Id(user.getId())) {
             product = new GetProductDTO(p);
             result.add(product);
         }

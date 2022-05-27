@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.individualproject.business.impl.LoginUseCaseImplTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2022-05-27T10:49:22" hostname="MSILARS" time="0.335">
+<testsuite name="com.example.individualproject.business.impl.LoginUseCaseImplTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2022-05-27T19:41:46" hostname="MSILARS" time="0.332">
   <properties/>
-  <testcase name="login_NormalUserFound_Pass()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.25"/>
-  <testcase name="login_NothingFound()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.002"/>
-  <testcase name="login_AdminFound()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.007"/>
+  <testcase name="login_NormalUserFound_Pass()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.245"/>
+  <testcase name="login_NothingFound()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.003"/>
+  <testcase name="login_AdminFound()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.005"/>
   <testcase name="login_AdminFound_PassNotMatched()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.003"/>
   <testcase name="login_NormalUserFound_PassNotMatched()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.003"/>
-  <testcase name="login_AdminFound_Pass()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.063"/>
-  <testcase name="login_NormalUserFound()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.004"/>
+  <testcase name="login_AdminFound_Pass()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.066"/>
+  <testcase name="login_NormalUserFound()" classname="com.example.individualproject.business.impl.LoginUseCaseImplTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

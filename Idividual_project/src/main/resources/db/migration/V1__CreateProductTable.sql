@@ -12,7 +12,7 @@ CREATE TABLE product(
     year int,
     price double,
     condition_ enum('TRASH','VERY_BAD','BAD','NOT_BAD','OK','GOOD','GREAT','EXCELLENT'),
-    description varchar(500),
+    description MEDIUMTEXT,
     genre int,
     sold boolean,
     product_type enum('GAME', 'GAMES'),

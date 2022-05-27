@@ -66,143 +66,135 @@ public class UserServiceImpl implements UserService {
 
 <span class="fc" id="L67">        return result;</span>
     }
+
     @Override
-    public GetUserDTO getUserByID(Long id){
+    public GetUserDTO getUserByName(String username) {
+<span class="nc" id="L72">        NormalUser normalUser = normalUserRepository.findByUsername(username);</span>
 
-<span class="fc bfc" id="L72" title="All 2 branches covered.">        if (!requestAccessToken.hasRole(&quot;NORMALUSER&quot;)){</span>
-<span class="fc" id="L73">            throw new InvalidCredentialsException();</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if(normalUser != null) {</span>
+<span class="nc" id="L75">            return new GetUserDTO(normalUser);</span>
         }
 
-<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (!requestAccessToken.getUserId().equals(id)){</span>
-<span class="fc" id="L77">            throw new InvalidCredentialsException();</span>
-        }
+<span class="nc" id="L78">        Admin admin = adminRepository.findByUsername(username);</span>
 
-
-<span class="fc" id="L81">        NormalUser normalUserResult = normalUserRepository.findAllByIdIs(id);</span>
-
-<span class="fc bfc" id="L83" title="All 2 branches covered.">        if(normalUserResult != null) {</span>
-<span class="fc" id="L84">            return new GetUserDTO(normalUserResult);</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if(admin != null){</span>
+<span class="nc" id="L81">            return new GetUserDTO(admin);</span>
         }
-        else {
-<span class="fc" id="L87">            Admin adminResult = adminRepository.findAllByIdIsLike(id);</span>
-<span class="fc bfc" id="L88" title="All 2 branches covered.">           if(adminResult != null) {</span>
-<span class="fc" id="L89">               return new GetUserDTO(adminResult);</span>
-           }
-        }
-<span class="fc" id="L92">        return null;</span>
+<span class="nc" id="L83">        return null;</span>
     }
+
     @Override
     public List&lt;GetUserDTO&gt; getAllUserByName(String name){
-<span class="fc" id="L96">        List&lt;GetUserDTO&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L88">        List&lt;GetUserDTO&gt; result = new ArrayList&lt;&gt;();</span>
 
-<span class="fc" id="L98">        String searchName = &quot;%&quot;+name+&quot;%&quot;;</span>
-<span class="fc" id="L99">        List&lt;NormalUser&gt; normalUsersResult = normalUserRepository.findAllByFirstnameIsLikeOrLastnameIsLikeOrUsernameIsLike(searchName,searchName,searchName);</span>
-<span class="fc" id="L100">        List&lt;Admin&gt; adminResult = adminRepository.findAllByUsernameIsLike(searchName);</span>
+<span class="fc" id="L90">        String searchName = &quot;%&quot;+name+&quot;%&quot;;</span>
+<span class="fc" id="L91">        List&lt;NormalUser&gt; normalUsersResult = normalUserRepository.findAllByFirstnameIsLikeOrLastnameIsLikeOrUsernameIsLike(searchName,searchName,searchName);</span>
+<span class="fc" id="L92">        List&lt;Admin&gt; adminResult = adminRepository.findAllByUsernameIsLike(searchName);</span>
 
-<span class="fc bfc" id="L102" title="All 2 branches covered.">        for (NormalUser user: normalUsersResult) {</span>
-<span class="fc" id="L103">            result.add(new GetUserDTO(user));</span>
-<span class="fc" id="L104">        }</span>
-<span class="fc bfc" id="L105" title="All 2 branches covered.">        for (Admin user: adminResult) {</span>
-<span class="fc" id="L106">            result.add(new GetUserDTO(user));</span>
-<span class="fc" id="L107">        }</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        for (NormalUser user: normalUsersResult) {</span>
+<span class="fc" id="L95">            result.add(new GetUserDTO(user));</span>
+<span class="fc" id="L96">        }</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        for (Admin user: adminResult) {</span>
+<span class="fc" id="L98">            result.add(new GetUserDTO(user));</span>
+<span class="fc" id="L99">        }</span>
 
-<span class="fc" id="L109">        return result;</span>
+<span class="fc" id="L101">        return result;</span>
     }
 
     //Delete
     @Override
     public  boolean deleteUser(String username){
-<span class="fc" id="L115">        NormalUser normalUserResult = normalUserRepository.findByUsername(username);</span>
+<span class="fc" id="L107">        NormalUser normalUserResult = normalUserRepository.findByUsername(username);</span>
 
-<span class="fc bfc" id="L117" title="All 2 branches covered.">        if(normalUserResult == null) {</span>
-<span class="fc" id="L118">            throw new UserNotFoundException();</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">        if(normalUserResult == null) {</span>
+<span class="fc" id="L110">            throw new UserNotFoundException();</span>
         }
 
-<span class="fc" id="L121">        normalUserRepository.deleteById(normalUserResult.getId());</span>
-<span class="fc" id="L122">        return true;</span>
+<span class="fc" id="L113">        normalUserRepository.deleteById(normalUserResult.getId());</span>
+<span class="fc" id="L114">        return true;</span>
     }
     //Update
     @Override
     public UpdateUserResponseDTO updateUser(UpdateUserRequestDTO updateRequestDTO){
 
-<span class="fc bfc" id="L128" title="All 2 branches covered.">        if (!requestAccessToken.hasRole(&quot;NORMALUSER&quot;)){</span>
-<span class="fc" id="L129">            throw new InvalidCredentialsException();</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        if (!requestAccessToken.hasRole(&quot;NORMALUSER&quot;)){</span>
+<span class="fc" id="L121">            throw new InvalidCredentialsException();</span>
         }
 
-<span class="fc bfc" id="L132" title="All 2 branches covered.">        if (!requestAccessToken.getUserId().equals(updateRequestDTO.getId())){</span>
-<span class="fc" id="L133">            throw new InvalidCredentialsException();</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        if (!requestAccessToken.getUserId().equals(updateRequestDTO.getId())){</span>
+<span class="fc" id="L125">            throw new InvalidCredentialsException();</span>
         }
 
-<span class="fc" id="L136">        NormalUser user = normalUserRepository.findAllByIdIs(updateRequestDTO.getId());</span>
-<span class="fc bfc" id="L137" title="All 2 branches covered.">        if(user == null) {</span>
-<span class="fc" id="L138">            return null;</span>
+<span class="fc" id="L128">        NormalUser user = normalUserRepository.findAllByIdIs(updateRequestDTO.getId());</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        if(user == null) {</span>
+<span class="fc" id="L130">            return null;</span>
         }
 
-<span class="fc bfc" id="L141" title="All 4 branches covered.">        if(!(user.getEmail().equals(updateRequestDTO.getEmail())) &amp;&amp; normalUserRepository.existsByEmail(updateRequestDTO.getEmail())){</span>
-<span class="fc" id="L142">            throw new EmailAlreadyExistsExeption();</span>
+<span class="fc bfc" id="L133" title="All 4 branches covered.">        if(!(user.getEmail().equals(updateRequestDTO.getEmail())) &amp;&amp; normalUserRepository.existsByEmail(updateRequestDTO.getEmail())){</span>
+<span class="fc" id="L134">            throw new EmailAlreadyExistsExeption();</span>
         }
 
-<span class="fc bfc" id="L145" title="All 4 branches covered.">        if(!(user.getPhonenumber().equals(updateRequestDTO.getPhoneNumber())) &amp;&amp; normalUserRepository.existsByPhonenumber(updateRequestDTO.getPhoneNumber())){</span>
-<span class="fc" id="L146">            throw new PhoneNumberAlreadyExistsExeption();</span>
+<span class="fc bfc" id="L137" title="All 4 branches covered.">        if(!(user.getPhonenumber().equals(updateRequestDTO.getPhoneNumber())) &amp;&amp; normalUserRepository.existsByPhonenumber(updateRequestDTO.getPhoneNumber())){</span>
+<span class="fc" id="L138">            throw new PhoneNumberAlreadyExistsExeption();</span>
         }
 
-<span class="fc" id="L149">        NormalUser newUser = new NormalUser(</span>
+<span class="fc" id="L141">        NormalUser newUser = new NormalUser(</span>
                 updateRequestDTO,
-<span class="fc" id="L151">                user.getUsername(),</span>
-<span class="fc" id="L152">                user.getPassword(),</span>
-<span class="fc" id="L153">                user.getProductsSelling());</span>
+<span class="fc" id="L143">                user.getUsername(),</span>
+<span class="fc" id="L144">                user.getPassword(),</span>
+<span class="fc" id="L145">                user.getProductsSelling());</span>
 
-<span class="fc" id="L155">        normalUserRepository.save(newUser);</span>
+<span class="fc" id="L147">        normalUserRepository.save(newUser);</span>
 
-<span class="fc" id="L157">        return UpdateUserResponseDTO.builder()</span>
-<span class="fc" id="L158">                .firstName(newUser.getFirstname())</span>
-<span class="fc" id="L159">                .build();</span>
+<span class="fc" id="L149">        return UpdateUserResponseDTO.builder()</span>
+<span class="fc" id="L150">                .firstName(newUser.getFirstname())</span>
+<span class="fc" id="L151">                .build();</span>
 
     }
 
     @Override
     public boolean isUsernameUnique(String name) {
-<span class="fc" id="L165">        boolean result = true;</span>
+<span class="fc" id="L157">        boolean result = true;</span>
 
-<span class="fc bfc" id="L167" title="All 4 branches covered.">        if(normalUserRepository.existsByUsername(name) || adminRepository.existsByUsername(name))  {</span>
-<span class="fc" id="L168">            result = false;</span>
+<span class="fc bfc" id="L159" title="All 4 branches covered.">        if(normalUserRepository.existsByUsername(name) || adminRepository.existsByUsername(name))  {</span>
+<span class="fc" id="L160">            result = false;</span>
         }
 
-<span class="fc" id="L171">        return result;</span>
+<span class="fc" id="L163">        return result;</span>
     }
 
     @Override
     public boolean isPhoneNumberUnique(String name) {
-<span class="fc" id="L176">        return normalUserRepository.existsByPhonenumber(name);</span>
+<span class="fc" id="L168">        return normalUserRepository.existsByPhonenumber(name);</span>
     }
 
     @Override
     public boolean isEmailUnique(String name) {
-<span class="fc" id="L181">        return normalUserRepository.existsByEmail(name);</span>
+<span class="fc" id="L173">        return normalUserRepository.existsByEmail(name);</span>
     }
 
     //Add
     @Override
     public CreateUserResponseDTO addUser(CreateUserRequestDTO createRequestDTO){
-<span class="fc bfc" id="L187" title="All 4 branches covered.">        if(normalUserRepository.existsByUsername(createRequestDTO.getUsername()) || adminRepository.existsByUsername(createRequestDTO.getUsername()) ) {</span>
-<span class="fc" id="L188">            throw new UsernameAlreadyExistsExeption();</span>
+<span class="fc bfc" id="L179" title="All 4 branches covered.">        if(normalUserRepository.existsByUsername(createRequestDTO.getUsername()) || adminRepository.existsByUsername(createRequestDTO.getUsername()) ) {</span>
+<span class="fc" id="L180">            throw new UsernameAlreadyExistsExeption();</span>
         }
-<span class="fc bfc" id="L190" title="All 2 branches covered.">        if(normalUserRepository.existsByEmail(createRequestDTO.getEmail())) {</span>
-<span class="fc" id="L191">            throw new EmailAlreadyExistsExeption();</span>
+<span class="fc bfc" id="L182" title="All 2 branches covered.">        if(normalUserRepository.existsByEmail(createRequestDTO.getEmail())) {</span>
+<span class="fc" id="L183">            throw new EmailAlreadyExistsExeption();</span>
         }
-<span class="fc bfc" id="L193" title="All 2 branches covered.">        if( normalUserRepository.existsByPhonenumber(createRequestDTO.getPhoneNumber())) {</span>
-<span class="fc" id="L194">            throw new PhoneNumberAlreadyExistsExeption();</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">        if( normalUserRepository.existsByPhonenumber(createRequestDTO.getPhoneNumber())) {</span>
+<span class="fc" id="L186">            throw new PhoneNumberAlreadyExistsExeption();</span>
         }
 
-<span class="fc" id="L197">        NormalUser newUser = new NormalUser(createRequestDTO);</span>
+<span class="fc" id="L189">        NormalUser newUser = new NormalUser(createRequestDTO);</span>
 
-<span class="fc" id="L199">        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));</span>
+<span class="fc" id="L191">        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));</span>
 
-<span class="fc" id="L201">        normalUserRepository.save(newUser);</span>
+<span class="fc" id="L193">        normalUserRepository.save(newUser);</span>
 
-<span class="fc" id="L203">        return CreateUserResponseDTO.builder()</span>
-<span class="fc" id="L204">                .firstName(newUser.getFirstname())</span>
-<span class="fc" id="L205">                .build();</span>
+<span class="fc" id="L195">        return CreateUserResponseDTO.builder()</span>
+<span class="fc" id="L196">                .firstName(newUser.getFirstname())</span>
+<span class="fc" id="L197">                .build();</span>
     }
 }
 

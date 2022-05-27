@@ -142,14 +142,17 @@ class ProductServiceImplTest {
                 .thenReturn(1l);
         when(productRepositoryMock.findAllBySeller_Id(1l))
                 .thenReturn(List.of(PokemonPearl));
+        when(normalUserRepositoryMock.findByUsername("Lars"))
+                .thenReturn(new NormalUser(1l,"Lars","Lars","Lars","Lars","Lars","Lars"));
 
-        List<GetProductDTO> actualResult = productServiceMock.getAllOfAUsersProductsNormalUser(1l);
+        List<GetProductDTO> actualResult = productServiceMock.getAllOfAUsersProductsNormalUser("Lars");
         List<GetProductDTO> expectedResult = List.of(new GetProductDTO(PokemonPearl));
 
         assertEquals(expectedResult, actualResult);
 
         verify(requestAccessToken).hasRole("NORMALUSER");
         verify(requestAccessToken).getUserId();
+        verify(normalUserRepositoryMock).findByUsername("Lars");
         verify(productRepositoryMock).findAllBySeller_Id(1l);
     }
     @Test
@@ -157,7 +160,7 @@ class ProductServiceImplTest {
         when(requestAccessToken.hasRole("NORMALUSER"))
                 .thenReturn(false);
 
-        assertThrows(InvalidCredentialsException.class, () -> productServiceMock.getAllOfAUsersProductsNormalUser(1l));
+          assertThrows(InvalidCredentialsException.class, () -> productServiceMock.getAllOfAUsersProductsNormalUser("Lars"));
 
         verify(requestAccessToken).hasRole("NORMALUSER");
     }
@@ -168,8 +171,12 @@ class ProductServiceImplTest {
                 .thenReturn(true);
         when(requestAccessToken.getUserId())
                 .thenReturn(2l);
+        when(normalUserRepositoryMock.findByUsername("Lars"))
+                .thenReturn(new NormalUser(1l,"Lars","Lars","Lars","Lars","Lars","Lars"));
 
-        assertThrows(InvalidCredentialsException.class, () -> productServiceMock.getAllOfAUsersProductsNormalUser(1l));
+        assertThrows(InvalidCredentialsException.class, () -> productServiceMock.getAllOfAUsersProductsNormalUser("Lars"));
+
+        verify(normalUserRepositoryMock).findByUsername("Lars");
 
         verify(requestAccessToken).hasRole("NORMALUSER");
         verify(requestAccessToken).getUserId();
@@ -195,15 +202,17 @@ class ProductServiceImplTest {
 
         when(requestAccessToken.hasRole("ADMIN"))
                 .thenReturn(true);
-
         when(productRepositoryMock.findAllBySeller_Id(1l))
                 .thenReturn(List.of(PokemonPearl));
+        when(normalUserRepositoryMock.findByUsername("Lars"))
+                .thenReturn(new NormalUser(1l,"Lars","Lars","Lars","Lars","Lars","Lars"));
 
-        List<GetProductDTO> actualResult = productServiceMock.getAllOfAUsersProductsAdmin(1l);
+        List<GetProductDTO> actualResult = productServiceMock.getAllOfAUsersProductsAdmin("Lars");
         List<GetProductDTO> expectedResult = List.of(new GetProductDTO(PokemonPearl));
 
         assertEquals(expectedResult, actualResult);
 
+        verify(normalUserRepositoryMock).findByUsername("Lars");
         verify(requestAccessToken).hasRole("ADMIN");
         verify(productRepositoryMock).findAllBySeller_Id(1l);
     }
@@ -211,8 +220,8 @@ class ProductServiceImplTest {
     void getAllOfAUsersProductsAdmin_isntAdmin()  {
         when(requestAccessToken.hasRole("ADMIN"))
                 .thenReturn(false);
-
-        assertThrows(InvalidCredentialsException.class, () -> productServiceMock.getAllOfAUsersProductsAdmin(1l));
+      
+        assertThrows(InvalidCredentialsException.class, () -> productServiceMock.getAllOfAUsersProductsAdmin("Lars"));
 
         verify(requestAccessToken).hasRole("ADMIN");
     }

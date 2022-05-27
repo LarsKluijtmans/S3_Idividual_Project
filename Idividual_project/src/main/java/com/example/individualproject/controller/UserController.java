@@ -36,9 +36,9 @@ public class UserController {
 
     @IsAuthenticated
     @RolesAllowed({"ROLE_ADMIN"})
-    @GetMapping("{id}")
-    public ResponseEntity<GetUserDTO> getUserByID(@PathVariable("id") Long id) {
-        GetUserDTO user = userService.getUserByID(id);
+    @GetMapping("{username}")
+    public ResponseEntity<GetUserDTO> getUserByUsername(@PathVariable("username") String username) {
+        GetUserDTO user = userService.getUserByName(username);
 
         if(user != null) {
             return ResponseEntity.ok().body(user);

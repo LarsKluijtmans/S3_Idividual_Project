@@ -66,31 +66,23 @@ public class UserServiceImpl implements UserService {
 
         return result;
     }
+
     @Override
-    public GetUserDTO getUserByID(Long id){
+    public GetUserDTO getUserByName(String username) {
+        NormalUser normalUser = normalUserRepository.findByUsername(username);
 
-        if (!requestAccessToken.hasRole("NORMALUSER")){
-            throw new InvalidCredentialsException();
+        if(normalUser != null) {
+            return new GetUserDTO(normalUser);
         }
 
-        if (!requestAccessToken.getUserId().equals(id)){
-            throw new InvalidCredentialsException();
-        }
+        Admin admin = adminRepository.findByUsername(username);
 
-
-        NormalUser normalUserResult = normalUserRepository.findAllByIdIs(id);
-
-        if(normalUserResult != null) {
-            return new GetUserDTO(normalUserResult);
-        }
-        else {
-            Admin adminResult = adminRepository.findAllByIdIsLike(id);
-           if(adminResult != null) {
-               return new GetUserDTO(adminResult);
-           }
+        if(admin != null){
+            return new GetUserDTO(admin);
         }
         return null;
     }
+
     @Override
     public List<GetUserDTO> getAllUserByName(String name){
         List<GetUserDTO> result = new ArrayList<>();

@@ -5,12 +5,17 @@ import "./Navbar.css"
 
 import {Link, Route, Routes} from "react-router-dom";
 import Homepage from "./NotLogedin/HomePage";
+
 import Products from "./NotLogedin/ProductPage/Product";
 import View_Product_Details from "./NotLogedin/ProductPage/View_Product_Details";
 import Login from "./NotLogedin/AccountPages/Login";
 import MakeAccount from "./NotLogedin/AccountPages/MakeAccount";
+
 import AllUsers from "./Admin/AllUsers";
+import UserDetails from "./Admin/UserDetails";
 import AllProducts from "./Admin/AllProducts";
+import ProductDetails from "./Admin/ProductDetails";
+
 import MyAccount from "./NormalUser/MyAccount";
 import MyProducts from "./NormalUser/MyProducts";
 import MyProductDetails from "./NormalUser/MyProductDetails";
@@ -18,6 +23,7 @@ import MyProductDetails from "./NormalUser/MyProductDetails";
 function App() {
 
     const [authorization, setAuthorization] = useState("");
+    localStorage.setItem("token","eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBRE1JTiIsImlhdCI6MTY1MzY3ODkwNywiZXhwIjoxNjUzNjg2MTA3LCJzdHVkZW50SWQiOjEsInJvbGVzIjpbIkFETUlOIl19.tqw4mmVnBpiJZ_PYZHFsJf7mcVZsbqKbDX-NdWdqvVA")
 
     const login = async (username, password) => {
         const login = {username: username, password: password};
@@ -89,7 +95,9 @@ function App() {
                     <Routes>
                         <Route path='/' element={<Homepage/>}/>
                         <Route path='/products' element={<AllProducts/>}/>
+                        <Route path='/products/:ProductId' element={<ProductDetails/>}/>
                         <Route path='/users' element={<AllUsers/>}/>
+                        <Route path='/users/:Username' element={<UserDetails/>}/>
                     </Routes>
                 </div>
             /*):(

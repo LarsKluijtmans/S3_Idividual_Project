@@ -11,7 +11,7 @@ function DisplayProducts({productsArray}) {
                         {product.productInfo.images != null &&
                             <img className="product_image" src={product.productInfo.images[0]} alt={"Product main Image"}/>
                         }
-                        <div className="product__info">
+                        <div>
                             <div className="title">
                                 <h1>{product.productInfo.title}</h1>
                                 <span>{product.productInfo.sub_title}</span>

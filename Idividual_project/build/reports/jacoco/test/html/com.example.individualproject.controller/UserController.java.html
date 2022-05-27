@@ -36,14 +36,14 @@ public class UserController {
 
     @IsAuthenticated
     @RolesAllowed({&quot;ROLE_ADMIN&quot;})
-    @GetMapping(&quot;{id}&quot;)
-    public ResponseEntity&lt;GetUserDTO&gt; getUserByID(@PathVariable(&quot;id&quot;) Long id) {
-<span class="fc" id="L41">        GetUserDTO user = userService.getUserByID(id);</span>
+    @GetMapping(&quot;{username}&quot;)
+    public ResponseEntity&lt;GetUserDTO&gt; getUserByUsername(@PathVariable(&quot;username&quot;) String username) {
+<span class="nc" id="L41">        GetUserDTO user = userService.getUserByName(username);</span>
 
-<span class="fc bfc" id="L43" title="All 2 branches covered.">        if(user != null) {</span>
-<span class="fc" id="L44">            return ResponseEntity.ok().body(user);</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if(user != null) {</span>
+<span class="nc" id="L44">            return ResponseEntity.ok().body(user);</span>
         } else {
-<span class="fc" id="L46">            return ResponseEntity.notFound().build();</span>
+<span class="nc" id="L46">            return ResponseEntity.notFound().build();</span>
         }
     }
 

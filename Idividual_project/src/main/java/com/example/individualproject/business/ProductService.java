@@ -16,6 +16,6 @@ public interface ProductService {
      void deleteProductAdmin(Long productID);
      void deleteProductNormalUser(Long productID);
 
-     List<GetProductDTO> getAllOfAUsersProductsAdmin(Long userID);
-     List<GetProductDTO> getAllOfAUsersProductsNormalUser(Long userID);
+     List<GetProductDTO> getAllOfAUsersProductsAdmin(String username);
+     List<GetProductDTO> getAllOfAUsersProductsNormalUser(String username);
 }

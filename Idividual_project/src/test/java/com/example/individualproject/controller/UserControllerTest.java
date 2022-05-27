@@ -77,39 +77,6 @@ class UserControllerTest {
         verify(userService).getAllUsers();
     }
 
-    //getUserByID
-    @Test
-    @WithMockUser(username = "me", roles = {"ADMIN"})
-    void getUserByID_UserFound() throws Exception {
-        NormalUser worker = new NormalUser(1l, "worker","worker","worker","worker","worker","worker");
-        GetUserDTO workerDTO = new GetUserDTO(worker);
-
-        when(userService.getUserByID(1l))
-                .thenReturn(workerDTO);
-
-        mockMvc.perform(get("/users/1"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
-                .andExpect(content().json("""
-                {"username":"worker","firstName":"worker","lastName":"worker","phoneNumber":"worker","email":"worker","position":"NORMAL"}
-                """ ));
-
-        verify(userService).getUserByID(1l);
-    }
-    @Test
-    @WithMockUser(username = "me", roles = {"ADMIN"})
-    void getUserByID_NotFound() throws Exception {
-        when(userService.getUserByID(1l))
-                .thenReturn(null);
-
-        mockMvc.perform(get("/users/1"))
-                .andDo(print())
-                .andExpect(status().isNotFound());
-
-        verify(userService).getUserByID(1l);
-    }
-
     //getAllUserByName
     @Test
     @WithMockUser(username = "me", roles = {"ADMIN"})
