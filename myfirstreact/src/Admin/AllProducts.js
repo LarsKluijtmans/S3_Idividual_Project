@@ -58,10 +58,10 @@ const AllProducts= () =>{
                     </tr>
                     {products.map((product) => (
                         <tr>
-                            <td>{product.productInfo.title}</td>
-                            <td>{product.productInfo.subTitle}</td>
-                            <td>{product.productInfo.series}</td>
-                            <td>{product.productInfo.price}</td>
+                            <td>{product.title}</td>
+                            <td>{product.subTitle}</td>
+                            <td>{product.series}</td>
+                            <td>{product.price}</td>
                             <td><Link to={"" +product.id} >Details</Link></td>
                         </tr>
                     ))}

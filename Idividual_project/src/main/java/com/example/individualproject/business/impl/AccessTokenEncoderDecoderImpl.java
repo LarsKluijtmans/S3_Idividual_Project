@@ -38,7 +38,7 @@ public class AccessTokenEncoderDecoderImpl implements AccessTokenEncoder, Access
             claimsMap.put("roles", accessTokenDTO.getRoles());
         }
         if (accessTokenDTO.getUserId() != null) {
-            claimsMap.put("studentId", accessTokenDTO.getUserId());
+            claimsMap.put("userId", accessTokenDTO.getUserId());
         }
 
         Instant now = Instant.now();

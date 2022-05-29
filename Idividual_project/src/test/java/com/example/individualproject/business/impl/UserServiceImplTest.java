@@ -43,15 +43,31 @@ class UserServiceImplTest {
         Admin boss = new Admin(1l,"Admin","Admin");
         NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
 
+        GetUserDTO WorkerDTO = GetUserDTO.builder()
+                .username(worker.getUsername())
+                .firstName(worker.getFirstname())
+                .lastName(worker.getLastname())
+                .phoneNumber(worker.getPhonenumber())
+                .email(worker.getEmail())
+                .position("NORMAL")
+                .build();
+
+        String none = "-None-";
+        GetUserDTO AdminDTO = GetUserDTO.builder()
+                .username(boss.getUsername())
+                .firstName(none)
+                .lastName(none)
+                .phoneNumber(none)
+                .email(none)
+                .position("ADMIN")
+                .build();
+
         when(normalUserRepository.findAll())
                 .thenReturn(List.of(worker));
         when(adminRepository.findAll())
                 .thenReturn(List.of(boss));
 
         List<GetUserDTO> actualResult = userServiceMock.getAllUsers();
-
-        GetUserDTO WorkerDTO = new GetUserDTO(worker);
-        GetUserDTO AdminDTO = new GetUserDTO(boss);
 
         List<GetUserDTO> expectedResult = List.of(WorkerDTO,AdminDTO);
 
@@ -66,12 +82,19 @@ class UserServiceImplTest {
     void getAllNormalUsers() {
         NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
 
+        GetUserDTO WorkerDTO = GetUserDTO.builder()
+                .username(worker.getUsername())
+                .firstName(worker.getFirstname())
+                .lastName(worker.getLastname())
+                .phoneNumber(worker.getPhonenumber())
+                .email(worker.getEmail())
+                .position("NORMAL")
+                .build();
+
         when(normalUserRepository.findAll())
                 .thenReturn(List.of(worker));
 
         List<GetUserDTO> actualResult = userServiceMock.getAllNormalUsers();
-
-        GetUserDTO WorkerDTO = new GetUserDTO(worker);
 
         List<GetUserDTO> expectedResult = List.of(WorkerDTO);
 
@@ -85,12 +108,20 @@ class UserServiceImplTest {
     void getAllAdmins() {
         Admin boss = new Admin(1l,"Admin","Admin");
 
+        String none = "-None-";
+        GetUserDTO AdminDTO = GetUserDTO.builder()
+                .username(boss.getUsername())
+                .firstName(none)
+                .lastName(none)
+                .phoneNumber(none)
+                .email(none)
+                .position("ADMIN")
+                .build();
+
         when(adminRepository.findAll())
                 .thenReturn(List.of(boss));
 
         List<GetUserDTO> actualResult = userServiceMock.getAllAdmins();
-
-        GetUserDTO AdminDTO = new GetUserDTO(boss);
 
         List<GetUserDTO> expectedResult = List.of(AdminDTO);
 
@@ -99,10 +130,138 @@ class UserServiceImplTest {
         verify(adminRepository).findAll();
     }
 
+    //getUserByName
+    @Test
+    void getUserByName_NormalUser() {
+        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
+
+        GetUserDTO WorkerDTO = GetUserDTO.builder()
+                .username(worker.getUsername())
+                .firstName(worker.getFirstname())
+                .lastName(worker.getLastname())
+                .phoneNumber(worker.getPhonenumber())
+                .email(worker.getEmail())
+                .position("NORMAL")
+                .build();
+
+        when(normalUserRepository.findByUsername("Worker"))
+                .thenReturn(worker);
+
+        GetUserDTO actualResult = userServiceMock.getUserByName("Worker");
+
+        GetUserDTO expectedResult = WorkerDTO;
+        assertEquals(expectedResult, actualResult);
+
+        verify(normalUserRepository).findByUsername("Worker");
+    }
+    @Test
+    void getUserByName_Admin() {
+        Admin boss = new Admin(1l,"Admin","Admin");
+
+        String none = "-None-";
+        GetUserDTO AdminDTO = GetUserDTO.builder()
+                .username(boss.getUsername())
+                .firstName(none)
+                .lastName(none)
+                .phoneNumber(none)
+                .email(none)
+                .position("ADMIN")
+                .build();
+
+        when(normalUserRepository.findByUsername("Admin"))
+                .thenReturn(null);
+        when(adminRepository.findByUsername("Admin"))
+                .thenReturn(boss);
+
+        GetUserDTO actualResult = userServiceMock.getUserByName("Admin");
+
+        GetUserDTO expectedResult = AdminDTO;
+        assertEquals(expectedResult, actualResult);
+
+        verify(adminRepository).findByUsername("Admin");
+        verify(normalUserRepository).findByUsername("Admin");
+    }
+    @Test
+    void getUserByName_NotingFound() {
+        when(normalUserRepository.findByUsername("Admin"))
+                .thenReturn(null);
+        when(adminRepository.findByUsername("Admin"))
+                .thenReturn(null);
+
+        GetUserDTO actualResult = userServiceMock.getUserByName("Admin");
+
+        assertEquals(null, actualResult);
+
+        verify(adminRepository).findByUsername("Admin");
+        verify(normalUserRepository).findByUsername("Admin");
+    }
+
+    //getUserByNameNormalUser
+    @Test
+    void getUserByNameNormalUser_UserNotFound () {
+
+        when(normalUserRepository.findByUsername("Worker"))
+                .thenReturn(null);
+
+        assertThrows(UserNotFoundException.class, () -> userServiceMock.getUserByNameNormalUser("Worker"));
+
+        verify(normalUserRepository).findByUsername("Worker");
+    }
+    @Test
+    void getUserByNameNormalUser_IdNotMatch() {
+        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
+
+        when(normalUserRepository.findByUsername("Worker"))
+                .thenReturn(worker);
+        when(accessTokenDTO.getUserId())
+                .thenReturn(2l);
+
+        assertThrows(InvalidCredentialsException.class, () -> userServiceMock.getUserByNameNormalUser("Worker"));
+
+        verify(normalUserRepository).findByUsername("Worker");
+        verify(accessTokenDTO).getUserId();
+
+    }
+    @Test
+    void getUserByNameNormalUser() {
+        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
+
+        GetUserDTO WorkerDTO = GetUserDTO.builder()
+                .username(worker.getUsername())
+                .firstName(worker.getFirstname())
+                .lastName(worker.getLastname())
+                .phoneNumber(worker.getPhonenumber())
+                .email(worker.getEmail())
+                .position("NORMAL")
+                .build();
+
+        when(normalUserRepository.findByUsername("Worker"))
+                .thenReturn(worker);
+        when(accessTokenDTO.getUserId())
+                .thenReturn(1l);
+
+        GetUserDTO actualResult = userServiceMock.getUserByNameNormalUser("Worker");
+
+        assertEquals(WorkerDTO,actualResult);
+
+        verify(normalUserRepository).findByUsername("Worker");
+        verify(accessTokenDTO).getUserId();
+
+    }
+
     //getAllUserByName
     @Test
     void getAllUserByName_ResultNormalUser() {
         NormalUser worker = new NormalUser(1l, "Worker", "Worker", "Worker", "Worker", "Worker", "Worker");
+
+        GetUserDTO WorkerDTO = GetUserDTO.builder()
+                .username(worker.getUsername())
+                .firstName(worker.getFirstname())
+                .lastName(worker.getLastname())
+                .phoneNumber(worker.getPhonenumber())
+                .email(worker.getEmail())
+                .position("NORMAL")
+                .build();
 
         when(normalUserRepository.findAllByFirstnameIsLikeOrLastnameIsLikeOrUsernameIsLike("%Worker%","%Worker%","%Worker%"))
                 .thenReturn(List.of(worker));
@@ -110,8 +269,6 @@ class UserServiceImplTest {
                 .thenReturn(List.of());
 
         List<GetUserDTO> actualResult = userServiceMock.getAllUserByName("Worker");
-
-        GetUserDTO WorkerDTO = new GetUserDTO(worker);
 
         List<GetUserDTO> expectedResult = List.of(WorkerDTO);
 
@@ -124,14 +281,22 @@ class UserServiceImplTest {
     void getAllUserByName_ResultAdmin() {
         Admin boss = new Admin(1l, "Admin", "Admin");
 
+        String none = "-None-";
+        GetUserDTO AdminDTO = GetUserDTO.builder()
+                .username(boss.getUsername())
+                .firstName(none)
+                .lastName(none)
+                .phoneNumber(none)
+                .email(none)
+                .position("ADMIN")
+                .build();
+
         when(normalUserRepository.findAllByFirstnameIsLikeOrLastnameIsLikeOrUsernameIsLike("%Admin%","%Admin%","%Admin%"))
                 .thenReturn(List.of());
         when(adminRepository.findAllByUsernameIsLike("%Admin%"))
                 .thenReturn(List.of(boss));
 
         List<GetUserDTO> actualResult = userServiceMock.getAllUserByName("Admin");
-
-        GetUserDTO AdminDTO = new GetUserDTO(boss);
 
         List<GetUserDTO> expectedResult = List.of(AdminDTO);
 
@@ -369,34 +534,27 @@ class UserServiceImplTest {
     //updateUser
     @Test
     void updateUser_UserDoesntExists() {
-        when(normalUserRepository.findAllByIdIs(1l))
+        when(normalUserRepository.findByUsername("Worker"))
                 .thenReturn(null);
-        when(accessTokenDTO.hasRole("NORMALUSER"))
-                .thenReturn(true);
-        when(accessTokenDTO.getUserId())
-                .thenReturn(1l);
 
-        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(1l,"Worker","Worker","Worker","Worker", null);
-        UpdateUserResponseDTO actualResult = userServiceMock.updateUser(updateRequestDTO);
+        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO("Worker","Worker","Worker","Worker","Worker");
 
-        assertEquals(null, actualResult);
+        assertThrows(UserNotFoundException.class, () -> userServiceMock.updateUser(updateRequestDTO));
 
-        verify(accessTokenDTO).hasRole("NORMALUSER");
-        verify(accessTokenDTO).getUserId();
-        verify(normalUserRepository).findAllByIdIs(1l);
+        verify(normalUserRepository).findByUsername("Worker");
     }
     @Test
     void updateUser_ResultSuccess() {
-        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
+        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker", Collections.emptyList());
 
-        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(2l,"Worker","Worker","Worker1","Worker2", Collections.emptyList() );
-        NormalUser newUser = new NormalUser(updateRequestDTO.getId(), "Worker", "Worker", updateRequestDTO.getFirstName(), updateRequestDTO.getLastName(), updateRequestDTO.getPhoneNumber(), updateRequestDTO.getEmail(), updateRequestDTO.getProductsSelling());
+        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO("Worker","Worker","Worker","Worker1","Worker2");
+        NormalUser newUser = new NormalUser(1l, "Worker", "Worker", updateRequestDTO.getFirstName(), updateRequestDTO.getLastName(), updateRequestDTO.getPhoneNumber(), updateRequestDTO.getEmail(), Collections.emptyList());
 
         when(accessTokenDTO.hasRole("NORMALUSER"))
                 .thenReturn(true);
         when(accessTokenDTO.getUserId())
-                .thenReturn(2L);
-        when(normalUserRepository.findAllByIdIs(2l))
+                .thenReturn(1L);
+        when(normalUserRepository.findByUsername("Worker"))
                 .thenReturn(worker);
         when(normalUserRepository.existsByPhonenumber("Worker1"))
                 .thenReturn(false);
@@ -415,7 +573,7 @@ class UserServiceImplTest {
 
         verify(accessTokenDTO).hasRole("NORMALUSER");
         verify(accessTokenDTO).getUserId();
-        verify(normalUserRepository).findAllByIdIs(2l);
+        verify(normalUserRepository).findByUsername("Worker");
         verify(normalUserRepository).existsByPhonenumber("Worker1");
         verify(normalUserRepository).existsByEmail("Worker2");
         verify(normalUserRepository).save(newUser);
@@ -424,13 +582,13 @@ class UserServiceImplTest {
     void updateUser_PhoneNumberNotUnique() {
         NormalUser worker = new NormalUser(2l,"Worker","Worker","Worker","Worker","Worker1","Worker1");
 
-        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(2l,"Worker","Worker","Worker","Worker", null );
+        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO("Worker","Worker","Worker","Worker","Worker" );
 
         when(accessTokenDTO.hasRole("NORMALUSER"))
                 .thenReturn(true);
         when(accessTokenDTO.getUserId())
                 .thenReturn(2l);
-        when(normalUserRepository.findAllByIdIs(2l))
+        when(normalUserRepository.findByUsername("Worker"))
                 .thenReturn(worker);
         when(normalUserRepository.existsByPhonenumber("Worker"))
                 .thenReturn(true);
@@ -439,21 +597,21 @@ class UserServiceImplTest {
 
         verify(accessTokenDTO).hasRole("NORMALUSER");
         verify(accessTokenDTO).getUserId();
-        verify(normalUserRepository).findAllByIdIs(2l);
+        verify(normalUserRepository).findByUsername("Worker");
         verify(normalUserRepository).existsByPhonenumber("Worker");
     }
     @Test
     void updateUser_PhoneNumberNotUnique_IsUsedByUserThatIsBeingUpdated() {
-        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
+        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker", Collections.emptyList());
 
-        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(2l,"Worker","Worker","Worker","Worker2" , Collections.emptyList());
-        NormalUser newUser = new NormalUser(updateRequestDTO.getId(), "Worker", "Worker", updateRequestDTO.getFirstName(), updateRequestDTO.getLastName(), updateRequestDTO.getPhoneNumber(), updateRequestDTO.getEmail(), updateRequestDTO.getProductsSelling());
+        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO("Worker","Worker","Worker","Worker","Worker2");
+        NormalUser newUser = new NormalUser(1l, "Worker", "Worker", updateRequestDTO.getFirstName(), updateRequestDTO.getLastName(), updateRequestDTO.getPhoneNumber(), updateRequestDTO.getEmail(), Collections.emptyList());
 
         when(accessTokenDTO.hasRole("NORMALUSER"))
                 .thenReturn(true);
         when(accessTokenDTO.getUserId())
-                .thenReturn(2L);
-        when(normalUserRepository.findAllByIdIs(2l))
+                .thenReturn(1L);
+        when(normalUserRepository.findByUsername("Worker"))
                 .thenReturn(worker);
         when(normalUserRepository.existsByEmail("Worker2"))
                 .thenReturn(false);
@@ -470,7 +628,7 @@ class UserServiceImplTest {
 
         verify(accessTokenDTO).hasRole("NORMALUSER");
         verify(accessTokenDTO).getUserId();
-        verify(normalUserRepository).findAllByIdIs(2l);
+        verify(normalUserRepository).findByUsername("Worker");
         verify(normalUserRepository).existsByEmail("Worker2");
         verify(normalUserRepository).save(newUser);
     }
@@ -478,13 +636,13 @@ class UserServiceImplTest {
     void updateUser_EmailNotUnique() {
         NormalUser worker = new NormalUser(2l,"Worker","Worker","Worker","Worker","Worker1","Worker1");
 
-        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO(2l,"Worker","Worker","Worker","Worker", null );
+        UpdateUserRequestDTO updateRequestDTO = new UpdateUserRequestDTO("Worker","Worker","Worker","Worker","Worker" );
 
         when(accessTokenDTO.hasRole("NORMALUSER"))
                 .thenReturn(true);
         when(accessTokenDTO.getUserId())
                 .thenReturn(2L);
-        when(normalUserRepository.findAllByIdIs(2l))
+        when(normalUserRepository.findByUsername("Worker"))
                 .thenReturn(worker);
         when(normalUserRepository.existsByEmail("Worker"))
                 .thenReturn(true);
@@ -493,29 +651,29 @@ class UserServiceImplTest {
 
         verify(accessTokenDTO).hasRole("NORMALUSER");
         verify(accessTokenDTO).getUserId();
-        verify(normalUserRepository).findAllByIdIs(2l);
+        verify(normalUserRepository).findByUsername("Worker");
         verify(normalUserRepository).existsByEmail("Worker");
 
     }
     @Test
     void updateUser_EmailNotUnique_IsUsedByUserThatIsBeingUpdated() {
-        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker");
+        NormalUser worker = new NormalUser(1l,"Worker","Worker","Worker","Worker","Worker","Worker", Collections.emptyList());
 
         UpdateUserRequestDTO updateRequestDTO =  UpdateUserRequestDTO.builder()
-                .id(2l)
+                .username("Worker")
                 .firstName("Worker")
                 .lastName( "Worker")
                 .email( "Worker")
                 .phoneNumber("Worker2")
-                .productsSelling(Collections.emptyList())
                 .build();
-        NormalUser newUser = new NormalUser(updateRequestDTO.getId(), "Worker", "Worker", updateRequestDTO.getFirstName(), updateRequestDTO.getLastName(), updateRequestDTO.getPhoneNumber(), updateRequestDTO.getEmail(), updateRequestDTO.getProductsSelling());
+
+        NormalUser newUser = new NormalUser(1l, "Worker", "Worker", updateRequestDTO.getFirstName(), updateRequestDTO.getLastName(), updateRequestDTO.getPhoneNumber(), updateRequestDTO.getEmail(),Collections.emptyList());
 
         when(accessTokenDTO.hasRole("NORMALUSER"))
                 .thenReturn(true);
         when(accessTokenDTO.getUserId())
-                .thenReturn(2L);
-        when(normalUserRepository.findAllByIdIs(2l))
+                .thenReturn(1L);
+        when(normalUserRepository.findByUsername("Worker"))
                 .thenReturn(worker);
         when(normalUserRepository.existsByPhonenumber("Worker2"))
                 .thenReturn(false);
@@ -530,20 +688,24 @@ class UserServiceImplTest {
 
         verify(accessTokenDTO).hasRole("NORMALUSER");
         verify(accessTokenDTO).getUserId();
-        verify(normalUserRepository).findAllByIdIs(2l);
+        verify(normalUserRepository).findByUsername("Worker");
         verify(normalUserRepository).existsByPhonenumber("Worker2");
         verify(normalUserRepository).save(newUser);
     }
     @Test
     void updateUser_isntNormalUser()  {
         UpdateUserRequestDTO updateRequestDTO =  UpdateUserRequestDTO.builder()
-                .id(2l)
+                .username("Worker")
                 .firstName("Worker")
                 .lastName( "Worker")
                 .email( "Worker")
                 .phoneNumber( "Worker")
-                .productsSelling(Collections.emptyList())
                 .build();
+
+        NormalUser worker = new NormalUser(2l,"Worker","Worker","Worker","Worker","Worker1","Worker1");
+
+        when(normalUserRepository.findByUsername("Worker"))
+                .thenReturn(worker);
 
         when(accessTokenDTO.hasRole("NORMALUSER"))
                 .thenReturn(false);
@@ -555,14 +717,16 @@ class UserServiceImplTest {
     @Test
     void updateUser_IDNotMatched()  {
         UpdateUserRequestDTO updateRequestDTO =  UpdateUserRequestDTO.builder()
-                .id(2l)
+                .username("Worker")
                 .firstName("Worker")
                 .lastName( "Worker")
                 .email( "Worker")
                 .phoneNumber( "Worker")
-                .productsSelling(Collections.emptyList())
                 .build();
+        NormalUser worker = new NormalUser(2l,"Worker","Worker","Worker","Worker","Worker1","Worker1");
 
+        when(normalUserRepository.findByUsername("Worker"))
+                .thenReturn(worker);
         when(accessTokenDTO.hasRole("NORMALUSER"))
                 .thenReturn(true);
         when(accessTokenDTO.getUserId())

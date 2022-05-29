@@ -1,6 +1,7 @@
 package com.example.individualproject.business.impl;
 
 import com.example.individualproject.business.exception.InvalidCredentialsException;
+import com.example.individualproject.business.exception.UserNotFoundException;
 import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.products.*;
 import com.example.individualproject.dto.users.GetUserDTO;
@@ -47,54 +48,176 @@ class ProductServiceImplTest {
     @Test
     void getAllProducts() {
         NormalUser user = new NormalUser(1l,"Lars","Lars","Lars","Lars","Lars","Lars");
-        GetUserDTO userDTO = new GetUserDTO(user);
+        GetUserDTO userDTO = GetUserDTO.builder()
+                .username(user.getUsername())
+                .firstName(user.getFirstname())
+                .lastName(user.getLastname())
+                .email(user.getEmail())
+                .phoneNumber(user.getPhonenumber())
+                .position("NORMAL")
+                .build();
 
-        Product PokemonDiamond = Product.builder().id(1l).title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genre(new Genre(1l,null, null)).sold(false).productType("GAME").images(Collections.emptyList()).seller(user).build();
-        Product PokemonPearl= Product.builder().id(2l).title("Pokemon").subTitle("Pearl").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genre(new Genre(1l,null, null)).sold(false).productType("GAME").images(Collections.emptyList()).seller(user).build();
+        Product PokemonDiamond = Product.builder()
+                .id(1l)
+                .title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genre(new Genre(1l,"genre", null))
+                .sold(false).
+                productType("GAME")
+                .images(Collections.emptyList())
+                .seller(user)
+                .build();
+
+        Product PokemonPearl= Product.builder()
+                .id(2l)
+                .title("Pokemon")
+                .subTitle("Pearl")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genre(new Genre(1l,"genre", null))
+                .sold(false)
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .seller(user)
+                .build();
+
+
+        GetProductDTO PokemonDiamondDTO = GetProductDTO.builder()
+                .id(PokemonDiamond.getId())
+                .title(PokemonDiamond.getTitle())
+                .subTitle(PokemonDiamond.getSubTitle())
+                .series(PokemonDiamond.getSeries())
+                .year(PokemonDiamond.getYear())
+                .price(PokemonDiamond.getPrice())
+                .condition(PokemonDiamond.getCondition())
+                .description(PokemonDiamond.getDescription())
+                .genre(PokemonDiamond.getGenre().getGenre())
+                .productType(PokemonDiamond.getProductType())
+                .images(Collections.emptyList())
+                .seller(userDTO)
+                .build();
+
+        GetProductDTO PokemonPearlDTO = GetProductDTO.builder()
+                .id(PokemonPearl.getId())
+                .title(PokemonPearl.getTitle())
+                .subTitle(PokemonPearl.getSubTitle())
+                .series(PokemonPearl.getSeries())
+                .year(PokemonPearl.getYear())
+                .price(PokemonPearl.getPrice())
+                .condition(PokemonPearl.getCondition())
+                .description(PokemonPearl.getDescription())
+                .genre(PokemonPearl.getGenre().getGenre())
+                .productType(PokemonPearl.getProductType())
+                .images(Collections.emptyList())
+                .seller(userDTO)
+                .build();
 
         when(productRepositoryMock.findAll())
                 .thenReturn(List.of(PokemonDiamond, PokemonPearl));
 
         List<GetProductDTO> actualResult = productServiceMock.getAllProducts();
 
-        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
-        BasicProductInfo product2 = BasicProductInfo.builder().title("Pokemon").subTitle("Pearl").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
-
-        List<GetProductDTO> expectedResult = List.of(new GetProductDTO(1l, product1, userDTO),new GetProductDTO(2l, product2, userDTO));
+        List<GetProductDTO> expectedResult = List.of(PokemonDiamondDTO, PokemonPearlDTO);
 
         assertEquals(expectedResult, actualResult);
 
         verify(productRepositoryMock).findAll();
-
     }
 
     //getProducts
     @Test
     void getProducts() {
         NormalUser user = new NormalUser(1l,"Lars","Lars","Lars","Lars","Lars","Lars");
-        GetUserDTO userDTO = new GetUserDTO(user);
+        GetUserDTO userDTO = GetUserDTO.builder()
+                .username(user.getUsername())
+                .firstName(user.getFirstname())
+                .lastName(user.getLastname())
+                .email(user.getEmail())
+                .phoneNumber(user.getPhonenumber())
+                .position("NORMAL")
+                .build();
 
-        Product PokemonDiamond = Product.builder().id(1l).title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genre(new Genre(1l,null, null)).sold(false).productType("GAME").images(Collections.emptyList()).seller(user).build();
-        Product PokemonPearl= Product.builder().id(2l).title("Pokemon").subTitle("Pearl").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genre(new Genre(1l,null, null)).sold(false).productType("GAME").images(Collections.emptyList()).seller(user).build();
+        Product PokemonDiamond = Product.builder()
+                .id(1l)
+                .title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genre(new Genre(1l,"genre", null))
+                .sold(false).
+                productType("GAME")
+                .images(Collections.emptyList())
+                .seller(user)
+                .build();
+
+        Product PokemonPearl= Product.builder()
+                .id(2l)
+                .title("Pokemon")
+                .subTitle("Pearl")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genre(new Genre(1l,"genre", null))
+                .sold(false)
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .seller(user)
+                .build();
+
+
+        GetProductDTO PokemonDiamondDTO = GetProductDTO.builder()
+                .id(PokemonDiamond.getId())
+                .title(PokemonDiamond.getTitle())
+                .subTitle(PokemonDiamond.getSubTitle())
+                .series(PokemonDiamond.getSeries())
+                .year(PokemonDiamond.getYear())
+                .price(PokemonDiamond.getPrice())
+                .condition(PokemonDiamond.getCondition())
+                .description(PokemonDiamond.getDescription())
+                .genre(PokemonDiamond.getGenre().getGenre())
+                .productType(PokemonDiamond.getProductType())
+                .images(Collections.emptyList())
+                .seller(userDTO)
+                .build();
+
+        GetProductDTO PokemonPearlDTO = GetProductDTO.builder()
+                .id(PokemonPearl.getId())
+                .title(PokemonPearl.getTitle())
+                .subTitle(PokemonPearl.getSubTitle())
+                .series(PokemonPearl.getSeries())
+                .year(PokemonPearl.getYear())
+                .price(PokemonPearl.getPrice())
+                .condition(PokemonPearl.getCondition())
+                .description(PokemonPearl.getDescription())
+                .genre(PokemonPearl.getGenre().getGenre())
+                .productType(PokemonPearl.getProductType())
+                .images(Collections.emptyList())
+                .seller(userDTO)
+                .build();
 
         when(productRepositoryMock.findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenre_GenreIsLike("%Pokemon%","%Pokemon%","%Pokemon%","%Pokemon%","%Pokemon%"))
                 .thenReturn(List.of(PokemonDiamond, PokemonPearl));
 
         List<GetProductDTO> actualResult = productServiceMock.getProducts("Pokemon");
 
-        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
-        BasicProductInfo product2 = BasicProductInfo.builder().title("Pokemon").subTitle("Pearl").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
-
-        GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1, userDTO);
-        GetProductDTO PokemonPearlDTO = new GetProductDTO(2l, product2, userDTO);
-
         List<GetProductDTO> expectedResult = List.of(PokemonDiamondDTO, PokemonPearlDTO);
 
         assertEquals(expectedResult, actualResult);
 
         verify(productRepositoryMock).findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenre_GenreIsLike("%Pokemon%","%Pokemon%","%Pokemon%","%Pokemon%","%Pokemon%");
-
-
 
         List<GetProductDTO> actualResultWithEmptyInput = productServiceMock.getProducts("");
         List<GetProductDTO> expectedResultWithEmptyInput  = Collections.emptyList();
@@ -107,24 +230,54 @@ class ProductServiceImplTest {
     void getProduct() {
 
         NormalUser user = new NormalUser(1l,"Lars","Lars","Lars","Lars","Lars","Lars");
-        GetUserDTO userDTO = new GetUserDTO(user);
+        GetUserDTO userDTO = GetUserDTO.builder()
+                .username(user.getUsername())
+                .firstName(user.getFirstname())
+                .lastName(user.getLastname())
+                .email(user.getEmail())
+                .phoneNumber(user.getPhonenumber())
+                .position("NORMAL")
+                .build();
 
-        Product PokemonPearl= Product.builder().id(2l).title("Pokemon").subTitle("Pearl").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genre(new Genre(1l,null, null)).sold(false).productType("GAME").images(Collections.emptyList()).seller(user).build();
+        Product PokemonDiamond = Product.builder()
+                .id(1l)
+                .title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genre(new Genre(1l,"genre", null))
+                .sold(false).
+                productType("GAME")
+                .images(Collections.emptyList())
+                .seller(user)
+                .build();
 
-        when(productRepositoryMock.findProductsByIdIs(2l))
-                .thenReturn(PokemonPearl);
+        when(productRepositoryMock.findProductsByIdIs(1l))
+                .thenReturn(PokemonDiamond);
 
-        GetProductDTO actualResult = productServiceMock.getProduct(2l);
+        GetProductDTO actualResult = productServiceMock.getProduct(1l);
 
-        BasicProductInfo product2 = BasicProductInfo.builder().title("Pokemon").subTitle("Pearl").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
+        GetProductDTO PokemonDiamondDTO = GetProductDTO.builder()
+                .id(PokemonDiamond.getId())
+                .title(PokemonDiamond.getTitle())
+                .subTitle(PokemonDiamond.getSubTitle())
+                .series(PokemonDiamond.getSeries())
+                .year(PokemonDiamond.getYear())
+                .price(PokemonDiamond.getPrice())
+                .condition(PokemonDiamond.getCondition())
+                .description(PokemonDiamond.getDescription())
+                .genre(PokemonDiamond.getGenre().getGenre())
+                .productType(PokemonDiamond.getProductType())
+                .images(Collections.emptyList())
+                .seller(userDTO)
+                .build();
 
-        GetProductDTO PokemonPearlDTO = new GetProductDTO(2l, product2, userDTO);
+        assertEquals(PokemonDiamondDTO, actualResult);
 
-        GetProductDTO expectedResult = PokemonPearlDTO;
-
-        assertEquals(expectedResult, actualResult);
-
-        verify(productRepositoryMock).findProductsByIdIs(2l);
+        verify(productRepositoryMock).findProductsByIdIs(1l);
 
         GetProductDTO actualResultWithNullID = productServiceMock.getProduct( null);
 
@@ -154,6 +307,17 @@ class ProductServiceImplTest {
         verify(requestAccessToken).getUserId();
         verify(normalUserRepositoryMock).findByUsername("Lars");
         verify(productRepositoryMock).findAllBySeller_Id(1l);
+    }
+    @Test
+    void getAllOfAUsersProducts_userNorFound()  {
+        when(requestAccessToken.hasRole("NORMALUSER"))
+                .thenReturn(true);
+        when(normalUserRepositoryMock.findByUsername("Lars"))
+                .thenReturn(null);
+
+        assertThrows(UserNotFoundException.class, () -> productServiceMock.getAllOfAUsersProductsNormalUser("Lars"));
+
+        verify(requestAccessToken).hasRole("NORMALUSER");
     }
     @Test
     void getAllOfAUsersProducts_isntNormalUser()  {
@@ -215,6 +379,19 @@ class ProductServiceImplTest {
         verify(normalUserRepositoryMock).findByUsername("Lars");
         verify(requestAccessToken).hasRole("ADMIN");
         verify(productRepositoryMock).findAllBySeller_Id(1l);
+    }
+    @Test
+    void getAllOfAUsersProductsAdmin_UserNotFound()  {
+
+        when(requestAccessToken.hasRole("ADMIN"))
+                .thenReturn(true);
+        when(normalUserRepositoryMock.findByUsername("Lars"))
+                .thenReturn(null);
+
+        assertThrows(UserNotFoundException.class, () -> productServiceMock.getAllOfAUsersProductsAdmin("Lars"));
+
+        verify(normalUserRepositoryMock).findByUsername("Lars");
+        verify(requestAccessToken).hasRole("ADMIN");
     }
     @Test
     void getAllOfAUsersProductsAdmin_isntAdmin()  {
@@ -356,7 +533,20 @@ class ProductServiceImplTest {
         when(productRepositoryMock.save(PokemonPearl))
                 .thenReturn(PokemonPearl2);
 
-        CreateProductRequestDTO createProductRequestDTO = new CreateProductRequestDTO( new BasicProductInfo("Pokemon","Pearl","Pokemon",2022,10.01,"TRASH","Pokemon game",1l,"GAME", List.of("aa","aaa")), 1l);
+        CreateProductRequestDTO createProductRequestDTO = CreateProductRequestDTO.builder()
+                .title("Pokemon")
+                .subTitle("Pearl")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genreId(1l)
+                .productType("GAME")
+                .images(List.of("aa","aaa"))
+                .seller(1l)
+                .build();
+
         CreateProductResponseDTO actualResult = productServiceMock.addProduct(createProductRequestDTO);
 
         CreateProductResponseDTO expectedResult = CreateProductResponseDTO.builder()

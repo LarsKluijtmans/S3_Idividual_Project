@@ -1,6 +1,5 @@
 package com.example.individualproject.repository.entity;
 
-import com.example.individualproject.dto.products.UpdateProductRequestDTO;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -66,18 +65,4 @@ public class Product{
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="seller", nullable=false)
     private NormalUser seller;
-
-   public Product(UpdateProductRequestDTO productRequestDTO, Genre genre) {
-        this.setId(productRequestDTO.getProductId());
-        this.setTitle(productRequestDTO.getProductInfo().getTitle());
-        this.setSubTitle(productRequestDTO.getProductInfo().getSubTitle());
-        this.setSeries(productRequestDTO.getProductInfo().getSeries());
-        this.setYear(productRequestDTO.getProductInfo().getYear());
-        this.setPrice(productRequestDTO.getProductInfo().getPrice());
-        this.setCondition(productRequestDTO.getProductInfo().getCondition());
-        this.setDescription(productRequestDTO.getProductInfo().getDescription());
-        this.setGenre(genre);
-        this.setSold(false);
-        this.setProductType(productRequestDTO.getProductInfo().getProductType());
-    }
 }

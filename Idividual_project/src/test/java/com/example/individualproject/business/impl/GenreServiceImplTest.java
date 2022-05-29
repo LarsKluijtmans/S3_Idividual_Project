@@ -27,16 +27,31 @@ class GenreServiceImplTest {
     @Test
     void getAllGenre() {
 
-        Genre genre1 = new Genre(1l, "GAME", Collections.emptyList());
-        Genre genre2 = new Genre(2l, "JRPG", Collections.emptyList());
+        Genre genre1 = Genre.builder()
+                .id(1l)
+                .genre("GAME")
+                .products( Collections.emptyList())
+                .build();
+        Genre genre2 = Genre.builder()
+                .id(2l)
+                .genre("JRPG")
+                .products( Collections.emptyList())
+                .build();
+
+        GetGenreDTO genre1DTO = GetGenreDTO.builder()
+                .id(genre1.getId())
+                .genre(genre1.getGenre())
+                .build();
+        GetGenreDTO genre2DTO = GetGenreDTO.builder()
+                .id(genre2.getId())
+                .genre(genre2.getGenre())
+                .build();
 
         when(genreRepositoryMock.findAll())
                 .thenReturn(List.of(genre1, genre2));
 
         List<GetGenreDTO> actualResult = genreServiceMock.getAllGenres();
 
-        GetGenreDTO genre1DTO = new GetGenreDTO(genre1);
-        GetGenreDTO genre2DTO = new GetGenreDTO(genre2);
         List<GetGenreDTO> expectedResult = List.of(genre1DTO, genre2DTO);
 
         assertEquals(expectedResult, actualResult);
@@ -44,5 +59,4 @@ class GenreServiceImplTest {
         verify(genreRepositoryMock).findAll();
 
     }
-
 }

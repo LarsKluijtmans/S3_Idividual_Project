@@ -11,27 +11,19 @@ function SearchResult({SearchString = ""}) {
     const [productsArray, setProductsArray] = useState([]);
 
     const GetSearchResult =() => {
-        if(SearchString != "") {
+        if(SearchString !== "") {
             axios.get(`http://localhost:8080/products/search/` + SearchString)
                 .then(res => {
                     setProductsArray(res.data);
-                    console.log(res.data);
                 })
-                .catch(err => {
-                        console.log(err.message);
-                    }
-                );
+                .catch(err => {});
         }
         else {
             axios.get(`http://localhost:8080/products`)
                 .then(res => {
                     setProductsArray(res.data);
-                    console.log(res.data);
                 })
-                .catch(err => {
-                        console.log(err.message);
-                    }
-                );
+                .catch(err => {});
         }
     }
 

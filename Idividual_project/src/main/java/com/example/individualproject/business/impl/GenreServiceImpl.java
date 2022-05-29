@@ -25,7 +25,10 @@ public class GenreServiceImpl implements GenreService {
       GetGenreDTO genre;
 
        for (Genre g: genreRepository.findAll()) {
-           genre = new GetGenreDTO(g);
+           genre = GetGenreDTO.builder()
+                   .id(g.getId())
+                   .genre(g.getGenre())
+                   .build();
            result.add(genre);
        }
        return result;

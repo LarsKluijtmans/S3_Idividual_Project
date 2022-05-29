@@ -1,9 +1,6 @@
 package com.example.individualproject.controller;
 
-import com.example.individualproject.business.impl.ProductServiceImpl;
 import com.example.individualproject.business.impl.UserServiceImpl;
-import com.example.individualproject.dto.products.BasicProductInfo;
-import com.example.individualproject.dto.products.GetProductDTO;
 import com.example.individualproject.dto.users.*;
 import com.example.individualproject.repository.entity.Admin;
 import com.example.individualproject.repository.entity.NormalUser;
@@ -46,8 +43,24 @@ class UserControllerTest {
         NormalUser worker = new NormalUser(1l, "worker","worker","worker","worker","worker","worker");
         Admin boss = new Admin(2l, "boss","boss");
 
-       GetUserDTO workerDTO = new GetUserDTO(worker);
-       GetUserDTO bossDTO = new GetUserDTO(boss);
+        GetUserDTO workerDTO = GetUserDTO.builder()
+                .username(worker.getUsername())
+                .firstName(worker.getFirstname())
+                .lastName(worker.getLastname())
+                .phoneNumber(worker.getPhonenumber())
+                .email(worker.getEmail())
+                .position("NORMAL")
+                .build();
+
+        String none = "-None-";
+        GetUserDTO bossDTO = GetUserDTO.builder()
+                .username(boss.getUsername())
+                .firstName(none)
+                .lastName(none)
+                .phoneNumber(none)
+                .email(none)
+                .position("ADMIN")
+                .build();
 
         List<GetUserDTO> users = List.of(workerDTO, bossDTO);
 
@@ -84,8 +97,24 @@ class UserControllerTest {
         NormalUser worker = new NormalUser(1l, "worker","worker","worker","worker","worker","worker");
         Admin boss = new Admin(2l, "boss","boss");
 
-        GetUserDTO workerDTO = new GetUserDTO(worker);
-        GetUserDTO bossDTO = new GetUserDTO(boss);
+        GetUserDTO workerDTO = GetUserDTO.builder()
+                .username(worker.getUsername())
+                .firstName(worker.getFirstname())
+                .lastName(worker.getLastname())
+                .phoneNumber(worker.getPhonenumber())
+                .email(worker.getEmail())
+                .position("NORMAL")
+                .build();
+
+        String none = "-None-";
+        GetUserDTO bossDTO = GetUserDTO.builder()
+                .username(boss.getUsername())
+                .firstName(none)
+                .lastName(none)
+                .phoneNumber(none)
+                .email(none)
+                .position("ADMIN")
+                .build();
 
         List<GetUserDTO> users = List.of(workerDTO, bossDTO);
 
@@ -124,8 +153,24 @@ class UserControllerTest {
         NormalUser worker = new NormalUser(1l, "worker","worker","worker","worker","worker","worker");
         Admin boss = new Admin(2l, "boss","boss");
 
-        GetUserDTO workerDTO = new GetUserDTO(worker);
-        GetUserDTO bossDTO = new GetUserDTO(boss);
+        GetUserDTO workerDTO = GetUserDTO.builder()
+                .username(worker.getUsername())
+                .firstName(worker.getFirstname())
+                .lastName(worker.getLastname())
+                .phoneNumber(worker.getPhonenumber())
+                .email(worker.getEmail())
+                .position("NORMAL")
+                .build();
+
+        String none = "-none-";
+        GetUserDTO bossDTO = GetUserDTO.builder()
+                .username(boss.getUsername())
+                .firstName(none)
+                .lastName(none)
+                .phoneNumber(none)
+                .email(none)
+                .position("NORMAL")
+                .build();
 
         List<GetUserDTO> users = List.of(workerDTO);
 
@@ -162,7 +207,15 @@ class UserControllerTest {
     void getAllAdmin_UsersFound() throws Exception {
         Admin boss = new Admin(2l, "boss","boss");
 
-        GetUserDTO bossDTO = new GetUserDTO(boss);
+        String none = "-None-";
+        GetUserDTO bossDTO = GetUserDTO.builder()
+                .username(boss.getUsername())
+                .firstName(none)
+                .lastName(none)
+                .phoneNumber(none)
+                .email(none)
+                .position("ADMIN")
+                .build();
 
         List<GetUserDTO> users = List.of(bossDTO);
 
@@ -341,7 +394,7 @@ class UserControllerTest {
     @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void updateUser() throws Exception {
         UpdateUserRequestDTO updateUserRequestDTO = UpdateUserRequestDTO .builder()
-                .id(1l)
+                .username("Worker")
                 .firstName("firstName")
                 .lastName("lastName")
                 .email("email")
@@ -368,7 +421,7 @@ class UserControllerTest {
     @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void updateUser_BadRequest() throws Exception {
         UpdateUserRequestDTO updateUserRequestDTO = UpdateUserRequestDTO .builder()
-                .id(1l)
+                .username("Worker")
                 .firstName("firstName")
                 .lastName("lastName")
                 .email("email")

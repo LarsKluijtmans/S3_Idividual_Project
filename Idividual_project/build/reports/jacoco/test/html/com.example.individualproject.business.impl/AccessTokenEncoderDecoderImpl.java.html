@@ -38,7 +38,7 @@ public class AccessTokenEncoderDecoderImpl implements AccessTokenEncoder, Access
 <span class="nc" id="L38">            claimsMap.put(&quot;roles&quot;, accessTokenDTO.getRoles());</span>
         }
 <span class="nc bnc" id="L40" title="All 2 branches missed.">        if (accessTokenDTO.getUserId() != null) {</span>
-<span class="nc" id="L41">            claimsMap.put(&quot;studentId&quot;, accessTokenDTO.getUserId());</span>
+<span class="nc" id="L41">            claimsMap.put(&quot;userId&quot;, accessTokenDTO.getUserId());</span>
         }
 
 <span class="nc" id="L44">        Instant now = Instant.now();</span>

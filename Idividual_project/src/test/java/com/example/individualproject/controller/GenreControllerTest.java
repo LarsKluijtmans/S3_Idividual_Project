@@ -42,8 +42,15 @@ class GenreControllerTest {
         Genre genre1 = new Genre(1l, "GAME", Collections.emptyList());
         Genre genre2 = new Genre(2l, "JRPG", Collections.emptyList());
 
-        GetGenreDTO genre1DTO = new GetGenreDTO(genre1);
-        GetGenreDTO genre2DTO = new GetGenreDTO(genre2);
+        GetGenreDTO genre1DTO = GetGenreDTO.builder()
+                .id(genre1.getId())
+                .genre(genre1.getGenre())
+                .build();
+
+        GetGenreDTO genre2DTO = GetGenreDTO.builder()
+                .id(genre2.getId())
+                .genre(genre2.getGenre())
+                .build();
 
         when(genreServiceMock.getAllGenres())
                 .thenReturn(List.of(genre1DTO, genre2DTO));

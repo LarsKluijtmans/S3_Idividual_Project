@@ -1,0 +1,37 @@
+.content{
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-bottom: 40px;
+    display: inline-block;
+}
+
+
+.name{
+    margin-top: 40px;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.username{
+    margin-right: 40px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    font-size: 26px;
+}
+
+hr{
+    margin-top: -20px;
+}
+
+.deleteUser{
+    font-size: 15px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    background-color: #333;
+    width: auto;
+    display: inline-block;
+}
+.deleteUser:hover{
+    background-color: green;
+}

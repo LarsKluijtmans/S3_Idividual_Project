@@ -21,9 +21,10 @@ function View_Product_Details() {
         setError(null);
         axios.get(`http://localhost:8080/products/` + productId)
             .then(res => {
-                setProduct(res.data.productInfo);
-                setProductImages(res.data.productInfo.images);
-                setmainImage(res.data.productInfo.images[0]);
+                console.log(res.data)
+                setProduct(res.data);
+                setProductImages(res.data.images);
+                setmainImage(res.data.images[0]);
             })
             .catch(err => {
                 setError(err.message);
@@ -46,22 +47,21 @@ function View_Product_Details() {
                        {productImages != null &&
                            productImages.map(ProductImage => (
                            <img className={"subImage"} src={ProductImage} height={"500"} alt={"picture"} onClick={() => setMainImage(ProductImage)}/>
-                       ))
-                       }
+                       ))}
                    </div>
                </div>
 
                <div className="right-column">
 
                    <div className="product-description">
-                       <span>{product.serie}</span>
                        <h1>{product.title}</h1>
-                       <h2>{product.sub_title}</h2>
-                       <h3>Condition: {product.condition_}</h3>
+                       <h2>{product.subTitle}</h2>
+                       <span>{product.series}</span>
+                       <h3>Condition: {product.condition}</h3>
                        <p>{product.description}</p>
                        <span>year:{product.year} /</span>
                        <span>genre: {product.genre} /</span>
-                       <span>type: {product.product_type}</span>
+                       <span>type: {product.productType}</span>
                    </div>
 
                    <div className="product-price">

@@ -2,7 +2,9 @@ package com.example.individualproject.controller;
 
 import com.example.individualproject.business.impl.ProductServiceImpl;
 import com.example.individualproject.dto.products.*;
+import com.example.individualproject.repository.entity.Genre;
 import com.example.individualproject.repository.entity.NormalUser;
+import com.example.individualproject.repository.entity.Product;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
@@ -41,12 +43,34 @@ class ProductControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getAllProducts() throws Exception {
-        BasicProductInfo product1 = BasicProductInfo.builder().title("Pokemon").subTitle("diamond").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(1l).productType("GAME").images(Collections.emptyList()).build();
-        BasicProductInfo product2 = BasicProductInfo.builder().title("Pokemon").subTitle("Pearl").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genreId(2l).productType("GAME").images(Collections.emptyList()).build();
+        GetProductDTO PokemonPearlDTO = GetProductDTO.builder()
+                .id(2l)
+                .title("Pokemon")
+                .subTitle("Pearl")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genre("genre")
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .build();
 
-        GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1, null);
-        GetProductDTO PokemonPearlDTO = new GetProductDTO(2l, product2, null);
-
+        GetProductDTO PokemonDiamondDTO = GetProductDTO.builder()
+                .id(1l)
+                .title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genre("genre")
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .seller(null)
+                .build();
 
         when(productService.getAllProducts())
                 .thenReturn(List.of(PokemonDiamondDTO, PokemonPearlDTO));
@@ -77,20 +101,20 @@ class ProductControllerTest {
     @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void getProduct() throws Exception {
 
-        BasicProductInfo product1 = BasicProductInfo.builder().
-                title("Pokemon")
+        GetProductDTO PokemonDiamondDTO = GetProductDTO.builder()
+                .id(1l)
+                .title("Pokemon")
                 .subTitle("diamond")
                 .series("Pokemon")
                 .year(2022)
                 .price(10.01)
                 .condition("TRASH")
                 .description("Pokemon game")
-                .genreId(1l)
-                .productType("GAME").
-                images(Collections.emptyList())
+                .genre("genre")
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .seller(null)
                 .build();
-
-        GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1, null);
 
         when(productService.getProduct(1l))
                 .thenReturn(PokemonDiamondDTO);
@@ -120,20 +144,8 @@ class ProductControllerTest {
     //getAllProductsByName
     @Test
     void getAllProductsByName()throws Exception {
-        BasicProductInfo product1 = BasicProductInfo.builder()
-                .title("Pokemon")
-                .subTitle("diamond")
-                .series("Pokemon")
-                .year(2022)
-                .price(10.01)
-                .condition("TRASH")
-                .description("Pokemon game")
-                .genreId(1l)
-                .productType("GAME")
-                .images(Collections.emptyList())
-                .build();
-
-        BasicProductInfo product2 = BasicProductInfo.builder()
+        GetProductDTO PokemonPearlDTO = GetProductDTO.builder()
+                .id(2l)
                 .title("Pokemon")
                 .subTitle("Pearl")
                 .series("Pokemon")
@@ -141,13 +153,25 @@ class ProductControllerTest {
                 .price(10.01)
                 .condition("TRASH")
                 .description("Pokemon game")
-                .genreId(2l)
+                .genre("genre")
                 .productType("GAME")
                 .images(Collections.emptyList())
                 .build();
 
-        GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1, null);
-        GetProductDTO PokemonPearlDTO = new GetProductDTO(2l, product2, null);
+        GetProductDTO PokemonDiamondDTO = GetProductDTO.builder()
+                .id(1l)
+                .title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genre("genre")
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .seller(null)
+                .build();
 
 
         when(productService.getProducts("Pokemon"))
@@ -190,7 +214,7 @@ class ProductControllerTest {
     @Test
     @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void createProduct() throws Exception {
-        BasicProductInfo product1 = BasicProductInfo.builder()
+        CreateProductRequestDTO createProductRequestDTO = CreateProductRequestDTO.builder()
                 .title("Pokemon")
                 .subTitle("diamond")
                 .series("Pokemon")
@@ -201,9 +225,7 @@ class ProductControllerTest {
                 .genreId(1l)
                 .productType("GAME")
                 .images(Collections.emptyList())
-                .build();
-        CreateProductRequestDTO createProductRequestDTO = CreateProductRequestDTO.builder()
-                .productInfo(product1)
+                .seller(1l)
                 .build();
         CreateProductResponseDTO createProductResponseDTO = CreateProductResponseDTO.builder()
                 .productId(1l)
@@ -223,7 +245,7 @@ class ProductControllerTest {
     @Test
     @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void createProduct_NotFound() throws Exception {
-        BasicProductInfo product1 = BasicProductInfo.builder()
+        CreateProductRequestDTO createProductRequestDTO = CreateProductRequestDTO.builder()
                 .title("Pokemon")
                 .subTitle("diamond")
                 .series("Pokemon")
@@ -234,9 +256,7 @@ class ProductControllerTest {
                 .genreId(1l)
                 .productType("GAME")
                 .images(Collections.emptyList())
-                .build();
-        CreateProductRequestDTO createProductRequestDTO = CreateProductRequestDTO.builder()
-                .productInfo(product1)
+                .seller(1l)
                 .build();
 
         when(productService.addProduct(createProductRequestDTO))
@@ -255,7 +275,7 @@ class ProductControllerTest {
     @Test
     @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void updateProduct() throws Exception {
-        BasicProductInfo product1 = BasicProductInfo.builder()
+        UpdateProductRequestDTO updateProductRequestDTO = UpdateProductRequestDTO.builder()
                 .title("Pokemon")
                 .subTitle("diamond")
                 .series("Pokemon")
@@ -266,9 +286,6 @@ class ProductControllerTest {
                 .genreId(1l)
                 .productType("GAME")
                 .images(Collections.emptyList())
-                .build();
-        UpdateProductRequestDTO updateProductRequestDTO = UpdateProductRequestDTO.builder()
-                .productInfo(product1)
                 .build();
         UpdateProductResponseDTO updateProductResponseDTO = UpdateProductResponseDTO.builder()
                 .productId(1l)
@@ -288,7 +305,8 @@ class ProductControllerTest {
     @Test
     @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void updateProduct_NotFound() throws Exception {
-        BasicProductInfo product1 = BasicProductInfo.builder()
+
+        UpdateProductRequestDTO updateProductRequestDTO = UpdateProductRequestDTO.builder()
                 .title("Pokemon")
                 .subTitle("diamond")
                 .series("Pokemon")
@@ -299,9 +317,6 @@ class ProductControllerTest {
                 .genreId(1l)
                 .productType("GAME")
                 .images(Collections.emptyList())
-                .build();
-        UpdateProductRequestDTO updateProductRequestDTO = UpdateProductRequestDTO.builder()
-                .productInfo(product1)
                 .build();
 
         when(productService.updateProduct(updateProductRequestDTO))
@@ -332,20 +347,8 @@ class ProductControllerTest {
     @Test
     @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void getUsersProductsNormal()throws Exception {
-        BasicProductInfo product1 = BasicProductInfo.builder()
-                .title("Pokemon")
-                .subTitle("diamond")
-                .series("Pokemon")
-                .year(2022)
-                .price(10.01)
-                .condition("TRASH")
-                .description("Pokemon game")
-                .genreId(1l)
-                .productType("GAME")
-                .images(Collections.emptyList())
-                .build();
-
-        BasicProductInfo product2 = BasicProductInfo.builder()
+        GetProductDTO PokemonPearlDTO = GetProductDTO.builder()
+                .id(2l)
                 .title("Pokemon")
                 .subTitle("Pearl")
                 .series("Pokemon")
@@ -353,13 +356,25 @@ class ProductControllerTest {
                 .price(10.01)
                 .condition("TRASH")
                 .description("Pokemon game")
-                .genreId(2l)
+                .genre("genre")
                 .productType("GAME")
                 .images(Collections.emptyList())
                 .build();
 
-        GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1, null);
-        GetProductDTO PokemonPearlDTO = new GetProductDTO(2l, product2, null);
+        GetProductDTO PokemonDiamondDTO = GetProductDTO.builder()
+                .id(1l)
+                .title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genre("genre")
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .seller(null)
+                .build();
 
         when(productService.getAllOfAUsersProductsNormalUser("Lars"))
                 .thenReturn(List.of(PokemonDiamondDTO, PokemonPearlDTO));
@@ -390,20 +405,8 @@ class ProductControllerTest {
     @Test
     @WithMockUser(username = "me", roles = {"ADMIN"})
     void getUsersProductsAdmin()throws Exception {
-        BasicProductInfo product1 = BasicProductInfo.builder()
-                .title("Pokemon")
-                .subTitle("diamond")
-                .series("Pokemon")
-                .year(2022)
-                .price(10.01)
-                .condition("TRASH")
-                .description("Pokemon game")
-                .genreId(1l)
-                .productType("GAME")
-                .images(Collections.emptyList())
-                .build();
-
-        BasicProductInfo product2 = BasicProductInfo.builder()
+        GetProductDTO PokemonPearlDTO = GetProductDTO.builder()
+                .id(2l)
                 .title("Pokemon")
                 .subTitle("Pearl")
                 .series("Pokemon")
@@ -411,13 +414,25 @@ class ProductControllerTest {
                 .price(10.01)
                 .condition("TRASH")
                 .description("Pokemon game")
-                .genreId(2l)
+                .genre("genre")
                 .productType("GAME")
                 .images(Collections.emptyList())
                 .build();
 
-        GetProductDTO PokemonDiamondDTO = new GetProductDTO(1l, product1, null);
-        GetProductDTO PokemonPearlDTO = new GetProductDTO(2l, product2, null);
+        GetProductDTO PokemonDiamondDTO = GetProductDTO.builder()
+                .id(1l)
+                .title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genre("genre")
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .seller(null)
+                .build();
 
         when(productService.getAllOfAUsersProductsAdmin("Lars"))
                 .thenReturn(List.of(PokemonDiamondDTO, PokemonPearlDTO));

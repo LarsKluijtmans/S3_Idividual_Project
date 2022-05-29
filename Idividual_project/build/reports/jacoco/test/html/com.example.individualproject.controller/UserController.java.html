@@ -36,8 +36,8 @@ public class UserController {
 
     @IsAuthenticated
     @RolesAllowed({&quot;ROLE_ADMIN&quot;})
-    @GetMapping(&quot;{username}&quot;)
-    public ResponseEntity&lt;GetUserDTO&gt; getUserByUsername(@PathVariable(&quot;username&quot;) String username) {
+    @GetMapping(&quot;/admin/{username}&quot;)
+    public ResponseEntity&lt;GetUserDTO&gt; getUserByUsernameAdmin(@PathVariable(&quot;username&quot;) String username) {
 <span class="nc" id="L41">        GetUserDTO user = userService.getUserByName(username);</span>
 
 <span class="nc bnc" id="L43" title="All 2 branches missed.">        if(user != null) {</span>
@@ -108,38 +108,51 @@ public class UserController {
        }
     }
 
+    @IsAuthenticated
+    @RolesAllowed({&quot;ROLE_NORMALUSER&quot;})
+    @GetMapping(&quot;/normal/{username}&quot;)
+    public ResponseEntity&lt;GetUserDTO&gt; getUserByUsernameNormal(@PathVariable(&quot;username&quot;) String username) {
+<span class="nc" id="L115">        GetUserDTO user = userService.getUserByNameNormalUser(username);</span>
+
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        if(user != null) {</span>
+<span class="nc" id="L118">            return ResponseEntity.ok().body(user);</span>
+        } else {
+<span class="nc" id="L120">            return ResponseEntity.notFound().build();</span>
+        }
+    }
+
     //All
-    @GetMapping( &quot;unique/name/{name}&quot;)
+    @GetMapping( &quot;/unique/name/{name}&quot;)
     public ResponseEntity&lt;Boolean&gt; isUsernameUnique(@PathVariable(&quot;name&quot;) String name) {
-<span class="fc" id="L114">        Boolean result = userService.isUsernameUnique(name);</span>
+<span class="fc" id="L127">        Boolean result = userService.isUsernameUnique(name);</span>
 
-<span class="fc" id="L116">        return ResponseEntity.ok().body(result);</span>
+<span class="fc" id="L129">        return ResponseEntity.ok().body(result);</span>
     }
 
-    @GetMapping( &quot;unique/phoneNumber/{phoneNumber}&quot;)
+    @GetMapping( &quot;/unique/phoneNumber/{phoneNumber}&quot;)
     public ResponseEntity&lt;Boolean&gt; isPhoneNumberUnique(@PathVariable(&quot;phoneNumber&quot;) String phoneNumber) {
-<span class="fc" id="L121">        Boolean result = userService.isPhoneNumberUnique(phoneNumber);</span>
+<span class="fc" id="L134">        Boolean result = userService.isPhoneNumberUnique(phoneNumber);</span>
 
-<span class="fc" id="L123">        return ResponseEntity.ok().body(result);</span>
+<span class="fc" id="L136">        return ResponseEntity.ok().body(result);</span>
     }
 
-    @GetMapping( &quot;unique/email/{email}&quot;)
+    @GetMapping( &quot;/unique/email/{email}&quot;)
     public ResponseEntity&lt;Boolean&gt; isEmailUnique(@PathVariable(&quot;email&quot;) String email) {
-<span class="fc" id="L128">        Boolean result = userService.isEmailUnique(email);</span>
+<span class="fc" id="L141">        Boolean result = userService.isEmailUnique(email);</span>
 
-<span class="fc" id="L130">        return ResponseEntity.ok().body(result);</span>
+<span class="fc" id="L143">        return ResponseEntity.ok().body(result);</span>
     }
 
     @PostMapping()
     public ResponseEntity&lt;CreateUserResponseDTO&gt; createUser(@RequestBody CreateUserRequestDTO user) {
 
-<span class="fc" id="L136">        CreateUserResponseDTO userResponseDTO = userService.addUser(user);</span>
-<span class="fc bfc" id="L137" title="All 2 branches covered.">        if (userResponseDTO != null){</span>
-<span class="fc" id="L138">            String url = &quot;Unknown&quot;;</span>
-<span class="fc" id="L139">            URI uri = URI.create(url);</span>
-<span class="fc" id="L140">            return ResponseEntity.created(uri).body(userResponseDTO);</span>
+<span class="fc" id="L149">        CreateUserResponseDTO userResponseDTO = userService.addUser(user);</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        if (userResponseDTO != null){</span>
+<span class="fc" id="L151">            String url = &quot;Unknown&quot;;</span>
+<span class="fc" id="L152">            URI uri = URI.create(url);</span>
+<span class="fc" id="L153">            return ResponseEntity.created(uri).body(userResponseDTO);</span>
         } else {
-<span class="fc" id="L142">            return ResponseEntity.status(HttpStatus.CONFLICT).build();</span>
+<span class="fc" id="L155">            return ResponseEntity.status(HttpStatus.CONFLICT).build();</span>
         }
     }
 }

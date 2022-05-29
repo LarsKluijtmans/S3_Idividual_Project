@@ -25,13 +25,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         Product product = new Product(1l,"lars","lars","lars",2000,10.10,"GOOD","lars",new Genre(59l,"JRPG", null),false,"GAME", images, new NormalUser());
         GetProductDTO getProductDTO = new GetProductDTO(product);
 
-        assertEquals("lars", getProductDTO.getProductInfo().getTitle());
-        assertEquals("lars", getProductDTO.getProductInfo().getSubTitle());
-        assertEquals("lars", getProductDTO.getProductInfo().getSeries());
-        assertEquals(2000, getProductDTO.getProductInfo().getYear());
-        assertEquals(10.10, getProductDTO.getProductInfo().getPrice());
-        assertEquals("GOOD", getProductDTO.getProductInfo().getCondition());
-        assertEquals(59l, getProductDTO.getProductInfo().getGenreId());
-        assertEquals("GAME", getProductDTO.getProductInfo().getProductType());
+        assertEquals("lars", getProductDTO.getTitle());
+        assertEquals("lars", getProductDTO.getSubTitle());
+        assertEquals("lars", getProductDTO.getSeries());
+        assertEquals(2000, getProductDTO.getYear());
+        assertEquals(10.10, getProductDTO.getPrice());
+        assertEquals("GOOD", getProductDTO.getCondition());
+        assertEquals("JRPG", getProductDTO.getGenre());
+        assertEquals("GAME", getProductDTO.getProductType());
     }
 }

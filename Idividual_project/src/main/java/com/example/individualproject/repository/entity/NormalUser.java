@@ -41,21 +41,24 @@ public class NormalUser extends User {
 
     public NormalUser (CreateUserRequestDTO createDTO){
         super(createDTO.getUsername(), createDTO.getPassword());
+
         this.firstname = createDTO.getFirstName();
         this.lastname = createDTO.getLastName();
         this.phonenumber = createDTO.getPhoneNumber();
         this.email = createDTO.getEmail();
     }
-    public NormalUser (UpdateUserRequestDTO userRequestDTO, String username, String password, List<Product> productsSelling){
-        super(userRequestDTO.getId(), username, password);
+    public NormalUser (UpdateUserRequestDTO userRequestDTO, NormalUser user){
+        super(user.getId(), userRequestDTO.getUsername(), user.getPassword());
+
         this.firstname = userRequestDTO.getFirstName();
         this.lastname = userRequestDTO.getLastName();
         this.phonenumber = userRequestDTO.getPhoneNumber();
         this.email = userRequestDTO.getEmail();
-        this.productsSelling = productsSelling;
+        this.productsSelling = user.getProductsSelling();
     }
     public NormalUser (Long id, String username, String password, String firstname, String lastname, String phoneNumber, String email){
         super(id,username, password);
+
         this.firstname = firstname;
         this.lastname = lastname;
         this.phonenumber = phoneNumber;
@@ -65,6 +68,7 @@ public class NormalUser extends User {
 
     public NormalUser (Long id, String username, String password, String firstname, String lastname, String phoneNumber, String email, List<Product> productsSelling){
         super(id,username, password);
+
         this.firstname = firstname;
         this.lastname = lastname;
         this.phonenumber = phoneNumber;
@@ -74,6 +78,7 @@ public class NormalUser extends User {
 
     public NormalUser (String username, String password, String firstname, String lastname, String phoneNumber, String email, List<Product> productsSelling){
         super(username, password);
+
         this.firstname = firstname;
         this.lastname = lastname;
         this.phonenumber = phoneNumber;

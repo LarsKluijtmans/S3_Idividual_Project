@@ -40,6 +40,7 @@ public class ProductServiceImpl implements ProductService {
         GetProductDTO product;
 
         for (Product p : productRepository.findAll()) {
+
             product = new GetProductDTO(p);
             result.add(product);
         }
@@ -159,7 +160,7 @@ public class ProductServiceImpl implements ProductService {
     public CreateProductResponseDTO addProduct(CreateProductRequestDTO product) {
 
         List<Image> images = new ArrayList<>();
-        for (String s : product.getProductInfo().getImages()) {
+        for (String s : product.getImages()) {
             Image newimage = Image.builder()
                     .imageUrl(s)
                     .build();
@@ -168,17 +169,17 @@ public class ProductServiceImpl implements ProductService {
         }
 
         Product newProduct = Product.builder()
-                .title(product.getProductInfo().getTitle())
-                .subTitle(product.getProductInfo().getSubTitle())
-                .series(product.getProductInfo().getSeries())
-                .year(product.getProductInfo().getYear())
-                .price(product.getProductInfo().getPrice())
-                .condition(product.getProductInfo().getCondition())
-                .description(product.getProductInfo().getDescription())
-                .genre(genreRepository.getById(product.getProductInfo().getGenreId()))
+                .title(product.getTitle())
+                .subTitle(product.getSubTitle())
+                .series(product.getSeries())
+                .year(product.getYear())
+                .price(product.getPrice())
+                .condition(product.getCondition())
+                .description(product.getDescription())
+                .genre(genreRepository.getById(product.getGenreId()))
                 .sold(false)
                 .images(images)
-                .productType(product.getProductInfo().getProductType())
+                .productType(product.getProductType())
                 .seller(normalUserRepository.getById(product.getSeller()))
                 .build();
 
@@ -190,7 +191,7 @@ public class ProductServiceImpl implements ProductService {
 
         savedProduct.setId(createProductResponseDTO.getProductId());
 
-        saveImages(savedProduct,product.getProductInfo().getImages());
+        saveImages(savedProduct,product.getImages());
 
         return createProductResponseDTO;
     }
@@ -208,7 +209,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         List<Image> images = new ArrayList<>();
-        for (String s : product.getProductInfo().getImages()) {
+        for (String s : product.getImages()) {
             Image newimage = Image.builder()
                     .imageUrl(s)
                     .build();
@@ -218,16 +219,16 @@ public class ProductServiceImpl implements ProductService {
 
         Product updatedProduct = Product.builder()
                 .id(product.getProductId())
-                .title(product.getProductInfo().getTitle())
-                .subTitle(product.getProductInfo().getSubTitle())
-                .series(product.getProductInfo().getSeries())
-                .year(product.getProductInfo().getYear())
-                .price(product.getProductInfo().getPrice())
-                .condition(product.getProductInfo().getCondition())
-                .description(product.getProductInfo().getDescription())
-                .genre(genreRepository.getById(product.getProductInfo().getGenreId()))
+                .title(product.getTitle())
+                .subTitle(product.getSubTitle())
+                .series(product.getSeries())
+                .year(product.getYear())
+                .price(product.getPrice())
+                .condition(product.getCondition())
+                .description(product.getDescription())
+                .genre(genreRepository.getById(product.getGenreId()))
                 .sold(false)
-                .productType(product.getProductInfo().getProductType())
+                .productType(product.getProductType())
                 .images(images)
                 .build();
 
@@ -242,7 +243,7 @@ public class ProductServiceImpl implements ProductService {
 
 
         imageRepository.deleteByProductId(savedProduct.getId());
-        saveImages(savedProduct,product.getProductInfo().getImages());
+        saveImages(savedProduct,product.getImages());
 
         return  updateProductResponseDTO;
     }

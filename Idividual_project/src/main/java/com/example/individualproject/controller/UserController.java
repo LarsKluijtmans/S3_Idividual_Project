@@ -36,8 +36,8 @@ public class UserController {
 
     @IsAuthenticated
     @RolesAllowed({"ROLE_ADMIN"})
-    @GetMapping("{username}")
-    public ResponseEntity<GetUserDTO> getUserByUsername(@PathVariable("username") String username) {
+    @GetMapping("/admin/{username}")
+    public ResponseEntity<GetUserDTO> getUserByUsernameAdmin(@PathVariable("username") String username) {
         GetUserDTO user = userService.getUserByName(username);
 
         if(user != null) {
@@ -108,22 +108,35 @@ public class UserController {
        }
     }
 
+    @IsAuthenticated
+    @RolesAllowed({"ROLE_NORMALUSER"})
+    @GetMapping("/normal/{username}")
+    public ResponseEntity<GetUserDTO> getUserByUsernameNormal(@PathVariable("username") String username) {
+        GetUserDTO user = userService.getUserByNameNormalUser(username);
+
+        if(user != null) {
+            return ResponseEntity.ok().body(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     //All
-    @GetMapping( "unique/name/{name}")
+    @GetMapping( "/unique/name/{name}")
     public ResponseEntity<Boolean> isUsernameUnique(@PathVariable("name") String name) {
         Boolean result = userService.isUsernameUnique(name);
 
         return ResponseEntity.ok().body(result);
     }
 
-    @GetMapping( "unique/phoneNumber/{phoneNumber}")
+    @GetMapping( "/unique/phoneNumber/{phoneNumber}")
     public ResponseEntity<Boolean> isPhoneNumberUnique(@PathVariable("phoneNumber") String phoneNumber) {
         Boolean result = userService.isPhoneNumberUnique(phoneNumber);
 
         return ResponseEntity.ok().body(result);
     }
 
-    @GetMapping( "unique/email/{email}")
+    @GetMapping( "/unique/email/{email}")
     public ResponseEntity<Boolean> isEmailUnique(@PathVariable("email") String email) {
         Boolean result = userService.isEmailUnique(email);
 

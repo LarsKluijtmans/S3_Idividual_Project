@@ -1,5 +1,7 @@
 package com.example.individualproject.business.impl;
 
+import com.example.individualproject.business.dtoconvertor.AdminDTOConvertor;
+import com.example.individualproject.business.dtoconvertor.NormalUserDTOConvertor;
 import com.example.individualproject.business.exception.*;
 import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.users.*;
@@ -34,10 +36,10 @@ public class UserServiceImpl implements UserService {
         List<Admin> adminResult = adminRepository.findAll();
 
         for (NormalUser user: normalUsersResult) {
-            result.add(new GetUserDTO(user));
+            result.add(NormalUserDTOConvertor.convertToDTO(user));
         }
-        for (Admin user: adminResult) {
-            result.add(new GetUserDTO(user));
+        for (Admin admin: adminResult) {
+            result.add(AdminDTOConvertor.convertToDTO(admin));
         }
 
         return result;
@@ -46,10 +48,10 @@ public class UserServiceImpl implements UserService {
     public List<GetUserDTO> getAllNormalUsers(){
         List<GetUserDTO> result = new ArrayList<>();
 
-        List<NormalUser> normalUsersreuslt = normalUserRepository.findAll();
+        List<NormalUser> normalUsersResult = normalUserRepository.findAll();
 
-        for (NormalUser user: normalUsersreuslt) {
-            result.add(new GetUserDTO(user));
+        for (NormalUser user: normalUsersResult) {
+            result.add( NormalUserDTOConvertor.convertToDTO(user));
         }
 
         return result;
@@ -60,8 +62,8 @@ public class UserServiceImpl implements UserService {
 
         List<Admin> adminResult = adminRepository.findAll();
 
-        for (Admin user: adminResult) {
-            result.add(new GetUserDTO(user));
+        for (Admin admin: adminResult) {
+            result.add(AdminDTOConvertor.convertToDTO(admin));
         }
 
         return result;
@@ -72,15 +74,30 @@ public class UserServiceImpl implements UserService {
         NormalUser normalUser = normalUserRepository.findByUsername(username);
 
         if(normalUser != null) {
-            return new GetUserDTO(normalUser);
+            return NormalUserDTOConvertor.convertToDTO(normalUser);
         }
 
         Admin admin = adminRepository.findByUsername(username);
 
         if(admin != null){
-            return new GetUserDTO(admin);
+            return AdminDTOConvertor.convertToDTO(admin);
         }
         return null;
+    }
+
+    @Override
+    public GetUserDTO getUserByNameNormalUser(String username) {
+        NormalUser normalUser = normalUserRepository.findByUsername(username);
+
+        if(normalUser == null) {
+            throw new UserNotFoundException();
+        }
+
+        if (!requestAccessToken.getUserId().equals(normalUser.getId())){
+            throw new InvalidCredentialsException();
+        }
+
+        return NormalUserDTOConvertor.convertToDTO(normalUser);
     }
 
     @Override
@@ -92,10 +109,10 @@ public class UserServiceImpl implements UserService {
         List<Admin> adminResult = adminRepository.findAllByUsernameIsLike(searchName);
 
         for (NormalUser user: normalUsersResult) {
-            result.add(new GetUserDTO(user));
+            result.add( NormalUserDTOConvertor.convertToDTO(user));
         }
-        for (Admin user: adminResult) {
-            result.add(new GetUserDTO(user));
+        for (Admin admin: adminResult) {
+            result.add(AdminDTOConvertor.convertToDTO(admin));
         }
 
         return result;
@@ -117,17 +134,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public UpdateUserResponseDTO updateUser(UpdateUserRequestDTO updateRequestDTO){
 
+        NormalUser user = normalUserRepository.findByUsername(updateRequestDTO.getUsername());
+        if(user == null) {
+            throw new UserNotFoundException();
+        }
+
         if (!requestAccessToken.hasRole("NORMALUSER")){
             throw new InvalidCredentialsException();
         }
 
-        if (!requestAccessToken.getUserId().equals(updateRequestDTO.getId())){
+        if (!requestAccessToken.getUserId().equals(user.getId())){
             throw new InvalidCredentialsException();
-        }
-
-        NormalUser user = normalUserRepository.findAllByIdIs(updateRequestDTO.getId());
-        if(user == null) {
-            return null;
         }
 
         if(!(user.getEmail().equals(updateRequestDTO.getEmail())) && normalUserRepository.existsByEmail(updateRequestDTO.getEmail())){
@@ -140,9 +157,7 @@ public class UserServiceImpl implements UserService {
 
         NormalUser newUser = new NormalUser(
                 updateRequestDTO,
-                user.getUsername(),
-                user.getPassword(),
-                user.getProductsSelling());
+                user);
 
         normalUserRepository.save(newUser);
 

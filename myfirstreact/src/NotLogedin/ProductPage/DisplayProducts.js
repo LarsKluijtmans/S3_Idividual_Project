@@ -8,19 +8,19 @@ function DisplayProducts({productsArray}) {
             {productsArray.map(product => (
                 <div className="box">
                     <section className="product">
-                        {product.productInfo.images != null &&
-                            <img className="product_image" src={product.productInfo.images[0]} alt={"Product main Image"}/>
+                        {product.images != null &&
+                            <img className="product_image" src={product.images[0]} alt={"Product main Image"}/>
                         }
                         <div>
                             <div className="title">
-                                <h1>{product.productInfo.title}</h1>
-                                <span>{product.productInfo.sub_title}</span>
+                                <h1>{product.title}</h1>
+                                <span>{product.sub_title}</span>
                             </div>
                             <div className="price">
-                                <span>{product.productInfo.price} </span> $
+                                <span>{product.price} </span> $
                             </div>
                             <div className="description">
-                                <h4>{product.productInfo.description}</h4>
+                                <h4>{product.description}</h4>
                             </div>
 
                             <Link className="ToProductPageButton" to={'/products/'+ product.id}>Details</Link>

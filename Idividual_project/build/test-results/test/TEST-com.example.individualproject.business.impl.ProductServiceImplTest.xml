@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.individualproject.business.impl.ProductServiceImplTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2022-05-27T19:41:46" hostname="MSILARS" time="0.151">
+<testsuite name="com.example.individualproject.business.impl.ProductServiceImplTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2022-05-29T13:23:54" hostname="MSILARS" time="0.152">
   <properties/>
-  <testcase name="getAllOfAUsersProducts()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.096"/>
-  <testcase name="getAllProducts()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.004"/>
-  <testcase name="getAllOfAUsersProductsAdmin()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.004"/>
-  <testcase name="deleteProductNormalUser_IDNotMatched()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.007"/>
-  <testcase name="deleteProductAdmin()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.002"/>
-  <testcase name="deleteProductNormalUser()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.003"/>
+  <testcase name="getAllOfAUsersProducts()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.093"/>
+  <testcase name="getAllProducts()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.005"/>
+  <testcase name="getAllOfAUsersProductsAdmin()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.006"/>
+  <testcase name="deleteProductNormalUser_IDNotMatched()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.005"/>
+  <testcase name="deleteProductAdmin()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.003"/>
+  <testcase name="deleteProductNormalUser()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.007"/>
   <testcase name="deleteProductAdmin_NotAdmin()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.002"/>
   <testcase name="getAllOfAUsersProducts_isntNormalUser()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.002"/>
-  <testcase name="getProduct()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.001"/>
+  <testcase name="getProduct()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.002"/>
   <testcase name="getProducts()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.005"/>
   <testcase name="getAllOfAUsersProducts_IDNotMatched()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.003"/>
-  <testcase name="addProduct()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.007"/>
-  <testcase name="deleteProductNormalUser_isntNormalUser()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.003"/>
-  <testcase name="getAllOfAUsersProductsAdmin_isntAdmin()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.003"/>
+  <testcase name="getAllOfAUsersProducts_userNorFound()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.002"/>
+  <testcase name="addProduct()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.005"/>
+  <testcase name="deleteProductNormalUser_isntNormalUser()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.002"/>
+  <testcase name="getAllOfAUsersProductsAdmin_isntAdmin()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.002"/>
+  <testcase name="getAllOfAUsersProductsAdmin_UserNotFound()" classname="com.example.individualproject.business.impl.ProductServiceImplTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

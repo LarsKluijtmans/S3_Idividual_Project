@@ -5,38 +5,56 @@ import com.example.individualproject.repository.entity.Image;
 import com.example.individualproject.repository.entity.Product;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
+@Builder
 @AllArgsConstructor
 public class GetProductDTO {
 
     private Long id;
-    private BasicProductInfo productInfo;
+    private String title;
+    private String subTitle;
+    private String series;
+    private int year;
+    private double price;
+    private String condition;
+    private String description;
+    private String genre;
+    private String productType;
+    private List&lt;String&gt; images;
     private GetUserDTO seller;
 
     public GetProductDTO(Product p)
-<span class="fc" id="L21">    {</span>
-<span class="fc" id="L22">        this.productInfo = new BasicProductInfo();</span>
+<span class="fc" id="L33">    {</span>
+<span class="fc" id="L34">        this.id = p.getId();</span>
+<span class="fc" id="L35">        this.setTitle(p.getTitle());</span>
+<span class="fc" id="L36">        this.setSubTitle(p.getSubTitle());</span>
+<span class="fc" id="L37">        this.setSeries(p.getSeries());</span>
+<span class="fc" id="L38">        this.setYear(p.getYear());</span>
+<span class="fc" id="L39">        this.setPrice(p.getPrice());</span>
+<span class="fc" id="L40">        this.setCondition(p.getCondition());</span>
+<span class="fc" id="L41">        this.setDescription(p.getDescription());</span>
+<span class="fc" id="L42">        this.setGenre(p.getGenre().getGenre());</span>
+<span class="fc" id="L43">        this.setProductType(p.getProductType());</span>
 
-<span class="fc" id="L24">        this.id = p.getId();</span>
-<span class="fc" id="L25">        this.productInfo.setTitle(p.getTitle());</span>
-<span class="fc" id="L26">        this.productInfo.setSubTitle(p.getSubTitle());</span>
-<span class="fc" id="L27">        this.productInfo.setSeries(p.getSeries());</span>
-<span class="fc" id="L28">        this.productInfo.setYear(p.getYear());</span>
-<span class="fc" id="L29">        this.productInfo.setPrice(p.getPrice());</span>
-<span class="fc" id="L30">        this.productInfo.setCondition(p.getCondition());</span>
-<span class="fc" id="L31">        this.productInfo.setDescription(p.getDescription());</span>
-<span class="fc" id="L32">        this.productInfo.setGenreId(p.getGenre().getId());</span>
-<span class="fc" id="L33">        this.productInfo.setProductType(p.getProductType());</span>
+<span class="fc" id="L45">        this.seller =  GetUserDTO.builder()</span>
+<span class="fc" id="L46">                .username(p.getSeller().getUsername())</span>
+<span class="fc" id="L47">                .firstName(p.getSeller().getFirstname())</span>
+<span class="fc" id="L48">                .lastName(p.getSeller().getLastname())</span>
+<span class="fc" id="L49">                .email(p.getSeller().getEmail())</span>
+<span class="fc" id="L50">                .phoneNumber(p.getSeller().getPhonenumber())</span>
+<span class="fc" id="L51">                .position(&quot;NORMAL&quot;)</span>
+<span class="fc" id="L52">                .build();</span>
 
-<span class="fc" id="L35">        this.seller = new GetUserDTO( p.getSeller());</span>
-<span class="fc" id="L36">        this.productInfo.setImages(new ArrayList&lt;&gt;());</span>
-<span class="fc bfc" id="L37" title="All 2 branches covered.">        for (Image image: p.getImages()) {</span>
-<span class="fc" id="L38">            productInfo.getImages().add(image.getImageUrl());</span>
-<span class="fc" id="L39">        }</span>
-<span class="fc" id="L40">    }</span>
+<span class="fc" id="L54">        this.setImages(new ArrayList&lt;&gt;());</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        for (Image image: p.getImages()) {</span>
+<span class="fc" id="L56">            this.getImages().add(image.getImageUrl());</span>
+<span class="fc" id="L57">        }</span>
+<span class="fc" id="L58">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

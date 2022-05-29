@@ -1,130 +1,58 @@
-import React, {useState} from 'react';
-import axios from "axios";
+import React, {useEffect, useState} from 'react';
 
 import "./Navbar.css"
 
-import {Link, Route, Routes} from "react-router-dom";
-import Homepage from "./NotLogedin/HomePage";
-
-import Products from "./NotLogedin/ProductPage/Product";
-import View_Product_Details from "./NotLogedin/ProductPage/View_Product_Details";
-import Login from "./NotLogedin/AccountPages/Login";
-import MakeAccount from "./NotLogedin/AccountPages/MakeAccount";
-
-import AllUsers from "./Admin/AllUsers";
-import UserDetails from "./Admin/UserDetails";
-import AllProducts from "./Admin/AllProducts";
-import ProductDetails from "./Admin/ProductDetails";
-
-import MyAccount from "./NormalUser/MyAccount";
-import MyProducts from "./NormalUser/MyProducts";
-import MyProductDetails from "./NormalUser/MyProductDetails";
+import AdminNav from "./Nav/Admin";
+import NormalUserNav from "./Nav/NormalUser";
+import NotLoggedNav from "./Nav/NotLogged";
+import axios from "axios";
 
 function App() {
 
+    useEffect(() => {
+        let auth = localStorage.getItem("authorization");
+        let username = localStorage.getItem("username");
+        if( auth !== null && username !== null){
+            setAuthorization(auth);
+            setUsername(username);
+        }
+    },[]);
+
     const [authorization, setAuthorization] = useState("");
-    localStorage.setItem("token","eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBRE1JTiIsImlhdCI6MTY1MzY3ODkwNywiZXhwIjoxNjUzNjg2MTA3LCJzdHVkZW50SWQiOjEsInJvbGVzIjpbIkFETUlOIl19.tqw4mmVnBpiJZ_PYZHFsJf7mcVZsbqKbDX-NdWdqvVA")
+    const [username, setUsername] = useState("");
 
-    const login = async (username, password) => {
-        const login = {username: username, password: password};
+    function login (username, password) {
+        axios.post(`http://localhost:8080/login`,
+            {
+                "username":username,
+                "password":password
+            })
+            .then(res => {
+                localStorage.setItem("token", res.data.accessToken);
+                localStorage.setItem("authorization", res.data.authorizationLevel);
+                localStorage.setItem("username",username);
 
-         axios.post(`http://localhost:8080/login`, login)
-            .then(result => {
-                localStorage.setItem("token", result.data.accessToken);
-                setAuthorization(result.data.authorizationLevel);
-            });
+                setAuthorization(res.data.authorizationLevel);
+                setUsername(username);
+            })
+            .catch(err => {});
     }
     const logout =()=>{
-        localStorage.setItem("token", "");
+        localStorage.removeItem("token");
+        localStorage.removeItem("authorization");
+        localStorage.removeItem("username");
         setAuthorization("");
     }
 
     return (
         <div>
-            {/* (authorization === "NORMAL")?(
-                <div>
-                    <ul>
-                        <li>
-                            <Link to="/">Home page</Link>
-                        </li>
-                        <li>
-                            <Link to="/products">Products</Link>
-                        </li>
-                        <li>
-                            <Link to="/myAccount/:id">My Account</Link>
-                        </li>
-                        <li>
-                            <Link to="/MyProducts/:id">My Products</Link>
-                        </li>
-                        <div  className="loginbutton" >
-                            <li>
-                                <Link  className={"button"} onClick={logout} to="/"> logout </Link>
-                            </li>
-                        </div>
-                    </ul>
-
-                    <Routes>
-                        <Route path='/' element={<Homepage/>}/>
-                        <Route path='/products' element={<Products/>}/>
-                        <Route path='/products/:productId' element={<View_Product_Details/>}/>
-                        <Route path='/myAccount/' element={<MyAccount/>}/>
-                        <Route path='/myAccount/:id' element={<MyAccount/>}/>
-                        <Route path='/MyProducts/:id' element={<MyProducts/>}/>
-                        <Route path='/MyProduct/:productId' element={<MyProductDetails/>}/>
-                    </Routes>
-                </div>
-            ):(authorization === "ADMIN")?(*/
-                <div>
-                    <ul>
-                        <li>
-                            <Link className={"button"} to="/">Home page</Link>
-                        </li>
-                        <li>
-                            <Link className={"button"} to="/products">Products</Link>
-                        </li>
-                        <li>
-                            <Link className={"button"} to="/users">Users</Link>
-                        </li>
-                        <div className="loginbutton" >
-                            <li>
-                                <button className={"button"} onClick={logout}> logout </button>
-                            </li>
-                        </div>
-                    </ul>
-
-                    <Routes>
-                        <Route path='/' element={<Homepage/>}/>
-                        <Route path='/products' element={<AllProducts/>}/>
-                        <Route path='/products/:ProductId' element={<ProductDetails/>}/>
-                        <Route path='/users' element={<AllUsers/>}/>
-                        <Route path='/users/:Username' element={<UserDetails/>}/>
-                    </Routes>
-                </div>
-            /*):(
-                <div>
-                    <ul>
-                        <li>
-                            <Link className={"button"} to="/">Home page</Link>
-                        </li>
-                        <li>
-                            <Link className={"button"} to="/products">Products</Link>
-                        </li>
-                        <div  className="loginbutton" >
-                            <li>
-                                <Link  className={"button"} to="/login">Login</Link>
-                            </li>
-                        </div>
-                    </ul>
-
-                    <Routes>
-                        <Route path='/' element={<Homepage/>}/>
-                        <Route path='/products' element={<Products/>}/>
-                        <Route path='/products/:productId' element={<View_Product_Details/>}/>
-                        <Route path='/login' element={<Login login={login}/>}/>
-                        <Route path='/signUp' element={<MakeAccount/>}/>
-                    </Routes>
-                </div>
-            )*/}
+            {(authorization === "NORMAL")?(
+                <NormalUserNav logout={logout} username={username}/>
+            ):(authorization === "ADMIN")?(
+                <AdminNav logout={logout}/>
+            ):(
+                <NotLoggedNav login={login}/>
+            )}
         </div>
     );
 }

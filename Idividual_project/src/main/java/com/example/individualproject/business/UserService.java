@@ -11,6 +11,7 @@ public interface UserService {
     List<GetUserDTO> getAllAdmins();
 
     GetUserDTO getUserByName(String username);
+    GetUserDTO getUserByNameNormalUser(String username);
 
     List<GetUserDTO> getAllUserByName(String name);
     boolean deleteUser(String username);
