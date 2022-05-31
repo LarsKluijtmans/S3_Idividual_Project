@@ -4,10 +4,7 @@ import com.example.individualproject.business.GenreService;
 import com.example.individualproject.dto.genre.GetGenreDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +25,17 @@ public class GenreController {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok().body(genres);
+        }
+    }
+
+    @GetMapping("{name}")
+    public ResponseEntity<GetGenreDTO> getAllProducts(@PathVariable("name") String name) {
+       GetGenreDTO genres = genreService.getByName(name);
+
+        if(genres != null) {
+            return ResponseEntity.ok().body(genres);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 }

@@ -44,17 +44,34 @@ function MakeAccount(){
 
     const IsEmailUnique = ()=>{
         axios.get("http://localhost:8080/users/unique/email/" + email)
-            .then(res => {setUniqueEmail(res.data);})
+            .then(res => {
+                setUniqueEmail(res.data);
+                console.log(res.data);
+                debugger;
+                if(uniqueEmail === false) {
+                    alert("There already exists a account with this Email.");
+                }})
             .catch(err => {});
     }
     const IsPhoneNumberUnique = ()=>{
         axios.get("http://localhost:8080/users/unique/phoneNumber/" + phoneNumber)
-            .then(res => {setUniquePhoneNumber(res.data);})
+            .then(res => {
+                setUniquePhoneNumber(res.data);
+                console.log(res.data);
+                if(uniquePhoneNumber === false) {
+                    alert("There already exists a account with this PhoneNumber.");
+                }})
             .catch(err => {});
     }
     const IsUsernameUnique = ()=>{
         axios.get("http://localhost:8080/users/unique/name/" + username)
-            .then(res => { setUniqueUserName(res.data);})
+            .then(res => {
+                setUniqueUserName(res.data);
+                console.log(res.data);
+                if(uniqueUserName === false) {
+                    alert("There already exists a account with this PhoneNumber.");
+                }
+            })
             .catch(err => {});
     }
 
@@ -62,16 +79,16 @@ function MakeAccount(){
         let regex1 = /^([a-zA-Z0-9_-]){1,50}$/;
         let regex8 = /^([a-zA-Z0-9_-]){8,50}$/;
 
-        if(regex1.test(firstname) === false
-            ||regex1.test(lastname) === false
+        if (regex1.test(firstname) === false
+            || regex1.test(lastname) === false
             || regex8.test(email) === false
             || regex8.test(phoneNumber) === false
             || regex8.test(username) === false
-            || regex8.test(password) === false){
+            || regex8.test(password) === false) {
             return;
         }
 
-        if(passwordCheck !== password){
+        if (passwordCheck !== password) {
             setPassword("");
             setPasswordCheck("");
             alert("Please make sure passwords match");
@@ -82,20 +99,12 @@ function MakeAccount(){
         IsPhoneNumberUnique();
         IsUsernameUnique();
 
-        if(uniqueUserName === false){
-            alert("Username already taken.");
-            return;
-        } else if(uniqueEmail === false){
-            alert("There already exists a account with this Email.");
-            return;
-        } else if(uniquePhoneNumber === false){
-            alert("There already exists a account with this PhoneNumber.");
-            return;
-        } else{
+        if (uniquePhoneNumber && uniqueUserName && uniqueEmail) {
             makeAccount();
-            let path = `/login` ;
+            let path = `/login`;
             navigate(path);
         }
+
     }
     const makeAccount = () =>{
         axios.post("http://localhost:8080/users",

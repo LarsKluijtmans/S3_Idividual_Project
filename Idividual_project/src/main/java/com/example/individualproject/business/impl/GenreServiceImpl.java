@@ -33,4 +33,16 @@ public class GenreServiceImpl implements GenreService {
        }
        return result;
     }
+
+    @Override
+    public GetGenreDTO getByName(String name) {
+
+        Genre genre = genreRepository.findByGenre(name);
+
+        return GetGenreDTO.builder()
+                    .id(genre.getId())
+                    .genre(genre.getGenre())
+                    .build();
+
+    }
 }

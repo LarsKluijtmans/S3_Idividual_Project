@@ -28,9 +28,22 @@ function App() {
                 "password":password
             })
             .then(res => {
+
+                //Priority implement web sockits
+
+                //Business and controller layer is priority for testing, repository is possible for later
+
+                //When user adds product popup about new product
+
+                //Service for every method to hide it from the UI code
+                //Service class for localstorage
+
                 localStorage.setItem("token", res.data.accessToken);
                 localStorage.setItem("authorization", res.data.authorizationLevel);
                 localStorage.setItem("username",username);
+
+                //class that stores everything
+                //Test javascript
 
                 setAuthorization(res.data.authorizationLevel);
                 setUsername(username);

@@ -3,10 +3,13 @@ import Homepage from "../NotLogedin/HomePage";
 import React from "react";
 import Products from "../NotLogedin/ProductPage/Product";
 import View_Product_Details from "../NotLogedin/ProductPage/View_Product_Details";
-import MyAccount from "../NormalUser/MyAccount";
-import MyProducts from "../NormalUser/MyProducts";
-import MyProductDetails from "../NormalUser/MyProductDetails";
-import UpdateAccount from "../NormalUser/UpdateAccount";
+import MyAccount from "../NormalUser/Account/MyAccount";
+import MyProducts from "../NormalUser/Product/MyProducts";
+import MyProductDetails from "../NormalUser/Product/MyProductDetails";
+import UpdateAccount from "../NormalUser/Account/UpdateAccount";
+import AddProduct from "../NormalUser/Product/AddProduct";
+import UpdateProduct from "../NormalUser/Product/UpdateProduct";
+
 
 function NormalUserNav({logout, username}) {
 
@@ -41,8 +44,12 @@ function NormalUserNav({logout, username}) {
                 <Route path='/myAccount/:username' element={<MyAccount/>}/>
                 <Route path='/myAccount/update/:username' element={<UpdateAccount/>}/>
 
-                <Route path='/MyProducts/:productId' element={<MyProducts/>}/>
+                <Route path='/MyProducts/:username' element={<MyProducts/>}/>
+                <Route path='/MyProduct/addProduct/:username' element={<AddProduct/>}/>
+
                 <Route path='/MyProduct/:productId' element={<MyProductDetails/>}/>
+                <Route path='/MyProduct/update/:productId' element={<UpdateProduct/>}/>
+
             </Routes>
         </div>
     );

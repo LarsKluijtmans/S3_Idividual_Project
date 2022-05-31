@@ -204,7 +204,7 @@ public class ProductServiceImpl implements ProductService {
 
         isNormalUser();
 
-        if ( requestAccessToken.getUserId().equals(p.getSeller().getId())){
+        if ( !requestAccessToken.getUserId().equals(p.getSeller().getId())){
             throw new InvalidCredentialsException();
         }
 
@@ -230,6 +230,7 @@ public class ProductServiceImpl implements ProductService {
                 .sold(false)
                 .productType(product.getProductType())
                 .images(images)
+                .seller(p.getSeller())
                 .build();
 
         Product savedProduct = productRepository.save(updatedProduct);

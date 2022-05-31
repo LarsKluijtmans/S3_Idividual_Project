@@ -1,0 +1,18 @@
+.AddProduct{
+    float: right;
+    border-radius: 10px;
+    round-clip: 10px;
+    margin: 20px;
+    font-size: 15px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    background-color: #333;
+    padding: 10px 17px;
+
+    width: auto;
+    display: inline-block;
+}
+.AddProduct:hover{
+    background-color: green;
+}

@@ -38,7 +38,10 @@ public class LoginUseCaseImpl implements LoginUseCase {
             }
 
             String accessToken = generateAccessToken(admin);
-            return LoginResponseDTO.builder().accessToken(accessToken).authorizationLevel("ADMIN").build();
+            return LoginResponseDTO.builder()
+                    .accessToken(accessToken)
+                    .authorizationLevel("ADMIN")
+                    .build();
         }
 
         if (user != null) {
@@ -47,7 +50,10 @@ public class LoginUseCaseImpl implements LoginUseCase {
             }
 
             String accessToken = generateAccessToken(user);
-            return LoginResponseDTO.builder().accessToken(accessToken).authorizationLevel("NORMAL").build();
+            return LoginResponseDTO.builder()
+                    .accessToken(accessToken)
+                    .authorizationLevel("NORMAL")
+                    .build();
         }
 
         throw new InvalidCredentialsException();

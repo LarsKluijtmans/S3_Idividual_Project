@@ -1,0 +1,76 @@
+.inlineBlock{
+    display: inline-block;
+}
+
+.image{
+    max-height: 450px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    margin: 10px 35px;
+}
+
+.deleteButton{
+    border-radius: 10px;
+    round-clip: 10px;
+    margin: 20px;
+    font-size: 15px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    background-color: #333;
+    padding: 10px 17px;
+    margin-left: -150px;
+    margin-top: 50px;
+    width: auto;
+}
+.deleteButton:hover{
+    background-color: green;
+}
+
+.description{
+    width: 80%;
+    height: 800px;
+    font-size: 18px;
+    padding: 12px 20px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    margin-left: 0px;
+    margin-right: 0px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.input{
+    font-size: 18px;
+    padding: 12px 20px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+input[type=text]{
+    font-size: 18px;
+    margin-left: 0%;
+    margin-right: 0%;
+    width: 100%;
+}
+
+.select{
+    margin-left: 10px;
+    display: inline-block;
+}
+.select-Options{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.inputNumber{
+    margin-left: 10px;
+    font-size: 18px;
+    padding: 12px 20px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
