@@ -60,7 +60,7 @@ public class ProductController {
     @IsAuthenticated
     @RolesAllowed({"ROLE_NORMALUSER"})
     @PostMapping()
-    public ResponseEntity<GetProductDTO> createProduct(@RequestBody CreateProductRequestDTO product) {
+    public ResponseEntity<CreateProductResponseDTO> createProduct(@RequestBody CreateProductRequestDTO product) {
         CreateProductResponseDTO productResponseDTO = productService.addProduct(product);
 
         if(productResponseDTO == null){
@@ -68,7 +68,7 @@ public class ProductController {
         } else {
             String url = "products/" + productResponseDTO.getProductId();
             URI uri = URI.create(url);
-            return ResponseEntity.created(uri).build();
+            return ResponseEntity.created(uri).body(productResponseDTO);
         }
     }
 
@@ -103,6 +103,16 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @IsAuthenticated
+    @RolesAllowed({"ROLE_NORMALUSER"})
+    @PutMapping("buy/{productID}")
+    public ResponseEntity<List<GetProductDTO>> buyProduct( @PathVariable("productID") Long productID) {
+        productService.buyProduct(productID);
+
+        return ResponseEntity.ok().build();
+    }
+
 
     //Admin
     @IsAuthenticated

@@ -1,6 +1,8 @@
 package com.example.individualproject.business.impl;
 
+import com.example.individualproject.business.exception.BuyingYourOwnProductException;
 import com.example.individualproject.business.exception.InvalidCredentialsException;
+import com.example.individualproject.business.exception.ProductNotFoundException;
 import com.example.individualproject.business.exception.UserNotFoundException;
 import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.products.*;
@@ -34,12 +36,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<GetProductDTO> getAllProducts() {
-
         List<GetProductDTO> result = new ArrayList<>();
 
         GetProductDTO product;
 
-        for (Product p : productRepository.findAll()) {
+        for (Product p : productRepository.findAllBySold(false)) {
 
             product = new GetProductDTO(p);
             result.add(product);
@@ -49,6 +50,7 @@ public class ProductServiceImpl implements ProductService {
     }
     @Override
     public List<GetProductDTO> getProducts(String name) {
+        //TODO get only product not yet sold
         if(name.equals("")) {
             return Collections.emptyList();
         }
@@ -58,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
 
         GetProductDTO product;
 
-        for (Product p :  productRepository.findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenre_GenreIsLike(searchName,searchName,searchName,searchName,searchName)) {
+        for (Product p :  productRepository.findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenre_GenreIsLikeAndSold(searchName,searchName,searchName,searchName,searchName, false)) {
             product = new GetProductDTO(p);
             result.add(product);
         }
@@ -67,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
     }
     @Override
     public GetProductDTO getProduct(Long productID) {
-        Product p = productRepository.findProductsByIdIs(productID);
+        Product p = productRepository.findProductsByIdIsAndSold(productID, false);
 
         if(p == null) {
             return null;
@@ -103,6 +105,23 @@ public class ProductServiceImpl implements ProductService {
 
         return result;
     }
+
+    @Override
+    public void buyProduct(Long productID) {
+      Product p = productRepository.findById(productID).orElse(null);
+
+      if(p == null) {
+          throw new ProductNotFoundException();
+      }
+
+      if(p.getSeller().getId() == requestAccessToken.getUserId()){
+          throw new BuyingYourOwnProductException();
+      }
+      p.setSold(true);
+
+      productRepository.save(p);
+    }
+
     @Override
     public List<GetProductDTO> getAllOfAUsersProductsAdmin(String username) {
 
@@ -180,7 +199,7 @@ public class ProductServiceImpl implements ProductService {
                 .sold(false)
                 .images(images)
                 .productType(product.getProductType())
-                .seller(normalUserRepository.getById(product.getSeller()))
+                .seller(normalUserRepository.findByUsername(product.getSeller()))
                 .build();
 
         Product savedProduct = productRepository.save(newProduct);

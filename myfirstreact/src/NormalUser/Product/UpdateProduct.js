@@ -65,6 +65,23 @@ const UpdateProduct= () =>{
         headers: { Authorization: `Bearer ${token}` }
     };
     const updateProduct =  () => {
+      /*  let regex1 = /^([a-zA-Z0-9_-]){1,50}$/;
+        let regexSeries = /^([a-zA-Z0-9_-]){1,30}$/;
+
+        if(regex1.test(title) === false) {
+            alert("Title has to be between 1 and 50");
+            return;
+        } if(regex1.test(subTitle) === false) {
+            alert("SubTitle has to be between 1 and 50");
+            return;
+        } if(regexSeries.test(series) === false) {
+            alert("Series has to be between 1 and 30 chars");
+            return;
+        } if(description === "") {
+            alert("description can not be empty");
+            return;
+        }*/
+
         const data = {
             "productId": productId,
             "title": title,
@@ -182,7 +199,7 @@ const UpdateProduct= () =>{
                     </div>
                 </div>
 
-                <h2>Tile:</h2>
+                <h2>Title:</h2>
                 <input className={"input"} type="text" value={title} placeholder={"Type here..."} onChange={changeTitle}/>
                 <h2>Sub Title:</h2>
                 <input className={"input"} type="text" value={subTitle} placeholder={"Type here..."} onChange={changeSubTitle}/>

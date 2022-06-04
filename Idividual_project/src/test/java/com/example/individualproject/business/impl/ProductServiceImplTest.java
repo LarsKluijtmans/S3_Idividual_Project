@@ -120,7 +120,7 @@ class ProductServiceImplTest {
                 .seller(userDTO)
                 .build();
 
-        when(productRepositoryMock.findAll())
+        when(productRepositoryMock.findAllBySold(false))
                 .thenReturn(List.of(PokemonDiamond, PokemonPearl));
 
         List<GetProductDTO> actualResult = productServiceMock.getAllProducts();
@@ -129,7 +129,7 @@ class ProductServiceImplTest {
 
         assertEquals(expectedResult, actualResult);
 
-        verify(productRepositoryMock).findAll();
+        verify(productRepositoryMock).findAllBySold(false);
     }
 
     //getProducts
@@ -208,7 +208,7 @@ class ProductServiceImplTest {
                 .seller(userDTO)
                 .build();
 
-        when(productRepositoryMock.findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenre_GenreIsLike("%Pokemon%","%Pokemon%","%Pokemon%","%Pokemon%","%Pokemon%"))
+        when(productRepositoryMock.findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenre_GenreIsLikeAndSold("%Pokemon%","%Pokemon%","%Pokemon%","%Pokemon%","%Pokemon%", false))
                 .thenReturn(List.of(PokemonDiamond, PokemonPearl));
 
         List<GetProductDTO> actualResult = productServiceMock.getProducts("Pokemon");
@@ -217,7 +217,7 @@ class ProductServiceImplTest {
 
         assertEquals(expectedResult, actualResult);
 
-        verify(productRepositoryMock).findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenre_GenreIsLike("%Pokemon%","%Pokemon%","%Pokemon%","%Pokemon%","%Pokemon%");
+        verify(productRepositoryMock).findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenre_GenreIsLikeAndSold("%Pokemon%","%Pokemon%","%Pokemon%","%Pokemon%","%Pokemon%", false);
 
         List<GetProductDTO> actualResultWithEmptyInput = productServiceMock.getProducts("");
         List<GetProductDTO> expectedResultWithEmptyInput  = Collections.emptyList();
@@ -255,7 +255,7 @@ class ProductServiceImplTest {
                 .seller(user)
                 .build();
 
-        when(productRepositoryMock.findProductsByIdIs(1l))
+        when(productRepositoryMock.findProductsByIdIsAndSold(1l, false))
                 .thenReturn(PokemonDiamond);
 
         GetProductDTO actualResult = productServiceMock.getProduct(1l);
@@ -277,7 +277,7 @@ class ProductServiceImplTest {
 
         assertEquals(PokemonDiamondDTO, actualResult);
 
-        verify(productRepositoryMock).findProductsByIdIs(1l);
+        verify(productRepositoryMock).findProductsByIdIsAndSold(1l, false);
 
         GetProductDTO actualResultWithNullID = productServiceMock.getProduct( null);
 
@@ -544,7 +544,7 @@ class ProductServiceImplTest {
                 .genreId(1l)
                 .productType("GAME")
                 .images(List.of("aa","aaa"))
-                .seller(1l)
+                .seller("user")
                 .build();
 
         CreateProductResponseDTO actualResult = productServiceMock.addProduct(createProductRequestDTO);

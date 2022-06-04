@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "./ProdutDetails.css";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 
 function View_Product_Details() {
@@ -15,8 +15,9 @@ function View_Product_Details() {
     },[]);
 
     const {productId} = useParams();
+    let navigate = useNavigate();
 
-    const GetProductByID =() => {
+    const GetProductByID =()=> {
         setProduct(null);
         setError(null);
         axios.get(`http://localhost:8080/products/` + productId)
@@ -31,7 +32,23 @@ function View_Product_Details() {
             });
     }
 
-    const setMainImage = (url) => {
+    let token = localStorage.getItem("token");
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
+    const buyProduct =()=> {
+        axios.put(`http://localhost:8080/products/buy/` + productId,null,config)
+            .then(res => {
+                console.log(res.data)
+                let path = "/products";
+                navigate(path);
+            })
+            .catch(err => {
+                setError(err.message);
+            });
+    }
+
+    const setMainImage =(url)=> {
       setmainImage(url);
     }
 
@@ -66,7 +83,7 @@ function View_Product_Details() {
 
                    <div className="product-price">
                        <span>{product.price}</span>
-                       <button className="cart-btn">Buy</button>
+                       <button className="cart-btn" onClick={buyProduct}>Buy</button>
                    </div>
                </div>
            </div>

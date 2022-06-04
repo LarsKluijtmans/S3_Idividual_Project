@@ -73,17 +73,27 @@ const UpdateAccount= () =>{
         let regexEmail =  /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
         let regexPhoneNumber =  /^([a-zA-Z0-9_-]){7,20}$/;
 
+        if(!uniqueEmail){
+            alert("firstname has to be between 1 and 50");
+            return;
+        }
+        if(!uniquePhoneNumber){
+            alert("firstname has to be between 1 and 50");
+            return;
+        }
+
+
         if(regex1.test(firstname) === false) {
             alert("firstname has to be between 1 and 50");
             return;
-        }        if(regex1.test(lastname) === false) {
+        } if(regex1.test(lastname) === false) {
             alert("lastName has to be between 1 and 50");
             return;
-        }        if(regexEmail.test(email) === false) {
-            alert("email has to be between 8 and 50");
+        } if(regexEmail.test(email) === false) {
+            alert("email not valid");
             return;
-        }        if(regexPhoneNumber.test(lastname) === false) {
-            alert("phoneNumber has to be between 8 and 50");
+        } if(regexPhoneNumber.test(phoneNumber) === false) {
+            alert("phoneNumber not valid");
             return;
         }
 

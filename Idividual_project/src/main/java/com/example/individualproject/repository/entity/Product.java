@@ -44,7 +44,7 @@ public class Product{
     @Column(name = "condition_")
     private String condition;
 
-    @Length(min = 1 ,max = 500)
+    @Length(min = 1 ,max = 5000)
     @Column(name = "description")
     private String description;
 

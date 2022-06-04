@@ -225,7 +225,7 @@ class ProductControllerTest {
                 .genreId(1l)
                 .productType("GAME")
                 .images(Collections.emptyList())
-                .seller(1l)
+                .seller("user")
                 .build();
         CreateProductResponseDTO createProductResponseDTO = CreateProductResponseDTO.builder()
                 .productId(1l)
@@ -256,7 +256,7 @@ class ProductControllerTest {
                 .genreId(1l)
                 .productType("GAME")
                 .images(Collections.emptyList())
-                .seller(1l)
+                .seller("user")
                 .build();
 
         when(productService.addProduct(createProductRequestDTO))

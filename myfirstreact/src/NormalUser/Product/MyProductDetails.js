@@ -45,7 +45,7 @@ const MyProductDetails= () =>{
     const deleteProduct = () => {
         axios.delete(`http://localhost:8080/products/normal/` + productId, config)
             .then(res => {
-                let path = "/MyProduct/" + localStorage.getItem("username");
+                let path = "/MyProducts/" + localStorage.getItem("username");
                 navigate(path);
             })
             .catch(err => {

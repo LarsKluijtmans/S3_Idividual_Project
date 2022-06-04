@@ -205,7 +205,7 @@ public class UserServiceImpl implements UserService {
 
 <span class="fc" id="L206">        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));</span>
 
-<span class="fc" id="L208">        normalUserRepository.save(newUser);</span>
+<span class="fc" id="L208">        newUser = normalUserRepository.save(newUser);</span>
 
 <span class="fc" id="L210">        return CreateUserResponseDTO.builder()</span>
 <span class="fc" id="L211">                .firstName(newUser.getFirstname())</span>

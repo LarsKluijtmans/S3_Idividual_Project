@@ -18,4 +18,6 @@ public interface ProductService {
 
      List<GetProductDTO> getAllOfAUsersProductsAdmin(String username);
      List<GetProductDTO> getAllOfAUsersProductsNormalUser(String username);
+
+     void buyProduct(Long productID);
 }

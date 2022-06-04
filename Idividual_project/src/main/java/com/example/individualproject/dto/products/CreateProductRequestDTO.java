@@ -23,5 +23,5 @@ public class CreateProductRequestDTO {
     private Long genreId;
     private String productType;
     private List<String> images;
-    private Long seller;
+    private String seller;
 }

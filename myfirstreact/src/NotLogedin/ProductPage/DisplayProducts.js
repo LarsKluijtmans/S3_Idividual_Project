@@ -9,7 +9,7 @@ function DisplayProducts({productsArray}) {
                 <div className="box">
                     <section className="product">
                         {product.images != null &&
-                            <img className="product_image" src={product.images[0]} alt={"Product main Image"}/>
+                            <img className="product_image_card" src={product.images[0]} alt={"Product main Image"}/>
                         }
                         <div>
                             <div className="title">
@@ -19,7 +19,7 @@ function DisplayProducts({productsArray}) {
                             <div className="price">
                                 <span>{product.price} </span> $
                             </div>
-                            <div className="description">
+                            <div className="descriptionCard">
                                 <h4>{product.description}</h4>
                             </div>
 

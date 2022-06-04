@@ -114,10 +114,10 @@ span.psw {
   max-height: 1000px;
 
 }
-.product_image{
+.product_image_card{
   max-height: 450px;
+  max-width: 350px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  max-width: 400px;
   margin-left: auto;
   margin-right: auto;
   display: block;
@@ -134,7 +134,7 @@ span.psw {
   font-size: 22px;
 }
 
-.description{
+.descriptionCard{
   max-height: 200px;
   overflow:hidden;
   margin-bottom: 20px;

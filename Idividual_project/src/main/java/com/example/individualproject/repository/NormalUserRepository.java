@@ -10,12 +10,10 @@ import java.util.List;
 public interface NormalUserRepository extends JpaRepository<NormalUser, Long>  {
 
     List<NormalUser> findAllByFirstnameIsLikeOrLastnameIsLikeOrUsernameIsLike(String firstName,String lastName,String userName);
-    NormalUser getUserByUsernameIsAndPasswordIs(String username, String password);
-    NormalUser findAllByIdIs(Long id);
+
     NormalUser findByUsername(String username);
 
     boolean existsByUsername(String name);
     boolean existsByEmail(String name);
     boolean existsByPhonenumber(String name);
-
 }
