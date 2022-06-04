@@ -4,10 +4,14 @@ import com.example.individualproject.configuration.security.isauthenticated.IsAu
 import com.example.individualproject.dto.products.*;
 import com.example.individualproject.business.*;
 
+import com.example.individualproject.repository.entity.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.HtmlUtils;
 
 import javax.annotation.security.RolesAllowed;
 import java.net.URI;
@@ -135,5 +139,8 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
+
 
 }

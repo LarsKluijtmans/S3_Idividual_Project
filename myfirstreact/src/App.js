@@ -1,13 +1,22 @@
 import React, {useEffect, useState} from 'react';
+import axios from "axios";
 
 import "./Navbar.css"
 
 import AdminNav from "./Nav/Admin";
 import NormalUserNav from "./Nav/NormalUser";
 import NotLoggedNav from "./Nav/NotLogged";
-import axios from "axios";
+
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
+
+const ENDPOINT = "http://localhost:8080/ws";
 
 function App() {
+
+    //Login
+    const [authorization, setAuthorization] = useState("");
+    const [username, setUsername] = useState("");
 
     useEffect(() => {
         let auth = localStorage.getItem("authorization");
@@ -17,9 +26,6 @@ function App() {
             setUsername(username);
         }
     },[]);
-
-    const [authorization, setAuthorization] = useState("");
-    const [username, setUsername] = useState("");
 
     function login (username, password) {
         axios.post(`http://localhost:8080/login`,
@@ -56,6 +62,29 @@ function App() {
         localStorage.removeItem("username");
         setAuthorization("");
     }
+
+    //WebSockets
+    const [stompClient, setStompClient] = useState(null);
+    useEffect(() => {
+        const socket = SockJS(ENDPOINT);
+        const stompClient = Stomp.over(socket);
+        stompClient.connect({}, () => {
+            stompClient.subscribe('/topic/newApps', (data) => {
+                onMessageReceived(data);
+            });
+        });
+        setStompClient(stompClient);
+    },[]);
+    function onMessageReceived(data) {
+        const result=  JSON.parse(data.body);
+        console.log(result);
+        alert( "New Product has been added " +
+            "\nTitle: " + result.title +
+            "\nSubTitle: " + result.subtitle +
+            "\nPrice: " + result.price +
+            "\nCondition: " + result.condition)
+    };
+
 
     return (
         <div>

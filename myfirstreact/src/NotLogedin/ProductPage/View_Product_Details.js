@@ -22,7 +22,6 @@ function View_Product_Details() {
         setError(null);
         axios.get(`http://localhost:8080/products/` + productId)
             .then(res => {
-                console.log(res.data)
                 setProduct(res.data);
                 setProductImages(res.data.images);
                 setmainImage(res.data.images[0]);
@@ -39,7 +38,6 @@ function View_Product_Details() {
     const buyProduct =()=> {
         axios.put(`http://localhost:8080/products/buy/` + productId,null,config)
             .then(res => {
-                console.log(res.data)
                 let path = "/products";
                 navigate(path);
             })

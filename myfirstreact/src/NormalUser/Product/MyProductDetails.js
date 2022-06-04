@@ -20,7 +20,6 @@ const MyProductDetails= () =>{
     const GetProductByID =() => {
         axios.get(`http://localhost:8080/products/` + productId)
             .then(res => {
-                console.log(res.data)
                 setProduct(res.data);
                 setProductImages(res.data.images);
                 setmainImage(res.data.images[0]);

@@ -46,8 +46,6 @@ function MakeAccount(){
         axios.get("http://localhost:8080/users/unique/email/" + email)
             .then(res => {
                 setUniqueEmail(res.data);
-                console.log(res.data);
-                debugger;
                 if(uniqueEmail === false) {
                     alert("There already exists a account with this Email.");
                 }})
@@ -57,7 +55,6 @@ function MakeAccount(){
         axios.get("http://localhost:8080/users/unique/phoneNumber/" + phoneNumber)
             .then(res => {
                 setUniquePhoneNumber(res.data);
-                console.log(res.data);
                 if(uniquePhoneNumber === false) {
                     alert("There already exists a account with this PhoneNumber.");
                 }})
@@ -67,7 +64,6 @@ function MakeAccount(){
         axios.get("http://localhost:8080/users/unique/name/" + username)
             .then(res => {
                 setUniqueUserName(res.data);
-                console.log(res.data);
                 if(uniqueUserName === false) {
                     alert("There already exists a account with this PhoneNumber.");
                 }

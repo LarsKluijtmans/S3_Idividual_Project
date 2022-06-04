@@ -1,12 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate, useParams} from "react-router-dom";
+import Stomp from 'stompjs';
 import axios from "axios";
+
+import {useNavigate, useParams} from "react-router-dom";
+
+import SockJS from 'sockjs-client';
+const ENDPOINT = "http://localhost:8080/ws";
 
 const AddProduct= () =>{
     //deleting and adding images/ tests before sending to api
 
+    const [stompClient, setStompClient] = useState(null);
+
     //Initialize
     useEffect(() => {
+        const socket = SockJS(ENDPOINT);
+        const stompClient = Stomp.over(socket);
+        setStompClient(stompClient);
+
         setYear(2000);
         setPrice(10.00);
         setGenreId(1);
@@ -54,8 +65,8 @@ const AddProduct= () =>{
                 navigate(path);
             })
             .catch(err => {
-                console.log(err.message)
             });
+            stompClient.send("/app/NewApp", {}, JSON.stringify({"title":title, "subTitle": subTitle, "price": price, "condition": condition}));
     }
 
     const [title, setTitle] = useState("");

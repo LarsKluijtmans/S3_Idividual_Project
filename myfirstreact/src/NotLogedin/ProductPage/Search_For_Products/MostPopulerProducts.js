@@ -16,7 +16,6 @@ function MostPopularProducts() {
                 setProductsArray(res.data);
             })
             .catch(err => {
-                console.log(err.message);
             });
     }
 

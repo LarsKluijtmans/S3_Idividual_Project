@@ -43,7 +43,6 @@ const UpdateProduct= () =>{
 
        await axios.get(`http://localhost:8080/genre/` + genre)
             .then(res => {
-                console.log(genre)
                 setGenreId(res.data.id);
             })
             .catch(err => {
