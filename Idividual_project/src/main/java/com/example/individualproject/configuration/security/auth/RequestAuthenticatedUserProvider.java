@@ -17,6 +17,9 @@ public class RequestAuthenticatedUserProvider {
     @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
     public AccessTokenDTO getAuthenticatedUserInRequest() {
         final SecurityContext context = SecurityContextHolder.getContext();
+
+        //TODO SecurityContextHolder.getContext() is never null why check if it is null, ask teacher for assignment about csrf.
+
         if (context == null) {
             return null;
         }
