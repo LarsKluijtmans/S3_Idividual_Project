@@ -1,11 +1,11 @@
 package com.example.individualproject.business.impl;
 
+import com.example.individualproject.business.UserService;
 import com.example.individualproject.business.dtoconvertor.AdminDTOConvertor;
 import com.example.individualproject.business.dtoconvertor.NormalUserDTOConvertor;
 import com.example.individualproject.business.exception.*;
 import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.users.*;
-import com.example.individualproject.business.UserService;
 import com.example.individualproject.repository.AdminRepository;
 import com.example.individualproject.repository.NormalUserRepository;
 import com.example.individualproject.repository.entity.Admin;
@@ -29,40 +29,42 @@ public class UserServiceImpl implements UserService {
     private final AccessTokenDTO requestAccessToken;
 
     @Override
-    public List<GetUserDTO> getAllUsers(){
+    public List<GetUserDTO> getAllUsers() {
         List<GetUserDTO> result = new ArrayList<>();
 
         List<NormalUser> normalUsersResult = normalUserRepository.findAll();
         List<Admin> adminResult = adminRepository.findAll();
 
-        for (NormalUser user: normalUsersResult) {
+        for (NormalUser user : normalUsersResult) {
             result.add(NormalUserDTOConvertor.convertToDTO(user));
         }
-        for (Admin admin: adminResult) {
+        for (Admin admin : adminResult) {
             result.add(AdminDTOConvertor.convertToDTO(admin));
         }
 
         return result;
     }
+
     @Override
-    public List<GetUserDTO> getAllNormalUsers(){
+    public List<GetUserDTO> getAllNormalUsers() {
         List<GetUserDTO> result = new ArrayList<>();
 
         List<NormalUser> normalUsersResult = normalUserRepository.findAll();
 
-        for (NormalUser user: normalUsersResult) {
-            result.add( NormalUserDTOConvertor.convertToDTO(user));
+        for (NormalUser user : normalUsersResult) {
+            result.add(NormalUserDTOConvertor.convertToDTO(user));
         }
 
         return result;
     }
+
     @Override
-    public List<GetUserDTO> getAllAdmins(){
+    public List<GetUserDTO> getAllAdmins() {
         List<GetUserDTO> result = new ArrayList<>();
 
         List<Admin> adminResult = adminRepository.findAll();
 
-        for (Admin admin: adminResult) {
+        for (Admin admin : adminResult) {
             result.add(AdminDTOConvertor.convertToDTO(admin));
         }
 
@@ -73,13 +75,13 @@ public class UserServiceImpl implements UserService {
     public GetUserDTO getUserByName(String username) {
         NormalUser normalUser = normalUserRepository.findByUsername(username);
 
-        if(normalUser != null) {
+        if (normalUser != null) {
             return NormalUserDTOConvertor.convertToDTO(normalUser);
         }
 
         Admin admin = adminRepository.findByUsername(username);
 
-        if(admin != null){
+        if (admin != null) {
             return AdminDTOConvertor.convertToDTO(admin);
         }
         return null;
@@ -89,11 +91,11 @@ public class UserServiceImpl implements UserService {
     public GetUserDTO getUserByNameNormalUser(String username) {
         NormalUser normalUser = normalUserRepository.findByUsername(username);
 
-        if(normalUser == null) {
+        if (normalUser == null) {
             throw new UserNotFoundException();
         }
 
-        if (!requestAccessToken.getUserId().equals(normalUser.getId())){
+        if (!requestAccessToken.getUserId().equals(normalUser.getId())) {
             throw new InvalidCredentialsException();
         }
 
@@ -101,17 +103,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<GetUserDTO> getAllUserByName(String name){
+    public List<GetUserDTO> getAllUserByName(String name) {
         List<GetUserDTO> result = new ArrayList<>();
 
-        String searchName = "%"+name+"%";
-        List<NormalUser> normalUsersResult = normalUserRepository.findAllByFirstnameIsLikeOrLastnameIsLikeOrUsernameIsLike(searchName,searchName,searchName);
+        String searchName = "%" + name + "%";
+        List<NormalUser> normalUsersResult = normalUserRepository.findAllByFirstnameIsLikeOrLastnameIsLikeOrUsernameIsLike(searchName, searchName, searchName);
         List<Admin> adminResult = adminRepository.findAllByUsernameIsLike(searchName);
 
-        for (NormalUser user: normalUsersResult) {
-            result.add( NormalUserDTOConvertor.convertToDTO(user));
+        for (NormalUser user : normalUsersResult) {
+            result.add(NormalUserDTOConvertor.convertToDTO(user));
         }
-        for (Admin admin: adminResult) {
+        for (Admin admin : adminResult) {
             result.add(AdminDTOConvertor.convertToDTO(admin));
         }
 
@@ -120,39 +122,40 @@ public class UserServiceImpl implements UserService {
 
     //Delete
     @Override
-    public  boolean deleteUser(String username){
+    public boolean deleteUser(String username) {
         NormalUser normalUserResult = normalUserRepository.findByUsername(username);
 
-        if(normalUserResult == null) {
+        if (normalUserResult == null) {
             throw new UserNotFoundException();
         }
 
         normalUserRepository.deleteById(normalUserResult.getId());
         return true;
     }
+
     //Update
     @Override
-    public UpdateUserResponseDTO updateUser(UpdateUserRequestDTO updateRequestDTO){
+    public UpdateUserResponseDTO updateUser(UpdateUserRequestDTO updateRequestDTO) {
 
         NormalUser user = normalUserRepository.findByUsername(updateRequestDTO.getUsername());
-        if(user == null) {
+        if (user == null) {
             throw new UserNotFoundException();
         }
 
-        if (!requestAccessToken.hasRole("NORMALUSER")){
+        if (!requestAccessToken.hasRole("NORMALUSER")) {
             throw new InvalidCredentialsException();
         }
 
-        if (!requestAccessToken.getUserId().equals(user.getId())){
+        if (!requestAccessToken.getUserId().equals(user.getId())) {
             throw new InvalidCredentialsException();
         }
 
-        if(!(user.getEmail().equals(updateRequestDTO.getEmail())) && normalUserRepository.existsByEmail(updateRequestDTO.getEmail())){
-            throw new EmailAlreadyExistsExeption();
+        if (!(user.getEmail().equals(updateRequestDTO.getEmail())) && normalUserRepository.existsByEmail(updateRequestDTO.getEmail())) {
+            throw new EmailAlreadyExistsException();
         }
 
-        if(!(user.getPhonenumber().equals(updateRequestDTO.getPhoneNumber())) && normalUserRepository.existsByPhonenumber(updateRequestDTO.getPhoneNumber())){
-            throw new PhoneNumberAlreadyExistsExeption();
+        if (!(user.getPhonenumber().equals(updateRequestDTO.getPhoneNumber())) && normalUserRepository.existsByPhonenumber(updateRequestDTO.getPhoneNumber())) {
+            throw new PhoneNumberAlreadyExistsException();
         }
 
         NormalUser newUser = new NormalUser(
@@ -171,11 +174,13 @@ public class UserServiceImpl implements UserService {
     public boolean isUsernameUnique(String name) {
         boolean result = true;
 
-        if(normalUserRepository.existsByUsername(name) || adminRepository.existsByUsername(name))  {
+        if (normalUserRepository.existsByUsername(name) || adminRepository.existsByUsername(name)) {
             result = false;
         }
 
         return result;
+
+        //TODO a can be simplified to         return !normalUserRepository.existsByUsername(name) && !adminRepository.existsByUsername(name);
     }
 
     @Override
@@ -190,15 +195,15 @@ public class UserServiceImpl implements UserService {
 
     //Add
     @Override
-    public CreateUserResponseDTO addUser(CreateUserRequestDTO createRequestDTO){
-        if(normalUserRepository.existsByUsername(createRequestDTO.getUsername()) || adminRepository.existsByUsername(createRequestDTO.getUsername()) ) {
-            throw new UsernameAlreadyExistsExeption();
+    public CreateUserResponseDTO addUser(CreateUserRequestDTO createRequestDTO) {
+        if (normalUserRepository.existsByUsername(createRequestDTO.getUsername()) || adminRepository.existsByUsername(createRequestDTO.getUsername())) {
+            throw new UsernameAlreadyExistsException();
         }
-        if(normalUserRepository.existsByEmail(createRequestDTO.getEmail())) {
-            throw new EmailAlreadyExistsExeption();
+        if (normalUserRepository.existsByEmail(createRequestDTO.getEmail())) {
+            throw new EmailAlreadyExistsException();
         }
-        if( normalUserRepository.existsByPhonenumber(createRequestDTO.getPhoneNumber())) {
-            throw new PhoneNumberAlreadyExistsExeption();
+        if (normalUserRepository.existsByPhonenumber(createRequestDTO.getPhoneNumber())) {
+            throw new PhoneNumberAlreadyExistsException();
         }
 
         NormalUser newUser = new NormalUser(createRequestDTO);

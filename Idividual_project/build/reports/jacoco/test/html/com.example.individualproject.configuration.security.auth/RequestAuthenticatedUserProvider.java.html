@@ -17,21 +17,24 @@ import org.springframework.web.context.WebApplicationContext;
     @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
     public AccessTokenDTO getAuthenticatedUserInRequest() {
 <span class="nc" id="L19">        final SecurityContext context = SecurityContextHolder.getContext();</span>
-<span class="nc bnc" id="L20" title="All 2 branches missed.">        if (context == null) {</span>
-<span class="nc" id="L21">            return null;</span>
+
+        //TODO SecurityContextHolder.getContext() is never null why check if it is null, ask teacher for assignment about csrf.
+
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        if (context == null) {</span>
+<span class="nc" id="L24">            return null;</span>
         }
 
-<span class="nc" id="L24">        final Authentication authentication = context.getAuthentication();</span>
-<span class="nc bnc" id="L25" title="All 2 branches missed.">        if (authentication == null) {</span>
-<span class="nc" id="L26">            return null;</span>
+<span class="nc" id="L27">        final Authentication authentication = context.getAuthentication();</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        if (authentication == null) {</span>
+<span class="nc" id="L29">            return null;</span>
         }
 
-<span class="nc" id="L29">        final Object details = authentication.getDetails();</span>
-<span class="nc bnc" id="L30" title="All 2 branches missed.">        if (!(details instanceof AccessTokenDTO)) {</span>
-<span class="nc" id="L31">            return null;</span>
+<span class="nc" id="L32">        final Object details = authentication.getDetails();</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        if (!(details instanceof AccessTokenDTO)) {</span>
+<span class="nc" id="L34">            return null;</span>
         }
 
-<span class="nc" id="L34">        return (AccessTokenDTO) authentication.getDetails();</span>
+<span class="nc" id="L37">        return (AccessTokenDTO) authentication.getDetails();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

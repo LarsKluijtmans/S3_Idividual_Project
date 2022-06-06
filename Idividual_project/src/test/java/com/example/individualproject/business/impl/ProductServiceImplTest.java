@@ -1,11 +1,12 @@
 package com.example.individualproject.business.impl;
 
+import com.example.individualproject.business.exception.BuyingYourOwnProductException;
 import com.example.individualproject.business.exception.InvalidCredentialsException;
+import com.example.individualproject.business.exception.ProductNotFoundException;
 import com.example.individualproject.business.exception.UserNotFoundException;
 import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.products.*;
 import com.example.individualproject.dto.users.GetUserDTO;
-import com.example.individualproject.dto.users.UpdateUserRequestDTO;
 import com.example.individualproject.repository.GenreRepository;
 import com.example.individualproject.repository.ImageRepository;
 import com.example.individualproject.repository.NormalUserRepository;
@@ -20,12 +21,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,7 +47,7 @@ class ProductServiceImplTest {
     //getAllProducts
     @Test
     void getAllProducts() {
-        NormalUser user = new NormalUser(1l,"Lars","Lars","Lars","Lars","Lars","Lars");
+        NormalUser user = new NormalUser(1L,"Lars","Lars","Lars","Lars","Lars","Lars");
         GetUserDTO userDTO = GetUserDTO.builder()
                 .username(user.getUsername())
                 .firstName(user.getFirstname())
@@ -58,7 +58,7 @@ class ProductServiceImplTest {
                 .build();
 
         Product PokemonDiamond = Product.builder()
-                .id(1l)
+                .id(1L)
                 .title("Pokemon")
                 .subTitle("diamond")
                 .series("Pokemon")
@@ -66,7 +66,7 @@ class ProductServiceImplTest {
                 .price(10.01)
                 .condition("TRASH")
                 .description("Pokemon game")
-                .genre(new Genre(1l,"genre", null))
+                .genre(new Genre(1L,"genre", null))
                 .sold(false).
                 productType("GAME")
                 .images(Collections.emptyList())
@@ -74,7 +74,7 @@ class ProductServiceImplTest {
                 .build();
 
         Product PokemonPearl= Product.builder()
-                .id(2l)
+                .id(2L)
                 .title("Pokemon")
                 .subTitle("Pearl")
                 .series("Pokemon")
@@ -82,7 +82,7 @@ class ProductServiceImplTest {
                 .price(10.01)
                 .condition("TRASH")
                 .description("Pokemon game")
-                .genre(new Genre(1l,"genre", null))
+                .genre(new Genre(1L,"genre", null))
                 .sold(false)
                 .productType("GAME")
                 .images(Collections.emptyList())
@@ -135,7 +135,7 @@ class ProductServiceImplTest {
     //getProducts
     @Test
     void getProducts() {
-        NormalUser user = new NormalUser(1l,"Lars","Lars","Lars","Lars","Lars","Lars");
+        NormalUser user = new NormalUser(1L,"Lars","Lars","Lars","Lars","Lars","Lars");
         GetUserDTO userDTO = GetUserDTO.builder()
                 .username(user.getUsername())
                 .firstName(user.getFirstname())
@@ -146,7 +146,7 @@ class ProductServiceImplTest {
                 .build();
 
         Product PokemonDiamond = Product.builder()
-                .id(1l)
+                .id(1L)
                 .title("Pokemon")
                 .subTitle("diamond")
                 .series("Pokemon")
@@ -154,7 +154,7 @@ class ProductServiceImplTest {
                 .price(10.01)
                 .condition("TRASH")
                 .description("Pokemon game")
-                .genre(new Genre(1l,"genre", null))
+                .genre(new Genre(1L,"genre", null))
                 .sold(false).
                 productType("GAME")
                 .images(Collections.emptyList())
@@ -162,7 +162,7 @@ class ProductServiceImplTest {
                 .build();
 
         Product PokemonPearl= Product.builder()
-                .id(2l)
+                .id(2L)
                 .title("Pokemon")
                 .subTitle("Pearl")
                 .series("Pokemon")
@@ -170,7 +170,7 @@ class ProductServiceImplTest {
                 .price(10.01)
                 .condition("TRASH")
                 .description("Pokemon game")
-                .genre(new Genre(1l,"genre", null))
+                .genre(new Genre(1L,"genre", null))
                 .sold(false)
                 .productType("GAME")
                 .images(Collections.emptyList())
@@ -229,7 +229,7 @@ class ProductServiceImplTest {
     @Test
     void getProduct() {
 
-        NormalUser user = new NormalUser(1l,"Lars","Lars","Lars","Lars","Lars","Lars");
+        NormalUser user = new NormalUser(1L,"Lars","Lars","Lars","Lars","Lars","Lars");
         GetUserDTO userDTO = GetUserDTO.builder()
                 .username(user.getUsername())
                 .firstName(user.getFirstname())
@@ -240,7 +240,7 @@ class ProductServiceImplTest {
                 .build();
 
         Product PokemonDiamond = Product.builder()
-                .id(1l)
+                .id(1L)
                 .title("Pokemon")
                 .subTitle("diamond")
                 .series("Pokemon")
@@ -248,17 +248,17 @@ class ProductServiceImplTest {
                 .price(10.01)
                 .condition("TRASH")
                 .description("Pokemon game")
-                .genre(new Genre(1l,"genre", null))
+                .genre(new Genre(1L,"genre", null))
                 .sold(false).
                 productType("GAME")
                 .images(Collections.emptyList())
                 .seller(user)
                 .build();
 
-        when(productRepositoryMock.findProductsByIdIsAndSold(1l, false))
+        when(productRepositoryMock.findProductsByIdIsAndSold(1L, false))
                 .thenReturn(PokemonDiamond);
 
-        GetProductDTO actualResult = productServiceMock.getProduct(1l);
+        GetProductDTO actualResult = productServiceMock.getProduct(1L);
 
         GetProductDTO PokemonDiamondDTO = GetProductDTO.builder()
                 .id(PokemonDiamond.getId())
@@ -277,26 +277,40 @@ class ProductServiceImplTest {
 
         assertEquals(PokemonDiamondDTO, actualResult);
 
-        verify(productRepositoryMock).findProductsByIdIsAndSold(1l, false);
+        verify(productRepositoryMock).findProductsByIdIsAndSold(1L, false);
 
         GetProductDTO actualResultWithNullID = productServiceMock.getProduct( null);
 
-        assertEquals(null, actualResultWithNullID);
+        assertNull(actualResultWithNullID);
     }
 
     //getAllOfAUsersProducts
     @Test
     void getAllOfAUsersProducts()  {
-        Product PokemonPearl= Product.builder().id(1l).title("Pokemon").subTitle("Pearl").series("Pokemon").year(2022).price(10.01).condition("TRASH").description("Pokemon game").genre(new Genre(1l,null, null)).sold(false).productType("GAME").images(Collections.emptyList()).seller(new NormalUser()).build();
+        Product PokemonPearl= Product.builder()
+                .id(1L)
+                .title("Pokemon")
+                .subTitle("Pearl")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genre(new Genre(1L,null, null))
+                .sold(false)
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .seller(new NormalUser())
+                .build();
 
         when(requestAccessToken.hasRole("NORMALUSER"))
                 .thenReturn(true);
         when(requestAccessToken.getUserId())
-                .thenReturn(1l);
-        when(productRepositoryMock.findAllBySeller_Id(1l))
+                .thenReturn(1L);
+        when(productRepositoryMock.findAllBySeller_Id(1L))
                 .thenReturn(List.of(PokemonPearl));
         when(normalUserRepositoryMock.findByUsername("Lars"))
-                .thenReturn(new NormalUser(1l,"Lars","Lars","Lars","Lars","Lars","Lars"));
+                .thenReturn(new NormalUser(1L,"Lars","Lars","Lars","Lars","Lars","Lars"));
 
         List<GetProductDTO> actualResult = productServiceMock.getAllOfAUsersProductsNormalUser("Lars");
         List<GetProductDTO> expectedResult = List.of(new GetProductDTO(PokemonPearl));
@@ -306,7 +320,7 @@ class ProductServiceImplTest {
         verify(requestAccessToken).hasRole("NORMALUSER");
         verify(requestAccessToken).getUserId();
         verify(normalUserRepositoryMock).findByUsername("Lars");
-        verify(productRepositoryMock).findAllBySeller_Id(1l);
+        verify(productRepositoryMock).findAllBySeller_Id(1L);
     }
     @Test
     void getAllOfAUsersProducts_userNorFound()  {
@@ -334,9 +348,9 @@ class ProductServiceImplTest {
         when(requestAccessToken.hasRole("NORMALUSER"))
                 .thenReturn(true);
         when(requestAccessToken.getUserId())
-                .thenReturn(2l);
+                .thenReturn(2L);
         when(normalUserRepositoryMock.findByUsername("Lars"))
-                .thenReturn(new NormalUser(1l,"Lars","Lars","Lars","Lars","Lars","Lars"));
+                .thenReturn(new NormalUser(1L,"Lars","Lars","Lars","Lars","Lars","Lars"));
 
         assertThrows(InvalidCredentialsException.class, () -> productServiceMock.getAllOfAUsersProductsNormalUser("Lars"));
 
@@ -350,14 +364,14 @@ class ProductServiceImplTest {
     @Test
     void getAllOfAUsersProductsAdmin()  {
         Product PokemonPearl= Product.builder()
-                .id(1l).title("Pokemon")
+                .id(1L).title("Pokemon")
                 .subTitle("Pearl")
                 .series("Pokemon")
                 .year(2022)
                 .price(10.01)
                 .condition("TRASH")
                 .description("Pokemon game")
-                .genre(new Genre(1l,null, null))
+                .genre(new Genre(1L,null, null))
                 .sold(false)
                 .productType("GAME")
                 .images(Collections.emptyList())
@@ -366,10 +380,10 @@ class ProductServiceImplTest {
 
         when(requestAccessToken.hasRole("ADMIN"))
                 .thenReturn(true);
-        when(productRepositoryMock.findAllBySeller_Id(1l))
+        when(productRepositoryMock.findAllBySeller_Id(1L))
                 .thenReturn(List.of(PokemonPearl));
         when(normalUserRepositoryMock.findByUsername("Lars"))
-                .thenReturn(new NormalUser(1l,"Lars","Lars","Lars","Lars","Lars","Lars"));
+                .thenReturn(new NormalUser(1L,"Lars","Lars","Lars","Lars","Lars","Lars"));
 
         List<GetProductDTO> actualResult = productServiceMock.getAllOfAUsersProductsAdmin("Lars");
         List<GetProductDTO> expectedResult = List.of(new GetProductDTO(PokemonPearl));
@@ -378,7 +392,7 @@ class ProductServiceImplTest {
 
         verify(normalUserRepositoryMock).findByUsername("Lars");
         verify(requestAccessToken).hasRole("ADMIN");
-        verify(productRepositoryMock).findAllBySeller_Id(1l);
+        verify(productRepositoryMock).findAllBySeller_Id(1L);
     }
     @Test
     void getAllOfAUsersProductsAdmin_UserNotFound()  {
@@ -409,47 +423,47 @@ class ProductServiceImplTest {
         when(requestAccessToken.hasRole("NORMALUSER"))
                 .thenReturn(true);
         when(requestAccessToken.getUserId())
-                .thenReturn(1l);
-        when(productRepositoryMock.findProductsByIdIs(1l))
+                .thenReturn(1L);
+        when(productRepositoryMock.findProductsByIdIs(1L))
                 .thenReturn(Product.builder()
-                        .seller(new NormalUser(1l,"lars","lars","lars","lars","lars","lars"))
+                        .seller(new NormalUser(1L,"lars","lars","lars","lars","lars","lars"))
                         .build());
 
-        productServiceMock.deleteProductNormalUser(1l);
+        productServiceMock.deleteProductNormalUser(1L);
 
         verify(requestAccessToken).hasRole("NORMALUSER");
         verify(requestAccessToken).getUserId();
-        verify(productRepositoryMock).findProductsByIdIs(1l);
-        verify(productRepositoryMock).deleteById(1l);
+        verify(productRepositoryMock).findProductsByIdIs(1L);
+        verify(productRepositoryMock).deleteById(1L);
     }
     @Test
     void deleteProductNormalUser_isntNormalUser() {
         when(requestAccessToken.hasRole("NORMALUSER"))
                 .thenReturn(false);
-        when(productRepositoryMock.findProductsByIdIs(1l))
+        when(productRepositoryMock.findProductsByIdIs(1L))
                 .thenReturn(Product.builder()
-                        .seller(new NormalUser(1l,"lars","lars","lars","lars","lars","lars"))
+                        .seller(new NormalUser(1L,"lars","lars","lars","lars","lars","lars"))
                         .build());
 
-        assertThrows(InvalidCredentialsException.class, () ->  productServiceMock.deleteProductNormalUser(1l));
+        assertThrows(InvalidCredentialsException.class, () ->  productServiceMock.deleteProductNormalUser(1L));
 
         verify(requestAccessToken).hasRole("NORMALUSER");
-        verify(productRepositoryMock).findProductsByIdIs(1l);
+        verify(productRepositoryMock).findProductsByIdIs(1L);
     }
     @Test
     void deleteProductNormalUser_IDNotMatched() {
         when(requestAccessToken.hasRole("NORMALUSER"))
                 .thenReturn(true);
         when(requestAccessToken.getUserId())
-                .thenReturn(2l);
-        when(productRepositoryMock.findProductsByIdIs(1l))
+                .thenReturn(2L);
+        when(productRepositoryMock.findProductsByIdIs(1L))
                 .thenReturn(Product.builder()
-                        .seller(new NormalUser(1l,"lars","lars","lars","lars","lars","lars"))
+                        .seller(new NormalUser(1L,"lars","lars","lars","lars","lars","lars"))
                         .build());
 
-        assertThrows(InvalidCredentialsException.class, () ->  productServiceMock.deleteProductNormalUser(1l));
+        assertThrows(InvalidCredentialsException.class, () ->  productServiceMock.deleteProductNormalUser(1L));
 
-        verify(productRepositoryMock).findProductsByIdIs(1l);
+        verify(productRepositoryMock).findProductsByIdIs(1L);
         verify(requestAccessToken).hasRole("NORMALUSER");
         verify(requestAccessToken).getUserId();
     }
@@ -458,7 +472,7 @@ class ProductServiceImplTest {
     @Test
     void deleteProductAdmin() {
         Product PokemonPearl = Product.builder()
-                .id(1l)
+                .id(1L)
                 .title("Pokemon")
                 .subTitle("Pearl")
                 .series("Pokemon")
@@ -466,30 +480,30 @@ class ProductServiceImplTest {
                 .price(10.01)
                 .condition("TRASH")
                 .description("Pokemon game")
-                .genre(new Genre(1l,null, null))
+                .genre(new Genre(1L,null, null))
                 .sold(false)
                 .productType("GAME")
                 .images(Collections.emptyList())
                 .seller(new NormalUser())
                 .build();
 
-        when(productRepositoryMock.findProductsByIdIs(1l))
+        when(productRepositoryMock.findProductsByIdIs(1L))
                 .thenReturn(PokemonPearl);
         when(requestAccessToken.hasRole("ADMIN"))
                 .thenReturn(true);
 
-        productServiceMock.deleteProductAdmin(1l);
+        productServiceMock.deleteProductAdmin(1L);
 
         verify(requestAccessToken).hasRole("ADMIN");
-        verify(imageRepositoryMock).deleteByProductId(1l);
-        verify(productRepositoryMock).deleteById(1l);
+        verify(imageRepositoryMock).deleteByProductId(1L);
+        verify(productRepositoryMock).deleteById(1L);
     }
     @Test
     void deleteProductAdmin_NotAdmin() {
         when(requestAccessToken.hasRole("ADMIN"))
                 .thenReturn(false);
 
-        assertThrows(InvalidCredentialsException.class, () -> productServiceMock.deleteProductAdmin(1l));
+        assertThrows(InvalidCredentialsException.class, () -> productServiceMock.deleteProductAdmin(1L));
 
         verify(requestAccessToken).hasRole("ADMIN");
     }
@@ -506,7 +520,7 @@ class ProductServiceImplTest {
                 .price(10.01)
                 .condition("TRASH")
                 .description("Pokemon game")
-                .genre(new Genre(1l,null, null))
+                .genre(new Genre(1L,null, null))
                 .sold(false)
                 .productType("GAME")
                 .images(List.of(new Image(null,"aa", null),new Image(null,"aaa", null)))
@@ -514,7 +528,7 @@ class ProductServiceImplTest {
                 .build();
 
         Product PokemonPearl2= Product.builder()
-                .id(2l)
+                .id(2L)
                 .title("Pokemon")
                 .subTitle("Pearl")
                 .series("Pokemon")
@@ -522,14 +536,14 @@ class ProductServiceImplTest {
                 .price(10.01)
                 .condition("TRASH")
                 .description("Pokemon game")
-                .genre(new Genre(1l,null, null))
+                .genre(new Genre(1L,null, null))
                 .sold(false)
                 .productType("GAME")
-                .images(List.of(new Image(0l,"aa", null),new Image(0l,"aaa", null)))
+                .images(List.of(new Image(0L,"aa", null),new Image(0L,"aaa", null)))
                 .build();
 
-        when(genreRepositoryMock.getById(1l))
-                .thenReturn(new Genre(1l,null, null));
+        when(genreRepositoryMock.getById(1L))
+                .thenReturn(new Genre(1L,null, null));
         when(productRepositoryMock.save(PokemonPearl))
                 .thenReturn(PokemonPearl2);
 
@@ -541,7 +555,7 @@ class ProductServiceImplTest {
                 .price(10.01)
                 .condition("TRASH")
                 .description("Pokemon game")
-                .genreId(1l)
+                .genreId(1L)
                 .productType("GAME")
                 .images(List.of("aa","aaa"))
                 .seller("user")
@@ -550,12 +564,252 @@ class ProductServiceImplTest {
         CreateProductResponseDTO actualResult = productServiceMock.addProduct(createProductRequestDTO);
 
         CreateProductResponseDTO expectedResult = CreateProductResponseDTO.builder()
-                .productId(2l)
+                .productId(2L)
                 .build();
 
         assertEquals(expectedResult, actualResult);
 
-        verify(genreRepositoryMock).getById(1l);
+        verify(genreRepositoryMock).getById(1L);
         verify(productRepositoryMock).save(PokemonPearl);
+    }
+
+    //buyProduct
+    @Test
+    void buyProduct() {
+
+        Product PokemonPearl= Product.builder()
+                .id(1L)
+                .title("Pokemon")
+                .subTitle("Pearl")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genre(new Genre(1L,null, null))
+                .sold(false)
+                .productType("GAME")
+                .images(List.of(new Image(null,"aa", null),new Image(null,"aaa", null)))
+                .seller(new NormalUser(1L,"name", "name","name","name","name","name"))
+                .build();
+
+        when(productRepositoryMock.findById(1L))
+                .thenReturn(Optional.ofNullable(PokemonPearl));
+
+        when(requestAccessToken.getUserId())
+                .thenReturn(2L);
+
+        boolean result = productServiceMock.buyProduct(1L);
+
+        assertTrue(result);
+
+        verify(productRepositoryMock).findById(1L);
+        verify(requestAccessToken).getUserId();
+    }
+    @Test
+    void buyProduct_ProductNotFound() {
+
+        assertThrows(ProductNotFoundException.class, () ->  productServiceMock.buyProduct(1L));
+
+        verify(productRepositoryMock).findById(1L);
+    }
+    @Test
+    void buyProduct_CantBuyYourOwnProduct() {
+
+        Product PokemonPearl= Product.builder()
+                .id(1L)
+                .title("Pokemon")
+                .subTitle("Pearl")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genre(new Genre(1L,null, null))
+                .sold(false)
+                .productType("GAME")
+                .images(List.of(new Image(null,"aa", null),new Image(null,"aaa", null)))
+                .seller(new NormalUser(1L,"name", "name","name","name","name","name"))
+                .build();
+
+        when(productRepositoryMock.findById(1L))
+                .thenReturn(Optional.ofNullable(PokemonPearl));
+
+        when(requestAccessToken.getUserId())
+                .thenReturn(1L);
+
+        assertThrows(BuyingYourOwnProductException.class, () ->  productServiceMock.buyProduct(1L));
+
+        verify(productRepositoryMock).findById(1L);
+        verify(requestAccessToken).getUserId();
+    }
+
+    //updateProduct
+    @Test
+    void updateProduct() {
+
+        UpdateProductRequestDTO updateProductRequestDTO = UpdateProductRequestDTO.builder()
+                .productId(1L)
+                .title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genreId(1L)
+                .productType("GAME")
+                .images(List.of("image1","image2","image3"))
+                .build();
+
+        Genre genre = new Genre(1L,null, null);
+
+        Product PokemonPearl= Product.builder()
+                .id(1L)
+                .title("Pokemon")
+                .subTitle("Pearl")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genre(genre)
+                .sold(false)
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .seller(new NormalUser(1L,"name", "name","name","name","name","name"))
+                .build();
+
+        Product UpdatedPokemonPearl= Product.builder()
+                .id(1L)
+                .title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genre(genre)
+                .sold(false)
+                .productType("GAME")
+                .images(List.of(Image.builder().imageUrl("image1").build(),Image.builder().imageUrl("image2").build(),Image.builder().imageUrl("image3").build()))
+                .seller(new NormalUser(1L,"name", "name","name","name","name","name"))
+                .build();
+
+        when(productRepositoryMock.findProductsByIdIs(updateProductRequestDTO.getProductId()))
+                .thenReturn(PokemonPearl);
+        when(requestAccessToken.hasRole("NORMALUSER"))
+                .thenReturn(true);
+        when(requestAccessToken.getUserId())
+                .thenReturn(1L);
+        when(genreRepositoryMock.getById(1L))
+                .thenReturn(genre);
+        when(productRepositoryMock.save(UpdatedPokemonPearl))
+                .thenReturn(UpdatedPokemonPearl);
+
+        UpdateProductResponseDTO  actualResult = productServiceMock.updateProduct(updateProductRequestDTO);
+
+        UpdateProductResponseDTO expectedResult = UpdateProductResponseDTO.builder()
+                .productId(1L)
+                .build();
+
+        assertEquals(expectedResult, actualResult);
+
+        verify(productRepositoryMock).findProductsByIdIs(updateProductRequestDTO.getProductId());
+        verify(requestAccessToken).hasRole("NORMALUSER");
+        verify(requestAccessToken).getUserId();
+        verify(productRepositoryMock).save(UpdatedPokemonPearl);
+        verify(genreRepositoryMock).getById(1L);
+        verify(imageRepositoryMock).deleteByProductId(1L);
+        verify(imageRepositoryMock).saveAll(
+                List.of(
+                        Image.builder()
+                                .imageUrl("image1")
+                                .product(UpdatedPokemonPearl)
+                                .build(),
+                        Image.builder()
+                                .imageUrl("image2")
+                                .product(UpdatedPokemonPearl)
+                                .build(),
+                        Image.builder()
+                                .imageUrl("image3")
+                                .product(UpdatedPokemonPearl)
+                                .build()));
+    }
+    @Test
+    void updateProduct_NotFound() {
+
+        UpdateProductRequestDTO updateProductRequestDTO = UpdateProductRequestDTO.builder()
+                .productId(1L)
+                .title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genreId(1L)
+                .productType("GAME")
+                .images(List.of("image1","image2","image3"))
+                .build();
+
+        when(requestAccessToken.hasRole("NORMALUSER"))
+                .thenReturn(true);
+        when(productRepositoryMock.findProductsByIdIs(updateProductRequestDTO.getProductId()))
+                .thenReturn(null);
+
+       assertThrows(ProductNotFoundException.class, () -> productServiceMock.updateProduct(updateProductRequestDTO));
+
+        verify(productRepositoryMock).findProductsByIdIs(updateProductRequestDTO.getProductId());
+        verify(requestAccessToken).hasRole("NORMALUSER");
+    }
+    @Test
+    void updateProduct_NotUsersProduct() {
+
+        UpdateProductRequestDTO updateProductRequestDTO = UpdateProductRequestDTO.builder()
+                .productId(1L)
+                .title("Pokemon")
+                .subTitle("diamond")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genreId(1L)
+                .productType("GAME")
+                .images(List.of("image1","image2","image3"))
+                .build();
+
+        Genre genre = new Genre(1L,null, null);
+
+        Product PokemonPearl= Product.builder()
+                .id(1L)
+                .title("Pokemon")
+                .subTitle("Pearl")
+                .series("Pokemon")
+                .year(2022)
+                .price(10.01)
+                .condition("TRASH")
+                .description("Pokemon game")
+                .genre(genre)
+                .sold(false)
+                .productType("GAME")
+                .images(Collections.emptyList())
+                .seller(new NormalUser(1L,"name", "name","name","name","name","name"))
+                .build();
+
+
+        when(productRepositoryMock.findProductsByIdIs(updateProductRequestDTO.getProductId()))
+                .thenReturn(PokemonPearl);
+        when(requestAccessToken.hasRole("NORMALUSER"))
+                .thenReturn(true);
+        when(requestAccessToken.getUserId())
+                .thenReturn(2L);
+
+        assertThrows(InvalidCredentialsException.class , () -> productServiceMock.updateProduct(updateProductRequestDTO));
+
+        verify(productRepositoryMock).findProductsByIdIs(updateProductRequestDTO.getProductId());
+        verify(requestAccessToken).hasRole("NORMALUSER");
+        verify(requestAccessToken).getUserId();
     }
 }

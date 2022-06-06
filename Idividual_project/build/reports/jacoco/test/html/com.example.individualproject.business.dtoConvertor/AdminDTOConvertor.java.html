@@ -4,12 +4,12 @@ import com.example.individualproject.dto.users.GetUserDTO;
 import com.example.individualproject.repository.entity.Admin;
 
 public class AdminDTOConvertor {
-<span class="nc" id="L7">    private AdminDTOConvertor(){</span>
+<span class="nc" id="L7">    private AdminDTOConvertor() {</span>
 <span class="nc" id="L8">        throw new IllegalStateException(&quot;Utility class&quot;);</span>
     }
 
     public static GetUserDTO convertToDTO(Admin admin) {
-<span class="fc" id="L12">       String none = &quot;-None-&quot;;</span>
+<span class="fc" id="L12">        String none = &quot;-None-&quot;;</span>
 <span class="fc" id="L13">        return GetUserDTO.builder()</span>
 <span class="fc" id="L14">                .username(admin.getUsername())</span>
 <span class="fc" id="L15">                .firstName(none)</span>

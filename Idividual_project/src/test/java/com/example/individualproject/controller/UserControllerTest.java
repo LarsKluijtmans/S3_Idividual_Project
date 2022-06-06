@@ -2,9 +2,6 @@ package com.example.individualproject.controller;
 
 import com.example.individualproject.business.impl.UserServiceImpl;
 import com.example.individualproject.dto.users.*;
-import com.example.individualproject.repository.entity.Admin;
-import com.example.individualproject.repository.entity.NormalUser;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
@@ -36,25 +33,24 @@ class UserControllerTest {
     @MockBean
     private UserServiceImpl userService;
 
+    private ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+
     //getAllUsers
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getAllUsers_UsersFound() throws Exception {
-        NormalUser worker = new NormalUser(1l, "worker","worker","worker","worker","worker","worker");
-        Admin boss = new Admin(2l, "boss","boss");
-
         GetUserDTO workerDTO = GetUserDTO.builder()
-                .username(worker.getUsername())
-                .firstName(worker.getFirstname())
-                .lastName(worker.getLastname())
-                .phoneNumber(worker.getPhonenumber())
-                .email(worker.getEmail())
+                .username("worker")
+                .firstName("worker")
+                .lastName("worker")
+                .phoneNumber("worker")
+                .email("worker")
                 .position("NORMAL")
                 .build();
 
         String none = "-None-";
         GetUserDTO bossDTO = GetUserDTO.builder()
-                .username(boss.getUsername())
+                .username("boss")
                 .firstName(none)
                 .lastName(none)
                 .phoneNumber(none)
@@ -62,18 +58,14 @@ class UserControllerTest {
                 .position("ADMIN")
                 .build();
 
-        List<GetUserDTO> users = List.of(workerDTO, bossDTO);
-
         when(userService.getAllUsers())
-                .thenReturn(users);
+                .thenReturn(List.of(workerDTO, bossDTO));
 
         mockMvc.perform(get("/users"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
-                .andExpect(content().json("""
-                [{"username":"worker","firstName":"worker","lastName":"worker","phoneNumber":"worker","email":"worker","position":"NORMAL"},{"username":"boss","firstName":"-None-","lastName":"-None-","phoneNumber":"-None-","email":"-None-","position":"ADMIN"}]
-                """ ));
+                .andExpect(content().json(ow.writeValueAsString(List.of(workerDTO, bossDTO))));
 
         verify(userService).getAllUsers();
     }
@@ -94,21 +86,18 @@ class UserControllerTest {
     @Test
     @WithMockUser(username = "me", roles = {"ADMIN"})
     void getAllUserByName_UserFound() throws Exception {
-        NormalUser worker = new NormalUser(1l, "worker","worker","worker","worker","worker","worker");
-        Admin boss = new Admin(2l, "boss","boss");
-
         GetUserDTO workerDTO = GetUserDTO.builder()
-                .username(worker.getUsername())
-                .firstName(worker.getFirstname())
-                .lastName(worker.getLastname())
-                .phoneNumber(worker.getPhonenumber())
-                .email(worker.getEmail())
+                .username("worker")
+                .firstName("worker")
+                .lastName("worker")
+                .phoneNumber("worker")
+                .email("worker")
                 .position("NORMAL")
                 .build();
 
         String none = "-None-";
         GetUserDTO bossDTO = GetUserDTO.builder()
-                .username(boss.getUsername())
+                .username("boss")
                 .firstName(none)
                 .lastName(none)
                 .phoneNumber(none)
@@ -116,18 +105,15 @@ class UserControllerTest {
                 .position("ADMIN")
                 .build();
 
-        List<GetUserDTO> users = List.of(workerDTO, bossDTO);
 
         when(userService.getAllUserByName("worker"))
-                .thenReturn(users);
+                .thenReturn(List.of(workerDTO, bossDTO));
 
         mockMvc.perform(get("/users/search/worker"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
-                .andExpect(content().json("""
-                [{"username":"worker","firstName":"worker","lastName":"worker","phoneNumber":"worker","email":"worker","position":"NORMAL"},{"username":"boss","firstName":"-None-","lastName":"-None-","phoneNumber":"-None-","email":"-None-","position":"ADMIN"}]
-                """ ));
+                .andExpect(content().json(ow.writeValueAsString(List.of(workerDTO, bossDTO)) ));
 
         verify(userService).getAllUserByName("worker");
     }
@@ -150,40 +136,24 @@ class UserControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getAllNormalUser_UsersFound() throws Exception {
-        NormalUser worker = new NormalUser(1l, "worker","worker","worker","worker","worker","worker");
-        Admin boss = new Admin(2l, "boss","boss");
 
         GetUserDTO workerDTO = GetUserDTO.builder()
-                .username(worker.getUsername())
-                .firstName(worker.getFirstname())
-                .lastName(worker.getLastname())
-                .phoneNumber(worker.getPhonenumber())
-                .email(worker.getEmail())
+                .username("worker")
+                .firstName("worker")
+                .lastName("worker")
+                .phoneNumber("worker")
+                .email("worker")
                 .position("NORMAL")
                 .build();
-
-        String none = "-none-";
-        GetUserDTO bossDTO = GetUserDTO.builder()
-                .username(boss.getUsername())
-                .firstName(none)
-                .lastName(none)
-                .phoneNumber(none)
-                .email(none)
-                .position("NORMAL")
-                .build();
-
-        List<GetUserDTO> users = List.of(workerDTO);
 
         when(userService.getAllNormalUsers())
-                .thenReturn(users);
+                .thenReturn(List.of(workerDTO));
 
         mockMvc.perform(get("/users/NormalUser"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
-                .andExpect(content().json("""
-                [{"username":"worker","firstName":"worker","lastName":"worker","phoneNumber":"worker","email":"worker","position":"NORMAL"}]
-                """ ));
+                .andExpect(content().json(ow.writeValueAsString(List.of(workerDTO))));
 
         verify(userService).getAllNormalUsers();
     }
@@ -205,11 +175,9 @@ class UserControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getAllAdmin_UsersFound() throws Exception {
-        Admin boss = new Admin(2l, "boss","boss");
-
         String none = "-None-";
         GetUserDTO bossDTO = GetUserDTO.builder()
-                .username(boss.getUsername())
+                .username("boss")
                 .firstName(none)
                 .lastName(none)
                 .phoneNumber(none)
@@ -217,18 +185,14 @@ class UserControllerTest {
                 .position("ADMIN")
                 .build();
 
-        List<GetUserDTO> users = List.of(bossDTO);
-
         when(userService.getAllAdmins())
-                .thenReturn(users);
+                .thenReturn(List.of(bossDTO));
 
         mockMvc.perform(get("/users/Admin"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
-                .andExpect(content().json("""
-                [{"username":"boss","firstName":"-None-","lastName":"-None-","phoneNumber":"-None-","email":"-None-","position":"ADMIN"}]
-                """ ));
+                .andExpect(content().json(ow.writeValueAsString(List.of(bossDTO))));
 
         verify(userService).getAllAdmins();
     }
@@ -349,15 +313,12 @@ class UserControllerTest {
 
         CreateUserResponseDTO createUserResponseDTO = new CreateUserResponseDTO("firstname");
 
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(createUserRequestDTO);
-
         when(userService.addUser(createUserRequestDTO))
                 .thenReturn(createUserResponseDTO);
 
         mockMvc.perform(post("/users")
                         .contentType(APPLICATION_JSON_VALUE)
-                        .content(json))
+                        .content(ow.writeValueAsString(createUserRequestDTO)))
                 .andDo(print())
                 .andExpect(status().isCreated());
 
@@ -374,15 +335,12 @@ class UserControllerTest {
                 .phoneNumber("phoneNumber")
                 .build();
 
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(createUserRequestDTO);
-
         when(userService.addUser(createUserRequestDTO))
                 .thenReturn(null);
 
         mockMvc.perform(post("/users")
                         .contentType(APPLICATION_JSON_VALUE)
-                        .content(json))
+                        .content(ow.writeValueAsString(createUserRequestDTO)))
                 .andDo(print())
                 .andExpect(status().isConflict());
 
@@ -403,15 +361,12 @@ class UserControllerTest {
 
         UpdateUserResponseDTO updateUserResponseDTO = new UpdateUserResponseDTO("firstname");
 
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(updateUserRequestDTO);
-
         when(userService.updateUser(updateUserRequestDTO))
                 .thenReturn(updateUserResponseDTO);
 
         mockMvc.perform(put("/users")
                         .contentType(APPLICATION_JSON_VALUE)
-                        .content(json))
+                        .content(ow.writeValueAsString(updateUserRequestDTO)))
                 .andDo(print())
                 .andExpect(status().isOk());
 
@@ -428,18 +383,93 @@ class UserControllerTest {
                 .phoneNumber("phoneNumber")
                 .build();
 
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(updateUserRequestDTO);
-
         when(userService.updateUser(updateUserRequestDTO))
                 .thenReturn(null);
 
         mockMvc.perform(put("/users")
                         .contentType(APPLICATION_JSON_VALUE)
-                        .content(json))
+                        .content( ow.writeValueAsString(updateUserRequestDTO)))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
 
         verify(userService).updateUser(updateUserRequestDTO);
+    }
+
+    //getUserByUsernameAdmin
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void getUserByUsernameAdmin() throws Exception {
+        GetUserDTO workerDTO = GetUserDTO.builder()
+                .username("worker")
+                .firstName("worker")
+                .lastName("worker")
+                .phoneNumber("worker")
+                .email("worker")
+                .position("NORMAL")
+                .build();
+
+
+        when(userService.getUserByName("Worker"))
+                .thenReturn(workerDTO);
+
+        mockMvc.perform(get("/users/admin/Worker"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
+                .andExpect(content().json(ow.writeValueAsString(workerDTO)));
+
+
+        verify(userService).getUserByName("Worker");
+    }
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void getUserByUsernameAdmin_NotFound() throws Exception {
+        when(userService.getUserByName("Worker"))
+                .thenReturn(null);
+
+        mockMvc.perform(get("/users/admin/Worker"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+
+        verify(userService).getUserByName("Worker");
+    }
+
+    //getUserByUsernameNormal
+    @Test
+    @WithMockUser(username = "me", roles = {"NORMALUSER"})
+    void getUserByUsernameNormal() throws Exception {
+        GetUserDTO workerDTO = GetUserDTO.builder()
+                .username("worker")
+                .firstName("worker")
+                .lastName("worker")
+                .phoneNumber("worker")
+                .email("worker")
+                .position("NORMAL")
+                .build();
+
+
+        when(userService.getUserByNameNormalUser("Worker"))
+                .thenReturn(workerDTO);
+
+        mockMvc.perform(get("/users/normal/Worker"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
+                .andExpect(content().json(ow.writeValueAsString(workerDTO)));
+
+
+        verify(userService).getUserByNameNormalUser("Worker");
+    }
+    @Test
+    @WithMockUser(username = "me", roles = {"NORMALUSER"})
+    void getUserByUsernameNormal_NotFound() throws Exception {
+        when(userService.getUserByNameNormalUser("Worker"))
+                .thenReturn(null);
+
+        mockMvc.perform(get("/users/normal/Worker"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+
+        verify(userService).getUserByNameNormalUser("Worker");
     }
 }

@@ -23,4 +23,5 @@ public class UpdateProductRequestDTO {
     private String description;
     private Long genreId;
     private String productType;
-    private List<String> images;}
+    private List<String> images;
+}

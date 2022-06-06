@@ -4,7 +4,7 @@ import com.example.individualproject.dto.users.GetUserDTO;
 import com.example.individualproject.repository.entity.NormalUser;
 
 public class NormalUserDTOConvertor {
-    private NormalUserDTOConvertor(){
+    private NormalUserDTOConvertor() {
         throw new IllegalStateException("Utility class");
     }
 

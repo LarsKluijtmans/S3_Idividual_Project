@@ -11,7 +11,7 @@ public class WebSocketController {
 
     @MessageMapping("/NewApp")
     @SendTo("/topic/newApps")
-    public NewProductDTO newApplication(@Payload final NewProductDTO newProductDTO){
+    public NewProductDTO newApplication(@Payload final NewProductDTO newProductDTO) {
         return newProductDTO;
     }
 }

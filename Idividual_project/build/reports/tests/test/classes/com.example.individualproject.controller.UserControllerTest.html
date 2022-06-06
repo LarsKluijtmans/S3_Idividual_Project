@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">19</div>
+<div class="counter">23</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.148s</div>
+<div class="counter">0.164s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,27 +79,27 @@
 </thead>
 <tr>
 <td class="success">createUser()</td>
-<td class="success">0.010s</td>
+<td class="success">0.006s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">createUser_Conflict()</td>
-<td class="success">0.011s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">deleteUser()</td>
 <td class="success">0.008s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
+<td class="success">deleteUser()</td>
+<td class="success">0.005s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">getAllAdmin_NotFound()</td>
-<td class="success">0.006s</td>
+<td class="success">0.007s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getAllAdmin_UsersFound()</td>
-<td class="success">0.006s</td>
+<td class="success">0.007s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -109,17 +109,17 @@
 </tr>
 <tr>
 <td class="success">getAllNormalUser_UsersFound()</td>
-<td class="success">0.006s</td>
+<td class="success">0.007s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getAllUserByName_NotFound()</td>
-<td class="success">0.007s</td>
+<td class="success">0.006s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">getAllUserByName_UserFound()</td>
-<td class="success">0.007s</td>
+<td class="success">0.008s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -133,8 +133,28 @@
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">isEmailUnique_false()</td>
+<td class="success">getUserByUsernameAdmin()</td>
 <td class="success">0.006s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getUserByUsernameAdmin_NotFound()</td>
+<td class="success">0.008s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getUserByUsernameNormal()</td>
+<td class="success">0.007s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getUserByUsernameNormal_NotFound()</td>
+<td class="success">0.006s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">isEmailUnique_false()</td>
+<td class="success">0.005s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -144,12 +164,12 @@
 </tr>
 <tr>
 <td class="success">isPhoneNumberUnique_false()</td>
-<td class="success">0.006s</td>
+<td class="success">0.005s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">isPhoneNumberUnique_true()</td>
-<td class="success">0.007s</td>
+<td class="success">0.005s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -164,12 +184,12 @@
 </tr>
 <tr>
 <td class="success">updateUser()</td>
-<td class="success">0.007s</td>
+<td class="success">0.008s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">updateUser_BadRequest()</td>
-<td class="success">0.009s</td>
+<td class="success">0.008s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -177,12 +197,12 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2022-06-04 15:34:54.733  INFO 17824 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.example.individualproject.controller.UserControllerTest], using SpringBootContextLoader
-2022-06-04 15:34:54.733  INFO 17824 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.example.individualproject.controller.UserControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}.
-2022-06-04 15:34:54.734  INFO 17824 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.individualproject.controller.UserControllerTest]: UserControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2022-06-04 15:34:54.736  INFO 17824 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.individualproject.IndividualProjectApplication for test class com.example.individualproject.controller.UserControllerTest
-2022-06-04 15:34:54.738  INFO 17824 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener, org.springframework.security.test.context.support.ReactorContextTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
-2022-06-04 15:34:54.739  INFO 17824 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@765eefb0, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@a1d1704, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@4039590f, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@5b74754a, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@5ad622fb, org.springframework.test.context.support.DirtiesContextTestExecutionListener@3811bb92, org.springframework.test.context.transaction.TransactionalTestExecutionListener@326a6cbe, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@4acc819c, org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener@21e6a3c4, org.springframework.test.context.event.EventPublishingTestExecutionListener@149e4141, org.springframework.security.test.context.support.ReactorContextTestExecutionListener@7570c0f0, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@5b1e6fa3, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@4ff20f87, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@2900cb71, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@5a84e9e1, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@72cff665, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@2d1e418c]
+<pre>2022-06-06 19:35:33.790  INFO 25016 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.example.individualproject.controller.UserControllerTest], using SpringBootContextLoader
+2022-06-06 19:35:33.791  INFO 25016 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.example.individualproject.controller.UserControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2022-06-06 19:35:33.791  INFO 25016 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.individualproject.controller.UserControllerTest]: UserControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2022-06-06 19:35:33.792  INFO 25016 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.individualproject.IndividualProjectApplication for test class com.example.individualproject.controller.UserControllerTest
+2022-06-06 19:35:33.793  INFO 25016 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener, org.springframework.security.test.context.support.ReactorContextTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+2022-06-06 19:35:33.794  INFO 25016 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@5a2edda6, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@4b3a77a7, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@7dfbac53, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@2ea0b4f5, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@24f8f6a, org.springframework.test.context.support.DirtiesContextTestExecutionListener@1ad057cb, org.springframework.test.context.transaction.TransactionalTestExecutionListener@3ae9e9f6, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@1145f542, org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener@6f8f0cdf, org.springframework.test.context.event.EventPublishingTestExecutionListener@77f960ea, org.springframework.security.test.context.support.ReactorContextTestExecutionListener@22a91ba, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@3c7b9b58, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@2b8591fc, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@17c74a56, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@4136ae55, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@21f75c70, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@267a23c3]
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -192,36 +212,36 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v2.6.3)
 
-2022-06-04 15:34:54.759  INFO 17824 --- [    Test worker] c.e.i.controller.UserControllerTest      : Starting UserControllerTest using Java 17.0.2 on MSILars with PID 17824 (started by lars in C:\Users\lars\Desktop\ict\sem3\IndividualTask\s3_idividual_project\Idividual_project)
-2022-06-04 15:34:54.760  INFO 17824 --- [    Test worker] c.e.i.controller.UserControllerTest      : No active profile set, falling back to default profiles: default
-2022-06-04 15:34:54.949  INFO 17824 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2022-06-04 15:34:54.973  INFO 17824 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 23 ms. Found 5 JPA repository interfaces.
-2022-06-04 15:34:55.076  INFO 17824 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityConfig' of type [com.example.individualproject.configuration.security.MethodSecurityConfig$$EnhancerBySpringCGLIB$$367257c2] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2022-06-04 15:34:55.131  INFO 17824 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.5.5 by Redgate
-2022-06-04 15:34:55.131  INFO 17824 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : See what's new here: https://flywaydb.org/documentation/learnmore/releaseNotes#8.5.5
-2022-06-04 15:34:55.131  INFO 17824 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : 
-2022-06-04 15:34:55.132  INFO 17824 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
-2022-06-04 15:34:55.148  INFO 17824 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
-2022-06-04 15:34:55.149  INFO 17824 --- [    Test worker] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/game_marked (MySQL 8.0)
-2022-06-04 15:34:55.162  INFO 17824 --- [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.006s)
-2022-06-04 15:34:55.169  INFO 17824 --- [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema `game_marked`: 3
-2022-06-04 15:34:55.170  INFO 17824 --- [    Test worker] o.f.core.internal.command.DbMigrate      : Schema `game_marked` is up to date. No migration necessary.
-2022-06-04 15:34:55.212  INFO 17824 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2022-06-04 15:34:55.216  INFO 17824 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2022-06-04 15:34:55.288  INFO 17824 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2022-06-04 15:34:55.288  INFO 17824 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2022-06-04 15:34:55.614  INFO 17824 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
+2022-06-06 19:35:33.810  INFO 25016 --- [    Test worker] c.e.i.controller.UserControllerTest      : Starting UserControllerTest using Java 17.0.2 on MSILars with PID 25016 (started by lars in C:\Users\lars\Desktop\ict\sem3\IndividualTask\s3_idividual_project\Idividual_project)
+2022-06-06 19:35:33.810  INFO 25016 --- [    Test worker] c.e.i.controller.UserControllerTest      : No active profile set, falling back to default profiles: default
+2022-06-06 19:35:33.981  INFO 25016 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-06 19:35:34.005  INFO 25016 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 24 ms. Found 5 JPA repository interfaces.
+2022-06-06 19:35:34.105  INFO 25016 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityConfig' of type [com.example.individualproject.configuration.security.MethodSecurityConfig$$EnhancerBySpringCGLIB$$a12d6d48] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-06 19:35:34.161  INFO 25016 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.5.11 by Redgate
+2022-06-06 19:35:34.161  INFO 25016 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : See what's new here: https://flywaydb.org/documentation/learnmore/releaseNotes#8.5.11
+2022-06-06 19:35:34.161  INFO 25016 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : 
+2022-06-06 19:35:34.162  INFO 25016 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2022-06-06 19:35:34.180  INFO 25016 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2022-06-06 19:35:34.181  INFO 25016 --- [    Test worker] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/game_marked (MySQL 8.0)
+2022-06-06 19:35:34.197  INFO 25016 --- [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.007s)
+2022-06-06 19:35:34.204  INFO 25016 --- [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema `game_marked`: 3
+2022-06-06 19:35:34.205  INFO 25016 --- [    Test worker] o.f.core.internal.command.DbMigrate      : Schema `game_marked` is up to date. No migration necessary.
+2022-06-06 19:35:34.250  INFO 25016 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-06 19:35:34.255  INFO 25016 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-06-06 19:35:34.329  INFO 25016 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-06 19:35:34.329  INFO 25016 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-06 19:35:34.703  INFO 25016 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
 
-Using generated security password: 03f6e157-2552-4611-b433-fcd00ed285b8
+Using generated security password: 40e7e2ca-2bbc-4085-af7f-2d9683c6aa91
 
-2022-06-04 15:34:55.662  INFO 17824 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4a2f7390, org.springframework.security.web.context.SecurityContextPersistenceFilter@45a4e8ef, org.springframework.security.web.header.HeaderWriterFilter@28828c4a, org.springframework.security.web.authentication.logout.LogoutFilter@48c5ddb4, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@638d806b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3b4db49b, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2ce13f1c, org.springframework.security.web.session.SessionManagementFilter@5d3d4115, org.springframework.security.web.access.ExceptionTranslationFilter@2a145bc5]
-2022-06-04 15:34:56.361  INFO 17824 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-06-04 15:34:56.361  INFO 17824 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-06-04 15:34:56.362  INFO 17824 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-2022-06-04 15:34:56.372  INFO 17824 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
-2022-06-04 15:34:56.373  INFO 17824 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@a4c5a1f]]
-2022-06-04 15:34:56.373  INFO 17824 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
-2022-06-04 15:34:56.378  INFO 17824 --- [    Test worker] c.e.i.controller.UserControllerTest      : Started UserControllerTest in 1.636 seconds (JVM running for 16.931)
+2022-06-06 19:35:34.760  INFO 25016 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@22915d1a, org.springframework.security.web.context.SecurityContextPersistenceFilter@52eac391, org.springframework.security.web.header.HeaderWriterFilter@76c29c78, org.springframework.security.web.authentication.logout.LogoutFilter@108e10bd, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@77df0063, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@55b4c2ee, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@427aaa0d, org.springframework.security.web.session.SessionManagementFilter@1f7798e1, org.springframework.security.web.access.ExceptionTranslationFilter@432c3957]
+2022-06-06 19:35:35.664  INFO 25016 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-06-06 19:35:35.665  INFO 25016 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-06-06 19:35:35.666  INFO 25016 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2022-06-06 19:35:35.676  INFO 25016 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2022-06-06 19:35:35.676  INFO 25016 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@297d00c6]]
+2022-06-06 19:35:35.677  INFO 25016 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2022-06-06 19:35:35.679  INFO 25016 --- [    Test worker] c.e.i.controller.UserControllerTest      : Started UserControllerTest in 1.884 seconds (JVM running for 18.08)
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -308,6 +328,43 @@ MockHttpServletRequest:
 Handler:
              Type = com.example.individualproject.controller.UserController
            Method = com.example.individualproject.controller.UserController#getAllUsers()
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 404
+    Error message = null
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, X-Content-Type-Options:&quot;nosniff&quot;, X-XSS-Protection:&quot;1; mode=block&quot;, Cache-Control:&quot;no-cache, no-store, max-age=0, must-revalidate&quot;, Pragma:&quot;no-cache&quot;, Expires:&quot;0&quot;, X-Frame-Options:&quot;DENY&quot;]
+     Content type = null
+             Body = 
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /users/admin/Worker
+       Parameters = {}
+          Headers = []
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = com.example.individualproject.controller.UserController
+           Method = com.example.individualproject.controller.UserController#getUserByUsernameAdmin(String)
 
 Async:
     Async started = false
@@ -443,6 +500,43 @@ FlashMap:
 
 MockHttpServletResponse:
            Status = 400
+    Error message = null
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, X-Content-Type-Options:&quot;nosniff&quot;, X-XSS-Protection:&quot;1; mode=block&quot;, Cache-Control:&quot;no-cache, no-store, max-age=0, must-revalidate&quot;, Pragma:&quot;no-cache&quot;, Expires:&quot;0&quot;, X-Frame-Options:&quot;DENY&quot;]
+     Content type = null
+             Body = 
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /users/normal/Worker
+       Parameters = {}
+          Headers = []
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = com.example.individualproject.controller.UserController
+           Method = com.example.individualproject.controller.UserController#getUserByUsernameNormal(String)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 404
     Error message = null
           Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, X-Content-Type-Options:&quot;nosniff&quot;, X-XSS-Protection:&quot;1; mode=block&quot;, Cache-Control:&quot;no-cache, no-store, max-age=0, must-revalidate&quot;, Pragma:&quot;no-cache&quot;, Expires:&quot;0&quot;, X-Frame-Options:&quot;DENY&quot;]
      Content type = null
@@ -872,6 +966,80 @@ MockHttpServletResponse:
           Cookies = []
 
 MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /users/admin/Worker
+       Parameters = {}
+          Headers = []
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = com.example.individualproject.controller.UserController
+           Method = com.example.individualproject.controller.UserController#getUserByUsernameAdmin(String)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, Content-Type:&quot;application/json&quot;, X-Content-Type-Options:&quot;nosniff&quot;, X-XSS-Protection:&quot;1; mode=block&quot;, Cache-Control:&quot;no-cache, no-store, max-age=0, must-revalidate&quot;, Pragma:&quot;no-cache&quot;, Expires:&quot;0&quot;, X-Frame-Options:&quot;DENY&quot;]
+     Content type = application/json
+             Body = {&quot;username&quot;:&quot;worker&quot;,&quot;firstName&quot;:&quot;worker&quot;,&quot;lastName&quot;:&quot;worker&quot;,&quot;phoneNumber&quot;:&quot;worker&quot;,&quot;email&quot;:&quot;worker&quot;,&quot;position&quot;:&quot;NORMAL&quot;}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /users/normal/Worker
+       Parameters = {}
+          Headers = []
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = com.example.individualproject.controller.UserController
+           Method = com.example.individualproject.controller.UserController#getUserByUsernameNormal(String)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Vary:&quot;Origin&quot;, &quot;Access-Control-Request-Method&quot;, &quot;Access-Control-Request-Headers&quot;, Content-Type:&quot;application/json&quot;, X-Content-Type-Options:&quot;nosniff&quot;, X-XSS-Protection:&quot;1; mode=block&quot;, Cache-Control:&quot;no-cache, no-store, max-age=0, must-revalidate&quot;, Pragma:&quot;no-cache&quot;, Expires:&quot;0&quot;, X-Frame-Options:&quot;DENY&quot;]
+     Content type = application/json
+             Body = {&quot;username&quot;:&quot;worker&quot;,&quot;firstName&quot;:&quot;worker&quot;,&quot;lastName&quot;:&quot;worker&quot;,&quot;phoneNumber&quot;:&quot;worker&quot;,&quot;email&quot;:&quot;worker&quot;,&quot;position&quot;:&quot;NORMAL&quot;}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
       HTTP Method = POST
       Request URI = /users
        Parameters = {}
@@ -962,7 +1130,7 @@ MockHttpServletResponse:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 7.4</a> at Jun 4, 2022, 3:34:56 PM</p>
+<a href="http://www.gradle.org">Gradle 7.4</a> at Jun 6, 2022, 7:35:36 PM</p>
 </div>
 </div>
 </body>

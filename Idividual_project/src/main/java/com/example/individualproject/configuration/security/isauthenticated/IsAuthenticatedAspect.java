@@ -23,14 +23,16 @@ public class IsAuthenticatedAspect {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(IsAuthenticatedAspect.class);
 
+    //TODO why are these empty
+
     @Pointcut("@annotation(com.example.individualproject.configuration.security.isauthenticated.IsAuthenticated)")
     public void annotatedMethod() {
-        throw new UnsupportedOperationException();
+
     }
 
     @Pointcut("@within(com.example.individualproject.configuration.security.isauthenticated.IsAuthenticated)")
     public void annotatedClass() {
-        throw new UnsupportedOperationException();
+
     }
 
     @Around("(annotatedMethod() || annotatedClass()) && execution(* *(..))")

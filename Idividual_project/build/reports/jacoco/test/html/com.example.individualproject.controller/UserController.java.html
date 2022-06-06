@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Individual_Project</a> &gt; <a href="index.source.html" class="el_package">com.example.individualproject.controller</a> &gt; <span class="el_source">UserController.java</span></div><h1>UserController.java</h1><pre class="source lang-java linenums">package com.example.individualproject.controller;
 
+import com.example.individualproject.business.UserService;
 import com.example.individualproject.configuration.security.isauthenticated.IsAuthenticated;
 import com.example.individualproject.dto.users.*;
-import com.example.individualproject.business.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
-import java.util.List;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(&quot;/users&quot;)
@@ -27,7 +27,7 @@ public class UserController {
     public ResponseEntity&lt;List&lt;GetUserDTO&gt;&gt; getAllUsers() {
 <span class="fc" id="L28">        List&lt;GetUserDTO&gt; users = userService.getAllUsers();</span>
 
-<span class="fc bfc" id="L30" title="All 2 branches covered.">        if(users != null) {</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        if (users != null) {</span>
 <span class="fc" id="L31">            return ResponseEntity.ok().body(users);</span>
         } else {
 <span class="fc" id="L33">            return ResponseEntity.notFound().build();</span>
@@ -38,22 +38,22 @@ public class UserController {
     @RolesAllowed({&quot;ROLE_ADMIN&quot;})
     @GetMapping(&quot;/admin/{username}&quot;)
     public ResponseEntity&lt;GetUserDTO&gt; getUserByUsernameAdmin(@PathVariable(&quot;username&quot;) String username) {
-<span class="nc" id="L41">        GetUserDTO user = userService.getUserByName(username);</span>
+<span class="fc" id="L41">        GetUserDTO user = userService.getUserByName(username);</span>
 
-<span class="nc bnc" id="L43" title="All 2 branches missed.">        if(user != null) {</span>
-<span class="nc" id="L44">            return ResponseEntity.ok().body(user);</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (user != null) {</span>
+<span class="fc" id="L44">            return ResponseEntity.ok().body(user);</span>
         } else {
-<span class="nc" id="L46">            return ResponseEntity.notFound().build();</span>
+<span class="fc" id="L46">            return ResponseEntity.notFound().build();</span>
         }
     }
 
     @IsAuthenticated
     @RolesAllowed({&quot;ROLE_ADMIN&quot;})
-    @GetMapping( &quot;/search/{name}&quot;)
+    @GetMapping(&quot;/search/{name}&quot;)
     public ResponseEntity&lt;List&lt;GetUserDTO&gt;&gt; getAllUserByName(@PathVariable(&quot;name&quot;) String name) {
 <span class="fc" id="L54">        List&lt;GetUserDTO&gt; users = userService.getAllUserByName(name);</span>
 
-<span class="fc bfc" id="L56" title="All 2 branches covered.">        if(users != null) {</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (users != null) {</span>
 <span class="fc" id="L57">            return ResponseEntity.ok().body(users);</span>
         } else {
 <span class="fc" id="L59">            return ResponseEntity.notFound().build();</span>
@@ -66,7 +66,7 @@ public class UserController {
     public ResponseEntity&lt;List&lt;GetUserDTO&gt;&gt; getAllNormalUser() {
 <span class="fc" id="L67">        List&lt;GetUserDTO&gt; users = userService.getAllNormalUsers();</span>
 
-<span class="fc bfc" id="L69" title="All 2 branches covered.">        if(users != null) {</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        if (users != null) {</span>
 <span class="fc" id="L70">            return ResponseEntity.ok().body(users);</span>
         } else {
 <span class="fc" id="L72">            return ResponseEntity.notFound().build();</span>
@@ -79,7 +79,7 @@ public class UserController {
     public ResponseEntity&lt;List&lt;GetUserDTO&gt;&gt; getAllAdmin() {
 <span class="fc" id="L80">        List&lt;GetUserDTO&gt; users = userService.getAllAdmins();</span>
 
-<span class="fc bfc" id="L82" title="All 2 branches covered.">        if(users != null) {</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (users != null) {</span>
 <span class="fc" id="L83">            return ResponseEntity.ok().body(users);</span>
         } else {
 <span class="fc" id="L85">            return ResponseEntity.notFound().build();</span>
@@ -101,42 +101,42 @@ public class UserController {
     public ResponseEntity&lt;UpdateUserResponseDTO&gt; updateUser(@RequestBody UpdateUserRequestDTO user) {
 <span class="fc" id="L102">        UpdateUserResponseDTO responseDTO = userService.updateUser(user);</span>
 
-<span class="fc bfc" id="L104" title="All 2 branches covered.">       if(responseDTO != null) {</span>
-<span class="fc" id="L105">           return ResponseEntity.ok().body(responseDTO);</span>
-       }else {
-<span class="fc" id="L107">           return ResponseEntity.badRequest().build();</span>
-       }
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        if (responseDTO != null) {</span>
+<span class="fc" id="L105">            return ResponseEntity.ok().body(responseDTO);</span>
+        } else {
+<span class="fc" id="L107">            return ResponseEntity.badRequest().build();</span>
+        }
     }
 
     @IsAuthenticated
     @RolesAllowed({&quot;ROLE_NORMALUSER&quot;})
     @GetMapping(&quot;/normal/{username}&quot;)
     public ResponseEntity&lt;GetUserDTO&gt; getUserByUsernameNormal(@PathVariable(&quot;username&quot;) String username) {
-<span class="nc" id="L115">        GetUserDTO user = userService.getUserByNameNormalUser(username);</span>
+<span class="fc" id="L115">        GetUserDTO user = userService.getUserByNameNormalUser(username);</span>
 
-<span class="nc bnc" id="L117" title="All 2 branches missed.">        if(user != null) {</span>
-<span class="nc" id="L118">            return ResponseEntity.ok().body(user);</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        if (user != null) {</span>
+<span class="fc" id="L118">            return ResponseEntity.ok().body(user);</span>
         } else {
-<span class="nc" id="L120">            return ResponseEntity.notFound().build();</span>
+<span class="fc" id="L120">            return ResponseEntity.notFound().build();</span>
         }
     }
 
     //All
-    @GetMapping( &quot;/unique/name/{name}&quot;)
+    @GetMapping(&quot;/unique/name/{name}&quot;)
     public ResponseEntity&lt;Boolean&gt; isUsernameUnique(@PathVariable(&quot;name&quot;) String name) {
 <span class="fc" id="L127">        Boolean result = userService.isUsernameUnique(name);</span>
 
 <span class="fc" id="L129">        return ResponseEntity.ok().body(result);</span>
     }
 
-    @GetMapping( &quot;/unique/phoneNumber/{phoneNumber}&quot;)
+    @GetMapping(&quot;/unique/phoneNumber/{phoneNumber}&quot;)
     public ResponseEntity&lt;Boolean&gt; isPhoneNumberUnique(@PathVariable(&quot;phoneNumber&quot;) String phoneNumber) {
 <span class="fc" id="L134">        Boolean result = userService.isPhoneNumberUnique(phoneNumber);</span>
 
 <span class="fc" id="L136">        return ResponseEntity.ok().body(result);</span>
     }
 
-    @GetMapping( &quot;/unique/email/{email}&quot;)
+    @GetMapping(&quot;/unique/email/{email}&quot;)
     public ResponseEntity&lt;Boolean&gt; isEmailUnique(@PathVariable(&quot;email&quot;) String email) {
 <span class="fc" id="L141">        Boolean result = userService.isEmailUnique(email);</span>
 
@@ -147,7 +147,7 @@ public class UserController {
     public ResponseEntity&lt;CreateUserResponseDTO&gt; createUser(@RequestBody CreateUserRequestDTO user) {
 
 <span class="fc" id="L149">        CreateUserResponseDTO userResponseDTO = userService.addUser(user);</span>
-<span class="fc bfc" id="L150" title="All 2 branches covered.">        if (userResponseDTO != null){</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        if (userResponseDTO != null) {</span>
 <span class="fc" id="L151">            String url = &quot;Unknown&quot;;</span>
 <span class="fc" id="L152">            URI uri = URI.create(url);</span>
 <span class="fc" id="L153">            return ResponseEntity.created(uri).body(userResponseDTO);</span>

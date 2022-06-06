@@ -1,5 +1,6 @@
 package com.example.individualproject.business.impl;
 
+import com.example.individualproject.business.exception.GenreNotFoundException;
 import com.example.individualproject.dto.genre.GetGenreDTO;
 import com.example.individualproject.repository.GenreRepository;
 import com.example.individualproject.repository.entity.Genre;
@@ -28,12 +29,12 @@ class GenreServiceImplTest {
     void getAllGenre() {
 
         Genre genre1 = Genre.builder()
-                .id(1l)
+                .id(1L)
                 .genre("GAME")
                 .products( Collections.emptyList())
                 .build();
         Genre genre2 = Genre.builder()
-                .id(2l)
+                .id(2L)
                 .genre("JRPG")
                 .products( Collections.emptyList())
                 .build();
@@ -57,6 +58,43 @@ class GenreServiceImplTest {
         assertEquals(expectedResult, actualResult);
 
         verify(genreRepositoryMock).findAll();
+
+    }
+
+
+    @Test
+    void getByName() {
+
+        Genre genre1 = Genre.builder()
+                .id(1L)
+                .genre("GAME")
+                .products( Collections.emptyList())
+                .build();
+
+        GetGenreDTO genre1DTO = GetGenreDTO.builder()
+                .id(genre1.getId())
+                .genre(genre1.getGenre())
+                .build();
+
+        when(genreRepositoryMock.findByGenre("GAME"))
+                .thenReturn(genre1);
+
+        GetGenreDTO actualResult = genreServiceMock.getByName("GAME");
+
+        assertEquals(genre1DTO, actualResult);
+
+        verify(genreRepositoryMock).findByGenre("GAME");
+
+    }
+    @Test
+    void getByName_NotFound() {
+
+        when(genreRepositoryMock.findByGenre("GAME"))
+                .thenReturn(null);
+
+        assertThrows(GenreNotFoundException.class, () ->  genreServiceMock.getByName("GAME"));
+
+        verify(genreRepositoryMock).findByGenre("GAME");
 
     }
 }

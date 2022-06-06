@@ -3,7 +3,6 @@ package com.example.individualproject.dto.products;
 import com.example.individualproject.dto.users.GetUserDTO;
 import com.example.individualproject.repository.entity.Image;
 import com.example.individualproject.repository.entity.Product;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,8 +28,7 @@ public class GetProductDTO {
     private List<String> images;
     private GetUserDTO seller;
 
-    public GetProductDTO(Product p)
-    {
+    public GetProductDTO(Product p) {
         this.id = p.getId();
         this.setTitle(p.getTitle());
         this.setSubTitle(p.getSubTitle());
@@ -42,7 +40,7 @@ public class GetProductDTO {
         this.setGenre(p.getGenre().getGenre());
         this.setProductType(p.getProductType());
 
-        this.seller =  GetUserDTO.builder()
+        this.seller = GetUserDTO.builder()
                 .username(p.getSeller().getUsername())
                 .firstName(p.getSeller().getFirstname())
                 .lastName(p.getSeller().getLastname())
@@ -52,7 +50,7 @@ public class GetProductDTO {
                 .build();
 
         this.setImages(new ArrayList<>());
-        for (Image image: p.getImages()) {
+        for (Image image : p.getImages()) {
             this.getImages().add(image.getImageUrl());
         }
     }

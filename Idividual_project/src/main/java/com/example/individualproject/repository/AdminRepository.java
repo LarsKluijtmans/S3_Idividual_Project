@@ -7,12 +7,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AdminRepository extends JpaRepository<Admin, Long>  {
+public interface AdminRepository extends JpaRepository<Admin, Long> {
 
     List<Admin> findAllByUsernameIsLike(String username);
-    Admin getUserByUsernameIsAndPasswordIs(String username, String password);
-    Admin findAllByIdIsLike(Long id);
-    Admin findByUsername(String usernmae);
+
+    Admin findByUsername(String username);
 
     //Is username unique
     boolean existsByUsername(String name);

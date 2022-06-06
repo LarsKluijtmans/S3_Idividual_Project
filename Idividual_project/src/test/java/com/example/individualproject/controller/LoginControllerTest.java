@@ -35,21 +35,21 @@ class LoginControllerTest {
     @Test
     void login() throws Exception  {
 
-        LoginRequestDTO loginrequest = LoginRequestDTO.builder()
+        LoginRequestDTO loginRequest = LoginRequestDTO.builder()
                 .username("worker")
                 .password("worker")
                 .build();
 
         LoginResponseDTO loginResponse = LoginResponseDTO.builder()
-                .accessToken("wwqeqweqweqw")
+                .accessToken("token")
                 .authorizationLevel("NormalUser")
                 .build();
 
-        when(loginUseCase.login(loginrequest))
+        when(loginUseCase.login(loginRequest))
                 .thenReturn(loginResponse);
 
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String request = ow.writeValueAsString(loginrequest);
+        String request = ow.writeValueAsString(loginRequest);
         String result = ow.writeValueAsString(loginResponse);
 
         mockMvc.perform(post("/login")
@@ -60,6 +60,6 @@ class LoginControllerTest {
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
                 .andExpect(content().json(result));
 
-        verify(loginUseCase).login(loginrequest);
+        verify(loginUseCase).login(loginRequest);
     }
 }

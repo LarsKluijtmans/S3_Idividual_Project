@@ -1,16 +1,16 @@
 package com.example.individualproject.controller;
 
+import com.example.individualproject.business.UserService;
 import com.example.individualproject.configuration.security.isauthenticated.IsAuthenticated;
 import com.example.individualproject.dto.users.*;
-import com.example.individualproject.business.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
-import java.util.List;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -27,7 +27,7 @@ public class UserController {
     public ResponseEntity<List<GetUserDTO>> getAllUsers() {
         List<GetUserDTO> users = userService.getAllUsers();
 
-        if(users != null) {
+        if (users != null) {
             return ResponseEntity.ok().body(users);
         } else {
             return ResponseEntity.notFound().build();
@@ -40,7 +40,7 @@ public class UserController {
     public ResponseEntity<GetUserDTO> getUserByUsernameAdmin(@PathVariable("username") String username) {
         GetUserDTO user = userService.getUserByName(username);
 
-        if(user != null) {
+        if (user != null) {
             return ResponseEntity.ok().body(user);
         } else {
             return ResponseEntity.notFound().build();
@@ -49,11 +49,11 @@ public class UserController {
 
     @IsAuthenticated
     @RolesAllowed({"ROLE_ADMIN"})
-    @GetMapping( "/search/{name}")
+    @GetMapping("/search/{name}")
     public ResponseEntity<List<GetUserDTO>> getAllUserByName(@PathVariable("name") String name) {
         List<GetUserDTO> users = userService.getAllUserByName(name);
 
-        if(users != null) {
+        if (users != null) {
             return ResponseEntity.ok().body(users);
         } else {
             return ResponseEntity.notFound().build();
@@ -66,7 +66,7 @@ public class UserController {
     public ResponseEntity<List<GetUserDTO>> getAllNormalUser() {
         List<GetUserDTO> users = userService.getAllNormalUsers();
 
-        if(users != null) {
+        if (users != null) {
             return ResponseEntity.ok().body(users);
         } else {
             return ResponseEntity.notFound().build();
@@ -79,7 +79,7 @@ public class UserController {
     public ResponseEntity<List<GetUserDTO>> getAllAdmin() {
         List<GetUserDTO> users = userService.getAllAdmins();
 
-        if(users != null) {
+        if (users != null) {
             return ResponseEntity.ok().body(users);
         } else {
             return ResponseEntity.notFound().build();
@@ -101,11 +101,11 @@ public class UserController {
     public ResponseEntity<UpdateUserResponseDTO> updateUser(@RequestBody UpdateUserRequestDTO user) {
         UpdateUserResponseDTO responseDTO = userService.updateUser(user);
 
-       if(responseDTO != null) {
-           return ResponseEntity.ok().body(responseDTO);
-       }else {
-           return ResponseEntity.badRequest().build();
-       }
+        if (responseDTO != null) {
+            return ResponseEntity.ok().body(responseDTO);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @IsAuthenticated
@@ -114,7 +114,7 @@ public class UserController {
     public ResponseEntity<GetUserDTO> getUserByUsernameNormal(@PathVariable("username") String username) {
         GetUserDTO user = userService.getUserByNameNormalUser(username);
 
-        if(user != null) {
+        if (user != null) {
             return ResponseEntity.ok().body(user);
         } else {
             return ResponseEntity.notFound().build();
@@ -122,21 +122,21 @@ public class UserController {
     }
 
     //All
-    @GetMapping( "/unique/name/{name}")
+    @GetMapping("/unique/name/{name}")
     public ResponseEntity<Boolean> isUsernameUnique(@PathVariable("name") String name) {
         Boolean result = userService.isUsernameUnique(name);
 
         return ResponseEntity.ok().body(result);
     }
 
-    @GetMapping( "/unique/phoneNumber/{phoneNumber}")
+    @GetMapping("/unique/phoneNumber/{phoneNumber}")
     public ResponseEntity<Boolean> isPhoneNumberUnique(@PathVariable("phoneNumber") String phoneNumber) {
         Boolean result = userService.isPhoneNumberUnique(phoneNumber);
 
         return ResponseEntity.ok().body(result);
     }
 
-    @GetMapping( "/unique/email/{email}")
+    @GetMapping("/unique/email/{email}")
     public ResponseEntity<Boolean> isEmailUnique(@PathVariable("email") String email) {
         Boolean result = userService.isEmailUnique(email);
 
@@ -147,7 +147,7 @@ public class UserController {
     public ResponseEntity<CreateUserResponseDTO> createUser(@RequestBody CreateUserRequestDTO user) {
 
         CreateUserResponseDTO userResponseDTO = userService.addUser(user);
-        if (userResponseDTO != null){
+        if (userResponseDTO != null) {
             String url = "Unknown";
             URI uri = URI.create(url);
             return ResponseEntity.created(uri).body(userResponseDTO);

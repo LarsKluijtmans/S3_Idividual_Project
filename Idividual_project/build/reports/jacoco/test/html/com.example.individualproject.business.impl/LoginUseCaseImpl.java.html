@@ -11,8 +11,8 @@ import com.example.individualproject.repository.NormalUserRepository;
 import com.example.individualproject.repository.entity.Admin;
 import com.example.individualproject.repository.entity.NormalUser;
 import com.example.individualproject.repository.entity.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class LoginUseCaseImpl implements LoginUseCase {
 <span class="fc" id="L32">        Admin admin = adminRepository.findByUsername(loginRequest.getUsername());</span>
 <span class="fc" id="L33">        NormalUser user = userRepository.findByUsername(loginRequest.getUsername());</span>
 
-<span class="fc bfc" id="L35" title="All 2 branches covered.">        if(admin != null) {</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (admin != null) {</span>
 <span class="fc bfc" id="L36" title="All 2 branches covered.">            if (!matchesPassword(loginRequest.getPassword(), admin.getPassword())) {</span>
 <span class="fc" id="L37">                throw new InvalidCredentialsException();</span>
             }
@@ -64,22 +64,23 @@ public class LoginUseCaseImpl implements LoginUseCase {
     }
 
     private String generateAccessToken(User user) {
-<span class="fc" id="L67">        Long studentId = user.getId();</span>
+<span class="fc" id="L67">        Long userId = user.getId();</span>
 
 <span class="fc" id="L69">        List&lt;String&gt; roles = new ArrayList&lt;&gt;();</span>
 
-<span class="fc bfc" id="L71" title="All 2 branches covered.">        if(user.getClass() == Admin.class){</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (user.getClass() == Admin.class) {</span>
 <span class="fc" id="L72">            roles = List.of(&quot;ADMIN&quot;);</span>
-<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        }else if(user.getClass() == NormalUser.class){</span>
-<span class="fc" id="L74">            roles = List.of(&quot;NORMALUSER&quot;);</span>
+        }
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (user.getClass() == NormalUser.class) {</span>
+<span class="fc" id="L75">            roles = List.of(&quot;NORMALUSER&quot;);</span>
         }
 
-<span class="fc" id="L77">        return accessTokenEncoder.encode(</span>
-<span class="fc" id="L78">                AccessTokenDTO.builder()</span>
-<span class="fc" id="L79">                        .subject(user.getUsername())</span>
-<span class="fc" id="L80">                        .roles(roles)</span>
-<span class="fc" id="L81">                        .userId(studentId)</span>
-<span class="fc" id="L82">                        .build());</span>
+<span class="fc" id="L78">        return accessTokenEncoder.encode(</span>
+<span class="fc" id="L79">                AccessTokenDTO.builder()</span>
+<span class="fc" id="L80">                        .subject(user.getUsername())</span>
+<span class="fc" id="L81">                        .roles(roles)</span>
+<span class="fc" id="L82">                        .userId(userId)</span>
+<span class="fc" id="L83">                        .build());</span>
     }
 
 }

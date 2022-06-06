@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProductController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Individual_Project</a> &gt; <a href="index.source.html" class="el_package">com.example.individualproject.controller</a> &gt; <span class="el_source">ProductController.java</span></div><h1>ProductController.java</h1><pre class="source lang-java linenums">package com.example.individualproject.controller;
 
+import com.example.individualproject.business.ProductService;
 import com.example.individualproject.configuration.security.isauthenticated.IsAuthenticated;
 import com.example.individualproject.dto.products.*;
-import com.example.individualproject.business.*;
-
-import com.example.individualproject.repository.entity.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.HtmlUtils;
 
 import javax.annotation.security.RolesAllowed;
 import java.net.URI;
@@ -28,34 +23,34 @@ public class ProductController {
     //All
     @GetMapping()
     public ResponseEntity&lt;List&lt;GetProductDTO&gt;&gt; getAllProducts() {
-<span class="fc" id="L31">        List&lt;GetProductDTO&gt; products = productService.getAllProducts();</span>
+<span class="fc" id="L26">        List&lt;GetProductDTO&gt; products = productService.getAllProducts();</span>
 
-<span class="fc bfc" id="L33" title="All 2 branches covered.">        if(products.isEmpty()) {</span>
-<span class="fc" id="L34">            return ResponseEntity.notFound().build();</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (products.isEmpty()) {</span>
+<span class="fc" id="L29">            return ResponseEntity.notFound().build();</span>
         } else {
-<span class="fc" id="L36">            return ResponseEntity.ok().body(products);</span>
+<span class="fc" id="L31">            return ResponseEntity.ok().body(products);</span>
         }
     }
 
     @GetMapping(&quot;search/{name}&quot;)
     public ResponseEntity&lt;List&lt;GetProductDTO&gt;&gt; getAllProductsByName(@PathVariable(&quot;name&quot;) String name) {
-<span class="fc" id="L42">        List&lt;GetProductDTO&gt; products = productService.getProducts(name);</span>
+<span class="fc" id="L37">        List&lt;GetProductDTO&gt; products = productService.getProducts(name);</span>
 
-<span class="fc bfc" id="L44" title="All 2 branches covered.">        if(products.isEmpty()) {</span>
-<span class="fc" id="L45">            return ResponseEntity.notFound().build();</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (products.isEmpty()) {</span>
+<span class="fc" id="L40">            return ResponseEntity.notFound().build();</span>
         } else {
-<span class="fc" id="L47">            return ResponseEntity.ok().body(products);</span>
+<span class="fc" id="L42">            return ResponseEntity.ok().body(products);</span>
         }
     }
 
     @GetMapping(&quot;{id}&quot;)
     public ResponseEntity&lt;GetProductDTO&gt; getProduct(@PathVariable(&quot;id&quot;) Long id) {
-<span class="fc" id="L53">        GetProductDTO product = productService.getProduct(id);</span>
+<span class="fc" id="L48">        GetProductDTO product = productService.getProduct(id);</span>
 
-<span class="fc bfc" id="L55" title="All 2 branches covered.">        if(product != null) {</span>
-<span class="fc" id="L56">            return ResponseEntity.ok().body(product);</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (product != null) {</span>
+<span class="fc" id="L51">            return ResponseEntity.ok().body(product);</span>
         } else {
-<span class="fc" id="L58">            return ResponseEntity.notFound().build();</span>
+<span class="fc" id="L53">            return ResponseEntity.notFound().build();</span>
         }
     }
 
@@ -65,14 +60,14 @@ public class ProductController {
     @RolesAllowed({&quot;ROLE_NORMALUSER&quot;})
     @PostMapping()
     public ResponseEntity&lt;CreateProductResponseDTO&gt; createProduct(@RequestBody CreateProductRequestDTO product) {
-<span class="fc" id="L68">        CreateProductResponseDTO productResponseDTO = productService.addProduct(product);</span>
+<span class="fc" id="L63">        CreateProductResponseDTO productResponseDTO = productService.addProduct(product);</span>
 
-<span class="fc bfc" id="L70" title="All 2 branches covered.">        if(productResponseDTO == null){</span>
-<span class="fc" id="L71">            return ResponseEntity.status(HttpStatus.CONFLICT).build();</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if (productResponseDTO == null) {</span>
+<span class="fc" id="L66">            return ResponseEntity.status(HttpStatus.CONFLICT).build();</span>
         } else {
-<span class="fc" id="L73">            String url = &quot;products/&quot; + productResponseDTO.getProductId();</span>
-<span class="fc" id="L74">            URI uri = URI.create(url);</span>
-<span class="fc" id="L75">            return ResponseEntity.created(uri).body(productResponseDTO);</span>
+<span class="fc" id="L68">            String url = &quot;products/&quot; + productResponseDTO.getProductId();</span>
+<span class="fc" id="L69">            URI uri = URI.create(url);</span>
+<span class="fc" id="L70">            return ResponseEntity.created(uri).body(productResponseDTO);</span>
         }
     }
 
@@ -80,41 +75,41 @@ public class ProductController {
     @RolesAllowed({&quot;ROLE_NORMALUSER&quot;})
     @PutMapping()
     public ResponseEntity&lt;UpdateProductResponseDTO&gt; updateProduct(@RequestBody UpdateProductRequestDTO product) {
-<span class="fc bfc" id="L83" title="All 2 branches covered.">       if(productService.updateProduct(product) != null) {</span>
-<span class="fc" id="L84">           return ResponseEntity.noContent().build();</span>
-       }else {
-<span class="fc" id="L86">           return ResponseEntity.badRequest().build();</span>
-       }
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        if (productService.updateProduct(product) != null) {</span>
+<span class="fc" id="L79">            return ResponseEntity.noContent().build();</span>
+        } else {
+<span class="fc" id="L81">            return ResponseEntity.badRequest().build();</span>
+        }
     }
 
     @IsAuthenticated
     @RolesAllowed({&quot;ROLE_NORMALUSER&quot;})
     @DeleteMapping(&quot;normal/{id}&quot;)
     public ResponseEntity&lt;Object&gt; deleteProductNormalUser(@PathVariable(&quot;id&quot;) Long id) {
-<span class="fc" id="L94">        productService.deleteProductNormalUser(id);</span>
-<span class="fc" id="L95">        return ResponseEntity.ok().build();</span>
+<span class="fc" id="L89">        productService.deleteProductNormalUser(id);</span>
+<span class="fc" id="L90">        return ResponseEntity.ok().build();</span>
     }
 
     @IsAuthenticated
     @RolesAllowed({&quot;ROLE_NORMALUSER&quot;})
     @GetMapping(&quot;normal/{username}&quot;)
-    public ResponseEntity&lt;List&lt;GetProductDTO&gt;&gt; getUsersProductsNormal( @PathVariable(&quot;username&quot;) String username) {
-<span class="fc" id="L102">        List&lt;GetProductDTO&gt; usersProducts = productService.getAllOfAUsersProductsNormalUser(username);</span>
+    public ResponseEntity&lt;List&lt;GetProductDTO&gt;&gt; getUsersProductsNormal(@PathVariable(&quot;username&quot;) String username) {
+<span class="fc" id="L97">        List&lt;GetProductDTO&gt; usersProducts = productService.getAllOfAUsersProductsNormalUser(username);</span>
 
-<span class="fc bfc" id="L104" title="All 2 branches covered.">        if(usersProducts != null) {</span>
-<span class="fc" id="L105">            return ResponseEntity.ok().body(usersProducts);</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        if (usersProducts != null) {</span>
+<span class="fc" id="L100">            return ResponseEntity.ok().body(usersProducts);</span>
         } else {
-<span class="fc" id="L107">            return ResponseEntity.notFound().build();</span>
+<span class="fc" id="L102">            return ResponseEntity.notFound().build();</span>
         }
     }
 
     @IsAuthenticated
     @RolesAllowed({&quot;ROLE_NORMALUSER&quot;})
     @PutMapping(&quot;buy/{productID}&quot;)
-    public ResponseEntity&lt;List&lt;GetProductDTO&gt;&gt; buyProduct( @PathVariable(&quot;productID&quot;) Long productID) {
-<span class="nc" id="L115">        productService.buyProduct(productID);</span>
+    public ResponseEntity&lt;List&lt;GetProductDTO&gt;&gt; buyProduct(@PathVariable(&quot;productID&quot;) Long productID) {
+<span class="fc" id="L110">        productService.buyProduct(productID);</span>
 
-<span class="nc" id="L117">        return ResponseEntity.ok().build();</span>
+<span class="fc" id="L112">        return ResponseEntity.ok().build();</span>
     }
 
 
@@ -123,24 +118,22 @@ public class ProductController {
     @RolesAllowed({&quot;ROLE_ADMIN&quot;})
     @DeleteMapping(&quot;admin/{id}&quot;)
     public ResponseEntity&lt;Object&gt; deleteProductAdmin(@PathVariable(&quot;id&quot;) Long id) {
-<span class="fc" id="L126">        productService.deleteProductAdmin(id);</span>
-<span class="fc" id="L127">        return ResponseEntity.ok().build();</span>
+<span class="fc" id="L121">        productService.deleteProductAdmin(id);</span>
+<span class="fc" id="L122">        return ResponseEntity.ok().build();</span>
     }
 
     @IsAuthenticated
     @RolesAllowed({&quot;ROLE_ADMIN&quot;})
     @GetMapping(&quot;admin/{username}&quot;)
-    public ResponseEntity&lt;List&lt;GetProductDTO&gt;&gt; getUsersProductsAdmin( @PathVariable(&quot;username&quot;) String username) {
-<span class="fc" id="L134">        List&lt;GetProductDTO&gt; usersProducts = productService.getAllOfAUsersProductsAdmin(username);</span>
+    public ResponseEntity&lt;List&lt;GetProductDTO&gt;&gt; getUsersProductsAdmin(@PathVariable(&quot;username&quot;) String username) {
+<span class="fc" id="L129">        List&lt;GetProductDTO&gt; usersProducts = productService.getAllOfAUsersProductsAdmin(username);</span>
 
-<span class="fc bfc" id="L136" title="All 2 branches covered.">        if(usersProducts != null) {</span>
-<span class="fc" id="L137">            return ResponseEntity.ok().body(usersProducts);</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">        if (usersProducts != null) {</span>
+<span class="fc" id="L132">            return ResponseEntity.ok().body(usersProducts);</span>
         } else {
-<span class="fc" id="L139">            return ResponseEntity.notFound().build();</span>
+<span class="fc" id="L134">            return ResponseEntity.notFound().build();</span>
         }
     }
-
-
 
 
 }

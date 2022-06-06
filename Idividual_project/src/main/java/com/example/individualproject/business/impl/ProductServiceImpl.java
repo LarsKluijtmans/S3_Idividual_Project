@@ -1,19 +1,19 @@
 package com.example.individualproject.business.impl;
 
+import com.example.individualproject.business.ProductService;
 import com.example.individualproject.business.exception.BuyingYourOwnProductException;
 import com.example.individualproject.business.exception.InvalidCredentialsException;
 import com.example.individualproject.business.exception.ProductNotFoundException;
 import com.example.individualproject.business.exception.UserNotFoundException;
 import com.example.individualproject.dto.login.AccessTokenDTO;
 import com.example.individualproject.dto.products.*;
-import com.example.individualproject.business.ProductService;
 import com.example.individualproject.repository.GenreRepository;
 import com.example.individualproject.repository.ImageRepository;
 import com.example.individualproject.repository.NormalUserRepository;
+import com.example.individualproject.repository.ProductRepository;
 import com.example.individualproject.repository.entity.Image;
 import com.example.individualproject.repository.entity.NormalUser;
 import com.example.individualproject.repository.entity.Product;
-import com.example.individualproject.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -48,10 +48,11 @@ public class ProductServiceImpl implements ProductService {
 
         return result;
     }
+
     @Override
     public List<GetProductDTO> getProducts(String name) {
-        //TODO get only product not yet sold
-        if(name.equals("")) {
+
+        if (name.equals("")) {
             return Collections.emptyList();
         }
 
@@ -60,18 +61,19 @@ public class ProductServiceImpl implements ProductService {
 
         GetProductDTO product;
 
-        for (Product p :  productRepository.findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenre_GenreIsLikeAndSold(searchName,searchName,searchName,searchName,searchName, false)) {
+        for (Product p : productRepository.findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenre_GenreIsLikeAndSold(searchName, searchName, searchName, searchName, searchName, false)) {
             product = new GetProductDTO(p);
             result.add(product);
         }
 
         return result;
     }
+
     @Override
     public GetProductDTO getProduct(Long productID) {
         Product p = productRepository.findProductsByIdIsAndSold(productID, false);
 
-        if(p == null) {
+        if (p == null) {
             return null;
         }
 
@@ -85,56 +87,53 @@ public class ProductServiceImpl implements ProductService {
 
         NormalUser user = normalUserRepository.findByUsername(username);
 
-        if (user == null){
+        if (user == null) {
             throw new UserNotFoundException();
         }
 
 
-        if (!requestAccessToken.getUserId().equals(user.getId())){
+        if (!requestAccessToken.getUserId().equals(user.getId())) {
             throw new InvalidCredentialsException();
         }
 
-        List<GetProductDTO> result = new ArrayList<>();
-
-        GetProductDTO product;
-
-        for (Product p : productRepository.findAllBySeller_Id(user.getId())) {
-            product = new GetProductDTO(p);
-            result.add(product);
-        }
-
-        return result;
+        return getGetProductDTOS(user);
     }
 
     @Override
-    public void buyProduct(Long productID) {
-      Product p = productRepository.findById(productID).orElse(null);
+    public boolean buyProduct(Long productID) {
+        Product p = productRepository.findById(productID).orElse(null);
 
-      if(p == null) {
-          throw new ProductNotFoundException();
-      }
+        if (p == null) {
+            throw new ProductNotFoundException();
+        }
 
-      if(p.getSeller().getId() == requestAccessToken.getUserId()){
-          throw new BuyingYourOwnProductException();
-      }
-      p.setSold(true);
+        if (p.getSeller().getId().equals(requestAccessToken.getUserId())) {
+            throw new BuyingYourOwnProductException();
+        }
+        p.setSold(true);
 
-      productRepository.save(p);
+        productRepository.save(p);
+
+        return true;
     }
 
     @Override
     public List<GetProductDTO> getAllOfAUsersProductsAdmin(String username) {
 
-        if (!requestAccessToken.hasRole("ADMIN")){
+        if (!requestAccessToken.hasRole("ADMIN")) {
             throw new InvalidCredentialsException();
         }
 
         NormalUser user = normalUserRepository.findByUsername(username);
 
-        if (user == null){
+        if (user == null) {
             throw new UserNotFoundException();
         }
 
+        return getGetProductDTOS(user);
+    }
+
+    private List<GetProductDTO> getGetProductDTOS(NormalUser user) {
         List<GetProductDTO> result = new ArrayList<>();
         GetProductDTO product;
 
@@ -152,13 +151,14 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProductAdmin(Long productID) {
         Product p = productRepository.findProductsByIdIs(productID);
 
-        if (!requestAccessToken.hasRole("ADMIN")){
+        if (!requestAccessToken.hasRole("ADMIN")) {
             throw new InvalidCredentialsException();
         }
 
         imageRepository.deleteByProductId(p.getId());
         productRepository.deleteById(productID);
     }
+
     @Override
     public void deleteProductNormalUser(Long productID) {
 
@@ -166,7 +166,7 @@ public class ProductServiceImpl implements ProductService {
 
         isNormalUser();
 
-        if (!requestAccessToken.getUserId().equals(p.getSeller().getId())){
+        if (!requestAccessToken.getUserId().equals(p.getSeller().getId())) {
             throw new InvalidCredentialsException();
         }
 
@@ -180,11 +180,11 @@ public class ProductServiceImpl implements ProductService {
 
         List<Image> images = new ArrayList<>();
         for (String s : product.getImages()) {
-            Image newimage = Image.builder()
+            Image image = Image.builder()
                     .imageUrl(s)
                     .build();
 
-            images.add(newimage);
+            images.add(image);
         }
 
         Product newProduct = Product.builder()
@@ -210,7 +210,7 @@ public class ProductServiceImpl implements ProductService {
 
         savedProduct.setId(createProductResponseDTO.getProductId());
 
-        saveImages(savedProduct,product.getImages());
+        saveImages(savedProduct, product.getImages());
 
         return createProductResponseDTO;
     }
@@ -219,21 +219,25 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public UpdateProductResponseDTO updateProduct(UpdateProductRequestDTO product) {
 
-        Product p = productRepository.findProductsByIdIs(product.getProductId());
-
         isNormalUser();
 
-        if ( !requestAccessToken.getUserId().equals(p.getSeller().getId())){
+        Product p = productRepository.findProductsByIdIs(product.getProductId());
+
+        if (p == null) {
+            throw new ProductNotFoundException();
+        }
+
+        if (!requestAccessToken.getUserId().equals(p.getSeller().getId())) {
             throw new InvalidCredentialsException();
         }
 
         List<Image> images = new ArrayList<>();
         for (String s : product.getImages()) {
-            Image newimage = Image.builder()
+            Image image = Image.builder()
                     .imageUrl(s)
                     .build();
 
-            images.add(newimage);
+            images.add(image);
         }
 
         Product updatedProduct = Product.builder()
@@ -258,34 +262,30 @@ public class ProductServiceImpl implements ProductService {
                 .productId(savedProduct.getId())
                 .build();
 
-
-        savedProduct.setId(updateProductResponseDTO.getProductId());
-
-
         imageRepository.deleteByProductId(savedProduct.getId());
-        saveImages(savedProduct,product.getImages());
+        saveImages(savedProduct, product.getImages());
 
-        return  updateProductResponseDTO;
+        return updateProductResponseDTO;
     }
 
     //Images
-    private void saveImages(Product product, List<String> images){
-       List<Image> imagesToSave = new ArrayList<>();
+    private void saveImages(Product product, List<String> images) {
+        List<Image> imagesToSave = new ArrayList<>();
 
         for (String s : images) {
-            Image newimage = Image.builder()
+            Image image = Image.builder()
                     .product(product)
                     .imageUrl(s)
                     .build();
 
-            imagesToSave.add(newimage);
+            imagesToSave.add(image);
         }
 
         imageRepository.saveAll(imagesToSave);
     }
 
-    private void isNormalUser(){
-        if (!requestAccessToken.hasRole("NORMALUSER")){
+    private void isNormalUser() {
+        if (!requestAccessToken.hasRole("NORMALUSER")) {
             throw new InvalidCredentialsException();
         }
     }

@@ -1,6 +1,7 @@
 package com.example.individualproject.business.impl;
 
 import com.example.individualproject.business.GenreService;
+import com.example.individualproject.business.exception.GenreNotFoundException;
 import com.example.individualproject.dto.genre.GetGenreDTO;
 import com.example.individualproject.repository.GenreRepository;
 import com.example.individualproject.repository.entity.Genre;
@@ -16,22 +17,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GenreServiceImpl implements GenreService {
 
-  private final GenreRepository genreRepository;
+    private final GenreRepository genreRepository;
 
-   @Override
+    @Override
     public List<GetGenreDTO> getAllGenres() {
-      List<GetGenreDTO> result = new ArrayList<>();
+        List<GetGenreDTO> result = new ArrayList<>();
 
-      GetGenreDTO genre;
+        GetGenreDTO genre;
 
-       for (Genre g: genreRepository.findAll()) {
-           genre = GetGenreDTO.builder()
-                   .id(g.getId())
-                   .genre(g.getGenre())
-                   .build();
-           result.add(genre);
-       }
-       return result;
+        for (Genre g : genreRepository.findAll()) {
+            genre = GetGenreDTO.builder()
+                    .id(g.getId())
+                    .genre(g.getGenre())
+                    .build();
+            result.add(genre);
+        }
+        return result;
     }
 
     @Override
@@ -39,10 +40,14 @@ public class GenreServiceImpl implements GenreService {
 
         Genre genre = genreRepository.findByGenre(name);
 
+        if (genre == null) {
+            throw new GenreNotFoundException();
+        }
+
         return GetGenreDTO.builder()
-                    .id(genre.getId())
-                    .genre(genre.getGenre())
-                    .build();
+                .id(genre.getId())
+                .genre(genre.getGenre())
+                .build();
 
     }
 }

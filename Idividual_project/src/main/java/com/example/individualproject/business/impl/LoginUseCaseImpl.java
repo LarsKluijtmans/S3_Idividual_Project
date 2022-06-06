@@ -11,8 +11,8 @@ import com.example.individualproject.repository.NormalUserRepository;
 import com.example.individualproject.repository.entity.Admin;
 import com.example.individualproject.repository.entity.NormalUser;
 import com.example.individualproject.repository.entity.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class LoginUseCaseImpl implements LoginUseCase {
         Admin admin = adminRepository.findByUsername(loginRequest.getUsername());
         NormalUser user = userRepository.findByUsername(loginRequest.getUsername());
 
-        if(admin != null) {
+        if (admin != null) {
             if (!matchesPassword(loginRequest.getPassword(), admin.getPassword())) {
                 throw new InvalidCredentialsException();
             }
@@ -64,13 +64,14 @@ public class LoginUseCaseImpl implements LoginUseCase {
     }
 
     private String generateAccessToken(User user) {
-        Long studentId = user.getId();
+        Long userId = user.getId();
 
         List<String> roles = new ArrayList<>();
 
-        if(user.getClass() == Admin.class){
+        if (user.getClass() == Admin.class) {
             roles = List.of("ADMIN");
-        }else if(user.getClass() == NormalUser.class){
+        }
+        if (user.getClass() == NormalUser.class) {
             roles = List.of("NORMALUSER");
         }
 
@@ -78,7 +79,7 @@ public class LoginUseCaseImpl implements LoginUseCase {
                 AccessTokenDTO.builder()
                         .subject(user.getUsername())
                         .roles(roles)
-                        .userId(studentId)
+                        .userId(userId)
                         .build());
     }
 

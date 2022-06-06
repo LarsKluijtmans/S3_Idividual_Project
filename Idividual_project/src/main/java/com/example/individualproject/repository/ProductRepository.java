@@ -11,7 +11,9 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findAllBySold(boolean sold);
+
     List<Product> findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenre_GenreIsLikeAndSold(String name1, String name2, String name3, String name4, String name5, boolean sold);
+
     Product findProductsByIdIsAndSold(Long id, boolean sold);
 
     Product findProductsByIdIs(Long id);

@@ -17,7 +17,7 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @Table(name = "user")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="position", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(name = "position", discriminatorType = DiscriminatorType.STRING)
 public class User {
     @Id
     @org.springframework.data.annotation.Id
@@ -26,18 +26,17 @@ public class User {
     private Long id;
 
     @NotBlank
-    @Length(min = 3 ,max = 50)
+    @Length(min = 3, max = 50)
     @Column(name = "username")
     private String username;
 
     @NotBlank
-    @Length(min = 3 ,max = 250)
+    @Length(min = 3, max = 250)
     @Column(name = "password")
     private String password;
 
 
-
-    public User (String username, String password) {
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
     }

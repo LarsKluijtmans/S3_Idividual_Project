@@ -7,13 +7,15 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface NormalUserRepository extends JpaRepository<NormalUser, Long>  {
+public interface NormalUserRepository extends JpaRepository<NormalUser, Long> {
 
-    List<NormalUser> findAllByFirstnameIsLikeOrLastnameIsLikeOrUsernameIsLike(String firstName,String lastName,String userName);
+    List<NormalUser> findAllByFirstnameIsLikeOrLastnameIsLikeOrUsernameIsLike(String firstName, String lastName, String userName);
 
     NormalUser findByUsername(String username);
 
     boolean existsByUsername(String name);
+
     boolean existsByEmail(String name);
+
     boolean existsByPhonenumber(String name);
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 
     @MessageMapping(&quot;/NewApp&quot;)
     @SendTo(&quot;/topic/newApps&quot;)
-    public NewProductDTO newApplication(@Payload final NewProductDTO newProductDTO){
+    public NewProductDTO newApplication(@Payload final NewProductDTO newProductDTO) {
 <span class="nc" id="L15">        return newProductDTO;</span>
     }
 }

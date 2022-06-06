@@ -1,17 +1,12 @@
 package com.example.individualproject.controller;
 
+import com.example.individualproject.business.ProductService;
 import com.example.individualproject.configuration.security.isauthenticated.IsAuthenticated;
 import com.example.individualproject.dto.products.*;
-import com.example.individualproject.business.*;
-
-import com.example.individualproject.repository.entity.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.HtmlUtils;
 
 import javax.annotation.security.RolesAllowed;
 import java.net.URI;
@@ -30,7 +25,7 @@ public class ProductController {
     public ResponseEntity<List<GetProductDTO>> getAllProducts() {
         List<GetProductDTO> products = productService.getAllProducts();
 
-        if(products.isEmpty()) {
+        if (products.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok().body(products);
@@ -41,7 +36,7 @@ public class ProductController {
     public ResponseEntity<List<GetProductDTO>> getAllProductsByName(@PathVariable("name") String name) {
         List<GetProductDTO> products = productService.getProducts(name);
 
-        if(products.isEmpty()) {
+        if (products.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok().body(products);
@@ -52,7 +47,7 @@ public class ProductController {
     public ResponseEntity<GetProductDTO> getProduct(@PathVariable("id") Long id) {
         GetProductDTO product = productService.getProduct(id);
 
-        if(product != null) {
+        if (product != null) {
             return ResponseEntity.ok().body(product);
         } else {
             return ResponseEntity.notFound().build();
@@ -67,7 +62,7 @@ public class ProductController {
     public ResponseEntity<CreateProductResponseDTO> createProduct(@RequestBody CreateProductRequestDTO product) {
         CreateProductResponseDTO productResponseDTO = productService.addProduct(product);
 
-        if(productResponseDTO == null){
+        if (productResponseDTO == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
             String url = "products/" + productResponseDTO.getProductId();
@@ -80,11 +75,11 @@ public class ProductController {
     @RolesAllowed({"ROLE_NORMALUSER"})
     @PutMapping()
     public ResponseEntity<UpdateProductResponseDTO> updateProduct(@RequestBody UpdateProductRequestDTO product) {
-       if(productService.updateProduct(product) != null) {
-           return ResponseEntity.noContent().build();
-       }else {
-           return ResponseEntity.badRequest().build();
-       }
+        if (productService.updateProduct(product) != null) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @IsAuthenticated
@@ -98,10 +93,10 @@ public class ProductController {
     @IsAuthenticated
     @RolesAllowed({"ROLE_NORMALUSER"})
     @GetMapping("normal/{username}")
-    public ResponseEntity<List<GetProductDTO>> getUsersProductsNormal( @PathVariable("username") String username) {
+    public ResponseEntity<List<GetProductDTO>> getUsersProductsNormal(@PathVariable("username") String username) {
         List<GetProductDTO> usersProducts = productService.getAllOfAUsersProductsNormalUser(username);
 
-        if(usersProducts != null) {
+        if (usersProducts != null) {
             return ResponseEntity.ok().body(usersProducts);
         } else {
             return ResponseEntity.notFound().build();
@@ -111,7 +106,7 @@ public class ProductController {
     @IsAuthenticated
     @RolesAllowed({"ROLE_NORMALUSER"})
     @PutMapping("buy/{productID}")
-    public ResponseEntity<List<GetProductDTO>> buyProduct( @PathVariable("productID") Long productID) {
+    public ResponseEntity<List<GetProductDTO>> buyProduct(@PathVariable("productID") Long productID) {
         productService.buyProduct(productID);
 
         return ResponseEntity.ok().build();
@@ -130,17 +125,15 @@ public class ProductController {
     @IsAuthenticated
     @RolesAllowed({"ROLE_ADMIN"})
     @GetMapping("admin/{username}")
-    public ResponseEntity<List<GetProductDTO>> getUsersProductsAdmin( @PathVariable("username") String username) {
+    public ResponseEntity<List<GetProductDTO>> getUsersProductsAdmin(@PathVariable("username") String username) {
         List<GetProductDTO> usersProducts = productService.getAllOfAUsersProductsAdmin(username);
 
-        if(usersProducts != null) {
+        if (usersProducts != null) {
             return ResponseEntity.ok().body(usersProducts);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
-
-
 
 
 }

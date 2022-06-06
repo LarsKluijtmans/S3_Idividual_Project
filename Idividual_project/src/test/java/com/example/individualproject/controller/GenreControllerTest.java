@@ -2,7 +2,8 @@ package com.example.individualproject.controller;
 
 import com.example.individualproject.business.GenreService;
 import com.example.individualproject.dto.genre.GetGenreDTO;
-import com.example.individualproject.repository.entity.Genre;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,21 +36,21 @@ class GenreControllerTest {
     @MockBean
     private GenreService genreServiceMock;
 
+    private ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+
+
+    //getAllGenres
     @Test
-    @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void getAllGenre() throws Exception {
 
-        Genre genre1 = new Genre(1l, "GAME", Collections.emptyList());
-        Genre genre2 = new Genre(2l, "JRPG", Collections.emptyList());
-
         GetGenreDTO genre1DTO = GetGenreDTO.builder()
-                .id(genre1.getId())
-                .genre(genre1.getGenre())
+                .id(1L)
+                .genre("GAME")
                 .build();
 
         GetGenreDTO genre2DTO = GetGenreDTO.builder()
-                .id(genre2.getId())
-                .genre(genre2.getGenre())
+                .id(2L)
+                .genre("JRPG")
                 .build();
 
         when(genreServiceMock.getAllGenres())
@@ -59,15 +60,12 @@ class GenreControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
-                .andExpect(content().json("""
-                [{"id":1,"genre":"GAME"},{"id":2,"genre":"JRPG"}]
-                """ ));
+                .andExpect(content().json(ow.writeValueAsString(List.of(genre1DTO, genre2DTO))));
 
         verify(genreServiceMock).getAllGenres();
     }
 
     @Test
-    @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void getAllGenre_NothingFound() throws Exception {
         when(genreServiceMock.getAllGenres())
                 .thenReturn(Collections.emptyList());
@@ -77,5 +75,41 @@ class GenreControllerTest {
                 .andExpect(status().isNotFound());
 
         verify(genreServiceMock).getAllGenres();
+    }
+
+    //getGenreByName
+    @Test
+    @WithMockUser(username = "me", roles = {"NORMALUSER"})
+
+    void getGenreByName() throws Exception {
+
+        GetGenreDTO genre1DTO = GetGenreDTO.builder()
+                .id(1L)
+                .genre("GAME")
+                .build();
+
+        when(genreServiceMock.getByName("GAME"))
+                .thenReturn(genre1DTO);
+
+        mockMvc.perform(get("/genre/GAME"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
+                .andExpect(content().json(ow.writeValueAsString(genre1DTO)));
+
+        verify(genreServiceMock).getByName("GAME");
+    }
+
+    @Test
+    @WithMockUser(username = "me", roles = {"NORMALUSER"})
+    void getGenreByName_NothingFound() throws Exception {
+        when(genreServiceMock.getByName("GAME"))
+                .thenReturn(null);
+
+        mockMvc.perform(get("/genre/GAME"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+
+        verify(genreServiceMock).getByName("GAME");
     }
 }

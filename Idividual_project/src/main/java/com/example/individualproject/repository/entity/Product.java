@@ -1,6 +1,9 @@
 package com.example.individualproject.repository.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -13,7 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product{
+public class Product {
 
     @Id
     @org.springframework.data.annotation.Id
@@ -22,15 +25,15 @@ public class Product{
     private Long id;
 
     @NotBlank
-    @Length(min = 1 ,max = 50)
+    @Length(min = 1, max = 50)
     @Column(name = "title")
     private String title;
 
-    @Length(min = 1 ,max = 50)
+    @Length(min = 1, max = 50)
     @Column(name = "sub_title")
     private String subTitle;
 
-    @Length(min = 1 ,max = 30)
+    @Length(min = 1, max = 30)
     @Column(name = "series")
     private String series;
 
@@ -40,29 +43,29 @@ public class Product{
     @Column(name = "price")
     private double price;
 
-    @Length(min = 1 ,max = 20)
+    @Length(min = 1, max = 20)
     @Column(name = "condition_")
     private String condition;
 
-    @Length(min = 1 ,max = 5000)
+    @Length(min = 1, max = 5000)
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="genre", nullable=false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "genre", nullable = false)
     private Genre genre;
 
     @Column(name = "sold")
     private boolean sold;
 
-    @Length(min = 1 ,max = 30)
+    @Length(min = 1, max = 30)
     @Column(name = "product_type")
     private String productType;
 
-    @OneToMany(mappedBy="product")
+    @OneToMany(mappedBy = "product")
     private List<Image> images;
 
-    @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="seller", nullable=false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "seller", nullable = false)
     private NormalUser seller;
 }

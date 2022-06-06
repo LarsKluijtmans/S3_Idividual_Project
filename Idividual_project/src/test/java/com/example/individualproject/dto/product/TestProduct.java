@@ -20,9 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     void test_GetProductDTOConstructors() {
 
         List<Image> images = new ArrayList<>();
-        images.add(new Image(1l,"gfdggdfgdfgdfgfdgfd",null));
+        images.add(new Image(1L,"url",null));
 
-        Product product = new Product(1l,"lars","lars","lars",2000,10.10,"GOOD","lars",new Genre(59l,"JRPG", null),false,"GAME", images, new NormalUser());
+        Product product = new Product(1L,"lars","lars","lars",2000,10.10,"GOOD","lars",new Genre(59L,"JRPG", null),false,"GAME", images, new NormalUser());
         GetProductDTO getProductDTO = new GetProductDTO(product);
 
         assertEquals("lars", getProductDTO.getTitle());

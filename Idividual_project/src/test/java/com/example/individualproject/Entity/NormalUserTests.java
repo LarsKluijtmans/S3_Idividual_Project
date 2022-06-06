@@ -5,19 +5,20 @@ import com.example.individualproject.repository.entity.NormalUser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
- class NormalUserTests {
+class NormalUserTests {
 
     @Test
     void test_NormalUserConstructorS() {
         NormalUser user = new NormalUser();
 
-        assertEquals(null, user.getUsername());
-        assertEquals(null, user.getPassword());
-        assertEquals(null, user.getFirstname() );
-        assertEquals(null, user.getLastname());
-        assertEquals(null, user.getPhonenumber());
-        assertEquals(null, user.getEmail());
+        assertNull(user.getUsername());
+        assertNull(user.getPassword());
+        assertNull(user.getFirstname());
+        assertNull(user.getLastname());
+        assertNull(user.getPhonenumber());
+        assertNull(user.getEmail());
 
         //Create normal user using CreateDTO
         CreateUserRequestDTO createUser = new CreateUserRequestDTO("lars","lars","lars","lars","lars","lars" );
@@ -41,9 +42,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         assertEquals("lars1", user.getEmail());
 
         //Create normal user using 6 strings and 1 long
-        user = new NormalUser(1l, "lars2","lars2","lars2","lars2","lars2","lars2" );
+        user = new NormalUser(1L, "lars2","lars2","lars2","lars2","lars2","lars2" );
 
-        assertEquals(1l, user.getId());
+        assertEquals(1L, user.getId());
         assertEquals("lars2", user.getUsername());
         assertEquals("lars2", user.getPassword());
         assertEquals("lars2", user.getFirstname());

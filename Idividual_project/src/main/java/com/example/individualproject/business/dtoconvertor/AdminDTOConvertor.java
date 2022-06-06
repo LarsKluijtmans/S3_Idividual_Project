@@ -4,12 +4,12 @@ import com.example.individualproject.dto.users.GetUserDTO;
 import com.example.individualproject.repository.entity.Admin;
 
 public class AdminDTOConvertor {
-    private AdminDTOConvertor(){
+    private AdminDTOConvertor() {
         throw new IllegalStateException("Utility class");
     }
 
     public static GetUserDTO convertToDTO(Admin admin) {
-       String none = "-None-";
+        String none = "-None-";
         return GetUserDTO.builder()
                 .username(admin.getUsername())
                 .firstName(none)

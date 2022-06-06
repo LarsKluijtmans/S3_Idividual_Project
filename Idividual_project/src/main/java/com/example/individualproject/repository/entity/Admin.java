@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 
 @Data
@@ -13,9 +14,9 @@ import javax.persistence.*;
 
 @Entity
 @DiscriminatorValue("ADMIN")
-public class Admin extends User{
+public class Admin extends User {
 
     public Admin(long id, String username, String password) {
-        super(id,username, password);
+        super(id, username, password);
     }
 }

@@ -2,16 +2,12 @@ package com.example.individualproject.controller;
 
 import com.example.individualproject.business.impl.ProductServiceImpl;
 import com.example.individualproject.dto.products.*;
-import com.example.individualproject.repository.entity.Genre;
-import com.example.individualproject.repository.entity.NormalUser;
-import com.example.individualproject.repository.entity.Product;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -21,7 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Collections;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -37,14 +34,14 @@ class ProductControllerTest {
     @MockBean
     private ProductServiceImpl productService;
 
-    ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+    private  ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
     //getAllProducts
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getAllProducts() throws Exception {
         GetProductDTO PokemonPearlDTO = GetProductDTO.builder()
-                .id(2l)
+                .id(2L)
                 .title("Pokemon")
                 .subTitle("Pearl")
                 .series("Pokemon")
@@ -58,7 +55,7 @@ class ProductControllerTest {
                 .build();
 
         GetProductDTO PokemonDiamondDTO = GetProductDTO.builder()
-                .id(1l)
+                .id(1L)
                 .title("Pokemon")
                 .subTitle("diamond")
                 .series("Pokemon")
@@ -102,7 +99,7 @@ class ProductControllerTest {
     void getProduct() throws Exception {
 
         GetProductDTO PokemonDiamondDTO = GetProductDTO.builder()
-                .id(1l)
+                .id(1L)
                 .title("Pokemon")
                 .subTitle("diamond")
                 .series("Pokemon")
@@ -116,7 +113,7 @@ class ProductControllerTest {
                 .seller(null)
                 .build();
 
-        when(productService.getProduct(1l))
+        when(productService.getProduct(1L))
                 .thenReturn(PokemonDiamondDTO);
 
         mockMvc.perform(get("/products/1"))
@@ -125,27 +122,27 @@ class ProductControllerTest {
                 .andExpect(header().string("Content-Type", APPLICATION_JSON_VALUE))
                 .andExpect(content().json(ow.writeValueAsString(PokemonDiamondDTO)));
 
-        verify(productService).getProduct(1l);
+        verify(productService).getProduct(1L);
     }
     @Test
     @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void getProduct_NotFound() throws Exception {
 
-        when(productService.getProduct(1l))
+        when(productService.getProduct(1L))
                 .thenReturn(null);
 
         mockMvc.perform(get("/products/1"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
 
-        verify(productService).getProduct(1l);
+        verify(productService).getProduct(1L);
     }
 
     //getAllProductsByName
     @Test
     void getAllProductsByName()throws Exception {
         GetProductDTO PokemonPearlDTO = GetProductDTO.builder()
-                .id(2l)
+                .id(2L)
                 .title("Pokemon")
                 .subTitle("Pearl")
                 .series("Pokemon")
@@ -159,7 +156,7 @@ class ProductControllerTest {
                 .build();
 
         GetProductDTO PokemonDiamondDTO = GetProductDTO.builder()
-                .id(1l)
+                .id(1L)
                 .title("Pokemon")
                 .subTitle("diamond")
                 .series("Pokemon")
@@ -188,14 +185,14 @@ class ProductControllerTest {
     @Test
     void getAllProductsByName_NotFound() throws Exception {
 
-        when(productService.getProducts("Ppppp"))
+        when(productService.getProducts("Product"))
                 .thenReturn(Collections.emptyList());
 
-        mockMvc.perform(get("/products/search/Ppppp"))
+        mockMvc.perform(get("/products/search/Product"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
 
-        verify(productService).getProducts("Ppppp");
+        verify(productService).getProducts("Product");
     }
 
     //deleteProduct
@@ -207,7 +204,7 @@ class ProductControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(productService).deleteProductNormalUser(1l);
+        verify(productService).deleteProductNormalUser(1L);
     }
 
     //createProduct
@@ -222,13 +219,13 @@ class ProductControllerTest {
                 .price(10.01)
                 .condition("TRASH")
                 .description("Pokemon game")
-                .genreId(1l)
+                .genreId(1L)
                 .productType("GAME")
                 .images(Collections.emptyList())
                 .seller("user")
                 .build();
         CreateProductResponseDTO createProductResponseDTO = CreateProductResponseDTO.builder()
-                .productId(1l)
+                .productId(1L)
                 .build();
 
         when(productService.addProduct(createProductRequestDTO))
@@ -253,7 +250,7 @@ class ProductControllerTest {
                 .price(10.01)
                 .condition("TRASH")
                 .description("Pokemon game")
-                .genreId(1l)
+                .genreId(1L)
                 .productType("GAME")
                 .images(Collections.emptyList())
                 .seller("user")
@@ -283,12 +280,12 @@ class ProductControllerTest {
                 .price(10.01)
                 .condition("TRASH")
                 .description("Pokemon game")
-                .genreId(1l)
+                .genreId(1L)
                 .productType("GAME")
                 .images(Collections.emptyList())
                 .build();
         UpdateProductResponseDTO updateProductResponseDTO = UpdateProductResponseDTO.builder()
-                .productId(1l)
+                .productId(1L)
                 .build();
 
         when(productService.updateProduct(updateProductRequestDTO))
@@ -314,7 +311,7 @@ class ProductControllerTest {
                 .price(10.01)
                 .condition("TRASH")
                 .description("Pokemon game")
-                .genreId(1l)
+                .genreId(1L)
                 .productType("GAME")
                 .images(Collections.emptyList())
                 .build();
@@ -340,7 +337,7 @@ class ProductControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(productService).deleteProductAdmin(1l);
+        verify(productService).deleteProductAdmin(1L);
     }
 
     //getUsersProductsNormal
@@ -348,7 +345,7 @@ class ProductControllerTest {
     @WithMockUser(username = "me", roles = {"NORMALUSER"})
     void getUsersProductsNormal()throws Exception {
         GetProductDTO PokemonPearlDTO = GetProductDTO.builder()
-                .id(2l)
+                .id(2L)
                 .title("Pokemon")
                 .subTitle("Pearl")
                 .series("Pokemon")
@@ -362,7 +359,7 @@ class ProductControllerTest {
                 .build();
 
         GetProductDTO PokemonDiamondDTO = GetProductDTO.builder()
-                .id(1l)
+                .id(1L)
                 .title("Pokemon")
                 .subTitle("diamond")
                 .series("Pokemon")
@@ -406,7 +403,7 @@ class ProductControllerTest {
     @WithMockUser(username = "me", roles = {"ADMIN"})
     void getUsersProductsAdmin()throws Exception {
         GetProductDTO PokemonPearlDTO = GetProductDTO.builder()
-                .id(2l)
+                .id(2L)
                 .title("Pokemon")
                 .subTitle("Pearl")
                 .series("Pokemon")
@@ -420,7 +417,7 @@ class ProductControllerTest {
                 .build();
 
         GetProductDTO PokemonDiamondDTO = GetProductDTO.builder()
-                .id(1l)
+                .id(1L)
                 .title("Pokemon")
                 .subTitle("diamond")
                 .series("Pokemon")
@@ -457,5 +454,17 @@ class ProductControllerTest {
                 .andExpect(status().isNotFound());
 
         verify(productService).getAllOfAUsersProductsAdmin("Lars");
+    }
+
+    //buyProduct
+    @Test
+    @WithMockUser(username = "me", roles = {"NORMALUSER"})
+    void buyProduct() throws Exception {
+
+        mockMvc.perform(put("/products/buy/1"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        verify(productService).buyProduct(1L);
     }
 }
