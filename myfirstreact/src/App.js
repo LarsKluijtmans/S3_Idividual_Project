@@ -9,6 +9,7 @@ import NotLoggedNav from "./Nav/NotLogged";
 
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
+import {useNavigate} from "react-router-dom";
 
 const ENDPOINT = "http://localhost:8080/ws";
 
@@ -17,6 +18,8 @@ function App() {
     //Login
     const [authorization, setAuthorization] = useState("");
     const [username, setUsername] = useState("");
+
+    let navigate = useNavigate();
 
     useEffect(() => {
         let auth = localStorage.getItem("authorization");
@@ -27,34 +30,36 @@ function App() {
         }
     },[]);
 
-    function login (username, password) {
-        axios.post(`http://localhost:8080/login`,
+    async function login(username, password) {
+
+        await axios.post(`http://localhost:8080/login`,
             {
-                "username":username,
-                "password":password
+                "username": username,
+                "password": password
             })
             .then(res => {
 
                 //Priority implement web sockits
-
                 //Business and controller layer is priority for testing, repository is possible for later
-
                 //When user adds product popup about new product
-
                 //Service for every method to hide it from the UI code
                 //Service class for localstorage
-
-                localStorage.setItem("token", res.data.accessToken);
-                localStorage.setItem("authorization", res.data.authorizationLevel);
-                localStorage.setItem("username",username);
-
                 //class that stores everything
                 //Test javascript
 
+
+                localStorage.setItem("token", res.data.accessToken);
+                localStorage.setItem("authorization", res.data.authorizationLevel);
+                localStorage.setItem("username", username);
+
                 setAuthorization(res.data.authorizationLevel);
                 setUsername(username);
+
+                navigate(`/`);
             })
-            .catch(err => {});
+            .catch(err => {
+                alert("Wrong login information");
+            });
     }
     const logout =()=>{
         localStorage.removeItem("token");

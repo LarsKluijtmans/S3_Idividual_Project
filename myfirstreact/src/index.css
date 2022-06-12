@@ -57,11 +57,13 @@ code {
   }
 }
 .box {
+  height: 750px;
   background-color: #444;
   color: #fff;
   border-radius: 20px;
   padding: 20px;
   font-size: 150%;
+  box-shadow: 0 14px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 /*Login*/
@@ -106,22 +108,22 @@ span.psw {
 
 /*Product card*/
 .card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   max-width: 300px;
   margin: auto;
   text-align: center;
   font-family: arial;
   max-height: 1000px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
 
 }
 .product_image_card{
-  max-height: 450px;
+  max-height: 350px;
   max-width: 350px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   margin-left: auto;
   margin-right: auto;
   display: block;
-
 }
 
 .title{
@@ -140,18 +142,14 @@ span.psw {
   margin-bottom: 20px;
 }
 
-.ToProductPageButton {
-  border: none;
-  outline: 0;
-  padding: 12px;
-  color: white;
-  background-color: #000;
-  text-align: center;
-  cursor: pointer;
-  width: 100%;
-  font-size: 18px;
-  float: bottom;
+.box:hover{
+  box-shadow: 10px 14px 14px 0 grey;
+  opacity: 0.93;
 }
+.ToProductPageButton{
+  text-decoration: none;
+}
+
 .checked {
   color: orange;
 }
@@ -190,8 +188,10 @@ span.psw {
 .SearchInput{
   padding: 6px;
   margin-top: 8px;
+  width: 70%;
+  margin-right: 15%;
+  margin-left: 15%;
   font-size: 17px;
-  border: none;
 }
 @media screen and (max-width: 600px) {
   .Search .search-container {

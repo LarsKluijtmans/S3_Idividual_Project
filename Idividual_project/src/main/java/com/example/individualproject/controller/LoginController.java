@@ -1,6 +1,7 @@
 package com.example.individualproject.controller;
 
 import com.example.individualproject.business.LoginUseCase;
+import com.example.individualproject.business.exception.InvalidCredentialsException;
 import com.example.individualproject.dto.login.LoginRequestDTO;
 import com.example.individualproject.dto.login.LoginResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,9 @@ public class LoginController {
     private final LoginUseCase loginUseCase;
 
     @PostMapping
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginRequestDTO loginRequestDTO) {
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginRequestDTO loginRequestDTO) throws InvalidCredentialsException {
         LoginResponseDTO loginResponseDTO = loginUseCase.login(loginRequestDTO);
+
         return ResponseEntity.ok(loginResponseDTO);
     }
 }

@@ -32,6 +32,8 @@ public class ProductServiceImpl implements ProductService {
     private final GenreRepository genreRepository;
     private final NormalUserRepository normalUserRepository;
     private final ImageRepository imageRepository;
+
+    //TODO how does the AccessTokenDTO get here?
     private final AccessTokenDTO requestAccessToken;
 
     @Override
@@ -61,7 +63,7 @@ public class ProductServiceImpl implements ProductService {
 
         GetProductDTO product;
 
-        for (Product p : productRepository.findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenre_GenreIsLikeAndSold(searchName, searchName, searchName, searchName, searchName, false)) {
+        for (Product p : productRepository.findProductsByTitleOrSubTitleAndSold(searchName)) {
             product = new GetProductDTO(p);
             result.add(product);
         }

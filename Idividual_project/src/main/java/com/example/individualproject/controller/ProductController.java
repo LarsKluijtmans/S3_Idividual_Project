@@ -55,6 +55,7 @@ public class ProductController {
     }
 
 
+    //TODO how does the roles allowed work can I make my own? like make a PackagesAllowed that checks if you bought the package so that only people that did can use that recourse
     //Normal user
     @IsAuthenticated
     @RolesAllowed({"ROLE_NORMALUSER"})
@@ -87,7 +88,7 @@ public class ProductController {
     @DeleteMapping("normal/{id}")
     public ResponseEntity<Object> deleteProductNormalUser(@PathVariable("id") Long id) {
         productService.deleteProductNormalUser(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @IsAuthenticated
@@ -119,7 +120,7 @@ public class ProductController {
     @DeleteMapping("admin/{id}")
     public ResponseEntity<Object> deleteProductAdmin(@PathVariable("id") Long id) {
         productService.deleteProductAdmin(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @IsAuthenticated

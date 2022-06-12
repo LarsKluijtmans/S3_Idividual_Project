@@ -30,8 +30,6 @@ public class GenreController {
         }
     }
 
-    @IsAuthenticated
-    @RolesAllowed({"ROLE_NORMALUSER"})
     @GetMapping("{name}")
     public ResponseEntity<GetGenreDTO> getGenreByName(@PathVariable("name") String name) {
         GetGenreDTO genres = genreService.getByName(name);

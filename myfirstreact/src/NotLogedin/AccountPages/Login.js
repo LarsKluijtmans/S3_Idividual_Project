@@ -18,12 +18,9 @@ function Login({login}) {
 
     const tryLogin = () => {
         login(username, password)
-        let path = `/` ;
-        navigate(path);
     }
     const SignUp = () => {
-        let path = `/signUp` ;
-        navigate(path);
+        navigate(`/signUp`);
     }
 
     return (

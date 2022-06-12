@@ -36,13 +36,17 @@ function View_Product_Details() {
         headers: { Authorization: `Bearer ${token}` }
     };
     const buyProduct =()=> {
+        if(token === null){
+            alert("Please login before trying to buy a product");
+        }
+
         axios.put(`http://localhost:8080/products/buy/` + productId,null,config)
             .then(res => {
                 let path = "/products";
                 navigate(path);
             })
             .catch(err => {
-                setError(err.message);
+               alert(err.message);
             });
     }
 
@@ -55,8 +59,6 @@ function View_Product_Details() {
            <div className="ProductContainer">
 
                <div className="left-column">
-                   <h2>Image of product</h2>
-
                    <img className={"mainImage"} src={mainImage} height={"500"} alt={"picture"}/>
                    <div className="list_Of_Sub_Images">
                        {productImages != null &&

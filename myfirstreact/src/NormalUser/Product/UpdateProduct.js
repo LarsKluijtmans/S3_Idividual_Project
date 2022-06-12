@@ -5,7 +5,7 @@ import "./updateProductCSS.css"
 
 const UpdateProduct= () =>{
 
-    //deleting and adding images/ tests before sending to api
+    //deleting and adding images
 
     //Initialize
     useEffect(() => {
@@ -16,7 +16,7 @@ const UpdateProduct= () =>{
     const {productId} = useParams();
     let navigate = useNavigate();
 
-    const GetProductByID =async () => {
+    const GetProductByID = async () => {
         let genre = "";
 
         await axios.get(`http://localhost:8080/products/` + productId)
@@ -64,22 +64,34 @@ const UpdateProduct= () =>{
         headers: { Authorization: `Bearer ${token}` }
     };
     const updateProduct =  () => {
-      /*  let regex1 = /^([a-zA-Z0-9_-]){1,50}$/;
-        let regexSeries = /^([a-zA-Z0-9_-]){1,30}$/;
+        let regex1 = /^.{1,50}$/;
+        let regex2 = /^.{1,5000}$/;
 
         if(regex1.test(title) === false) {
-            alert("Title has to be between 1 and 50");
+            alert("title has to be between 1 and 50");
             return;
-        } if(regex1.test(subTitle) === false) {
-            alert("SubTitle has to be between 1 and 50");
+        }     if(regex1.test(subTitle) === false) {
+            alert("subTitle has to be between 1 and 50");
             return;
-        } if(regexSeries.test(series) === false) {
-            alert("Series has to be between 1 and 30 chars");
+        }     if(regex1.test(series) === false) {
+            alert("series has to be between 1 and 50");
             return;
-        } if(description === "") {
-            alert("description can not be empty");
+        }     if(regex2.test(description) === false) {
+            alert("description has to be between 1 and 5000");
             return;
-        }*/
+        }if(year <= 1900 || year >= 2023) {
+            alert("year has to be between 1900 and 2023");
+            return;
+        } if(price <= 0.50) {
+            alert("price has to be More then 0.50");
+            return;
+        } if(genreId <= 0) {
+            alert("Please select a genre");
+            return;
+        } if(regex1.test(productType) === false) {
+            alert("Please select a productType");
+            return;
+        }
 
         const data = {
             "productId": productId,
@@ -97,6 +109,7 @@ const UpdateProduct= () =>{
 
         axios.put(`http://localhost:8080/products`, data, config)
             .then(res => {
+                alert("Product information has been updated")
                 let path = "/MyProduct/" + productId;
                 navigate(path);
             })

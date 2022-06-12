@@ -8,7 +8,7 @@ import SockJS from 'sockjs-client';
 const ENDPOINT = "http://localhost:8080/ws";
 
 const AddProduct= () =>{
-    //deleting and adding images/ tests before sending to api
+    //deleting and adding images
 
     const [stompClient, setStompClient] = useState(null);
 
@@ -45,6 +45,35 @@ const AddProduct= () =>{
         headers: { Authorization: `Bearer ${token}` }
     };
     const addProduct =  () => {
+        let regex1 = /^.{1,50}$/;
+        let regex2 = /^.{1,5000}$/;
+
+        if(regex1.test(title) === false) {
+            alert("title has to be between 1 and 50");
+            return;
+        }     if(regex1.test(subTitle) === false) {
+            alert("subTitle has to be between 1 and 50");
+            return;
+        }     if(regex1.test(series) === false) {
+            alert("series has to be between 1 and 50");
+            return;
+        }     if(regex2.test(description) === false) {
+            alert("description has to be between 1 and 5000");
+            return;
+        }if(year <= 1900 || year >= 2023) {
+            alert("year has to be between 1900 and 2023");
+            return;
+        } if(price <= 0.50) {
+            alert("price has to be More then 0.50");
+            return;
+        } if(genreId <= 0) {
+            alert("Please select a genre");
+            return;
+        } if(regex1.test(productType) === false) {
+            alert("Please select a productType");
+            return;
+        }
+
         const data = {
             "title": title,
             "subTitle": subTitle,
@@ -61,6 +90,7 @@ const AddProduct= () =>{
 
         axios.post(`http://localhost:8080/products`, data, config)
             .then(res => {
+                alert("Product has been added.")
                 let path = "/MyProduct/" + res.data.productId;
                 navigate(path);
             })

@@ -91,7 +91,7 @@ public class UserController {
     @DeleteMapping("{username}")
     public ResponseEntity<Object> deleteUser(@PathVariable("username") String userName) {
         userService.deleteUser(userName);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     //NormalUser

@@ -12,7 +12,7 @@ function SearchBar() {
     return (
         <div>
             <div className="searchbar">
-                <input classname={"SearchInput"} type="text" placeholder="Search.." name="search" value={SearchString} onChange={handleChangeSearch}/>
+                <input className={"SearchInput"} type="text" placeholder="Search.." name="search" value={SearchString} onChange={handleChangeSearch}/>
             </div>
 
             <SearchResult SearchString={SearchString}/>

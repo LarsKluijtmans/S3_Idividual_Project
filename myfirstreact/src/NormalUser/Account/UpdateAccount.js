@@ -105,9 +105,9 @@ const UpdateAccount= () =>{
             email: email
         }
 
-        debugger;
         axios.put(`http://localhost:8080/users`, data,config
         ).then(res => {
+            alert("you information has been updated")
         }).catch(err => {
             serError(err.message);
         });
