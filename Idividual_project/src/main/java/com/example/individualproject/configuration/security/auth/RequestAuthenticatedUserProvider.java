@@ -18,7 +18,7 @@ public class RequestAuthenticatedUserProvider {
     public AccessTokenDTO getAuthenticatedUserInRequest() {
         final SecurityContext context = SecurityContextHolder.getContext();
 
-        //TODO SecurityContextHolder.getContext() is never null why check if it is null, ask teacher for assignment about csrf.
+        //TODO SecurityContextHolder.getContext() is never null why check if it is null
 
         if (context == null) {
             return null;

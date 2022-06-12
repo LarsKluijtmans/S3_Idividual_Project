@@ -208,7 +208,7 @@ class ProductServiceImplTest {
                 .seller(userDTO)
                 .build();
 
-        when(productRepositoryMock.findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenre_GenreIsLikeAndSold("%Pokemon%","%Pokemon%","%Pokemon%","%Pokemon%","%Pokemon%", false))
+        when(productRepositoryMock.findProductsByTitleOrSubTitleAndSold("%Pokemon%"))
                 .thenReturn(List.of(PokemonDiamond, PokemonPearl));
 
         List<GetProductDTO> actualResult = productServiceMock.getProducts("Pokemon");
@@ -217,7 +217,7 @@ class ProductServiceImplTest {
 
         assertEquals(expectedResult, actualResult);
 
-        verify(productRepositoryMock).findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenre_GenreIsLikeAndSold("%Pokemon%","%Pokemon%","%Pokemon%","%Pokemon%","%Pokemon%", false);
+        verify(productRepositoryMock).findProductsByTitleOrSubTitleAndSold("%Pokemon%");
 
         List<GetProductDTO> actualResultWithEmptyInput = productServiceMock.getProducts("");
         List<GetProductDTO> expectedResultWithEmptyInput  = Collections.emptyList();

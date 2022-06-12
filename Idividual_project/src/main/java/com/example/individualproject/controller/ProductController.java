@@ -54,8 +54,6 @@ public class ProductController {
         }
     }
 
-
-    //TODO how does the roles allowed work can I make my own? like make a PackagesAllowed that checks if you bought the package so that only people that did can use that recourse
     //Normal user
     @IsAuthenticated
     @RolesAllowed({"ROLE_NORMALUSER"})
