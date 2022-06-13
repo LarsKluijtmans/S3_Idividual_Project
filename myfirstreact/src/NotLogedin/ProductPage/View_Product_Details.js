@@ -82,8 +82,8 @@ function View_Product_Details() {
                    </div>
 
                    <div className="product-price">
-                       <span>{product.price}</span>
-                       <button className="cart-btn" onClick={buyProduct}>Buy</button>
+                       <span>{product.price}$</span>
+                       <button className="product_buy" onClick={buyProduct}>Buy</button>
                    </div>
                </div>
            </div>

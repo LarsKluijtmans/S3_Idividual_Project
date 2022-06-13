@@ -21,6 +21,7 @@ const UpdateAccount= () =>{
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
 
+
     let token = localStorage.getItem("token");
 
     const config = {
@@ -66,33 +67,35 @@ const UpdateAccount= () =>{
             .catch(err => {});
     }
 
-
     const updateUser = () => {
 
         let regex1 = /^([a-zA-Z0-9_-]){1,50}$/;
-        let regexEmail =  /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
-        let regexPhoneNumber =  /^([a-zA-Z0-9_-]){7,20}$/;
+        let regexEmail = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+        let regexPhoneNumber = /^([a-zA-Z0-9_-]){7,20}$/;
 
-        if(!uniqueEmail){
+        if (!uniqueEmail) {
             alert("firstname has to be between 1 and 50");
             return;
         }
-        if(!uniquePhoneNumber){
+        if (!uniquePhoneNumber) {
             alert("firstname has to be between 1 and 50");
             return;
         }
 
 
-        if(regex1.test(firstname) === false) {
+        if (regex1.test(firstname) === false) {
             alert("firstname has to be between 1 and 50");
             return;
-        } if(regex1.test(lastname) === false) {
+        }
+        if (regex1.test(lastname) === false) {
             alert("lastName has to be between 1 and 50");
             return;
-        } if(regexEmail.test(email) === false) {
+        }
+        if (regexEmail.test(email) === false) {
             alert("email not valid");
             return;
-        } if(regexPhoneNumber.test(phoneNumber) === false) {
+        }
+        if (regexPhoneNumber.test(phoneNumber) === false) {
             alert("phoneNumber not valid");
             return;
         }
@@ -105,14 +108,13 @@ const UpdateAccount= () =>{
             email: email
         }
 
-        axios.put(`http://localhost:8080/users`, data,config
+        axios.put(`http://localhost:8080/users`, data, config
         ).then(res => {
-            alert("you information has been updated")
+            alert("you information has been updated");
         }).catch(err => {
             serError(err.message);
         });
-
-        let path = `/myAccount/` + username ;
+        let path = `/myAccount/` + username;
         navigate(path);
     }
 

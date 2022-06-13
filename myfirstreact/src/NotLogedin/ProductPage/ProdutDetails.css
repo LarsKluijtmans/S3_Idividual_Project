@@ -27,7 +27,7 @@ tml, body {
 /* Left Column */
 .left-column .mainImage {
     height: 500px;
-    left: 0;
+    max-width: 650px;
     top: 0;
 }
 .left-column .subImage {
@@ -79,4 +79,18 @@ tml, body {
     font-weight: 300;
     color: #43474D;
     margin-right: 20px;
+}
+
+.product_buy{
+    border-radius: 10px;
+    round-clip: 10px;
+    font-size: 15px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    background-color: royalblue;
+}
+
+.product_buy:hover{
+    background-color: limegreen;
 }

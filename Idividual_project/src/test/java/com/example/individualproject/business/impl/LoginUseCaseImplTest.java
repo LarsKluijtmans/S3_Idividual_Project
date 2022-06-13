@@ -172,4 +172,5 @@ class LoginUseCaseImplTest {
         verify(adminRepository).findByUsername("Lars");
         verify(userRepository).findByUsername("Lars");
     }
+
 }

@@ -1,7 +1,9 @@
+
 ul {
     list-style-type: none;
-    margin: 0;
-    padding: 0;
+    margin-top: -5px;
+    margin-left: -5px;
+    margin-right: -5px;
     overflow: hidden;
     background-color: #333;
 }
@@ -20,15 +22,13 @@ li a {
 }
 
 li a:hover:not(.active) {
-    background-color: green;
-}
-
-.active {
-    background-color: #04AA6D;
+    background-color: darkblue;
+    color: white;
+    padding-bottom: 22px;
 }
 
 .loginbutton{
-    font-size: 20px;
+    font-size: 22px;
     float: right;
 }
 
@@ -38,5 +38,7 @@ li a:hover:not(.active) {
 }
 
 .button:hover{
-    background-color: green;
+    background-color: darkblue;
+    color: white;
+    margin-bottom: -2px;
 }

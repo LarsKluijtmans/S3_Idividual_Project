@@ -55,8 +55,7 @@ const MyProductDetails= () =>{
         <div className="ProductContainer">
 
             <div className="left-column">
-                <h2>Image of product</h2>
-
+                <br/>
                 <img className={"mainImage"} src={mainImage} height={"500"} alt={"picture"}/>
                 <div className="list_Of_Sub_Images">
                     {productImages != null &&
@@ -81,8 +80,8 @@ const MyProductDetails= () =>{
 
                 <div className="product-price">
                     <span>{product.price}</span>
-                    <button className="cart-btn" onClick={updateProduct}>update</button>
-                    <button className="cart-btn" onClick={deleteProduct}>delete</button>
+                    <button className="product-update" onClick={updateProduct}>update</button>
+                    <button className="product-delete" onClick={deleteProduct}>delete</button>
                 </div>
             </div>
         </div>

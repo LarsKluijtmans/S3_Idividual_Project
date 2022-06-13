@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import Stomp from 'stompjs';
 import axios from "axios";
-
+import ReactDOM from "react-dom";
 import {useNavigate, useParams} from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import SockJS from 'sockjs-client';
 const ENDPOINT = "http://localhost:8080/ws";
 
 const AddProduct= () =>{
-    //deleting and adding images
 
     const [stompClient, setStompClient] = useState(null);
 
@@ -28,7 +28,6 @@ const AddProduct= () =>{
 
     const {username} = useParams();
     let navigate = useNavigate();
-
     const getGenres = () => {
         axios.get(`http://localhost:8080/genre`)
             .then(res => {
@@ -38,6 +37,55 @@ const AddProduct= () =>{
             });
     }
 
+    // google api requests
+    function SaveImage(e) {
+        let file = e.target.files[0] //the file
+        let reader = new FileReader() //this for convert to Base64
+        reader.readAsDataURL(e.target.files[0]) //start conversion...
+        reader.onload = function (e) { //.. once finished..
+            let rawLog = reader.result.split(',')[1]; //extract only the file data part
+
+            setLoadingImage("loading...");
+
+            let dataSend = {
+                dataReq: {data: rawLog, name: file.name, type: file.type},
+                fname: "uploadFilesToGoogleDrive"
+            }; //preapre info to send to API
+            fetch('https://script.google.com/macros/s/AKfycby3Ey1lmmyX9CAsRlanTAU4FveEyfKqnjrYQPTaaBHUEN6Z3OrF/exec', //your AppsScript URL
+                {method: "POST", body: JSON.stringify(dataSend)}) //send to Api
+                .then(res => res.json()).then((a) => {
+                AddImage(a.url);
+                setLoadingImage("");
+            }).catch((e) => {
+                setLoadingImage("Something went wrong please try again later.\n" + e);
+            })
+        }
+    }
+
+    //Image related stuff
+    function AddImage(url) {
+        let includeID = url.replace("file/d/", "uc?export=view?&id=");
+        let ChangeView = includeID.replace("/view?usp=drivesdk", "");
+
+        if (images === null) {
+            setImages(ChangeView);
+        } else if (images.length < 10) {
+            images.push(ChangeView);
+            setImages(images);
+        }
+        ReactDOM.render( <LoadImages/>, document.getElementById('images'));
+        setImages(images);
+    }
+    const RemoveImage = (e) => {
+        for (let i = 0; i < images.length; i++) {
+            if (images[i] === e.target.value) {
+                images.splice(i, 1);
+                ReactDOM.render( <LoadImages/>, document.getElementById('images'));
+                return;
+            }
+        }
+    }
+    const [loadingImage, setLoadingImage] = useState("");
 
     //Update
     let token = localStorage.getItem("token");
@@ -51,27 +99,38 @@ const AddProduct= () =>{
         if(regex1.test(title) === false) {
             alert("title has to be between 1 and 50");
             return;
-        }     if(regex1.test(subTitle) === false) {
+        }
+        if(regex1.test(subTitle) === false) {
             alert("subTitle has to be between 1 and 50");
             return;
-        }     if(regex1.test(series) === false) {
+        }
+        if(regex1.test(series) === false) {
             alert("series has to be between 1 and 50");
             return;
-        }     if(regex2.test(description) === false) {
+        }
+        if(regex2.test(description) === false) {
             alert("description has to be between 1 and 5000");
             return;
-        }if(year <= 1900 || year >= 2023) {
+        }
+        if(year <= 1900 || year >= 2023) {
             alert("year has to be between 1900 and 2023");
             return;
-        } if(price <= 0.50) {
+        }
+        if(price <= 0.50) {
             alert("price has to be More then 0.50");
             return;
-        } if(genreId <= 0) {
+        }
+        if(genreId <= 0) {
             alert("Please select a genre");
             return;
-        } if(regex1.test(productType) === false) {
+        }
+        if(regex1.test(productType) === false) {
             alert("Please select a productType");
             return;
+        }
+        if(images == null || images.length == 0) {
+            alert("Please add at least 1 image.");
+            return;;
         }
 
         const data = {
@@ -151,6 +210,20 @@ const AddProduct= () =>{
     const [allGenre, setAllGenre] = useState([]);
 
 
+    //Display images
+    function LoadImages() {
+        return (
+            <div id="images">
+                {images.map(image => (
+                    <div className={"inlineBlock"} >
+                        <img className={"list_image"} src={image}  alt={"Failed to save image"}/>
+                        <button className={"deleteButton"} type="button" value={image} onClick={RemoveImage} > delete </button>
+                    </div>
+                ))}
+            </div>
+        );
+    }
+
     return (
         <div className={"select-Options"}>
             <div>
@@ -207,18 +280,16 @@ const AddProduct= () =>{
                 <h2>Description:</h2>
                 <textarea className={"description"} value={description} placeholder={"Type here..."} onChange={changeDescription}/>
 
-                <div>
-                    {images.map(image => (
-                        <div className={"inlineBlock"} >
-                            <img className={"image"} src={image}  alt={"picture"}/>
-                            <button className={"deleteButton"} type="button" value={image} > delete </button>
-                        </div>
-                    ))}
-                </div>
+                <label htmlFor="addScreenshot" className={"addImage"} >Upload image</label>
+                <input id="addScreenshot" type="file" accept="image/jpeg, image/png" onChange={(e) => SaveImage(e)}/>
+                <p className={"loading-image"}>{loadingImage}</p>
+                <br/>
+                <LoadImages/>
+
             </div>
 
             <div>
-                <button className="cart-btn" onClick={addProduct}>add</button>
+                <button className="add_button" onClick={addProduct}>add</button>
             </div>
         </div>
     );

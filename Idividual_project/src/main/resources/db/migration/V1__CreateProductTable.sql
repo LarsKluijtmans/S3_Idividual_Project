@@ -1,3 +1,4 @@
+
 CREATE TABLE  genre(
     id   int     NOT NULL AUTO_INCREMENT,
     genre char(200) NOT NULL,

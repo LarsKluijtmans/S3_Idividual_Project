@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import "./updateProductCSS.css"
+import ReactDOM from "react-dom";
 
 const UpdateProduct= () =>{
 
@@ -58,6 +59,56 @@ const UpdateProduct= () =>{
     }
 
 
+    // google api requests
+    function SaveImage(e) {
+        let file = e.target.files[0] //the file
+        let reader = new FileReader() //this for convert to Base64
+        reader.readAsDataURL(e.target.files[0]) //start conversion...
+        reader.onload = function (e) { //.. once finished..
+            let rawLog = reader.result.split(',')[1]; //extract only the file data part
+
+            setLoadingImage("loading...");
+
+            let dataSend = {
+                dataReq: {data: rawLog, name: file.name, type: file.type},
+                fname: "uploadFilesToGoogleDrive"
+            }; //preapre info to send to API
+            fetch('https://script.google.com/macros/s/AKfycby3Ey1lmmyX9CAsRlanTAU4FveEyfKqnjrYQPTaaBHUEN6Z3OrF/exec', //your AppsScript URL
+                {method: "POST", body: JSON.stringify(dataSend)}) //send to Api
+                .then(res => res.json()).then((a) => {
+                AddImage(a.url);
+                setLoadingImage("");
+            }).catch((e) => {
+                setLoadingImage("Something went wrong please try again later.\n" + e);
+            })
+        }
+    }
+
+    //Image related stuff
+    function AddImage(url) {
+        let includeID = url.replace("file/d/", "uc?export=view?&id=");
+        let ChangeView = includeID.replace("/view?usp=drivesdk", "");
+
+        if (images === null) {
+            setImages(ChangeView);
+        } else if (images.length < 10) {
+            images.push(ChangeView);
+            setImages(images);
+        }
+        ReactDOM.render( <LoadImages/>, document.getElementById('images'));
+        setImages(images);
+    }
+    const RemoveImage = (e) => {
+        for (let i = 0; i < images.length; i++) {
+            if (images[i] === e.target.value) {
+                images.splice(i, 1);
+                ReactDOM.render( <LoadImages/>, document.getElementById('images'));
+                return;
+            }
+        }
+    }
+    const [loadingImage, setLoadingImage] = useState("");
+
     //Update
     let token = localStorage.getItem("token");
     const config = {
@@ -92,6 +143,11 @@ const UpdateProduct= () =>{
             alert("Please select a productType");
             return;
         }
+        if(images == null || images.length == 0) {
+            alert("Please add at least 1 image.");
+            return;;
+        }
+
 
         const data = {
             "productId": productId,
@@ -171,6 +227,20 @@ const UpdateProduct= () =>{
     const [allGenre, setAllGenre] = useState([]);
 
 
+    //Display images
+    function LoadImages() {
+        return (
+            <div id="images">
+                {images.map(image => (
+                    <div className={"inlineBlock"} >
+                        <img className={"list_image"} src={image}  alt={"Failed to save image"}/>
+                        <button className={"deleteButton"} type="button" value={image} onClick={RemoveImage} > delete </button>
+                    </div>
+                ))}
+            </div>
+        );
+    }
+
     return (
         <div className={"select-Options"}>
             <div>
@@ -231,14 +301,11 @@ const UpdateProduct= () =>{
                 <h2>Description:</h2>
                 <textarea className={"description"} value={description} placeholder={"Type here..."} onChange={changeDescription}/>
 
-                <div>
-                    {images.map(image => (
-                        <div className={"inlineBlock"} >
-                            <img className={"image"} src={image}  alt={"picture"}/>
-                            <button className={"deleteButton"} type="button" value={image} > delete </button>
-                        </div>
-                    ))}
-                </div>
+                <label htmlFor="addScreenshot" className={"addImage"} >Upload image</label>
+                <input id="addScreenshot" type="file" accept="image/jpeg, image/png" onChange={(e) => SaveImage(e)}/>
+                <p className={"loading-image"}>{loadingImage}</p>
+                <br/>
+                <LoadImages/>
             </div>
 
             <div>

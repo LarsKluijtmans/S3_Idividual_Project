@@ -8,6 +8,14 @@
     max-width: 400px;
     margin: 10px 35px;
 }
+.list_image{
+    display: inline-block;
+    max-height: 450px;
+    max-width: 400px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    left: 0;
+    top: 0;
+}
 
 .deleteButton{
     border-radius: 10px;
@@ -24,7 +32,7 @@
     width: auto;
 }
 .deleteButton:hover{
-    background-color: green;
+    background-color: darkred;
 }
 
 .description{
@@ -74,3 +82,33 @@ input[type=text]{
     box-sizing: border-box;
 }
 
+.product-update{
+    background-color: grey;
+    border-radius: 10px;
+    round-clip: 10px;
+    font-size: 15px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 17px;
+    margin-bottom: 12px;
+}
+.product-update:hover{
+    background-color: darkblue;
+}
+
+.product-delete{
+    background-color: grey;
+    margin-left: 5px;
+    border-radius: 10px;
+    round-clip: 10px;
+    font-size: 15px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 17px;
+    margin-bottom: 12px;
+}
+.product-delete:hover{
+    background-color: #ff0100;
+}

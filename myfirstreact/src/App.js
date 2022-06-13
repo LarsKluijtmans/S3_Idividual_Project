@@ -39,6 +39,7 @@ function App() {
             })
             .then(res => {
 
+                //Week 12
                 //Priority implement web sockits
                 //Business and controller layer is priority for testing, repository is possible for later
                 //When user adds product popup about new product
@@ -46,7 +47,6 @@ function App() {
                 //Service class for localstorage
                 //class that stores everything
                 //Test javascript
-
 
                 localStorage.setItem("token", res.data.accessToken);
                 localStorage.setItem("authorization", res.data.authorizationLevel);

@@ -14,5 +14,51 @@
     display: inline-block;
 }
 .AddProduct:hover{
-    background-color: green;
+    background-color: darkblue;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.addImage{
+    margin-left: 0px;
+    float: left;
+    border-radius: 10px;
+    round-clip: 10px;
+    font-size: 15px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    background-color: #333;
+    padding: 10px 17px;
+    margin-bottom: 12px;
+    width:160px;
+}
+.addImage:hover{
+    background-color: darkblue;
+}
+
+.loading-image{
+    text-decoration: none;
+}
+
+.add_button{
+    border-radius: 10px;
+    round-clip: 10px;
+    font-size: 15px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    background-color: #333;
+    padding: 10px 17px;
+    margin-bottom: 12px;
+}
+
+.add_button:hover{
+    background-color: darkblue;
+}
+
+.loading-screenshot{
+    font-size: 12px;
 }
