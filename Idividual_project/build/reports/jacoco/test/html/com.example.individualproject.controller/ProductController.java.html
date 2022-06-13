@@ -54,21 +54,19 @@ public class ProductController {
         }
     }
 
-
-    //TODO how does the roles allowed work can I make my own? like make a PackagesAllowed that checks if you bought the package so that only people that did can use that recourse
     //Normal user
     @IsAuthenticated
     @RolesAllowed({&quot;ROLE_NORMALUSER&quot;})
     @PostMapping()
     public ResponseEntity&lt;CreateProductResponseDTO&gt; createProduct(@RequestBody CreateProductRequestDTO product) {
-<span class="fc" id="L64">        CreateProductResponseDTO productResponseDTO = productService.addProduct(product);</span>
+<span class="fc" id="L62">        CreateProductResponseDTO productResponseDTO = productService.addProduct(product);</span>
 
-<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (productResponseDTO == null) {</span>
-<span class="fc" id="L67">            return ResponseEntity.status(HttpStatus.CONFLICT).build();</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (productResponseDTO == null) {</span>
+<span class="fc" id="L65">            return ResponseEntity.status(HttpStatus.CONFLICT).build();</span>
         } else {
-<span class="fc" id="L69">            String url = &quot;products/&quot; + productResponseDTO.getProductId();</span>
-<span class="fc" id="L70">            URI uri = URI.create(url);</span>
-<span class="fc" id="L71">            return ResponseEntity.created(uri).body(productResponseDTO);</span>
+<span class="fc" id="L67">            String url = &quot;products/&quot; + productResponseDTO.getProductId();</span>
+<span class="fc" id="L68">            URI uri = URI.create(url);</span>
+<span class="fc" id="L69">            return ResponseEntity.created(uri).body(productResponseDTO);</span>
         }
     }
 
@@ -76,10 +74,10 @@ public class ProductController {
     @RolesAllowed({&quot;ROLE_NORMALUSER&quot;})
     @PutMapping()
     public ResponseEntity&lt;UpdateProductResponseDTO&gt; updateProduct(@RequestBody UpdateProductRequestDTO product) {
-<span class="fc bfc" id="L79" title="All 2 branches covered.">        if (productService.updateProduct(product) != null) {</span>
-<span class="fc" id="L80">            return ResponseEntity.noContent().build();</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        if (productService.updateProduct(product) != null) {</span>
+<span class="fc" id="L78">            return ResponseEntity.noContent().build();</span>
         } else {
-<span class="fc" id="L82">            return ResponseEntity.badRequest().build();</span>
+<span class="fc" id="L80">            return ResponseEntity.badRequest().build();</span>
         }
     }
 
@@ -87,20 +85,20 @@ public class ProductController {
     @RolesAllowed({&quot;ROLE_NORMALUSER&quot;})
     @DeleteMapping(&quot;normal/{id}&quot;)
     public ResponseEntity&lt;Object&gt; deleteProductNormalUser(@PathVariable(&quot;id&quot;) Long id) {
-<span class="fc" id="L90">        productService.deleteProductNormalUser(id);</span>
-<span class="fc" id="L91">        return ResponseEntity.ok().build();</span>
+<span class="fc" id="L88">        productService.deleteProductNormalUser(id);</span>
+<span class="fc" id="L89">        return ResponseEntity.noContent().build();</span>
     }
 
     @IsAuthenticated
     @RolesAllowed({&quot;ROLE_NORMALUSER&quot;})
     @GetMapping(&quot;normal/{username}&quot;)
     public ResponseEntity&lt;List&lt;GetProductDTO&gt;&gt; getUsersProductsNormal(@PathVariable(&quot;username&quot;) String username) {
-<span class="fc" id="L98">        List&lt;GetProductDTO&gt; usersProducts = productService.getAllOfAUsersProductsNormalUser(username);</span>
+<span class="fc" id="L96">        List&lt;GetProductDTO&gt; usersProducts = productService.getAllOfAUsersProductsNormalUser(username);</span>
 
-<span class="fc bfc" id="L100" title="All 2 branches covered.">        if (usersProducts != null) {</span>
-<span class="fc" id="L101">            return ResponseEntity.ok().body(usersProducts);</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        if (usersProducts != null) {</span>
+<span class="fc" id="L99">            return ResponseEntity.ok().body(usersProducts);</span>
         } else {
-<span class="fc" id="L103">            return ResponseEntity.notFound().build();</span>
+<span class="fc" id="L101">            return ResponseEntity.notFound().build();</span>
         }
     }
 
@@ -108,9 +106,9 @@ public class ProductController {
     @RolesAllowed({&quot;ROLE_NORMALUSER&quot;})
     @PutMapping(&quot;buy/{productID}&quot;)
     public ResponseEntity&lt;List&lt;GetProductDTO&gt;&gt; buyProduct(@PathVariable(&quot;productID&quot;) Long productID) {
-<span class="fc" id="L111">        productService.buyProduct(productID);</span>
+<span class="fc" id="L109">        productService.buyProduct(productID);</span>
 
-<span class="fc" id="L113">        return ResponseEntity.ok().build();</span>
+<span class="fc" id="L111">        return ResponseEntity.ok().build();</span>
     }
 
 
@@ -119,20 +117,20 @@ public class ProductController {
     @RolesAllowed({&quot;ROLE_ADMIN&quot;})
     @DeleteMapping(&quot;admin/{id}&quot;)
     public ResponseEntity&lt;Object&gt; deleteProductAdmin(@PathVariable(&quot;id&quot;) Long id) {
-<span class="fc" id="L122">        productService.deleteProductAdmin(id);</span>
-<span class="fc" id="L123">        return ResponseEntity.ok().build();</span>
+<span class="fc" id="L120">        productService.deleteProductAdmin(id);</span>
+<span class="fc" id="L121">        return ResponseEntity.noContent().build();</span>
     }
 
     @IsAuthenticated
     @RolesAllowed({&quot;ROLE_ADMIN&quot;})
     @GetMapping(&quot;admin/{username}&quot;)
     public ResponseEntity&lt;List&lt;GetProductDTO&gt;&gt; getUsersProductsAdmin(@PathVariable(&quot;username&quot;) String username) {
-<span class="fc" id="L130">        List&lt;GetProductDTO&gt; usersProducts = productService.getAllOfAUsersProductsAdmin(username);</span>
+<span class="fc" id="L128">        List&lt;GetProductDTO&gt; usersProducts = productService.getAllOfAUsersProductsAdmin(username);</span>
 
-<span class="fc bfc" id="L132" title="All 2 branches covered.">        if (usersProducts != null) {</span>
-<span class="fc" id="L133">            return ResponseEntity.ok().body(usersProducts);</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">        if (usersProducts != null) {</span>
+<span class="fc" id="L131">            return ResponseEntity.ok().body(usersProducts);</span>
         } else {
-<span class="fc" id="L135">            return ResponseEntity.notFound().build();</span>
+<span class="fc" id="L133">            return ResponseEntity.notFound().build();</span>
         }
     }
 

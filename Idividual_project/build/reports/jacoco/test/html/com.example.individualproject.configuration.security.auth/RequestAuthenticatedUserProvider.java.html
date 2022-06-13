@@ -18,7 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
     public AccessTokenDTO getAuthenticatedUserInRequest() {
 <span class="nc" id="L19">        final SecurityContext context = SecurityContextHolder.getContext();</span>
 
-        //TODO SecurityContextHolder.getContext() is never null why check if it is null, ask teacher for assignment about csrf.
+        //TODO SecurityContextHolder.getContext() is never null why check if it is null
 
 <span class="nc bnc" id="L23" title="All 2 branches missed.">        if (context == null) {</span>
 <span class="nc" id="L24">            return null;</span>

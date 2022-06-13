@@ -202,7 +202,7 @@ class ProductControllerTest {
 
         mockMvc.perform(delete("/products/normal/1"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         verify(productService).deleteProductNormalUser(1L);
     }
@@ -335,7 +335,7 @@ class ProductControllerTest {
 
         mockMvc.perform(delete("/products/admin/1"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         verify(productService).deleteProductAdmin(1L);
     }

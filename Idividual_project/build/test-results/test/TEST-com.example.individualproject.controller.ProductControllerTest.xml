@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.individualproject.controller.ProductControllerTest" tests="17" skipped="0" failures="0" errors="0" timestamp="2022-06-09T09:14:07" hostname="MSILARS" time="0.229">
+<testsuite name="com.example.individualproject.controller.ProductControllerTest" tests="17" skipped="0" failures="0" errors="0" timestamp="2022-06-13T07:00:45" hostname="MSILARS" time="0.228">
   <properties/>
-  <testcase name="getUsersProductsNormal_NotFound()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.017"/>
-  <testcase name="getUsersProductsAdmin_NotFound()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.008"/>
-  <testcase name="getAllProductsByName()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.016"/>
-  <testcase name="updateProduct()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.017"/>
-  <testcase name="createProduct_NotFound()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.014"/>
-  <testcase name="getProduct_NotFound()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.013"/>
-  <testcase name="getAllProducts()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.012"/>
+  <testcase name="getUsersProductsNormal_NotFound()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.028"/>
+  <testcase name="getUsersProductsAdmin_NotFound()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.012"/>
+  <testcase name="getAllProductsByName()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.018"/>
+  <testcase name="updateProduct()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.016"/>
+  <testcase name="createProduct_NotFound()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.015"/>
+  <testcase name="getProduct_NotFound()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.014"/>
+  <testcase name="getAllProducts()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.013"/>
   <testcase name="getAllProducts_NoneFound()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.008"/>
-  <testcase name="buyProduct()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.01"/>
-  <testcase name="getAllProductsByName_NotFound()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.008"/>
+  <testcase name="buyProduct()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.009"/>
+  <testcase name="getAllProductsByName_NotFound()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.005"/>
   <testcase name="deleteProductAdmin()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.009"/>
-  <testcase name="getUsersProductsNormal()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.012"/>
+  <testcase name="getUsersProductsNormal()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.013"/>
   <testcase name="deleteProductNormalUser()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.009"/>
-  <testcase name="updateProduct_NotFound()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.014"/>
-  <testcase name="getProduct()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.012"/>
-  <testcase name="getUsersProductsAdmin()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.014"/>
-  <testcase name="createProduct()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.011"/>
-  <system-out><![CDATA[2022-06-09 11:14:05.292  INFO 13884 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.example.individualproject.controller.ProductControllerTest], using SpringBootContextLoader
-2022-06-09 11:14:05.293  INFO 13884 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.example.individualproject.controller.ProductControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}.
-2022-06-09 11:14:05.293  INFO 13884 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.individualproject.controller.ProductControllerTest]: ProductControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2022-06-09 11:14:05.295  INFO 13884 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.individualproject.IndividualProjectApplication for test class com.example.individualproject.controller.ProductControllerTest
-2022-06-09 11:14:05.297  INFO 13884 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener, org.springframework.security.test.context.support.ReactorContextTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
-2022-06-09 11:14:05.298  INFO 13884 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@6ec53a5, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@31e86952, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@32e7f5e9, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@228da5b1, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@4698bb3e, org.springframework.test.context.support.DirtiesContextTestExecutionListener@3448f846, org.springframework.test.context.transaction.TransactionalTestExecutionListener@398d1b9b, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@76e29136, org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener@75a0859f, org.springframework.test.context.event.EventPublishingTestExecutionListener@6d9d9a5, org.springframework.security.test.context.support.ReactorContextTestExecutionListener@57d94b26, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@35500bca, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@442dec82, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@cf10153, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@11eceb90, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@24d7bc3c, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@fb50dd8]
+  <testcase name="updateProduct_NotFound()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.008"/>
+  <testcase name="getProduct()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.009"/>
+  <testcase name="getUsersProductsAdmin()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.012"/>
+  <testcase name="createProduct()" classname="com.example.individualproject.controller.ProductControllerTest" time="0.01"/>
+  <system-out><![CDATA[2022-06-13 09:00:43.752  INFO 22512 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.example.individualproject.controller.ProductControllerTest], using SpringBootContextLoader
+2022-06-13 09:00:43.752  INFO 22512 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.example.individualproject.controller.ProductControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2022-06-13 09:00:43.752  INFO 22512 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.individualproject.controller.ProductControllerTest]: ProductControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2022-06-13 09:00:43.755  INFO 22512 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.individualproject.IndividualProjectApplication for test class com.example.individualproject.controller.ProductControllerTest
+2022-06-13 09:00:43.757  INFO 22512 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener, org.springframework.security.test.context.support.ReactorContextTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+2022-06-13 09:00:43.758  INFO 22512 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@25b45f33, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@d272d22, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@1b189d2c, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@3f90a912, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@385a2414, org.springframework.test.context.support.DirtiesContextTestExecutionListener@ca04000, org.springframework.test.context.transaction.TransactionalTestExecutionListener@538e4d45, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@69ecb61f, org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener@ff45b2, org.springframework.test.context.event.EventPublishingTestExecutionListener@e51a5ed, org.springframework.security.test.context.support.ReactorContextTestExecutionListener@2f142507, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@234422b4, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@596c31bb, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@5a9189b6, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@54a3b3fe, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@56707a5c, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@6ea978c0]
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -33,36 +33,36 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v2.6.3)
 
-2022-06-09 11:14:05.319  INFO 13884 --- [    Test worker] c.e.i.controller.ProductControllerTest   : Starting ProductControllerTest using Java 17.0.2 on MSILars with PID 13884 (started by lars in C:\Users\lars\Desktop\ict\sem3\IndividualTask\s3_idividual_project\Idividual_project)
-2022-06-09 11:14:05.320  INFO 13884 --- [    Test worker] c.e.i.controller.ProductControllerTest   : No active profile set, falling back to default profiles: default
-2022-06-09 11:14:05.522  INFO 13884 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2022-06-09 11:14:05.547  INFO 13884 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 24 ms. Found 5 JPA repository interfaces.
-2022-06-09 11:14:05.661  INFO 13884 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityConfig' of type [com.example.individualproject.configuration.security.MethodSecurityConfig$$EnhancerBySpringCGLIB$$a12d6d48] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2022-06-09 11:14:05.726  INFO 13884 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.5.11 by Redgate
-2022-06-09 11:14:05.726  INFO 13884 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : See what's new here: https://flywaydb.org/documentation/learnmore/releaseNotes#8.5.11
-2022-06-09 11:14:05.726  INFO 13884 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : 
-2022-06-09 11:14:05.727  INFO 13884 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
-2022-06-09 11:14:05.742  INFO 13884 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
-2022-06-09 11:14:05.743  INFO 13884 --- [    Test worker] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/game_marked (MySQL 8.0)
-2022-06-09 11:14:05.759  INFO 13884 --- [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.007s)
-2022-06-09 11:14:05.766  INFO 13884 --- [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema `game_marked`: 3
-2022-06-09 11:14:05.767  INFO 13884 --- [    Test worker] o.f.core.internal.command.DbMigrate      : Schema `game_marked` is up to date. No migration necessary.
-2022-06-09 11:14:05.813  INFO 13884 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2022-06-09 11:14:05.824  INFO 13884 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2022-06-09 11:14:05.900  INFO 13884 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2022-06-09 11:14:05.901  INFO 13884 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2022-06-09 11:14:06.192  INFO 13884 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
+2022-06-13 09:00:43.785  INFO 22512 --- [    Test worker] c.e.i.controller.ProductControllerTest   : Starting ProductControllerTest using Java 17.0.2 on MSILars with PID 22512 (started by lars in C:\Users\lars\Desktop\ict\sem3\IndividualTask\s3_idividual_project\Idividual_project)
+2022-06-13 09:00:43.785  INFO 22512 --- [    Test worker] c.e.i.controller.ProductControllerTest   : No active profile set, falling back to default profiles: default
+2022-06-13 09:00:44.027  INFO 22512 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-13 09:00:44.060  INFO 22512 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 32 ms. Found 5 JPA repository interfaces.
+2022-06-13 09:00:44.190  INFO 22512 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityConfig' of type [com.example.individualproject.configuration.security.MethodSecurityConfig$$EnhancerBySpringCGLIB$$4e2d9be0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-13 09:00:44.255  INFO 22512 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.5.11 by Redgate
+2022-06-13 09:00:44.255  INFO 22512 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : See what's new here: https://flywaydb.org/documentation/learnmore/releaseNotes#8.5.11
+2022-06-13 09:00:44.256  INFO 22512 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : 
+2022-06-13 09:00:44.257  INFO 22512 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2022-06-13 09:00:44.273  INFO 22512 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2022-06-13 09:00:44.274  INFO 22512 --- [    Test worker] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/game_marked (MySQL 8.0)
+2022-06-13 09:00:44.289  INFO 22512 --- [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.007s)
+2022-06-13 09:00:44.296  INFO 22512 --- [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema `game_marked`: 3
+2022-06-13 09:00:44.297  INFO 22512 --- [    Test worker] o.f.core.internal.command.DbMigrate      : Schema `game_marked` is up to date. No migration necessary.
+2022-06-13 09:00:44.348  INFO 22512 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-13 09:00:44.355  INFO 22512 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-06-13 09:00:44.436  INFO 22512 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-13 09:00:44.436  INFO 22512 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-13 09:00:44.725  INFO 22512 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
 
-Using generated security password: 08203b4a-7300-46dc-8368-c63bfa6b0e78
+Using generated security password: 6dce3d04-12f1-4137-bfd2-2cad1bd0851f
 
-2022-06-09 11:14:06.240  INFO 13884 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@56b62343, org.springframework.security.web.context.SecurityContextPersistenceFilter@207776c3, org.springframework.security.web.header.HeaderWriterFilter@531fc48f, org.springframework.security.web.authentication.logout.LogoutFilter@2b35de93, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4fbc585a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@310bc67c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5372ae40, org.springframework.security.web.session.SessionManagementFilter@2b682bb7, org.springframework.security.web.access.ExceptionTranslationFilter@358fb61a]
-2022-06-09 11:14:07.108  INFO 13884 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2022-06-09 11:14:07.108  INFO 13884 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-06-09 11:14:07.109  INFO 13884 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-2022-06-09 11:14:07.120  INFO 13884 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
-2022-06-09 11:14:07.120  INFO 13884 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@7d67f9d7]]
-2022-06-09 11:14:07.121  INFO 13884 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
-2022-06-09 11:14:07.123  INFO 13884 --- [    Test worker] c.e.i.controller.ProductControllerTest   : Started ProductControllerTest in 1.824 seconds (JVM running for 16.1)
+2022-06-13 09:00:44.776  INFO 22512 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1e60c357, org.springframework.security.web.context.SecurityContextPersistenceFilter@223077da, org.springframework.security.web.header.HeaderWriterFilter@3cd03423, org.springframework.security.web.authentication.logout.LogoutFilter@38018af7, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@acbadf3, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@45a10e73, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2a82a45e, org.springframework.security.web.session.SessionManagementFilter@500d8768, org.springframework.security.web.access.ExceptionTranslationFilter@4a70049c]
+2022-06-13 09:00:45.635  INFO 22512 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-06-13 09:00:45.635  INFO 22512 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-06-13 09:00:45.636  INFO 22512 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2022-06-13 09:00:45.647  INFO 22512 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2022-06-13 09:00:45.647  INFO 22512 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@6ea1c06a]]
+2022-06-13 09:00:45.648  INFO 22512 --- [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2022-06-13 09:00:45.651  INFO 22512 --- [    Test worker] c.e.i.controller.ProductControllerTest   : Started ProductControllerTest in 1.89 seconds (JVM running for 16.109)
 
 MockHttpServletRequest:
       HTTP Method = GET
@@ -486,7 +486,7 @@ FlashMap:
        Attributes = null
 
 MockHttpServletResponse:
-           Status = 200
+           Status = 204
     Error message = null
           Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", X-Content-Type-Options:"nosniff", X-XSS-Protection:"1; mode=block", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY"]
      Content type = null
@@ -560,7 +560,7 @@ FlashMap:
        Attributes = null
 
 MockHttpServletResponse:
-           Status = 200
+           Status = 204
     Error message = null
           Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", X-Content-Type-Options:"nosniff", X-XSS-Protection:"1; mode=block", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"DENY"]
      Content type = null

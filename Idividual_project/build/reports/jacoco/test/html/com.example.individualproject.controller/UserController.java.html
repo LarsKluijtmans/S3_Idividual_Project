@@ -91,7 +91,7 @@ public class UserController {
     @DeleteMapping(&quot;{username}&quot;)
     public ResponseEntity&lt;Object&gt; deleteUser(@PathVariable(&quot;username&quot;) String userName) {
 <span class="fc" id="L93">        userService.deleteUser(userName);</span>
-<span class="fc" id="L94">        return ResponseEntity.ok().build();</span>
+<span class="fc" id="L94">        return ResponseEntity.noContent().build();</span>
     }
 
     //NormalUser

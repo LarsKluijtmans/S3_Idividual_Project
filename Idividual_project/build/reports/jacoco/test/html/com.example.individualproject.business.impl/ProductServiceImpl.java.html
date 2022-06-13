@@ -63,7 +63,7 @@ public class ProductServiceImpl implements ProductService {
 
         GetProductDTO product;
 
-<span class="fc bfc" id="L66" title="All 2 branches covered.">        for (Product p : productRepository.findProductsByTitleLikeOrSubTitleIsLikeOrSeriesIsLikeOrConditionIsLikeOrGenre_GenreIsLikeAndSold(searchName, searchName, searchName, searchName, searchName, false)) {</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        for (Product p : productRepository.findProductsByTitleOrSubTitleAndSold(searchName)) {</span>
 <span class="fc" id="L67">            product = new GetProductDTO(p);</span>
 <span class="fc" id="L68">            result.add(product);</span>
 <span class="fc" id="L69">        }</span>
