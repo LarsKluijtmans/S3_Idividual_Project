@@ -39,5 +39,6 @@ sonarqube-check:
 docker:
   stage: docker
   script:
-    - docker-compose up --build
-    - docker-compose down
+    - docker-compose up -d --build
+  environment: production
+  when: manual
