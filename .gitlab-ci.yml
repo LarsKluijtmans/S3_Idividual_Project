@@ -38,6 +38,6 @@ sonarqube-check:
 
 docker:
   stage: docker
-script:
+  script:
     - docker-compose up --build
     - docker-compose down
