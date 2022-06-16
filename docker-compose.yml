@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  backend:
+    container_name: backend
+    image: individual-project-api
+    restart: always
+    build: Idividual_project\.
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+
+  db:
+    image: mysql
+    ports:
+      - '3306:3306'
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: '12345'
+      MYSQL_DATABASE: 'game_marked'
+     
+
+  React_website:  
+    container_name: website
+    ports:
+      - '3000:3000'
+    build: myfirstreact\.
+    image: docker_front_end
+    depends_on:
+      - backend

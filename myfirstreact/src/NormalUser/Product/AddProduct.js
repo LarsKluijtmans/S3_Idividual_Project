@@ -92,7 +92,7 @@ const AddProduct= () =>{
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
-    const addProduct =  () => {
+    const addProduct = () => {
         let regex1 = /^.{1,50}$/;
         let regex2 = /^.{1,5000}$/;
 
@@ -148,14 +148,13 @@ const AddProduct= () =>{
         }
 
         axios.post(`http://localhost:8080/products`, data, config)
-            .then(res => {
-                alert("Product has been added.")
-                let path = "/MyProduct/" + res.data.productId;
-                navigate(path);
-            })
-            .catch(err => {
-            });
+        .then(res => {
             stompClient.send("/app/NewApp", {}, JSON.stringify({"title":title, "subTitle": subTitle, "price": price, "condition": condition}));
+            let path = "/MyProduct/" + res.data.productId;
+            navigate(path);
+        })
+        .catch(err => {
+        });
     }
 
     const [title, setTitle] = useState("");
@@ -225,29 +224,29 @@ const AddProduct= () =>{
     }
 
     return (
-        <div className={"select-Options"}>
+        <div className="select-Options">
             <div>
                 <div>
-                    <div className={"select"}>
+                    <div className="select">
                         <h2>ProductType:</h2>
-                        <select className={"input"}  name="productType" id="productType" onInput={changeProductType}>
+                        <select id='ProductType' className="input" onInput={changeProductType}>
                             <option value="GAME">GAME</option>
                             <option value="GAMES">GAMES</option>
                         </select>
                     </div>
 
-                    <div className={"select"}>
+                    <div className="select">
                         <h2>Genre:</h2>
-                        <select  className={"input"} name="genre" id="genreID" onInput={changeGenre}>
+                        <select id='Genre' className="input" onInput={changeGenre}>
                             {allGenre.map(genre => (
                                 <option value={genre.genre}>{genre.genre}</option>
                             ))}
                         </select>
                     </div>
 
-                    <div className={"select"}>
+                    <div className="select">
                         <h2>Condition:</h2>
-                        <select className={"input"}  name="condition" id="condition" onInput={changeCondition}>
+                        <select id='Condition' className="input" onInput={changeCondition}>
                             <option value="EXCELLENT">EXCELLENT</option>
                             <option value="GREAT">GREAT</option>
                             <option value="GOOD">GOOD</option>
@@ -261,28 +260,28 @@ const AddProduct= () =>{
                 </div>
 
                 <h2>Title:</h2>
-                <input className={"input"} type="text" value={title} placeholder={"Type here..."} onChange={changeTitle}/>
+                <input className="input" type="text" value={title} placeholder="Title" onChange={changeTitle}/>
                 <h2>Sub Title:</h2>
-                <input className={"input"} type="text" value={subTitle} placeholder={"Type here..."} onChange={changeSubTitle}/>
+                <input className="input" type="text" value={subTitle} placeholder="SubTitle" onChange={changeSubTitle}/>
                 <h2>Series:</h2>
-                <input className={"input"} type="text" value={series} placeholder={"Type here..."} onChange={changeSeries}/>
+                <input className="input" type="text" value={series} placeholder="Series" onChange={changeSeries}/>
 
                 <div>
                     <div className={"inlineBlock"}>
                         <h2>Year:</h2>
-                        <input className={"inputNumber"} type="number" step="1" value={year} placeholder={"Type here..."} onChange={changeYear}/>
+                        <input className="inputNumber" type="number" step="1" value={year} placeholder="Year" onChange={changeYear}/>
                     </div>
-                    <div className={"inlineBlock"}>
+                    <div className="inlineBlock">
                         <h2>Price:</h2>
-                        <input className={"inputNumber"} type="number" step="0.01" value={price} placeholder={"Type here..."} onChange={changePrice}/>
+                        <input className="inputNumber" type="number" step="0.01" value={price} placeholder="Price" onChange={changePrice}/>
                     </div>
                 </div>
                 <h2>Description:</h2>
-                <textarea className={"description"} value={description} placeholder={"Type here..."} onChange={changeDescription}/>
+                <textarea className="description" value={description} placeholder="description" onChange={changeDescription}/>
 
-                <label htmlFor="addScreenshot" className={"addImage"} >Upload image</label>
-                <input id="addScreenshot" type="file" accept="image/jpeg, image/png" onChange={(e) => SaveImage(e)}/>
-                <p className={"loading-image"}>{loadingImage}</p>
+                <label htmlFor="fileInput" className="addImage">Upload image</label>
+                <input id='fileInput' type="file" accept="image/jpeg, image/png" onChange={(e) => SaveImage(e)}/>
+                <p className="loading-image">{loadingImage}</p>
                 <br/>
                 <LoadImages/>
 

@@ -38,6 +38,7 @@ function View_Product_Details() {
     const buyProduct =()=> {
         if(token === null){
             alert("Please login before trying to buy a product");
+            return;
         }
 
         axios.put(`http://localhost:8080/products/buy/` + productId,null,config)
@@ -46,7 +47,12 @@ function View_Product_Details() {
                 navigate(path);
             })
             .catch(err => {
-               alert(err.message);
+                if(err.status === 400){
+                    alert("Please dont try to buy your own products");
+                }
+                else {
+                    alert(err.message);
+                }
             });
     }
 

@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import { render } from "@testing-library/react";
 
 
 function MakeAccount(){
@@ -46,27 +47,25 @@ function MakeAccount(){
         axios.get("http://localhost:8080/users/unique/email/" + email)
             .then(res => {
                 setUniqueEmail(res.data);
-                if(uniqueEmail === false) {
-                    alert("There already exists a account with this Email.");
-                }})
+                console.log(res.data);
+               })
             .catch(err => {});
     }
     const IsPhoneNumberUnique = ()=>{
         axios.get("http://localhost:8080/users/unique/phoneNumber/" + phoneNumber)
             .then(res => {
                 setUniquePhoneNumber(res.data);
-                if(uniquePhoneNumber === false) {
-                    alert("There already exists a account with this PhoneNumber.");
-                }})
+                console.log(res.data);
+
+            })
             .catch(err => {});
     }
     const IsUsernameUnique = ()=>{
         axios.get("http://localhost:8080/users/unique/name/" + username)
             .then(res => {
                 setUniqueUserName(res.data);
-                if(uniqueUserName === false) {
-                    alert("There already exists a account with this PhoneNumber.");
-                }
+                console.log(res.data);
+
             })
             .catch(err => {});
     }
@@ -95,11 +94,21 @@ function MakeAccount(){
         IsPhoneNumberUnique();
         IsUsernameUnique();
 
-        if (uniquePhoneNumber && uniqueUserName && uniqueEmail) {
+        if(!uniquePhoneNumber) {
+            alert("There already exists a account with this PhoneNumber.");
+        }
+        else if(!uniqueUserName) {
+            alert("username already taken.");
+        }
+        else if(!uniqueEmail) {
+            alert("There already exists a account with this email.");
+        }
+        else{
             makeAccount();
             let path = `/login`;
             navigate(path);
         }
+
 
     }
     const makeAccount = () =>{

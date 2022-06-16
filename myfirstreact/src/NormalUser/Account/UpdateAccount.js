@@ -122,19 +122,19 @@ const UpdateAccount= () =>{
         <div>
             <h1 id="heading1">Update</h1>
             <div action="" className="myForm" name="myForm">
-                <input className="input-field" type="text" placeholder="FirstName" name={"FirstName"} value={firstname}
+                <input className="input-field" type="text" placeholder="FirstName" name="FirstName" value={firstname}
                        required minLength={1} maxLength={50}  onChange={handleFirstnameChange}/>
 
-                <input className="input-field" type="text" placeholder="LastName" name={"LastName"} value={lastname}
+                <input className="input-field" type="text" placeholder="LastName" name="LastName" value={lastname}
                        required minLength={1} maxLength={50}  onChange={handleLastNameChange}/>
 
-                <input className="input-field" type="text" placeholder="Email" name={"Email"} value={email}
+                <input className="input-field" type="text" placeholder="Email" name="Email" value={email}
                        required minLength={8} maxLength={50}  onChange={handleEmailChange}/>
 
-                <input className="input-field" type="text" placeholder="PhoneNumber" name={"PhoneNumber"} value={phoneNumber}
+                <input className="input-field" type="text" placeholder="PhoneNumber" name="PhoneNumber" value={phoneNumber}
                        required minLength={8} maxLength={50} onChange={handlePhoneNumberChange}/>
 
-                <button className={"bttn"} onClick={updateUser}> update account</button>
+                <button className={"bttn"} onClick={updateUser}>Update account</button>
             </div>
         </div>
     );

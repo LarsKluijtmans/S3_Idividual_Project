@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import "./Login.css"
 import {useNavigate} from "react-router-dom";
+import MakeAccount from './MakeAccount';
+import { render } from "@testing-library/react";
 
 function Login({login}) {
 
@@ -16,10 +18,10 @@ function Login({login}) {
         setPassword(e.target.value);
     };
 
-    const tryLogin = () => {
+    const tryLogin =()=> {
         login(username, password)
     }
-    const SignUp = () => {
+    const SignUp =()=> {
         navigate(`/signUp`);
     }
 
@@ -36,8 +38,8 @@ function Login({login}) {
                         <div className="input-container">
                             <input type="password" placeholder="Password" name="password" className="input-field" value={password} required onChange={handlePasswordChange}/>
                         </div>
-                        <button className={"bttn"}  onClick={tryLogin}>Login</button>
-                    </div>
+                            <button className={"LoginButton"}  onClick={tryLogin} disabled={!username}>Login</button>
+                        </div>
 
                     <form action="" className="myForm" name="myForm">
                         <button className={"SignUp"} onClick={SignUp}>Sign up</button>
