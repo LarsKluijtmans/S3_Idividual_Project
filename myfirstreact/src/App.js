@@ -31,6 +31,18 @@ function App() {
             setUsername(username);
         }
     },[]);
+    useEffect(() => {
+        const socket = SockJS(ENDPOINT);
+        const stompClient = Stomp.over(socket);
+        stompClient.connect({}, () => {
+            stompClient.subscribe('/topic/newApps', (data) => {
+                onMessageReceived(data);
+            });
+        });
+        setStompClient(stompClient);
+    },[]);
+    useEffect(() => {
+    },[newProducts]);
 
     async function login(username, password) {
 
@@ -76,18 +88,6 @@ function App() {
     //WebSockets
     const [stompClient, setStompClient] = useState(null);
 
-    useEffect(() => {
-        const socket = SockJS(ENDPOINT);
-        const stompClient = Stomp.over(socket);
-        stompClient.connect({}, () => {
-            stompClient.subscribe('/topic/newApps', (data) => {
-                console.log('got mail')
-                onMessageReceived(data);
-            });
-        });
-        setStompClient(stompClient);
-    },[]);
-
     const [newProducts, setNewProducts] = useState([]);
 
     const RemoveNewProductMessage = (e) => {
@@ -122,7 +122,7 @@ function App() {
                     <NotLoggedNav login={login}/>
                 )}
             </div>
-            <div className='block'>
+            <div className='block' id=''>
                 {newProducts.map(product => (
                     <div className='MessageSpacing'>
                         <Link style={{ textDecoration: 'none' }} to={"/products/" + product.id}>

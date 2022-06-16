@@ -16,8 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Genre {
 
-    //Todo intellij is telling me @Data can cause severe performance and memory issues.
-
     @Id
     @org.springframework.data.annotation.Id
     @Column(name = "id")

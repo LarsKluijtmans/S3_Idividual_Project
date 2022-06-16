@@ -220,7 +220,7 @@ span.psw {
   height: 90px;
   overflow:hidden;
   display: inline-block;
-  background-color: rgba(160, 160, 160, 0.342);
+  background-color: rgb(207, 206, 206);
 }
 
 .removeMessage{

@@ -19,7 +19,7 @@ describe("AddProduct", () =>{
  
     //fill in fields
     cy.findByText(/upload image/i).selectFile("C:/Users/lars/Desktop/Screenshot 2022-06-14 164846.png");
-    cy.wait(5000)
+    cy.wait(10000)
     cy.findByPlaceholderText('Title').type('Game that is old')
     cy.findByPlaceholderText('SubTitle').type('Old')
     cy.findByPlaceholderText('Series').type('Old game')

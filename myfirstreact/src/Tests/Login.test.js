@@ -32,8 +32,6 @@ test('Login page, enter vaule in inputs', () => {
     expect(screen.getByRole('button',  {name: /Login/i})).toBeEnabled()
 })
 
-//Integration test
-
 test('Login page,Login function', () => {
 
     const login =() =>{

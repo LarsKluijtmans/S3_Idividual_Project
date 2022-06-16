@@ -3,7 +3,6 @@ import Stomp from 'stompjs';
 import axios from "axios";
 import ReactDOM from "react-dom";
 import {useNavigate, useParams} from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import SockJS from 'sockjs-client';
 const ENDPOINT = "http://localhost:8080/ws";

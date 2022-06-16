@@ -23,8 +23,6 @@ public class IsAuthenticatedAspect {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(IsAuthenticatedAspect.class);
 
-    //TODO why are these empty
-
     @Pointcut("@annotation(com.example.individualproject.configuration.security.isauthenticated.IsAuthenticated)")
     public void annotatedMethod() {
 

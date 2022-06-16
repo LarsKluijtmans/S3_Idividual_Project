@@ -33,7 +33,6 @@ public class ProductServiceImpl implements ProductService {
     private final NormalUserRepository normalUserRepository;
     private final ImageRepository imageRepository;
 
-    //TODO how does the AccessTokenDTO get here?
     private final AccessTokenDTO requestAccessToken;
 
     @Override

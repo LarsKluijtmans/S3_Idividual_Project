@@ -1,30 +1,35 @@
 version: "3.8"
 services:
+  db:
+    container_name: db
+    image: mysql
+    restart: always
+    ports:
+      - '3308:3306'
+    
+    environment:
+      MYSQL_ROOT_PASSWORD: '12345'
+      MYSQL_DATABASE: 'game_marked'
+
   backend:
     container_name: backend
     image: individual-project-api
     restart: always
-    build: Idividual_project\.
     ports:
       - '8080:8080'
     depends_on:
       - db
-
-  db:
-    image: mysql
-    ports:
-      - '3306:3306'
-    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: '12345'
-      MYSQL_DATABASE: 'game_marked'
-     
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/game_marked
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=12345
 
-  React_website:  
-    container_name: website
+  frontend:  
+    container_name: frontend
     ports:
       - '3000:3000'
     build: myfirstreact\.
     image: docker_front_end
+    restart: always
     depends_on:
       - backend

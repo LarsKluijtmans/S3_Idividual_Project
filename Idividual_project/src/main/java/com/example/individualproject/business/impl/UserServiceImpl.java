@@ -179,8 +179,6 @@ public class UserServiceImpl implements UserService {
         }
 
         return result;
-
-        //TODO a can be simplified to         return !normalUserRepository.existsByUsername(name) && !adminRepository.existsByUsername(name);
     }
 
     @Override
