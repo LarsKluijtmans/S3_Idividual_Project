@@ -40,5 +40,3 @@ docker:
   stage: docker
   script:
     - docker-compose up -d --build
-  environment: production
-  when: manual
