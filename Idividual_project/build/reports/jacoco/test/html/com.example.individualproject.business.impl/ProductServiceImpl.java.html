@@ -33,264 +33,263 @@ public class ProductServiceImpl implements ProductService {
     private final NormalUserRepository normalUserRepository;
     private final ImageRepository imageRepository;
 
-    //TODO how does the AccessTokenDTO get here?
     private final AccessTokenDTO requestAccessToken;
 
     @Override
     public List&lt;GetProductDTO&gt; getAllProducts() {
-<span class="fc" id="L41">        List&lt;GetProductDTO&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L40">        List&lt;GetProductDTO&gt; result = new ArrayList&lt;&gt;();</span>
 
         GetProductDTO product;
 
-<span class="fc bfc" id="L45" title="All 2 branches covered.">        for (Product p : productRepository.findAllBySold(false)) {</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        for (Product p : productRepository.findAllBySold(false)) {</span>
 
-<span class="fc" id="L47">            product = new GetProductDTO(p);</span>
-<span class="fc" id="L48">            result.add(product);</span>
-<span class="fc" id="L49">        }</span>
+<span class="fc" id="L46">            product = new GetProductDTO(p);</span>
+<span class="fc" id="L47">            result.add(product);</span>
+<span class="fc" id="L48">        }</span>
 
-<span class="fc" id="L51">        return result;</span>
+<span class="fc" id="L50">        return result;</span>
     }
 
     @Override
     public List&lt;GetProductDTO&gt; getProducts(String name) {
 
-<span class="fc bfc" id="L57" title="All 2 branches covered.">        if (name.equals(&quot;&quot;)) {</span>
-<span class="fc" id="L58">            return Collections.emptyList();</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (name.equals(&quot;&quot;)) {</span>
+<span class="fc" id="L57">            return Collections.emptyList();</span>
         }
 
-<span class="fc" id="L61">        String searchName = &quot;%&quot; + name + &quot;%&quot;;</span>
-<span class="fc" id="L62">        List&lt;GetProductDTO&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L60">        String searchName = &quot;%&quot; + name + &quot;%&quot;;</span>
+<span class="fc" id="L61">        List&lt;GetProductDTO&gt; result = new ArrayList&lt;&gt;();</span>
 
         GetProductDTO product;
 
-<span class="fc bfc" id="L66" title="All 2 branches covered.">        for (Product p : productRepository.findProductsByTitleOrSubTitleAndSold(searchName)) {</span>
-<span class="fc" id="L67">            product = new GetProductDTO(p);</span>
-<span class="fc" id="L68">            result.add(product);</span>
-<span class="fc" id="L69">        }</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        for (Product p : productRepository.findProductsByTitleOrSubTitleAndSold(searchName)) {</span>
+<span class="fc" id="L66">            product = new GetProductDTO(p);</span>
+<span class="fc" id="L67">            result.add(product);</span>
+<span class="fc" id="L68">        }</span>
 
-<span class="fc" id="L71">        return result;</span>
+<span class="fc" id="L70">        return result;</span>
     }
 
     @Override
     public GetProductDTO getProduct(Long productID) {
-<span class="fc" id="L76">        Product p = productRepository.findProductsByIdIsAndSold(productID, false);</span>
+<span class="fc" id="L75">        Product p = productRepository.findProductsByIdIsAndSold(productID, false);</span>
 
-<span class="fc bfc" id="L78" title="All 2 branches covered.">        if (p == null) {</span>
-<span class="fc" id="L79">            return null;</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        if (p == null) {</span>
+<span class="fc" id="L78">            return null;</span>
         }
 
-<span class="fc" id="L82">        return new GetProductDTO(p);</span>
+<span class="fc" id="L81">        return new GetProductDTO(p);</span>
     }
 
     @Override
     public List&lt;GetProductDTO&gt; getAllOfAUsersProductsNormalUser(String username) {
 
-<span class="fc" id="L88">        isNormalUser();</span>
+<span class="fc" id="L87">        isNormalUser();</span>
 
-<span class="fc" id="L90">        NormalUser user = normalUserRepository.findByUsername(username);</span>
+<span class="fc" id="L89">        NormalUser user = normalUserRepository.findByUsername(username);</span>
 
-<span class="fc bfc" id="L92" title="All 2 branches covered.">        if (user == null) {</span>
-<span class="fc" id="L93">            throw new UserNotFoundException();</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        if (user == null) {</span>
+<span class="fc" id="L92">            throw new UserNotFoundException();</span>
         }
 
 
-<span class="fc bfc" id="L97" title="All 2 branches covered.">        if (!requestAccessToken.getUserId().equals(user.getId())) {</span>
-<span class="fc" id="L98">            throw new InvalidCredentialsException();</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        if (!requestAccessToken.getUserId().equals(user.getId())) {</span>
+<span class="fc" id="L97">            throw new InvalidCredentialsException();</span>
         }
 
-<span class="fc" id="L101">        return getGetProductDTOS(user);</span>
+<span class="fc" id="L100">        return getGetProductDTOS(user);</span>
     }
 
     @Override
     public boolean buyProduct(Long productID) {
-<span class="fc" id="L106">        Product p = productRepository.findById(productID).orElse(null);</span>
+<span class="fc" id="L105">        Product p = productRepository.findById(productID).orElse(null);</span>
 
-<span class="fc bfc" id="L108" title="All 2 branches covered.">        if (p == null) {</span>
-<span class="fc" id="L109">            throw new ProductNotFoundException();</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        if (p == null) {</span>
+<span class="fc" id="L108">            throw new ProductNotFoundException();</span>
         }
 
-<span class="fc bfc" id="L112" title="All 2 branches covered.">        if (p.getSeller().getId().equals(requestAccessToken.getUserId())) {</span>
-<span class="fc" id="L113">            throw new BuyingYourOwnProductException();</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">        if (p.getSeller().getId().equals(requestAccessToken.getUserId())) {</span>
+<span class="fc" id="L112">            throw new BuyingYourOwnProductException();</span>
         }
-<span class="fc" id="L115">        p.setSold(true);</span>
+<span class="fc" id="L114">        p.setSold(true);</span>
 
-<span class="fc" id="L117">        productRepository.save(p);</span>
+<span class="fc" id="L116">        productRepository.save(p);</span>
 
-<span class="fc" id="L119">        return true;</span>
+<span class="fc" id="L118">        return true;</span>
     }
 
     @Override
     public List&lt;GetProductDTO&gt; getAllOfAUsersProductsAdmin(String username) {
 
-<span class="fc bfc" id="L125" title="All 2 branches covered.">        if (!requestAccessToken.hasRole(&quot;ADMIN&quot;)) {</span>
-<span class="fc" id="L126">            throw new InvalidCredentialsException();</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        if (!requestAccessToken.hasRole(&quot;ADMIN&quot;)) {</span>
+<span class="fc" id="L125">            throw new InvalidCredentialsException();</span>
         }
 
-<span class="fc" id="L129">        NormalUser user = normalUserRepository.findByUsername(username);</span>
+<span class="fc" id="L128">        NormalUser user = normalUserRepository.findByUsername(username);</span>
 
-<span class="fc bfc" id="L131" title="All 2 branches covered.">        if (user == null) {</span>
-<span class="fc" id="L132">            throw new UserNotFoundException();</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">        if (user == null) {</span>
+<span class="fc" id="L131">            throw new UserNotFoundException();</span>
         }
 
-<span class="fc" id="L135">        return getGetProductDTOS(user);</span>
+<span class="fc" id="L134">        return getGetProductDTOS(user);</span>
     }
 
     private List&lt;GetProductDTO&gt; getGetProductDTOS(NormalUser user) {
-<span class="fc" id="L139">        List&lt;GetProductDTO&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L138">        List&lt;GetProductDTO&gt; result = new ArrayList&lt;&gt;();</span>
         GetProductDTO product;
 
-<span class="fc bfc" id="L142" title="All 2 branches covered.">        for (Product p : productRepository.findAllBySeller_Id(user.getId())) {</span>
-<span class="fc" id="L143">            product = new GetProductDTO(p);</span>
-<span class="fc" id="L144">            result.add(product);</span>
-<span class="fc" id="L145">        }</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        for (Product p : productRepository.findAllBySeller_Id(user.getId())) {</span>
+<span class="fc" id="L142">            product = new GetProductDTO(p);</span>
+<span class="fc" id="L143">            result.add(product);</span>
+<span class="fc" id="L144">        }</span>
 
-<span class="fc" id="L147">        return result;</span>
+<span class="fc" id="L146">        return result;</span>
     }
 
     //Delete
 
     @Override
     public void deleteProductAdmin(Long productID) {
-<span class="fc" id="L154">        Product p = productRepository.findProductsByIdIs(productID);</span>
+<span class="fc" id="L153">        Product p = productRepository.findProductsByIdIs(productID);</span>
 
-<span class="fc bfc" id="L156" title="All 2 branches covered.">        if (!requestAccessToken.hasRole(&quot;ADMIN&quot;)) {</span>
-<span class="fc" id="L157">            throw new InvalidCredentialsException();</span>
+<span class="fc bfc" id="L155" title="All 2 branches covered.">        if (!requestAccessToken.hasRole(&quot;ADMIN&quot;)) {</span>
+<span class="fc" id="L156">            throw new InvalidCredentialsException();</span>
         }
 
-<span class="fc" id="L160">        imageRepository.deleteByProductId(p.getId());</span>
-<span class="fc" id="L161">        productRepository.deleteById(productID);</span>
-<span class="fc" id="L162">    }</span>
+<span class="fc" id="L159">        imageRepository.deleteByProductId(p.getId());</span>
+<span class="fc" id="L160">        productRepository.deleteById(productID);</span>
+<span class="fc" id="L161">    }</span>
 
     @Override
     public void deleteProductNormalUser(Long productID) {
 
-<span class="fc" id="L167">        Product p = productRepository.findProductsByIdIs(productID);</span>
+<span class="fc" id="L166">        Product p = productRepository.findProductsByIdIs(productID);</span>
 
-<span class="fc" id="L169">        isNormalUser();</span>
+<span class="fc" id="L168">        isNormalUser();</span>
 
-<span class="fc bfc" id="L171" title="All 2 branches covered.">        if (!requestAccessToken.getUserId().equals(p.getSeller().getId())) {</span>
-<span class="fc" id="L172">            throw new InvalidCredentialsException();</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">        if (!requestAccessToken.getUserId().equals(p.getSeller().getId())) {</span>
+<span class="fc" id="L171">            throw new InvalidCredentialsException();</span>
         }
 
-<span class="fc" id="L175">        imageRepository.deleteByProductId(p.getId());</span>
-<span class="fc" id="L176">        productRepository.deleteById(productID);</span>
-<span class="fc" id="L177">    }</span>
+<span class="fc" id="L174">        imageRepository.deleteByProductId(p.getId());</span>
+<span class="fc" id="L175">        productRepository.deleteById(productID);</span>
+<span class="fc" id="L176">    }</span>
 
     //Add
     @Override
     public CreateProductResponseDTO addProduct(CreateProductRequestDTO product) {
 
-<span class="fc" id="L183">        List&lt;Image&gt; images = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L184" title="All 2 branches covered.">        for (String s : product.getImages()) {</span>
-<span class="fc" id="L185">            Image image = Image.builder()</span>
-<span class="fc" id="L186">                    .imageUrl(s)</span>
-<span class="fc" id="L187">                    .build();</span>
+<span class="fc" id="L182">        List&lt;Image&gt; images = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L183" title="All 2 branches covered.">        for (String s : product.getImages()) {</span>
+<span class="fc" id="L184">            Image image = Image.builder()</span>
+<span class="fc" id="L185">                    .imageUrl(s)</span>
+<span class="fc" id="L186">                    .build();</span>
 
-<span class="fc" id="L189">            images.add(image);</span>
-<span class="fc" id="L190">        }</span>
+<span class="fc" id="L188">            images.add(image);</span>
+<span class="fc" id="L189">        }</span>
 
-<span class="fc" id="L192">        Product newProduct = Product.builder()</span>
-<span class="fc" id="L193">                .title(product.getTitle())</span>
-<span class="fc" id="L194">                .subTitle(product.getSubTitle())</span>
-<span class="fc" id="L195">                .series(product.getSeries())</span>
-<span class="fc" id="L196">                .year(product.getYear())</span>
-<span class="fc" id="L197">                .price(product.getPrice())</span>
-<span class="fc" id="L198">                .condition(product.getCondition())</span>
-<span class="fc" id="L199">                .description(product.getDescription())</span>
-<span class="fc" id="L200">                .genre(genreRepository.getById(product.getGenreId()))</span>
-<span class="fc" id="L201">                .sold(false)</span>
-<span class="fc" id="L202">                .images(images)</span>
-<span class="fc" id="L203">                .productType(product.getProductType())</span>
-<span class="fc" id="L204">                .seller(normalUserRepository.findByUsername(product.getSeller()))</span>
-<span class="fc" id="L205">                .build();</span>
+<span class="fc" id="L191">        Product newProduct = Product.builder()</span>
+<span class="fc" id="L192">                .title(product.getTitle())</span>
+<span class="fc" id="L193">                .subTitle(product.getSubTitle())</span>
+<span class="fc" id="L194">                .series(product.getSeries())</span>
+<span class="fc" id="L195">                .year(product.getYear())</span>
+<span class="fc" id="L196">                .price(product.getPrice())</span>
+<span class="fc" id="L197">                .condition(product.getCondition())</span>
+<span class="fc" id="L198">                .description(product.getDescription())</span>
+<span class="fc" id="L199">                .genre(genreRepository.getById(product.getGenreId()))</span>
+<span class="fc" id="L200">                .sold(false)</span>
+<span class="fc" id="L201">                .images(images)</span>
+<span class="fc" id="L202">                .productType(product.getProductType())</span>
+<span class="fc" id="L203">                .seller(normalUserRepository.findByUsername(product.getSeller()))</span>
+<span class="fc" id="L204">                .build();</span>
 
-<span class="fc" id="L207">        Product savedProduct = productRepository.save(newProduct);</span>
+<span class="fc" id="L206">        Product savedProduct = productRepository.save(newProduct);</span>
 
-<span class="fc" id="L209">        CreateProductResponseDTO createProductResponseDTO = CreateProductResponseDTO.builder()</span>
-<span class="fc" id="L210">                .productId(savedProduct.getId())</span>
-<span class="fc" id="L211">                .build();</span>
+<span class="fc" id="L208">        CreateProductResponseDTO createProductResponseDTO = CreateProductResponseDTO.builder()</span>
+<span class="fc" id="L209">                .productId(savedProduct.getId())</span>
+<span class="fc" id="L210">                .build();</span>
 
-<span class="fc" id="L213">        savedProduct.setId(createProductResponseDTO.getProductId());</span>
+<span class="fc" id="L212">        savedProduct.setId(createProductResponseDTO.getProductId());</span>
 
-<span class="fc" id="L215">        saveImages(savedProduct, product.getImages());</span>
+<span class="fc" id="L214">        saveImages(savedProduct, product.getImages());</span>
 
-<span class="fc" id="L217">        return createProductResponseDTO;</span>
+<span class="fc" id="L216">        return createProductResponseDTO;</span>
     }
 
     //Update
     @Override
     public UpdateProductResponseDTO updateProduct(UpdateProductRequestDTO product) {
 
-<span class="fc" id="L224">        isNormalUser();</span>
+<span class="fc" id="L223">        isNormalUser();</span>
 
-<span class="fc" id="L226">        Product p = productRepository.findProductsByIdIs(product.getProductId());</span>
+<span class="fc" id="L225">        Product p = productRepository.findProductsByIdIs(product.getProductId());</span>
 
-<span class="fc bfc" id="L228" title="All 2 branches covered.">        if (p == null) {</span>
-<span class="fc" id="L229">            throw new ProductNotFoundException();</span>
+<span class="fc bfc" id="L227" title="All 2 branches covered.">        if (p == null) {</span>
+<span class="fc" id="L228">            throw new ProductNotFoundException();</span>
         }
 
-<span class="fc bfc" id="L232" title="All 2 branches covered.">        if (!requestAccessToken.getUserId().equals(p.getSeller().getId())) {</span>
-<span class="fc" id="L233">            throw new InvalidCredentialsException();</span>
+<span class="fc bfc" id="L231" title="All 2 branches covered.">        if (!requestAccessToken.getUserId().equals(p.getSeller().getId())) {</span>
+<span class="fc" id="L232">            throw new InvalidCredentialsException();</span>
         }
 
-<span class="fc" id="L236">        List&lt;Image&gt; images = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L237" title="All 2 branches covered.">        for (String s : product.getImages()) {</span>
-<span class="fc" id="L238">            Image image = Image.builder()</span>
-<span class="fc" id="L239">                    .imageUrl(s)</span>
-<span class="fc" id="L240">                    .build();</span>
+<span class="fc" id="L235">        List&lt;Image&gt; images = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L236" title="All 2 branches covered.">        for (String s : product.getImages()) {</span>
+<span class="fc" id="L237">            Image image = Image.builder()</span>
+<span class="fc" id="L238">                    .imageUrl(s)</span>
+<span class="fc" id="L239">                    .build();</span>
 
-<span class="fc" id="L242">            images.add(image);</span>
-<span class="fc" id="L243">        }</span>
+<span class="fc" id="L241">            images.add(image);</span>
+<span class="fc" id="L242">        }</span>
 
-<span class="fc" id="L245">        Product updatedProduct = Product.builder()</span>
-<span class="fc" id="L246">                .id(product.getProductId())</span>
-<span class="fc" id="L247">                .title(product.getTitle())</span>
-<span class="fc" id="L248">                .subTitle(product.getSubTitle())</span>
-<span class="fc" id="L249">                .series(product.getSeries())</span>
-<span class="fc" id="L250">                .year(product.getYear())</span>
-<span class="fc" id="L251">                .price(product.getPrice())</span>
-<span class="fc" id="L252">                .condition(product.getCondition())</span>
-<span class="fc" id="L253">                .description(product.getDescription())</span>
-<span class="fc" id="L254">                .genre(genreRepository.getById(product.getGenreId()))</span>
-<span class="fc" id="L255">                .sold(false)</span>
-<span class="fc" id="L256">                .productType(product.getProductType())</span>
-<span class="fc" id="L257">                .images(images)</span>
-<span class="fc" id="L258">                .seller(p.getSeller())</span>
-<span class="fc" id="L259">                .build();</span>
+<span class="fc" id="L244">        Product updatedProduct = Product.builder()</span>
+<span class="fc" id="L245">                .id(product.getProductId())</span>
+<span class="fc" id="L246">                .title(product.getTitle())</span>
+<span class="fc" id="L247">                .subTitle(product.getSubTitle())</span>
+<span class="fc" id="L248">                .series(product.getSeries())</span>
+<span class="fc" id="L249">                .year(product.getYear())</span>
+<span class="fc" id="L250">                .price(product.getPrice())</span>
+<span class="fc" id="L251">                .condition(product.getCondition())</span>
+<span class="fc" id="L252">                .description(product.getDescription())</span>
+<span class="fc" id="L253">                .genre(genreRepository.getById(product.getGenreId()))</span>
+<span class="fc" id="L254">                .sold(false)</span>
+<span class="fc" id="L255">                .productType(product.getProductType())</span>
+<span class="fc" id="L256">                .images(images)</span>
+<span class="fc" id="L257">                .seller(p.getSeller())</span>
+<span class="fc" id="L258">                .build();</span>
 
-<span class="fc" id="L261">        Product savedProduct = productRepository.save(updatedProduct);</span>
+<span class="fc" id="L260">        Product savedProduct = productRepository.save(updatedProduct);</span>
 
-<span class="fc" id="L263">        UpdateProductResponseDTO updateProductResponseDTO = UpdateProductResponseDTO.builder()</span>
-<span class="fc" id="L264">                .productId(savedProduct.getId())</span>
-<span class="fc" id="L265">                .build();</span>
+<span class="fc" id="L262">        UpdateProductResponseDTO updateProductResponseDTO = UpdateProductResponseDTO.builder()</span>
+<span class="fc" id="L263">                .productId(savedProduct.getId())</span>
+<span class="fc" id="L264">                .build();</span>
 
-<span class="fc" id="L267">        imageRepository.deleteByProductId(savedProduct.getId());</span>
-<span class="fc" id="L268">        saveImages(savedProduct, product.getImages());</span>
+<span class="fc" id="L266">        imageRepository.deleteByProductId(savedProduct.getId());</span>
+<span class="fc" id="L267">        saveImages(savedProduct, product.getImages());</span>
 
-<span class="fc" id="L270">        return updateProductResponseDTO;</span>
+<span class="fc" id="L269">        return updateProductResponseDTO;</span>
     }
 
     //Images
     private void saveImages(Product product, List&lt;String&gt; images) {
-<span class="fc" id="L275">        List&lt;Image&gt; imagesToSave = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L274">        List&lt;Image&gt; imagesToSave = new ArrayList&lt;&gt;();</span>
 
-<span class="fc bfc" id="L277" title="All 2 branches covered.">        for (String s : images) {</span>
-<span class="fc" id="L278">            Image image = Image.builder()</span>
-<span class="fc" id="L279">                    .product(product)</span>
-<span class="fc" id="L280">                    .imageUrl(s)</span>
-<span class="fc" id="L281">                    .build();</span>
+<span class="fc bfc" id="L276" title="All 2 branches covered.">        for (String s : images) {</span>
+<span class="fc" id="L277">            Image image = Image.builder()</span>
+<span class="fc" id="L278">                    .product(product)</span>
+<span class="fc" id="L279">                    .imageUrl(s)</span>
+<span class="fc" id="L280">                    .build();</span>
 
-<span class="fc" id="L283">            imagesToSave.add(image);</span>
-<span class="fc" id="L284">        }</span>
+<span class="fc" id="L282">            imagesToSave.add(image);</span>
+<span class="fc" id="L283">        }</span>
 
-<span class="fc" id="L286">        imageRepository.saveAll(imagesToSave);</span>
-<span class="fc" id="L287">    }</span>
+<span class="fc" id="L285">        imageRepository.saveAll(imagesToSave);</span>
+<span class="fc" id="L286">    }</span>
 
     private void isNormalUser() {
-<span class="fc bfc" id="L290" title="All 2 branches covered.">        if (!requestAccessToken.hasRole(&quot;NORMALUSER&quot;)) {</span>
-<span class="fc" id="L291">            throw new InvalidCredentialsException();</span>
+<span class="fc bfc" id="L289" title="All 2 branches covered.">        if (!requestAccessToken.hasRole(&quot;NORMALUSER&quot;)) {</span>
+<span class="fc" id="L290">            throw new InvalidCredentialsException();</span>
         }
-<span class="fc" id="L293">    }</span>
+<span class="fc" id="L292">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
